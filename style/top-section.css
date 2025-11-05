@@ -1,0 +1,30 @@
+.top-section{
+    height: 50vh;
+    width: 100vw;
+    margin-top: 2rem;
+    top: 0;
+    left:0;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    flex-direction: column;
+    transform: translateX(50%);
+    transform: translateY(50%);
+}
+.headline{
+    justify-self: center;
+    text-align: center;
+    color: rgb(19, 17, 17);
+    font-size: 4rem;
+    font-weight: 700;
+    max-width: 70vw;
+    margin: 0px;
+    padding: 0px;
+}
+.tagline{
+    color: darkolivegreen;
+    font-size: 1rem;
+    max-width: 70vw;
+    font-weight: 400;
+    margin-top: 0.4rem;
+}

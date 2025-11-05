@@ -1,0 +1,39 @@
+.cta1{
+    background-color: rgba(255, 255, 255, 0);
+    color: white;
+    font-size: 1.1rem;
+    border: 2px solid white;
+    border-radius: 4px;
+    padding: 6px 10px;
+    cursor: pointer;
+    font-weight: 500;
+    margin-top: -11px;
+}
+.cta2{
+    background-color: rgba(255, 255, 255, 0);
+    color: darkolivegreen;
+    font-size: 1.1rem;
+    border: 2px solid darkolivegreen;
+    border-radius: 4px;
+    padding: 6px 10px;
+    cursor: pointer;
+    font-weight: 500;
+    margin-top: -11px;
+}
+.cta3{
+    background-color: darkolivegreen;
+    color: white;
+    font-size: 1.1rem;
+    border: 2px solid darkolivegreen;
+    border-radius: 4px;
+    padding: 6px 10px;
+    cursor: pointer;
+    font-weight: 500;
+    margin-top: -11px;
+}
+.double-cta-group{
+    display: flex;
+    flex-direction: row;
+    gap: 1rem;
+    margin-top: 1rem;
+}
