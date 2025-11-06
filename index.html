@@ -3,10 +3,18 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
+       <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@400;500;600;700&display=swap" rel="stylesheet">
     <link rel="stylesheet" href="style/top-navbar.css">
     <link rel="stylesheet" href="style/top-section.css">
     <link rel="stylesheet" href="style/buttons.css">
     <title>Web Theme</title>
+    <style>
+        body{
+            font-family: poppins, sans-serif;
+        }
+    </style>
 </head>
 <body>
     <div class="nav">
@@ -16,26 +24,32 @@
             <li><a href="#">About</a></li>
             <li><a href="#">Services</a></li>
             <li><a href="#">Contact</a></li>
-            <button class="cta1">Get Started</button>
+            
             </ul>
+            <button class="cta1 top">Get Started</button>
     </div>
     
-
+<div class="top-bg">
+    <div class="yellow color"></div>
+    <div class="red color"></div>
+    <div class="blue color"></div>
+    <div class="green color"></div>
+    <div class="orange color"></div>
     <div class="top-section">
         <canvas id="bg"></canvas>
         <p class="headline">
             Design Beautiful website themes easily.
         </p>
         <p class="tagline">
-            Create stunning and reponsive sites with our prebuilt themes.
+            Create stunning and responsive sites with our collection of pre-built themes, expertly crafted to give your project a professional and polished look on any device.
         </p>
         <div class="double-cta-group">
             <button class="cta2">Get Your Theme</button>
             <button class="cta3">Explore Themes</button>
         </div>
     </div>
-
-    <script type="module" src="js/main.js"></script>
+</div>
+    <script type="module" src="main.js"></script>
 
 </body>
 </html>

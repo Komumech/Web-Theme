@@ -1,14 +1,44 @@
 .top-section{
+    top: 0px;
+    left: 0px;
     height: 100vh;
     width: 100%;
-    position: relative;
+    position: absolute;
     display: flex;
     justify-content: center;
     align-items: center;
     flex-direction: column;
     overflow: hidden;
+    z-index: 3;
 }
-
+.top-bg{
+    z-index: -10;
+    position: absolute;
+    display: flex;
+    flex-direction: row;
+    margin-top: -9px;
+}
+.color{
+    width: 20vw;
+    height: 100vh;
+    z-index: -12;
+    opacity: 0.5;
+}
+.yellow{
+    background-color: yellow;
+}
+.blue{
+    background-color: blue;
+}
+.green{
+    background-color: green;
+}
+.orange{
+    background-color: orange;
+}
+.red{
+    background-color: red;
+}
 #bg {
     position: absolute;
     top: 0;
@@ -29,8 +59,10 @@
 }
 .tagline{
     color: darkolivegreen;
+    color: #4a4a4a; /* A softer, neutral dark gray */
     font-size: 1rem;
-    max-width: 70vw;
+    max-width: 62vw;
     font-weight: 400;
-    margin-top: 0.4rem;
+    margin-top: 1rem;
+    text-align: center;
 }

@@ -1,35 +1,61 @@
+button{
+    max-height: 3rem;
+    align-self: center;
+    transition: background-color 0.3s ease-in-out, color 0.3s ease-in-out, border 0.3s ease-in-out;
+    box-shadow: 0 2px 5px rgba(0, 0, 0, 0.1);
+    border-radius: 10px;
+}
+.top{
+    right: 0;
+    position: absolute;
+    margin-right: 40px;
+}
 .cta1{
     background-color: rgba(255, 255, 255, 0);
     color: white;
     font-size: 1.1rem;
     border: 2px solid white;
-    border-radius: 4px;
-    padding: 6px 10px;
+    padding: 6px 8px;
     cursor: pointer;
-    font-weight: 500;
-    margin-top: -11px;
+    font-weight: 400;
+    margin-top: -4px;
+    border-radius: 7px;
+    
+}
+.cta1:hover{
+    background-color: white;
+    color: #93affc;
 }
 .cta2{
     background-color: rgba(255, 255, 255, 0);
-    color: darkolivegreen;
+    color: rgb(0, 0, 0);
     font-size: 1.1rem;
-    border: 2px solid darkolivegreen;
-    border-radius: 4px;
-    padding: 6px 10px;
+    border: 2px solid rgb(0, 0, 0);
+    padding: 7px 8px;
     cursor: pointer;
-    font-weight: 500;
+    font-weight: 400;
     margin-top: -11px;
+    border-radius: 7px;
+}
+.cta2:hover{
+    background-color: rgb(0, 0, 0);
+    color: white;
 }
 .cta3{
-    background-color: darkolivegreen;
+    background-color: #1f5afe;
     color: white;
     font-size: 1.1rem;
-    border: 2px solid darkolivegreen;
-    border-radius: 4px;
-    padding: 6px 10px;
+    border: 2px solid #1f5afe;
+    padding: 7px 8px;
     cursor: pointer;
-    font-weight: 500;
+    font-weight: 400;
     margin-top: -11px;
+    border-radius: 7px;
+}
+.cta3:hover{
+    background-color: rgba(255, 255, 255, 0);
+    border: 2px solid #1f5afe;
+    color: #1f5afe;
 }
 .double-cta-group{
     display: flex;

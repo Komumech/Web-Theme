@@ -17,15 +17,17 @@ camera.position.setZ(5);
 const squares = [];
 
 function addSquare() {
-    const geometry = new THREE.PlaneGeometry(0.5, 0.5);
+    const geometry = new THREE.PlaneGeometry(0.8, 0.8);
+    const themeColors = [0xff9a9e, 0x93affc]; // Colors from your navbar gradient
+    const randomColor = themeColors[Math.floor(Math.random() * themeColors.length)];
     const material = new THREE.MeshBasicMaterial({
-        color: 0x93affc, // A color from your navbar gradient
+        color: randomColor,
         transparent: true,
         opacity: Math.random() * 0.5 + 0.1 // Random opacity between 0.1 and 0.6
     });
     const square = new THREE.Mesh(geometry, material);
 
-    const [x, y, z] = Array(3).fill().map(() => THREE.MathUtils.randFloatSpread(10));
+    const [x, y, z] = Array(3).fill().map(() => THREE.MathUtils.randFloatSpread(15));
 
     square.position.set(x, y, z);
 
@@ -50,10 +52,10 @@ function animate() {
 
         square.position.add(square.userData.velocity);
 
-        // Reset position if it goes too far
-        if (square.position.x > 6 || square.position.x < -6) square.userData.velocity.x *= -1;
-        if (square.position.y > 6 || square.position.y < -6) square.userData.velocity.y *= -1;
-        if (square.position.z > 6 || square.position.z < -6) square.userData.velocity.z *= -1;
+        // Bounce off the "walls"
+        if (square.position.x > 8 || square.position.x < -8) square.userData.velocity.x *= -1;
+        if (square.position.y > 8 || square.position.y < -8) square.userData.velocity.y *= -1;
+        if (square.position.z > 4 || square.position.z < -15) square.userData.velocity.z *= -1;
     });
 
     renderer.render(scene, camera);
