@@ -17,12 +17,13 @@
     display: flex;
     flex-direction: row;
     margin-top: -9px;
+    margin-left: -8px;
 }
 .color{
     width: 20vw;
     height: 100vh;
     z-index: -12;
-    opacity: 0.5;
+    opacity: 0.6;
 }
 .yellow{
     background-color: yellow;
@@ -38,6 +39,9 @@
 }
 .red{
     background-color: red;
+}
+.violet{
+    background-color: violet;
 }
 #bg {
     position: absolute;

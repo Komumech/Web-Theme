@@ -54,8 +54,8 @@ button{
 }
 .cta3:hover{
     background-color: rgba(255, 255, 255, 0);
-    border: 2px solid #1f5afe;
-    color: #1f5afe;
+    border: 2px solid #ffffff;
+    color: #ffffff;
 }
 .double-cta-group{
     display: flex;
