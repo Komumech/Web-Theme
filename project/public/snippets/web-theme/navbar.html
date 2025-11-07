@@ -13,6 +13,7 @@
 <body>
  <div class="navbar" id="nav">
    <div class="navbar-title" id="nav-title">My Site</div>
+   <button class="navbar-cta" id="nav-cta">Get Started</button>
    <!-- Links will be injected here -->
  </div>
 
@@ -20,6 +21,7 @@
     const params = new URLSearchParams(window.location.search);
     const nav = document.getElementById("nav");
     const navTitle = document.getElementById("nav-title");
+    const navCta = document.getElementById("nav-cta");
 
     // Set title
     navTitle.textContent = params.get("title") || "My Site";
@@ -29,8 +31,19 @@
       nav.classList.add("docked");
     }
 
+    // Set CTA button
+    navCta.textContent = params.get("cta_text") || "Get Started";
+    navCta.onclick = () => {
+      const ctaLink = params.get("cta_link") || "#";
+      window.open(ctaLink, '_blank');
+    };
+
     // Generate links
     let linkCount = 0;
+    const linksContainer = document.createElement('div');
+    linksContainer.style.display = 'flex';
+    linksContainer.style.gap = '2rem';
+
     for (let i = 1; i <= 5; i++) { // Check for up to 5 links
       const label = params.get(`link${i}_label`);
       const href = params.get(`link${i}_href`);
@@ -38,7 +51,7 @@
         const a = document.createElement("a");
         a.textContent = label;
         a.href = href;
-        nav.appendChild(a);
+        linksContainer.appendChild(a);
         linkCount++;
       }
     }
@@ -50,9 +63,12 @@
         const a = document.createElement('a');
         a.textContent = label;
         a.href = '#';
-        nav.appendChild(a);
+        linksContainer.appendChild(a);
       });
     }
+
+    // Insert links before the CTA button
+    nav.insertBefore(linksContainer, navCta);
   </script>
 </body>
 </html>
