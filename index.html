@@ -14,26 +14,24 @@
         body{
             font-family: poppins, sans-serif;
         }
-        iframe{
-            border: none;
+        iframe {
+            border: none; 
             box-shadow: none;
-            width: 12rem;
+            width: 100%;
+        }
+        .top-navbar {
+            z-index: 1000;
+            position: fixed;
+        }
+        h2 {
+            margin-top: 0;
+            border-bottom: 2px solid #ddd;
+            padding-bottom: 0.5rem;
         }
     </style>
 </head>
 <body>
-    <div class="nav">
-        <p class="title">Web Theme</p>
-        <ul class="nav-links">
-            <li><a href="#">Home</a></li>
-            <li><a href="#">About</a></li>
-            <li><a href="#">Services</a></li>
-            <li><a href="#">Contact</a></li>
-            
-            </ul>
-            <button class="cta1 top">Get Started</button>
-    </div>
-    
+        <iframe  class="top-navbar" src="https://themes-blush-one.vercel.app/snippets/web-theme/navbar.html?title=WebTheme&link1_label=Home&link1_href=#&link2_label=Features&link2_href=#" height="70"></iframe>
 <div class="top-bg">
     <div class="orange color"></div>
     <div class="violet color"></div>
