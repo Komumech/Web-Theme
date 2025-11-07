@@ -40,7 +40,7 @@ body {
     background-color: #1f5afe;
     color: white;
     font-size: 1.1rem;
-    border: 2px solid #1f5afe;
+    border: none;
     padding: 7px 8px;
     width: 200px;
     height: 60px;
@@ -56,21 +56,34 @@ body {
 }
 
 .btn:hover {
-    background-color: rgba(255, 255, 255, 0);
-    border: 2px solid #ffffff;
-    color: #ffffff;
+    background-color: rgb(255, 255, 255);
+    border: none;
+    color: #1f5afe;
 }
 
 .btn-skeleton {
     background-color: transparent;
-    color: var(--primary-color);
-    border: 2px solid var(--primary-color);
+    color: rgb(0, 0, 0);
+    font-size: 1.1rem;
+    border: 2px solid #000000;
+    padding: 7px 8px;
+    width: 200px;
+    height: 60px;
+    cursor: pointer;
+    font-weight: 400;
+    border-radius: 7px;
+    max-height: 3rem;
+    align-self: center;
+    transition: background-color 0.3s ease-in-out, color 0.3s ease-in-out, border 0.3s ease-in-out;
+    box-shadow: 0 2px 5px rgba(0, 0, 0, 0.1);
+    border-radius: 10px;
+    will-change: transform, box-shadow, background-color, border;
 }
 
 .btn-skeleton:hover {
-    background-color: var(--primary-color);
-    color: var(--text-color);
-    border-color: var(--primary-color);
+    background-color: black;
+    color: white;
+    border: none;
 }
 
 .double-cta-group{
