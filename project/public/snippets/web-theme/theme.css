@@ -194,3 +194,11 @@ iframe {
   border: none;
   box-shadow: none;
 }
+
+
+
+@media (max-width: 768px) {
+    .navbar a {
+        display: none;
+    }
+}

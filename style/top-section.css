@@ -72,3 +72,19 @@
     line-height: 200%;
     padding-top: 1rem;
 }
+@media (max-width: 768px) {
+    .headline{
+        font-size: 3rem;
+        max-width: 90vw;
+    }
+    .tagline{
+        font-size: 0.9rem;
+        max-width: 80vw;
+    }
+    .green{
+        display: none;
+    }
+    .color{
+        width: 25vw;
+    }
+}
