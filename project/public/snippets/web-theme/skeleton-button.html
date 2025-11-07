@@ -1,0 +1,31 @@
+<!DOCTYPE html>
+<html>
+<head>
+  <link rel="stylesheet" href="theme.css">
+  <style>
+    .btn {
+      padding: 10px 16px;
+      border: none;
+      background: var(--primary-color);
+      color: var(--text-color);
+      font-weight: bold;
+      cursor: pointer;
+    }
+  </style>
+</head>
+<body>
+ <button class="btn-skeleton" id="skeleton-btn">Learn More</button>
+  
+
+<script>
+    const params = new URLSearchParams(window.location.search);
+    const altText = params.get("text") || "Learn More";
+    const altLink = params.get("link") || "#";
+
+    const skeletonBtn = document.getElementById("skeleton-btn");
+    skeletonBtn.textContent = altText;
+    skeletonBtn.onclick = () => window.location.href = altLink;
+</script>
+
+</body>
+</html>

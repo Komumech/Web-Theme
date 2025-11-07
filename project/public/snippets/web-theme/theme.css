@@ -23,6 +23,10 @@ body {
   font-family: var(--font-family);
   color: var(--text-color);
   line-height: 1.6;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  height: 100%;
 }
 
 /* === Shared Components === */
@@ -38,6 +42,8 @@ body {
     font-size: 1.1rem;
     border: 2px solid #1f5afe;
     padding: 7px 8px;
+    width: 200px;
+    height: 60px;
     cursor: pointer;
     font-weight: 400;
     border-radius: 7px;
@@ -46,6 +52,7 @@ body {
     transition: background-color 0.3s ease-in-out, color 0.3s ease-in-out, border 0.3s ease-in-out;
     box-shadow: 0 2px 5px rgba(0, 0, 0, 0.1);
     border-radius: 10px;
+    will-change: transform, box-shadow, background-color, border;
 }
 
 .btn:hover {
@@ -54,6 +61,24 @@ body {
     color: #ffffff;
 }
 
+.btn-skeleton {
+    background-color: transparent;
+    color: var(--primary-color);
+    border: 2px solid var(--primary-color);
+}
+
+.btn-skeleton:hover {
+    background-color: var(--primary-color);
+    color: var(--text-color);
+    border-color: var(--primary-color);
+}
+
+.double-cta-group{
+    display: flex;
+    flex-direction: row;
+    gap: 1rem;
+    margin-top: 1rem;
+}
 /* === Navbar Styling === */
 .navbar {
   display: flex;
