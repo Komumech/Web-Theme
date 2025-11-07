@@ -2,29 +2,17 @@
 <html>
 <head>
   <link rel="stylesheet" href="theme.css">
-  <style>
-    .card {
-      background: var(--primary-color);
-      color: var(--text-color);
-      padding: 20px;
-      width: 300px;
-      box-shadow: 0 0 10px rgba(0,255,204,0.3);
-    }
-    .card h3 {
-      margin-top: 0;
-    }
-  </style>
 </head>
 <body>
 <div class="card">
-    <h3>Welcome</h3>
-    <p>Thanks for visiting</p>
+    <h3 id="title">Card Title</h3>
+    <p id="content">This is some default content for the card.</p>
 </div>
 
   <script>
     const params = new URLSearchParams(window.location.search);
     document.getElementById("title").textContent = params.get("title") || "Card Title";
-    document.getElementById("content").textContent = params.get("content") || "This is a neon-themed card.";
+    document.getElementById("content").textContent = params.get("content") || "This is some default content for the card.";
   </script>
 </body>
 </html>

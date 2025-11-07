@@ -1,11 +1,10 @@
 :root {
   --primary-color: #1f5afe;
-  --accent-color: #ff00cc;
-  --text-color: #ffffff;
+  --primary-text-color: #ffffff;
+  --secondary-text-color: #000000;
   --bg-color: transparent;
   --font-family: poppins, sans-serif;
-  --border-radius: 7px;
-  --shadow-glow: 0 0 12px rgba(0, 255, 204, 0.5);
+  --border-radius: 10px;
   --transition-fast: 0.3s ease-in-out;
 }
 
@@ -22,88 +21,64 @@ body {
   background: var(--bg-color);
   font-family: var(--font-family);
   color: var(--text-color);
-  line-height: 1.6;
   display: flex;
   justify-content: center;
   align-items: center;
-  height: 100%;
-}
-
-/* === Shared Components === */
-.btn, .card, .navbar {
-  border-radius: var(--border-radius);
-  font-family: var(--font-family);
+  height: 100vh;
 }
 
 /* === Button Styling === */
 .btn {
-    background-color: #1f5afe;
-    color: white;
-    font-size: 1.1rem;
-    border: none;
-    padding: 7px 8px;
-    width: 200px;
-    height: 60px;
-    cursor: pointer;
-    font-weight: 400;
-    border-radius: 7px;
-    max-height: 3rem;
-    align-self: center;
-    transition: background-color 0.3s ease-in-out, color 0.3s ease-in-out, border 0.3s ease-in-out;
-    box-shadow: 0 2px 5px rgba(0, 0, 0, 0.1);
-    border-radius: 10px;
-    will-change: transform, box-shadow, background-color, border;
+  display: inline-flex;
+  justify-content: center;
+  align-items: center;
+  font-size: 1.1rem;
+  font-weight: 400;
+  padding: 7px 8px;
+  width: 200px;
+  height: 60px;
+  max-height: 3rem;
+  cursor: pointer;
+  border-radius: var(--border-radius);
+  font-family: var(--font-family);
+  transition: all var(--transition-fast);
+  box-shadow: 0 2px 5px rgba(0, 0, 0, 0.1);
+  border: 2px solid transparent;
+  background-color: var(--primary-color);
+  color: var(--primary-text-color);
 }
 
 .btn:hover {
-    background-color: rgb(255, 255, 255);
-    border: none;
-    color: #1f5afe;
+  background-color: var(--primary-text-color);
+  color: var(--primary-color);
+  border-color: var(--primary-color);
 }
 
 .btn-skeleton {
-    background-color: transparent;
-    color: rgb(0, 0, 0);
-    font-size: 1.1rem;
-    border: 2px solid #000000;
-    padding: 7px 8px;
-    width: 200px;
-    height: 60px;
-    cursor: pointer;
-    font-weight: 400;
-    border-radius: 7px;
-    max-height: 3rem;
-    align-self: center;
-    transition: background-color 0.3s ease-in-out, color 0.3s ease-in-out, border 0.3s ease-in-out;
-    box-shadow: 0 2px 5px rgba(0, 0, 0, 0.1);
-    border-radius: 10px;
-    will-change: transform, box-shadow, background-color, border;
+  background-color: transparent;
+  color: var(--secondary-text-color);
+  border-color: var(--secondary-text-color);
 }
 
 .btn-skeleton:hover {
-    background-color: black;
-    color: white;
-    border: none;
+  background-color: var(--secondary-text-color);
+  color: var(--primary-text-color);
+  border-color: var(--secondary-text-color);
 }
 
-.double-cta-group{
-    display: flex;
-    flex-direction: row;
-    gap: 1rem;
-    margin-top: 1rem;
-}
 /* === Navbar Styling === */
 .navbar {
   display: flex;
   justify-content: center;
   gap: 30px;
-  background-color: var(--primary-color);
+  background-color: var(--primary-text-color);
   padding: 14px 20px;
-  box-shadow: var(--shadow-glow);
+  border-radius: var(--border-radius);
+  box-shadow: 0 2px 5px rgba(0, 0, 0, 0.1);
 }
 
 .navbar a {
-  color: var(--text-color);
+  color: var(--secondary-text-color);
   text-decoration: none;
   font-weight: bold;
   font-size: 16px;
@@ -111,22 +86,19 @@ body {
 }
 
 .navbar a:hover {
-  color: var(--accent-color);
+  color: var(--primary-color);
 }
 
 /* === Card Styling === */
 .card {
-  background-color: var(--primary-color);
-  color: var(--text-color);
+  background-color: var(--primary-text-color);
+  color: var(--secondary-text-color);
   padding: 24px;
-  box-shadow: var(--shadow-glow);
+  box-shadow: 0 4px 12px rgba(0, 0, 0, 0.1);
   max-width: 320px;
   margin: auto;
-  transition: box-shadow var(--transition-fast);
-}
-
-.card:hover {
-  box-shadow: 0 0 24px var(--accent-color);
+  border-radius: var(--border-radius);
+  transition: transform 0.3s ease, box-shadow 0.3s ease;
 }
 
 .card h3 {

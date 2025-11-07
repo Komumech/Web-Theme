@@ -2,22 +2,11 @@
 <html>
 <head>
   <link rel="stylesheet" href="theme.css">
-  <style>
-    .navbar {
-      display: flex;
-      gap: 20px;
-      padding: 10px;
-      background: var(--primary-color);
-    }
-    .navbar a {
-      color: var(--text-color);
-      text-decoration: none;
-      font-weight: bold;
-    }
-  </style>
 </head>
 <body>
- <div class="navbar"><a href="#">Home</a></div>
+ <div class="navbar" id="nav">
+   <!-- Links will be injected here by script -->
+ </div>
 
   <script>
     const params = new URLSearchParams(window.location.search);
@@ -31,6 +20,17 @@
         a.href = "#";
         nav.appendChild(a);
       }
+    }
+
+    // Add default links if none are provided
+    if (nav.children.length === 0) {
+      const defaultLinks = ['Home', 'About', 'Contact'];
+      defaultLinks.forEach(label => {
+        const a = document.createElement('a');
+        a.textContent = label;
+        a.href = '#';
+        nav.appendChild(a);
+      });
     }
   </script>
 </body>

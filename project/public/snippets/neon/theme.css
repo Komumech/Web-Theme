@@ -1,12 +1,12 @@
 :root {
   --primary-color: #00ffcc;
   --accent-color: #ff00cc;
-  --text-color: #000;
+  --text-color: #ffffff;
   --bg-color: transparent;
   --font-family: 'Orbitron', sans-serif;
-  --border-radius: 8px;
+  --border-radius: 5px;
   --shadow-glow: 0 0 12px rgba(0, 255, 204, 0.5);
-  --transition-fast: 0.2s ease-in-out;
+  --transition-fast: 0.3s ease-in-out;
 }
 
 /* === Global Reset === */
@@ -22,96 +22,82 @@ body {
   background: var(--bg-color);
   font-family: var(--font-family);
   color: var(--text-color);
-  line-height: 1.6;
-}
-
-/* === Shared Components === */
-.btn, .card, .navbar {
-  border-radius: var(--border-radius);
-  font-family: var(--font-family);
-}
-
-/* === Button Styling === */
-.btn {
-  background-color: var(--primary-color);
-  color: var(--text-color);
-  padding: 12px 20px;
-  border: none;
-  font-size: 16px;
-  font-weight: bold;
-  cursor: pointer;
-  box-shadow: var(--shadow-glow);
-  transition: transform var(--transition-fast), box-shadow var(--transition-fast);
-}
-
-.btn:hover {
-  transform: scale(1.05);
-  box-shadow: 0 0 20px var(--primary-color);
-}
-
-/* === Navbar Styling === */
-.navbar {
-  display: flex;
-  justify-content: center;
-  gap: 30px;
-  background-color: var(--primary-color);
-  padding: 14px 20px;
-  box-shadow: var(--shadow-glow);
-}
-
-.navbar a {
-  color: var(--text-color);
-  text-decoration: none;
-  font-weight: bold;
-  font-size: 16px;
-  transition: color var(--transition-fast);
-}
-
-.navbar a:hover {
-  color: var(--accent-color);
-}
-
-/* === Card Styling === */
-.card {
-  background-color: var(--primary-color);
-  color: var(--text-color);
-  padding: 24px;
-  box-shadow: var(--shadow-glow);
-  max-width: 320px;
-  margin: auto;
-  transition: box-shadow var(--transition-fast);
-}
-
-.card:hover {
-  box-shadow: 0 0 24px var(--accent-color);
-}
-
-.card h3 {
-  margin-bottom: 12px;
-  font-size: 20px;
-}
-
-.card p {
-  font-size: 16px;
-}
-
-/* === Utility Classes === */
-.center {
   display: flex;
   justify-content: center;
   align-items: center;
+  height: 100vh;
+  text-shadow: 0 0 4px rgba(255, 255, 255, 0.3);
 }
 
-.glow-text {
+/* === Alert Styling === */
+.alert {
+  display: flex;
+  align-items: center;
+  padding: 15px 20px;
+  border-radius: var(--border-radius);
+  border: 1px solid var(--primary-color);
+  background-color: rgba(0, 255, 204, 0.1);
+  color: var(--text-color);
+  font-size: 1rem;
+  width: 350px;
+  box-shadow: var(--shadow-glow);
+  text-shadow: 0 0 8px var(--primary-color);
+  transition: all var(--transition-fast);
+}
+
+.alert:hover {
+    box-shadow: 0 0 20px var(--primary-color);
+}
+
+.alert-icon {
+  margin-right: 15px;
+  font-size: 1.4rem;
+  text-shadow: 0 0 10px var(--primary-color);
+}
+
+.alert.success { border-color: #28a745; background-color: rgba(40, 167, 69, 0.2); box-shadow: 0 0 12px rgba(40, 167, 69, 0.5); }
+.alert.error { border-color: #dc3545; background-color: rgba(220, 53, 69, 0.2); box-shadow: 0 0 12px rgba(220, 53, 69, 0.5); }
+.alert.warning { border-color: #ffc107; background-color: rgba(255, 193, 7, 0.2); box-shadow: 0 0 12px rgba(255, 193, 7, 0.5); }
+
+/* === Input Styling === */
+.input-wrapper {
+  display: flex;
+  align-items: center;
+  background-color: rgba(0, 0, 0, 0.3);
+  border: 1px solid var(--primary-color);
+  border-radius: var(--border-radius);
+  padding: 0 15px;
+  width: 350px;
+  height: 50px;
+  box-shadow: var(--shadow-glow);
+  transition: all var(--transition-fast);
+}
+
+.input-wrapper:focus-within {
+    box-shadow: 0 0 20px var(--primary-color);
+}
+
+.input-icon {
+  color: var(--primary-color);
+  margin-right: 10px;
   text-shadow: 0 0 8px var(--primary-color);
 }
 
-.rounded {
-  border-radius: var(--border-radius);
+.input-field {
+  width: 100%;
+  height: 100%;
+  border: none;
+  outline: none;
+  background: transparent;
+  font-family: var(--font-family);
+  font-size: 1rem;
+  color: var(--text-color);
+  text-shadow: 0 0 2px var(--text-color);
 }
 
-.shadow {
-  box-shadow: var(--shadow-glow);
+.input-field::placeholder {
+    color: var(--text-color);
+    opacity: 0.6;
 }
 
 /* === Iframe Cleanup === */
