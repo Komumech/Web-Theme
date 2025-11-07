@@ -70,11 +70,27 @@ body {
 .navbar {
   display: flex;
   justify-content: center;
+  align-items: center;
   gap: 30px;
   background-color: var(--primary-text-color);
   padding: 14px 20px;
   border-radius: var(--border-radius);
   box-shadow: 0 2px 5px rgba(0, 0, 0, 0.1);
+  width: 100%;
+}
+
+.navbar.docked {
+  position: fixed;
+  top: 0;
+  left: 0;
+  border-radius: 0;
+  z-index: 1000;
+}
+
+.navbar-title {
+  font-weight: 700;
+  font-size: 1.5rem;
+  margin-right: auto;
 }
 
 .navbar a {
@@ -110,9 +126,43 @@ body {
   font-size: 16px;
 }
 
-/* === Utility Classes === */
-.center {
+/* === Footer Styling === */
+.footer {
   display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  gap: 15px;
+  padding: 30px 20px;
+  background-color: #f8f9fa;
+  color: #6c757d;
+  width: 100%;
+}
+
+.social-links {
+  display: flex;
+  gap: 20px;
+}
+
+.social-links a {
+  color: #6c757d;
+  font-size: 1.5rem;
+  transition: color var(--transition-fast);
+}
+
+.social-links a:hover {
+  color: var(--primary-color);
+}
+
+.copyright {
+  font-size: 0.9rem;
+}
+
+/* === Iframe Cleanup === */
+iframe {
+  border: none;
+  box-shadow: none;
+}
   justify-content: center;
   align-items: center;
 }

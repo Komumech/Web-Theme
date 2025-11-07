@@ -8,14 +8,43 @@
 </head>
 <body>
     <style>
- iframe{
-    border: none; 
-    box-shadow: none;
-}
+        body {
+            font-family: sans-serif;
+            background-color: #f0f0f0;
+            margin: 0;
+            padding-top: 80px; /* Add padding to prevent content from hiding behind the docked navbar */
+        }
+        iframe {
+            border: none; 
+            box-shadow: none;
+            width: 100%;
+            margin-bottom: 2rem;
+        }
+        .component-group {
+            max-width: 900px;
+            margin: 2rem auto;
+            padding: 1rem;
+            background: #fff;
+            border-radius: 8px;
+            box-shadow: 0 4px 8px rgba(0,0,0,0.1);
+        }
+        h2 {
+            margin-top: 0;
+            border-bottom: 2px solid #ddd;
+            padding-bottom: 0.5rem;
+        }
     </style>
-    <iframe src="https://themes-blush-one.vercel.app/snippets/neon/card.html?title=Welcome&content=Thanks+for+visiting" width="360" height="180"></iframe>
-    <iframe src="https://themes-blush-one.vercel.app/snippets/neon/navbar.html?link1=Home&link2=About&link3=Contact" width="100%" height="60"></iframe>
-   <iframe src="https://themes-blush-one.vercel.app/snippets/web-theme/button?text=Subscribe" width="200" height="60"></iframe>
+
+    <!-- Docked Navbar -->
+    <iframe src="https://themes-blush-one.vercel.app/snippets/web-theme/navbar.html?title=ThemeCorp&docked=true&link1_label=Home&link1_href=/&link2_label=Products&link2_href=/products&link3_label=Login&link3_href=/login" height="70"></iframe>
+
+    <div class="component-group">
+        <h2>Neon Theme Snippets</h2>
+        <iframe src="https://themes-blush-one.vercel.app/snippets/neon/navbar.html?title=NEON&link1_label=CYBER&link1_href=#&link2_label=PUNK&link2_href=#" height="70"></iframe>
+        <iframe src="https://themes-blush-one.vercel.app/snippets/neon/alert.html?type=warning&message=System+breach+detected." height="80"></iframe>
+        <iframe src="https://themes-blush-one.vercel.app/snippets/neon/input.html?placeholder=Enter+Codename...&icon=user-secret" height="70"></iframe>
+        <iframe src="https://themes-blush-one.vercel.app/snippets/neon/footer.html?copyright=--[+SYSTEM+ONLINE+]--&social1_icon=github&social1_href=#&social2_icon=gitlab&social2_href=#" height="120"></iframe>
+    </div>
 
 </body>
 </html>

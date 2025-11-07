@@ -1,35 +1,48 @@
 <!DOCTYPE html>
 <html>
 <head>
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Orbitron:wght@400;700&display=swap" rel="stylesheet">
   <link rel="stylesheet" href="theme.css">
   <style>
-    .navbar {
-      display: flex;
-      gap: 20px;
-      padding: 10px;
-      background: var(--primary-color);
-    }
-    .navbar a {
-      color: var(--text-color);
-      text-decoration: none;
-      font-weight: bold;
+    /* Override body centering for this component */
+    body {
+      align-items: flex-start;
+      height: auto;
     }
   </style>
 </head>
 <body>
- <div class="navbar"><a href="#">Home</a></div>
+ <div class="navbar" id="nav">
+   <div class="navbar-title" id="nav-title">My Site</div>
+   <!-- Links will be injected here -->
+ </div>
 
   <script>
     const params = new URLSearchParams(window.location.search);
     const nav = document.getElementById("nav");
+    const navTitle = document.getElementById("nav-title");
 
-    for (let i = 1; i <= 5; i++) {
-      const label = params.get(`link${i}`);
-      if (label) {
+    // Set title
+    navTitle.textContent = params.get("title") || "NEON";
+
+    // Set docked mode
+    if (params.get("docked") === "true") {
+      nav.classList.add("docked");
+    }
+
+    // Generate links
+    let linkCount = 0;
+    for (let i = 1; i <= 5; i++) { // Check for up to 5 links
+      const label = params.get(`link${i}_label`);
+      const href = params.get(`link${i}_href`);
+      if (label && href) {
         const a = document.createElement("a");
         a.textContent = label;
-        a.href = "#";
+        a.href = href;
         nav.appendChild(a);
+        linkCount++;
       }
     }
   </script>
