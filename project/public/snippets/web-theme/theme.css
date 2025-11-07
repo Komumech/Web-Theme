@@ -3,10 +3,10 @@
   --accent-color: #ff00cc;
   --text-color: #ffffff;
   --bg-color: transparent;
-  --font-family: 'Orbitron', sans-serif;
+  --font-family: poppins, sans-serif;
   --border-radius: 7px;
   --shadow-glow: 0 0 12px rgba(0, 255, 204, 0.5);
-  --transition-fast: 0.2s ease-in-out;
+  --transition-fast: 0.3s ease-in-out;
 }
 
 /* === Global Reset === */
@@ -33,16 +33,19 @@ body {
 
 /* === Button Styling === */
 .btn {
-  background-color: var(--primary-color);
-  color: var(--text-color);
-  padding: 12px 20px;
-  border: none;
-  font-size: 16px;
-  font-weight: bold;
-  cursor: pointer;
-  box-shadow: var(--shadow-glow);
-  padding: 6px 8px;
-  transition: transform var(--transition-fast), box-shadow var(--transition-fast);
+    background-color: #1f5afe;
+    color: white;
+    font-size: 1.1rem;
+    border: 2px solid #1f5afe;
+    padding: 7px 8px;
+    cursor: pointer;
+    font-weight: 400;
+    border-radius: 7px;
+    max-height: 3rem;
+    align-self: center;
+    transition: background-color 0.3s ease-in-out, color 0.3s ease-in-out, border 0.3s ease-in-out;
+    box-shadow: 0 2px 5px rgba(0, 0, 0, 0.1);
+    border-radius: 10px;
 }
 
 .btn:hover {
