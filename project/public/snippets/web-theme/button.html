@@ -1,0 +1,29 @@
+<!DOCTYPE html>
+<html>
+<head>
+  <link rel="stylesheet" href="theme.css">
+  <style>
+    .btn {
+      padding: 10px 16px;
+      border: none;
+      background: var(--primary-color);
+      color: var(--text-color);
+      font-weight: bold;
+      cursor: pointer;
+    }
+  </style>
+</head>
+<body>
+  <button class="btn">Buy Now</button>
+
+  <script>
+    const params = new URLSearchParams(window.location.search);
+    const text = params.get("text") || "Click";
+    const color = params.get("color") || getComputedStyle(document.documentElement).getPropertyValue('--primary-color');
+
+    const btn = document.getElementById("dynamic-btn");
+    btn.textContent = text;
+    btn.style.backgroundColor = color;
+  </script>
+</body>
+</html>

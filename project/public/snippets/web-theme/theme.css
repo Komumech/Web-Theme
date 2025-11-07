@@ -1,0 +1,123 @@
+:root {
+  --primary-color: #1f5afe;
+  --accent-color: #ff00cc;
+  --text-color: #ffffff;
+  --bg-color: transparent;
+  --font-family: 'Orbitron', sans-serif;
+  --border-radius: 7px;
+  --shadow-glow: 0 0 12px rgba(0, 255, 204, 0.5);
+  --transition-fast: 0.2s ease-in-out;
+}
+
+/* === Global Reset === */
+* {
+  margin: 0;
+  padding: 0;
+  box-sizing: border-box;
+}
+
+body {
+  margin: 0;
+  padding: 0;
+  background: var(--bg-color);
+  font-family: var(--font-family);
+  color: var(--text-color);
+  line-height: 1.6;
+}
+
+/* === Shared Components === */
+.btn, .card, .navbar {
+  border-radius: var(--border-radius);
+  font-family: var(--font-family);
+}
+
+/* === Button Styling === */
+.btn {
+  background-color: var(--primary-color);
+  color: var(--text-color);
+  padding: 12px 20px;
+  border: none;
+  font-size: 16px;
+  font-weight: bold;
+  cursor: pointer;
+  box-shadow: var(--shadow-glow);
+  padding: 6px 8px;
+  transition: transform var(--transition-fast), box-shadow var(--transition-fast);
+}
+
+.btn:hover {
+    background-color: rgba(255, 255, 255, 0);
+    border: 2px solid #ffffff;
+    color: #ffffff;
+}
+
+/* === Navbar Styling === */
+.navbar {
+  display: flex;
+  justify-content: center;
+  gap: 30px;
+  background-color: var(--primary-color);
+  padding: 14px 20px;
+  box-shadow: var(--shadow-glow);
+}
+
+.navbar a {
+  color: var(--text-color);
+  text-decoration: none;
+  font-weight: bold;
+  font-size: 16px;
+  transition: color var(--transition-fast);
+}
+
+.navbar a:hover {
+  color: var(--accent-color);
+}
+
+/* === Card Styling === */
+.card {
+  background-color: var(--primary-color);
+  color: var(--text-color);
+  padding: 24px;
+  box-shadow: var(--shadow-glow);
+  max-width: 320px;
+  margin: auto;
+  transition: box-shadow var(--transition-fast);
+}
+
+.card:hover {
+  box-shadow: 0 0 24px var(--accent-color);
+}
+
+.card h3 {
+  margin-bottom: 12px;
+  font-size: 20px;
+}
+
+.card p {
+  font-size: 16px;
+}
+
+/* === Utility Classes === */
+.center {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+}
+
+.glow-text {
+  text-shadow: 0 0 8px var(--primary-color);
+}
+
+.rounded {
+  border-radius: var(--border-radius);
+}
+
+.shadow {
+  box-shadow: var(--shadow-glow);
+}
+
+/* === Iframe Cleanup === */
+iframe {
+  border: none;
+  box-shadow: none;
+}

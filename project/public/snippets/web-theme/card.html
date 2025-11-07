@@ -1,0 +1,30 @@
+<!DOCTYPE html>
+<html>
+<head>
+  <link rel="stylesheet" href="theme.css">
+  <style>
+    .card {
+      background: var(--primary-color);
+      color: var(--text-color);
+      padding: 20px;
+      width: 300px;
+      box-shadow: 0 0 10px rgba(0,255,204,0.3);
+    }
+    .card h3 {
+      margin-top: 0;
+    }
+  </style>
+</head>
+<body>
+<div class="card">
+    <h3>Welcome</h3>
+    <p>Thanks for visiting</p>
+</div>
+
+  <script>
+    const params = new URLSearchParams(window.location.search);
+    document.getElementById("title").textContent = params.get("title") || "Card Title";
+    document.getElementById("content").textContent = params.get("content") || "This is a neon-themed card.";
+  </script>
+</body>
+</html>

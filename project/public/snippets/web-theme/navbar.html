@@ -1,0 +1,37 @@
+<!DOCTYPE html>
+<html>
+<head>
+  <link rel="stylesheet" href="theme.css">
+  <style>
+    .navbar {
+      display: flex;
+      gap: 20px;
+      padding: 10px;
+      background: var(--primary-color);
+    }
+    .navbar a {
+      color: var(--text-color);
+      text-decoration: none;
+      font-weight: bold;
+    }
+  </style>
+</head>
+<body>
+ <div class="navbar"><a href="#">Home</a></div>
+
+  <script>
+    const params = new URLSearchParams(window.location.search);
+    const nav = document.getElementById("nav");
+
+    for (let i = 1; i <= 5; i++) {
+      const label = params.get(`link${i}`);
+      if (label) {
+        const a = document.createElement("a");
+        a.textContent = label;
+        a.href = "#";
+        nav.appendChild(a);
+      }
+    }
+  </script>
+</body>
+</html>
