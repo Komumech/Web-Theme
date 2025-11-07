@@ -26,7 +26,9 @@
   const socialLinksContainer = document.getElementById("social-links");
   const copyrightText = document.getElementById("copyright-text");
 
-  copyrightText.innerHTML = params.get("copyright") || `&copy; ${new Date().getFullYear()} Your Company. All Rights Reserved.`;
+  const companyName = params.get("company_name") || "Your Company";
+  const defaultCopyright = `&copy; ${new Date().getFullYear()} ${companyName}. All Rights Reserved.`;
+  copyrightText.innerHTML = params.get("copyright") || defaultCopyright;
 
   let socialCount = 0;
   for (let i = 1; i <= 5; i++) {
