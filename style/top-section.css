@@ -22,7 +22,7 @@
 }
 .color{
     width: 20vw;
-    height: 130vh;
+    height: 100vh;
     z-index: -12;
     opacity: 0.6;
 }
@@ -76,7 +76,7 @@
     }
     .color{
         width: 25vw;
-        height: 140vh;
+        height: 100vh;
     }
     .top-section{
         height: fit-content;
