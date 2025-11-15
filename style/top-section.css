@@ -52,10 +52,18 @@
     height: 100%;
     z-index: -1;
 }
+.white{
+    color: white;
+}
+.grey{
+    color: #bbbbbb;
+}
+
+
 
 @media (max-width: 768px) {
     .headline{
-        font-size: 2.6rem;
+        font-size: 2.3rem;
         max-width: 90vw;
     }
     .tagline{
@@ -68,9 +76,9 @@
     }
     .color{
         width: 25vw;
-        height: 130vh;
+        height: 140vh;
     }
     .top-section{
-        height: 130vh;
+        height: fit-content;
     }
 }

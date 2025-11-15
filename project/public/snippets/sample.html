@@ -108,13 +108,15 @@
 
 @media (max-width: 768px) {
 
-    .sample-img, .sample-container {
+    .sample-img {
         width: 95vw;
-        height: auto; /* Let height be determined by content */
         min-height: 90vh;
     }
 
-
+    .sample-container{
+        height: auto; /* Let height be determined by content */
+        width: 90vw;
+    }
 
     .squiggle-line {
         width: 100%;
@@ -137,9 +139,6 @@
         @media (max-width: 768px){
             .button-iframe {
                 width: 9rem;
-            }
-            .sample-navbar{
-                margin-top: 5rem;
             }
         }
         .top-navbar {
@@ -164,7 +163,7 @@
             color: #bbbbbb;
         }
         .sample-navbar {
-            margin-top: -35rem;
+            margin-top: -25rem;
         }
         
  </style>

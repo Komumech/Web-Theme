@@ -189,6 +189,11 @@ body {
 iframe {
   border: none;
   box-shadow: none;
+  width: 100%;
+}
+
+.button-iframe {
+    width: 12rem;
 }
 
 
@@ -196,5 +201,8 @@ iframe {
 @media (max-width: 768px) {
     .navbar a {
         display: none;
+    }
+    .button-iframe {
+        width: 9rem;
     }
 }
