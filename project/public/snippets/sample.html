@@ -10,6 +10,7 @@
     text-align: center;
     color: rgb(19, 17, 17);
     font-size: 4.3rem;
+    font-size: clamp(2.7rem, 5vw, 4.3rem);
     font-weight: 700;
     max-width: 70vw;
     padding-top: 4rem;
@@ -42,6 +43,7 @@
     height: 90vh;
     justify-self: center;
     border-radius: 15px;
+    border-radius: 1rem;
     display: flex;
     position: relative;
     justify-content: center;
@@ -64,6 +66,9 @@
     border-radius: 15px;
     box-shadow: 0 10px 30px rgba(0, 0, 0, 0.1); /* A subtle default shadow */
     color: #333; /* Dark text for light background */
+    border-radius: 1rem;
+    box-shadow: 0 0.625rem 1.875rem rgba(0, 0, 0, 0.1); /* A subtle default shadow */
+    color: #333;
     padding: 2rem;
     position: relative;
     overflow: visible; /* Ensure the glow is not clipped */
@@ -111,9 +116,9 @@
 }
 
 @media (max-width: 768px) {
-
-  
-
+    .sample-img{
+        height: 60vh;
+    }
     .squiggle-line {
         width: 100%;
         overflow: hidden;
@@ -133,8 +138,15 @@
             box-shadow: none;
             width: 100%;
         }
+        .double-cta-group {
+            display: flex;
+            gap: 1rem;
+            flex-wrap: wrap;
+            justify-content: center;
+        }
         .button-iframe {
             width: 12rem;
+            width: 12rem; /* Default width */
         }
         @media (max-width: 768px){
             .button-iframe {
@@ -177,6 +189,7 @@
         </svg>
 
                 <iframe  class="top-navbar sample-navbar" src="https://themes-blush-one.vercel.app/snippets/web-theme/navbar.html?title=WebTheme&link1_label=Home&link1_href=#&link2_label=Features&link2_href=#&link3_label=Support&link3_href=#" height="70"></iframe>
+                <iframe  class="top-navbar sample-navbar" src="https://themes-blush-one.vercel.app/snippets/web-theme/navbar.html?title=WebTheme&link1_label=Home&link1_href=#&link2_label=Features&link2_href=#&link3_label=Support&link3_href=#" height="70" style="border:none;"></iframe>
 
 
         <p class="headline white">Interactive Sample Section</p>
@@ -188,6 +201,8 @@
             <iframe class="button-iframe" src="https://themes-blush-one.vercel.app/snippets/web-theme/button.html?text=View+Components&link=test.html" width="200" height="60"></iframe>
 <iframe class="button-iframe" src="https://themes-blush-one.vercel.app/snippets/web-theme/button?text=Join+Now&link=https://explore.com&type=skeleton&color=green&textColor=%23ffffff&hoverColor=%23000000&hoverTextColor=%23ffffff&borderColor=transparent&hoverBorderColor=transparent" width="240" height="65" style="border:none;"></iframe>
 
+            <iframe class="button-iframe" src="https://themes-blush-one.vercel.app/snippets/web-theme/button.html?text=View+Components&link=test.html" height="60" style="border:none;"></iframe>
+            <iframe class="button-iframe" src="https://themes-blush-one.vercel.app/snippets/web-theme/button?text=Join+Now&link=https://explore.com&type=skeleton&color=green&textColor=%23ffffff&hoverColor=%23000000&hoverTextColor=%23ffffff&borderColor=transparent&hoverBorderColor=transparent" height="65" style="border:none;"></iframe>
         </div>
       </div>
     </div>
