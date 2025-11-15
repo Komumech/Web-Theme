@@ -38,6 +38,20 @@
     overflow: visible; /* Ensure the glow is not clipped */
 }
 
+/* Ensure content is above the new squiggle line */
+.sample-container > * {
+    position: relative;
+    z-index: 2;
+}
+
+.squiggle-line {
+    position: absolute;
+    width: 85%;
+    z-index: 1;
+    opacity: 0.15; /* Almost transparent */
+    stroke-dasharray: 1500; /* A value larger than the path length */
+    animation: draw 8s ease-in-out infinite;
+}
 .sample-img::after {
     content: '';
     position: absolute;
@@ -57,4 +71,31 @@
     0% { background-position: 0% 50%; }
     50% { background-position: 100% 50%; }
     100% { background-position: 0% 50%; }
+}
+
+@keyframes draw {
+    0% { stroke-dashoffset: 1500; }
+    50% { stroke-dashoffset: 0; }
+    100% { stroke-dashoffset: -1500; }
+}
+
+@media (max-width: 768px) {
+    .sample {
+        padding: 2rem 0;
+        margin-top: 7rem;
+    }
+
+    .sample-img, .sample-container {
+        width: 95vw;
+        height: auto; /* Let height be determined by content */
+        min-height: 90vh;
+    }
+
+    .sample-container {
+        padding: 4rem 1rem 2rem 1rem; /* Add more top padding for the navbar */
+    }
+
+    .squiggle-line {
+        width: 150%;
+    }
 }

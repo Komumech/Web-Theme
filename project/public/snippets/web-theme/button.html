@@ -13,6 +13,9 @@ const text = params.get("text") || "Click";
 const color = params.get("color") || getComputedStyle(document.documentElement).getPropertyValue('--primary-color');
 const textColor = params.get("textColor") || "#ffffff";
 const hoverColor = params.get("hoverColor") || "#ffffff";
+const hoverTextColor = params.get("hoverTextColor") || color; // new
+const borderColor = params.get("borderColor") || color;       // new
+const hoverBorderColor = params.get("hoverBorderColor") || hoverColor; // new
 const link = params.get("link") || "#";
 const type = params.get("type");
 
@@ -20,16 +23,19 @@ const btn = document.getElementById("dynamic-btn");
 btn.textContent = text;
 btn.style.backgroundColor = color;
 btn.style.color = textColor;
+btn.style.border = `2px solid ${borderColor}`;
 btn.onclick = () => window.location.href = link;
 
-// Optional: apply hover color dynamically
+// Hover effects
 btn.addEventListener("mouseover", () => {
   btn.style.backgroundColor = hoverColor;
-  btn.style.color = color;
+  btn.style.color = hoverTextColor;
+  btn.style.border = `2px solid ${hoverBorderColor}`;
 });
 btn.addEventListener("mouseout", () => {
   btn.style.backgroundColor = color;
   btn.style.color = textColor;
+  btn.style.border = `2px solid ${borderColor}`;
 });
 
 </script>
