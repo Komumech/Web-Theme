@@ -22,7 +22,7 @@
 }
 .color{
     width: 20vw;
-    height: 100vh;
+    height: 130vh;
     z-index: -12;
     opacity: 0.6;
 }
@@ -64,8 +64,13 @@
     }
     .green{
         display: none;
+        
     }
     .color{
         width: 25vw;
+        height: 130vh;
+    }
+    .top-section{
+        height: 130vh;
     }
 }
