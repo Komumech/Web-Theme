@@ -80,13 +80,21 @@ body {
     align-items: center; /* Vertically center content */
     justify-content: space-between;
     position: fixed;
+    transition: background-color 0.3s ease-in-out; /* Add transition for smooth effect */
     padding: 0 2rem; /* Add horizontal padding */
     transition: background-color 0.3s ease-in-out, backdrop-filter 0.3s ease-in-out;
 }
 
 .navbar.docked {
+    padding: 10px 20px;
+    right: 0;
+    top: 0;
+    left: 0;
+    position: fixed;
+    background-color: rgba(25, 25, 25, 0.5); /* Semi-transparent dark background */
     background-color: rgba(20, 25, 50, 0.6); /* A theme-aligned dark blue */
     backdrop-filter: blur(10px);
+    -webkit-backdrop-filter: blur(10px); /* For Safari */
     -webkit-backdrop-filter: blur(10px);
 }
 
@@ -95,6 +103,8 @@ body {
     font-size: 1.2rem;
     font-weight: 600;
     padding: 0px 16px;
+    margin-top: 13px;
+    left: 30px;
   color: var(--primary-text-color);
 }
 
@@ -119,9 +129,13 @@ body {
     border: 2px solid white;
     padding: 6px 8px;
     cursor: pointer;
+    font-weight: 400;
+    margin-top: 0px;
     font-weight: 400;    
     border-radius: 7px;
     max-height: 3rem;
+    right:30px;
+    position: relative;
     
   transition: background-color var(--transition-fast), color var(--transition-fast);
 }
