@@ -10,10 +10,11 @@
     <link rel="stylesheet" href="style/top-section.css">
     <link rel="stylesheet" href="style/buttons.css">
     <link rel="stylesheet" href="style/sample.css">
+    <link rel="stylesheet" href="style/code-sample.css">
     <title>Web Theme</title>
     <style>
         html{
-            min-height:300vh;
+            min-height:380vh;
             position: relative;
         }
         body{
@@ -108,6 +109,20 @@
     </div>
     </div>
 </div>
+  <div class="code-sample">
+    <div class="code">
+      <div class="code-header">
+        <span class="code-label">HTML</span>
+        <button class="copy-btn" id="copyBtn">Copy</button>
+      </div>
+      <pre><code id="codeContent">
+&lt;<span class="token tag">iframe</span> 
+<span class="token attr">class</span>=<span class="token value">"top-navbar"</span> 
+<span class="token attr">src</span>=<span class="token value">"https://themes-blush-one.vercel.app/snippets/web-theme/navbar.html?title=WebTheme&amp;link1_label=Home&amp;link1_href=#&amp;link2_label=Features&amp;link2_href=#&amp;link3_label=Support&amp;link3_href=#"</span> 
+<span class="token attr">height</span>=<span class="token value">"70"</span>&gt;&lt;/<span class="token tag">iframe</span>&gt;
+      </code></pre>
+    </div>
+  </div>
 <iframe class="footer-iframe" src="https://themes-blush-one.vercel.app/snippets/web-theme/footer.html?company_name=Web+Theme&copyright=©+2025+Web+Theme.+All+Rights+Reserved.&social1_icon=twitter&social1_href=https://twitter.com/komudesigns&social2_icon=instagram&social2_href=https://instagram.com/komudesigns&social3_icon=linkedin&social3_href=https://linkedin.com/in/komudesigns" width="100%" height="130" style="border:none;"></iframe>
 
     <script type="module" src="main.js"></script>
@@ -127,6 +142,19 @@
             }
         });
     </script>
+
+      <script>
+    const copyBtn = document.getElementById('copyBtn');
+    const codeContent = document.getElementById('codeContent');
+
+    copyBtn.addEventListener('click', () => {
+      const text = codeContent.innerText;
+      navigator.clipboard.writeText(text).then(() => {
+        copyBtn.textContent = "Copied!";
+        setTimeout(() => copyBtn.textContent = "Copy", 2000);
+      });
+    });
+  </script>
 
 </body>
 </html>
