@@ -3,13 +3,10 @@
 <head>
   <link rel="stylesheet" href="theme.css">
   <style>
+    /* Override body centering for this component */
     body {
       align-items: flex-start;
       height: auto;
-      margin: 0;
-    }
-    .navbar.blue {
-      background-color: #1f5afe; /* blue when scrolled past 50% */
     }
   </style>
 </head>
@@ -47,7 +44,7 @@
     linksContainer.style.display = 'flex';
     linksContainer.style.gap = '2rem';
 
-    for (let i = 1; i <= 5; i++) {
+    for (let i = 1; i <= 5; i++) { // Check for up to 5 links
       const label = params.get(`link${i}_label`);
       const href = params.get(`link${i}_href`);
       if (label && href) {
@@ -59,6 +56,7 @@
       }
     }
 
+    // Add default links if none are provided
     if (linkCount === 0) {
       const defaultLinks = ['Home', 'About', 'Contact'];
       defaultLinks.forEach(label => {
@@ -69,31 +67,8 @@
       });
     }
 
+    // Insert links before the CTA button
     nav.insertBefore(linksContainer, navCta);
-
-    // Listen for messages from the parent window to toggle docked state
-    window.addEventListener('message', (event) => {
-      if (event.data.action === 'setDocked') {
-        if (event.data.isDocked) {
-          nav.classList.add('docked');
-        } else {
-          nav.classList.remove('docked');
-        }
-      }
-    });
-
-    // Scroll listener for background change
-    window.addEventListener('scroll', () => {
-      const scrollTop = window.scrollY;
-      const docHeight = document.documentElement.scrollHeight - window.innerHeight;
-      const scrollPercent = scrollTop / docHeight;
-
-      if (scrollPercent >= 0.5) {
-        nav.classList.add('blue');
-      } else {
-        nav.classList.remove('blue');
-      }
-    });
   </script>
 </body>
 </html>
