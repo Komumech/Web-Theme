@@ -1,0 +1,197 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <title>Sample Section</title>
+  <link rel="stylesheet" href="../theme.css">
+ <style>
+  .headline{
+    justify-self: center;
+    text-align: center;
+    color: rgb(19, 17, 17);
+    font-size: 4.3rem;
+    font-weight: 700;
+    max-width: 70vw;
+    padding-top: 4rem;
+    margin: 0px;
+}
+.tagline{
+    color: darkolivegreen;
+    color: #4a4a4a; /* A softer, neutral dark gray */
+    font-size: 1rem;
+    max-width: 62vw;
+    font-weight: 400;
+    margin-top: 1rem;
+    text-align: center;
+    line-height: 200%;
+    padding-top: 1rem;
+}
+    .sample{
+    width: 100%;
+    
+    display: flex;
+    justify-content: center;
+    align-items: center;
+}
+.sample-img{
+    background-image: url('https://komu-theme.vercel.app/style/images/img1.png');
+    background-size: cover;
+    background-position: center;
+    background-repeat: no-repeat;
+    width: 89vw;
+    height: 90vh;
+    justify-self: center;
+    border-radius: 15px;
+    display: flex;
+    position: relative;
+    justify-content: center;
+    align-items: center;
+}
+.sample{
+    padding-top: 3rem;
+    
+}
+.sample-container {
+    width: 85vw;
+    height: 80vh;
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    align-items: center;
+    text-align: center;
+    background-color: rgba(255, 255, 255, 0.1);
+    backdrop-filter: brightness(70%);
+    border-radius: 15px;
+    box-shadow: 0 10px 30px rgba(0, 0, 0, 0.1); /* A subtle default shadow */
+    color: #333; /* Dark text for light background */
+    padding: 2rem;
+    position: relative;
+    overflow: visible; /* Ensure the glow is not clipped */
+}
+
+/* Ensure content is above the new squiggle line */
+.sample-container > * {
+    position: relative;
+    z-index: 2;
+}
+
+.squiggle-line {
+    position: absolute;
+    width: 85%;
+    z-index: 1;
+    opacity: 0.15; /* Almost transparent */
+    stroke-dasharray: 1500; /* A value larger than the path length */
+    animation: draw 8s ease-in-out infinite;
+}
+.sample-img::after {
+    content: '';
+    position: absolute;
+    z-index: -1;
+    width: calc(100% + 10px);
+    height: calc(100% + 10px);
+    top: -5px;
+    left: -5px;
+    background: linear-gradient(45deg, yellow, orange, red, violet, blue, green);
+    background-size: 300% 300%;
+    filter: blur(40px);
+    opacity: 0.6;
+    animation: moveGradient 10s ease infinite;
+}
+
+@keyframes moveGradient {
+    0% { background-position: 0% 50%; }
+    50% { background-position: 100% 50%; }
+    100% { background-position: 0% 50%; }
+}
+
+@keyframes draw {
+    0% { stroke-dashoffset: 1500; }
+    50% { stroke-dashoffset: 0; }
+    100% { stroke-dashoffset: -1500; }
+}
+
+@media (max-width: 768px) {
+
+  
+
+    .squiggle-line {
+        width: 100%;
+        overflow: hidden;
+    }
+    .headline{
+        max-width: 90vw;
+        font: 2.7rem;
+    }
+}
+
+
+        body{
+            font-family: poppins, sans-serif;
+        }
+        iframe {
+            border: none; 
+            box-shadow: none;
+            width: 100%;
+        }
+        .button-iframe {
+            width: 12rem;
+        }
+        @media (max-width: 768px){
+            .button-iframe {
+                width: 9rem;
+            }
+        }
+        .top-navbar {
+            z-index: 1000;
+            position: fixed;
+        }
+        h2 {
+            margin-top: 0;
+            border-bottom: 2px solid #ddd;
+            padding-bottom: 0.5rem;
+        }
+        .footer-iframe {
+            position: absolute;
+            left: 0;
+            bottom: 0;
+            justify-self: center;
+        }
+        .white{
+            color: white;
+        }
+        .grey{
+            color: #bbbbbb;
+        }
+        .sample-navbar {
+            margin-top: -25rem;
+        }
+        
+ </style>
+</head>
+<body>
+  <div class="sample">
+    <div class="sample-img">
+      <div class="sample-container">
+        <svg class="squiggle-line" viewBox="0 -80 800 310" xmlns="http://www.w3.org/2000/svg">
+          <path d="M 50 100 C 75 -50, 100 200, 125 100 S 175 -50, 200 100 S 250 200, 275 100 S 325 -50, 350 100 S 400 200, 425 100 S 475 -50, 500 100 S 550 200, 575 100 S 625 -50, 650 100" stroke="white" stroke-width="55" fill="none" />
+        </svg>
+
+                <iframe  class="top-navbar sample-navbar" src="https://themes-blush-one.vercel.app/snippets/web-theme/navbar.html?title=WebTheme&link1_label=Home&link1_href=#&link2_label=Features&link2_href=#&link3_label=Support&link3_href=#" height="70"></iframe>
+
+
+        <p class="headline white">Interactive Sample Section</p>
+        <p class="tagline grey">
+          This is a smaller version of the hero section above. It's designed to be interactive and showcase more components.
+        </p>
+
+        <div class="double-cta-group">
+            <iframe class="button-iframe" src="https://themes-blush-one.vercel.app/snippets/web-theme/button.html?text=View+Components&link=test.html" width="200" height="60"></iframe>
+<iframe class="button-iframe" src="https://themes-blush-one.vercel.app/snippets/web-theme/button?text=Join+Now&link=https://explore.com&type=skeleton&color=green&textColor=%23ffffff&hoverColor=%23000000&hoverTextColor=%23ffffff&borderColor=transparent&hoverBorderColor=transparent" width="240" height="65" style="border:none;"></iframe>
+
+        </div>
+      </div>
+    </div>
+  </div>
+</body>
+
+</html>
