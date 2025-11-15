@@ -1,6 +1,6 @@
 .sample{
     width: 100%;
-    z-index: 1111;
+    
     display: flex;
     justify-content: center;
     align-items: center;
@@ -13,6 +13,7 @@
     background-position: center;
     background-repeat: no-repeat;
     width: 89.5vw;
+    
     height: 100vh;
     justify-self: center;
     border-radius: 15px;

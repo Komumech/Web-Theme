@@ -82,6 +82,12 @@ body {
     transition: background-color 0.3s ease-in-out; /* Add transition for smooth effect */
 }
 
+.navbar.docked {
+    background-color: rgba(25, 25, 25, 0.5); /* Semi-transparent dark background */
+    backdrop-filter: blur(10px);
+    -webkit-backdrop-filter: blur(10px); /* For Safari */
+}
+
 
 .navbar-title {
     font-size: 1.2rem;

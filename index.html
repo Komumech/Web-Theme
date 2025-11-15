@@ -114,7 +114,19 @@
     <script type="module" src="main.js"></script>
 
     <script>
+        document.addEventListener('DOMContentLoaded', () => {
+            const topSection = document.querySelector('.top-section');
+            const navbarIframe = document.querySelector('.top-navbar');
 
+            if (topSection && navbarIframe) {
+                window.addEventListener('scroll', () => {
+                    // Check if the user has scrolled past the top section
+                    const isDocked = window.scrollY > topSection.offsetHeight;
+                    // Send a message to the iframe to toggle its class
+                    navbarIframe.contentWindow.postMessage({ action: 'setDocked', isDocked: isDocked }, '*');
+                });
+            }
+        });
     </script>
 
 </body>
