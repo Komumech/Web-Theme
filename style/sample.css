@@ -96,6 +96,7 @@
     }
 
     .squiggle-line {
-        width: 150%;
+        width: 100%;
+        overflow: hidden;
     }
 }
