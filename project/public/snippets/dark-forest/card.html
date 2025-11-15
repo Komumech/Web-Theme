@@ -1,0 +1,21 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Card Component</title>
+  <link rel="stylesheet" href="theme.css">
+</head>
+<body>
+<div class="card">
+    <h3 id="title">Card Title</h3>
+    <p id="content">This is some default content for the card.</p>
+</div>
+
+  <script>
+    const params = new URLSearchParams(window.location.search);
+    document.getElementById("title").textContent = params.get("title") || "Card Title";
+    document.getElementById("content").textContent = params.get("content") || "This is some default content for the card.";
+  </script>
+</body>
+</html>

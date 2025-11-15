@@ -1,0 +1,58 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Navbar Component</title>
+    <link rel="stylesheet" href="theme.css">
+    <style>
+        body, html {
+            margin: 0;
+            padding: 0;
+            background: transparent;
+        }
+    </style>
+</head>
+<body>
+    <nav class="navbar" id="navbar">
+        <div class="navbar-title" id="navbar-title">WebTheme</div>
+        <div>
+            <span id="nav-links"></span>
+            <button class="navbar-cta" id="navbar-cta">Action</button>
+        </div>
+    </nav>
+
+    <script>
+        document.addEventListener('DOMContentLoaded', () => {
+            const params = new URLSearchParams(window.location.search);
+            document.getElementById('navbar-title').textContent = params.get('title') || 'WebTheme';
+            
+            const ctaText = params.get('cta_text');
+            const ctaLink = params.get('cta_link');
+            const ctaButton = document.getElementById('navbar-cta');
+            if(ctaText && ctaLink) {
+                ctaButton.textContent = ctaText;
+                ctaButton.onclick = () => window.open(ctaLink, '_blank');
+            } else {
+                ctaButton.style.display = 'none';
+            }
+
+            let linksHTML = '';
+            for (let i = 1; i <= 5; i++) { // Check for up to 5 links
+                const label = params.get(`link${i}_label`);
+                const href = params.get(`link${i}_href`);
+                if (label && href) {
+                    linksHTML += `<a href="${href}">${label}</a>`;
+                }
+            }
+            document.getElementById('nav-links').innerHTML = linksHTML;
+        });
+
+        window.addEventListener('message', (event) => {
+            if (event.data.action === 'setDocked') {
+                document.getElementById('navbar').classList.toggle('docked', event.data.isDocked);
+            }
+        });
+    </script>
+</body>
+</html>

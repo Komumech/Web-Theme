@@ -1,0 +1,42 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Footer Component</title>
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0-beta3/css/all.min.css">
+    <link rel="stylesheet" href="theme.css">
+</head>
+<body>
+    <footer class="footer">
+        <div class="social-links" id="social-links">
+            <!-- Social links will be injected here -->
+        </div>
+        <div class="copyright" id="copyright">
+            &copy; 2025 Company Name. All Rights Reserved.
+        </div>
+    </footer>
+
+    <script>
+        document.addEventListener('DOMContentLoaded', () => {
+            const params = new URLSearchParams(window.location.search);
+            const copyrightEl = document.getElementById('copyright');
+            const socialLinksEl = document.getElementById('social-links');
+
+            const companyName = params.get('company_name') || 'Company Name';
+            const copyrightText = params.get('copyright') || `&copy; ${new Date().getFullYear()} ${companyName}. All Rights Reserved.`;
+            copyrightEl.innerHTML = copyrightText;
+
+            let socialHTML = '';
+            for (let i = 1; i <= 5; i++) { // Check for up to 5 social links
+                const icon = params.get(`social${i}_icon`);
+                const href = params.get(`social${i}_href`);
+                if (icon && href) {
+                    socialHTML += `<a href="${href}" target="_blank" rel="noopener noreferrer"><i class="fab fa-${icon}"></i></a>`;
+                }
+            }
+            socialLinksEl.innerHTML = socialHTML;
+        });
+    </script>
+</body>
+</html>
