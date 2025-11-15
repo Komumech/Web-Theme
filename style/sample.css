@@ -1,0 +1,60 @@
+.sample{
+    width: 100%;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    padding: 5rem 0;
+    margin-top: 5rem;
+}
+.sample-img{
+    background-image: url('images/img1.png');
+    background-size: cover;
+    background-position: center;
+    background-repeat: no-repeat;
+    width: 89.5vw;
+    height: 100vh;
+    justify-self: center;
+    border-radius: 15px;
+    display: flex;
+    position: relative;
+    justify-content: center;
+    align-items: center;
+}
+.sample-container {
+    width: 85vw;
+    height: 90vh;
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    align-items: center;
+    text-align: center;
+    background-color: rgba(255, 255, 255, 0.1);
+    backdrop-filter: brightness(70%);
+    border-radius: 15px;
+    box-shadow: 0 10px 30px rgba(0, 0, 0, 0.1); /* A subtle default shadow */
+    color: #333; /* Dark text for light background */
+    padding: 2rem;
+    position: relative;
+    overflow: visible; /* Ensure the glow is not clipped */
+}
+
+.sample-img::after {
+    content: '';
+    position: absolute;
+    z-index: -1;
+    width: calc(100% + 10px);
+    height: calc(100% + 10px);
+    top: 0;
+    left: 0;
+    background: linear-gradient(45deg, yellow, orange, red, violet, blue, green);
+    background-size: 300% 300%;
+    filter: blur(40px);
+    opacity: 0.6;
+    animation: moveGradient 10s ease infinite;
+}
+
+@keyframes moveGradient {
+    0% { background-position: 0% 50%; }
+    50% { background-position: 100% 50%; }
+    100% { background-position: 0% 50%; }
+}

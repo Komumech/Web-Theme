@@ -13,13 +13,30 @@
   
 
 <script>
-    const params = new URLSearchParams(window.location.search);
-    const altText = params.get("text") || "Learn More";
-    const altLink = params.get("link") || "#";
+const params = new URLSearchParams(window.location.search);
+const text = params.get("text") || "Click";
+const color = params.get("color") || getComputedStyle(document.documentElement).getPropertyValue('--primary-color');
+const textColor = params.get("textColor") || "#ffffff";
+const hoverColor = params.get("hoverColor") || "#ffffff";
+const link = params.get("link") || "#";
+const type = params.get("type");
 
-    const skeletonBtn = document.getElementById("skeleton-btn");
-    skeletonBtn.textContent = altText;
-    skeletonBtn.onclick = () => window.location.href = altLink;
+const btn = document.getElementById("dynamic-btn");
+btn.textContent = text;
+btn.style.backgroundColor = color;
+btn.style.color = textColor;
+btn.onclick = () => window.location.href = link;
+
+// Optional: apply hover color dynamically
+btn.addEventListener("mouseover", () => {
+  btn.style.backgroundColor = hoverColor;
+  btn.style.color = color;
+});
+btn.addEventListener("mouseout", () => {
+  btn.style.backgroundColor = color;
+  btn.style.color = textColor;
+});
+
 </script>
 
 </body>
