@@ -1,118 +1,98 @@
 <!DOCTYPE html>
-<html lang="en">
+<html>
 <head>
-  <meta charset="UTF-8">
-  <title>Responsive Navbar</title>
+  <link rel="stylesheet" href="theme.css">
   <style>
-    /* Reset */
-    * {
+    body {
+      align-items: flex-start;
+      height: auto;
       margin: 0;
-      padding: 0;
-      box-sizing: border-box;
     }
-    html, body {
-      width: 100%;
-      overflow-x: hidden; /* prevent horizontal scroll on mobile */
-      font-family: 'Poppins', sans-serif;
-    }
-
-    /* Navbar wrapper to constrain width */
-    .navbar-wrapper {
-      max-width: 1200px;   /* control width */
-      margin: 0 auto;      /* center horizontally */
-    }
-
-    /* Navbar styles */
     .navbar {
-      position: sticky; /* stays at top but respects parent */
+      position: fixed;
       top: 0;
-      width: 100%;
+      left: 0;
+      right: 0;
       padding: 1rem 2rem;
       display: flex;
       justify-content: space-between;
       align-items: center;
       transition: background-color 0.3s ease;
       background-color: transparent; /* default */
-      z-index: 1000;
     }
     .navbar.blue {
       background-color: #1f5afe; /* blue when scrolled past 50% */
     }
-
-    .navbar-title {
-      font-size: 1.2rem;
-      font-weight: bold;
-      color: #000;
-    }
-
-    .navbar-links {
-      display: flex;
-      gap: 1.5rem;
-    }
-    .navbar-links a {
-      text-decoration: none;
-      color: #000;
-      transition: color 0.3s ease;
-    }
-    .navbar.blue .navbar-links a {
-      color: #fff; /* links turn white when navbar is blue */
-    }
-
-    .navbar-cta {
-      padding: 0.5rem 1rem;
-      border: 2px solid #1f5afe;
-      background: #1f5afe;
-      color: #fff;
-      border-radius: 4px;
-      cursor: pointer;
-      transition: all 0.3s ease;
-    }
-    .navbar.blue .navbar-cta {
-      background: #000;
-      border: none;
-      color: #fff;
-    }
-
-    /* Responsive */
-    @media (max-width: 768px) {
-      .navbar {
-        flex-direction: column;
-        align-items: flex-start;
-      }
-      .navbar-links {
-        flex-direction: column;
-        gap: 1rem;
-        margin-top: 1rem;
-      }
-    }
-
-    /* Page filler for scroll demo */
-    .content {
-      height: 200vh; /* make page tall so you can scroll */
-      padding: 2rem;
-    }
   </style>
 </head>
 <body>
-  <div class="navbar-wrapper">
-    <div class="navbar" id="nav">
-      <div class="navbar-title" id="nav-title">My Site</div>
-      <div class="navbar-links" id="nav-links">
-        <a href="#">Home</a>
-        <a href="#">About</a>
-        <a href="#">Contact</a>
-      </div>
-      <button class="navbar-cta" id="nav-cta">Get Started</button>
-    </div>
-  </div>
-
-  <div class="content">
-    <h1>Scroll down to see navbar change color</h1>
-    <p>Keep scrolling... once you pass 50% of the page height, the navbar background turns blue.</p>
-  </div>
+ <div class="navbar" id="nav">
+   <div class="navbar-title" id="nav-title">My Site</div>
+   <button class="navbar-cta" id="nav-cta">Get Started</button>
+   <!-- Links will be injected here -->
+ </div>
 
   <script>
+    const params = new URLSearchParams(window.location.search);
     const nav = document.getElementById("nav");
+    const navTitle = document.getElementById("nav-title");
+    const navCta = document.getElementById("nav-cta");
+
+    // Set title
+    navTitle.textContent = params.get("title") || "My Site";
+
+    // Set docked mode
+    if (params.get("docked") === "true") {
+      nav.classList.add("docked");
+    }
+
+    // Set CTA button
+    navCta.textContent = params.get("cta_text") || "Get Started";
+    navCta.onclick = () => {
+      const ctaLink = params.get("cta_link") || "#";
+      window.open(ctaLink, '_blank');
+    };
+
+    // Generate links
+    let linkCount = 0;
+    const linksContainer = document.createElement('div');
+    linksContainer.style.display = 'flex';
+    linksContainer.style.gap = '2rem';
+
+    for (let i = 1; i <= 5; i++) {
+      const label = params.get(`link${i}_label`);
+      const href = params.get(`link${i}_href`);
+      if (label && href) {
+        const a = document.createElement("a");
+        a.textContent = label;
+        a.href = href;
+        linksContainer.appendChild(a);
+        linkCount++;
+      }
+    }
+
+    if (linkCount === 0) {
+      const defaultLinks = ['Home', 'About', 'Contact'];
+      defaultLinks.forEach(label => {
+        const a = document.createElement('a');
+        a.textContent = label;
+        a.href = '#';
+        linksContainer.appendChild(a);
+      });
+    }
+
+    nav.insertBefore(linksContainer, navCta);
+
+    // Listen for messages from the parent window to toggle docked state
+    window.addEventListener('message', (event) => {
+      if (event.data.action === 'setDocked') {
+        if (event.data.isDocked) {
+          nav.classList.add('docked');
+        } else {
+          nav.classList.remove('docked');
+        }
+      }
+    });
 
     // Scroll listener for background change
     window.addEventListener('scroll', () => {
