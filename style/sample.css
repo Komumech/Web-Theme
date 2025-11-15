@@ -1,5 +1,6 @@
 .sample{
     width: 100%;
+    z-index: 1111;
     display: flex;
     justify-content: center;
     align-items: center;
