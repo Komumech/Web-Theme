@@ -21,7 +21,7 @@ body {
   padding: 0;
   background: var(--bg-color);
   font-family: var(--font-family);
-  color: var(--text-color);
+  color: var(--primary-text-color);
   display: flex;
   justify-content: center;
   align-items: center;
@@ -71,13 +71,11 @@ body {
 .navbar {
     z-index: 999;
     width: 100vw;
-    height: 3rem;
     height: 3.5rem; /* Slightly taller for better spacing */
     top: 0;
     left: 0;
     display: flex;
     flex-direction: row;
-    align-items: center; /* Vertically center content */
     justify-content: space-between;
     position: fixed;
     transition: background-color 0.3s ease-in-out; /* Add transition for smooth effect */
@@ -86,24 +84,18 @@ body {
 }
 
 .navbar.docked {
-    padding: 10px 20px;
-    right: 0;
-    top: 0;
-    left: 0;
-    position: fixed;
-    background-color: rgba(25, 25, 25, 0.5); /* Semi-transparent dark background */
     background-color: rgba(20, 25, 50, 0.6); /* A theme-aligned dark blue */
     backdrop-filter: blur(10px);
     -webkit-backdrop-filter: blur(10px); /* For Safari */
-    -webkit-backdrop-filter: blur(10px);
 }
 
 
 .navbar-title {
     font-size: 1.2rem;
     font-weight: 600;
+    align-items: center;
     padding: 0px 16px;
-    margin-top: 13px;
+    margin-top: 0px;
     left: 30px;
   color: var(--primary-text-color);
 }
@@ -123,20 +115,17 @@ body {
 }
 
 .navbar-cta {
-    background-color: rgba(255, 255, 255, 0);
-    color: white;
+    background-color: transparent;
+    color: var(--primary-text-color);
     font-size: 1.1rem;
-    border: 2px solid white;
+    border: 2px solid var(--primary-text-color);
     padding: 6px 8px;
     cursor: pointer;
-    font-weight: 400;
-    margin-top: 0px;
     font-weight: 400;    
-    border-radius: 7px;
+    border-radius: var(--border-radius);
     max-height: 3rem;
-    right:30px;
-    position: relative;
-    
+    right: 0px;
+    position: static;
   transition: background-color var(--transition-fast), color var(--transition-fast);
 }
 
@@ -205,8 +194,6 @@ iframe {
   border: none;
   box-shadow: none;
 }
-
-
 
 @media (max-width: 768px) {
     .navbar a {
