@@ -20,6 +20,16 @@
     height: fit-content;
     width: fit-content;
 }
+.tagline{
+            color: #4a4a4a; 
+            font-size: 1rem;
+            max-width: 62vw;
+            font-weight: 400;
+            margin-top: 1rem;
+            text-align: center;
+            line-height: 200%;
+            padding-top: 1rem;
+        }
 .color{
     width: 20vw;
     height: 100vh;
@@ -68,7 +78,7 @@
     }
     .tagline{
         font-size: 0.9rem;
-        max-width: 80vw;
+        max-width: 90vw;
     }
     .green{
         display: none;

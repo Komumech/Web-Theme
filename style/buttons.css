@@ -1,63 +1,136 @@
-button{
-    max-height: 3rem;
-    align-self: center;
-    transition: background-color 0.3s ease-in-out, color 0.3s ease-in-out, border 0.3s ease-in-out;
-    box-shadow: 0 2px 5px rgba(0, 0, 0, 0.1);
-    border-radius: 10px;
+:root {
+  --primary-color: #93affc;
+  --accent-color: #ff9a9e;
+  --primary-text-color: #ffffff;
+  --secondary-text-color: #000000;
+  --bg-color: transparent;
+  --font-family: poppins, sans-serif;
+  --border-radius: 8px;
+  --transition-fast: 0.3s ease-in-out;
 }
-.top{
+
+/* === BASE BUTTON STYLE (Adopted from theme.css .btn) === */
+button {
+    /* Core structural styles from theme.css .btn */
+    display: inline-flex;
+    justify-content: center;
+    align-items: center;
+    font-size: 1.1rem;
+    font-weight: 400;
+    width: fit-content;
+    height: 3rem; /* Unified base height for consistency */
+    text-decoration: none;
+    cursor: pointer;
+    border-radius: var(--border-radius);
+    font-family: var(--font-family);
+    transition: all var(--transition-fast);
+    box-shadow: 0 2px 5px rgba(0, 0, 0, 0.1);
+    border: 2px solid transparent; /* Base transparent border */
+    
+    /* Specific styles from original buttons.css */
+    align-self: center;
+}
+
+/* Specific button style classes */
+
+.top {
     right: 0;
     position: absolute;
     margin-right: 40px;
 }
-.cta1{
-    background-color: rgba(255, 255, 255, 0);
-    color: white;
-    font-size: 1.1rem;
-    border: 2px solid white;
-    padding: 6px 8px;
-    cursor: pointer;
-    font-weight: 400;
-    margin-top: -4px;
-    border-radius: 7px;
+
+/* CTA 1: White Outline on Dark Background */
+.cta1 {
+    /* Use theme variables for clarity */
+    background-color: var(--bg-color);
+    color: var(--primary-text-color); /* White */
+    border: 2px solid var(--primary-text-color); /* White border */
     
-}
-.cta1:hover{
-    background-color: white;
-    color: #93affc;
-}
-.cta2{
-    background-color: rgba(255, 255, 255, 0);
-    color: rgb(0, 0, 0);
-    font-size: 1.1rem;
-    border: 2px solid rgb(0, 0, 0);
-    padding: 7px 8px;
-    cursor: pointer;
+    /* Adopted theme padding/size. Removed original padding/margin which conflicted with base style */
+    padding: 6px 15px;
     font-weight: 400;
-    margin-top: -11px;
-    border-radius: 7px;
+    
+    /* Align with base button height */
+    height: 3rem;
+    
+    /* Ensure border-radius uses theme variable */
+    border-radius: var(--border-radius);
 }
-.cta2:hover{
-    background-color: rgb(0, 0, 0);
-    color: white;
+
+.cta1:hover {
+    background-color: var(--primary-text-color); /* White background */
+    color: var(--primary-color); /* Primary color text */
 }
-.cta3{
-    background-color: #1f5afe;
-    color: white;
-    font-size: 1.1rem;
-    border: 2px solid #1f5afe;
-    padding: 7px 8px;
-    cursor: pointer;
+
+/* CTA 2: Black Outline on Light Background */
+.cta2 {
+    background-color: var(--bg-color);
+    color: var(--secondary-text-color); /* Black */
+    border: 2px solid var(--secondary-text-color); /* Black border */
+    
+    /* Adopted theme padding/size. Removed original padding/margin which conflicted with base style */
+    padding: 6px 15px;
     font-weight: 400;
-    margin-top: -11px;
-    border-radius: 7px;
+    height: 3rem;
+    border-radius: var(--border-radius);
 }
-.cta3:hover{
-    background-color: rgba(255, 255, 255, 0);
-    border: 2px solid #ffffff;
-    color: #ffffff;
+
+.cta2:hover {
+    background-color: var(--secondary-text-color); /* Black background */
+    color: var(--primary-text-color); /* White text */
 }
-.double-cta-group{
+
+/* CTA 3: Solid Blue Button */
+.cta3 {
+    background-color: #1f5afe; /* Specific Blue */
+    color: var(--primary-text-color); /* White */
+    border: 2px solid #1f5afe; /* Blue border */
+    
+    /* Adopted theme padding/size. Removed original padding/margin which conflicted with base style */
+    padding: 6px 15px;
+    font-weight: 400;
+    height: 3rem;
+    border-radius: var(--border-radius);
+}
+
+.cta3:hover {
+    background-color: var(--bg-color); /* Transparent background */
+    border: 2px solid var(--primary-text-color); /* White border */
+    color: var(--primary-text-color); /* White text */
+}
+.cta4 {
+    background-color: var(--primary-color); /* Specific Pink */
+    color: var(--primary-text-color); /* White */
+    border: 2px solid var(--primary-color); /* Pink border */
+    
+    /* Adopted theme padding/size. Removed original padding/margin which conflicted with base style */
+    padding: 6px 15px;
+    font-weight: 400;
+    height: 3rem;
+    border-radius: var(--border-radius);
+}
+.cta4:hover {
+    background-color: var(--bg-color); /* Transparent background */
+    border: 2px solid var(--primary-text-color); /* White border */
+    color: var(--primary-text-color); /* White text */
+}
+.cta5 {
+    background-color: #00c853; /* Specific Green */
+    color: var(--primary-text-color); /* White */
+    border: 2px solid #00c853; /* Green border */
+    
+    /* Adopted theme padding/size. Removed original padding/margin which conflicted with base style */
+    padding: 6px 15px;
+    font-weight: 400;
+    height: 3rem;
+    border-radius: var(--border-radius);
+}
+.cta5:hover {
+    background-color: var(--bg-color); /* Transparent background */
+    border: 2px solid var(--primary-text-color); /* White border */
+    color: var(--primary-text-color); /* White text */
+}
+.double-cta-group {
     display: flex;
     flex-direction: row;
     gap: 1rem;
