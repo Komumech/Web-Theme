@@ -282,8 +282,7 @@
 <iframe
     id="my-email-field"
     src="https://themes-blush-one.vercel.app/snippets/web-theme/input.html?placeholder=Enter+your+email...&icon=envelope" 
-    width="450"
-    height="100"      style="border: none; overflow: hidden;"
+    width="100%"      height="100"      style="border: none; overflow: hidden;"
 ></iframe>
 
 
@@ -399,6 +398,35 @@
     });
 
     // --- END KomuTheme Embed Code: Universal Handler ---
+
+    
     </script>
+
+      <script>
+    /**
+     * Handles the PostMessage event to dynamically resize an iframe.
+     * This code listens for messages from the components and adjusts the height
+     * of the corresponding iframe on this page.
+     */
+    function handleDynamicIframeResize(event) {
+      // OPTIONAL SECURITY CHECK: uncomment to restrict messages
+      // if (event.origin !== "https://themes-blush-one.vercel.app") { return; }
+
+      const data = event.data;
+
+      // Ensure the message contains the height and ID
+      if (data.frameHeight && data.frameId) {
+        const iframe = document.getElementById(data.frameId);
+
+        if (iframe) {
+          // Set the iframe's height, adding a small buffer (+5px)
+          iframe.style.height = (data.frameHeight + 5) + "px";
+        }
+      }
+    }
+
+    // Attach the handler to the window's message event
+    window.addEventListener("message", handleDynamicIframeResize, false);
+  </script>
 </body>
 </html>
