@@ -1,122 +1,125 @@
 <!DOCTYPE html>
 <html lang="en">
 <head>
-    <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    
-    <title>Document</title>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Dynamic Component Showcase</title>
+  <link rel="stylesheet" href="theme.css">
 </head>
 <body>
-    <style>
-        body {
-            font-family: sans-serif;
-            background-color: #f0f0f0;
-            margin: 0;
-            padding-top: 80px; /* Add padding to prevent content from hiding behind the docked navbar */
-        }
-        iframe {
-            border: none; 
-            box-shadow: none;
-            width: 100%;
-            margin-bottom: 2rem;
-        }
+  <style>
+    /* General styling for the main page */
+    body {
+      font-family: sans-serif;
+      background-color: #f0f0f0;
+      margin: 0;
+      padding-top: 80px; /* Space for the docked navbar */
+    }
+    iframe {
+      border: none;
+      box-shadow: none;
+      width: 100%;
+      margin-bottom: 2rem;
+    }
 
-        h2 {
-            margin-top: 0;
-            border-bottom: 2px solid #ddd;
-            padding-bottom: 0.5rem;
-        }
-        .sample-section {
-            height: 100vh;
-            border: none;
-            overflow-y: hidden;
-        }
-    </style>
+    h2 {
+      margin-top: 0;
+      border-bottom: 2px solid #ddd;
+      padding-bottom: 0.5rem;
+    }
 
-    <!-- Docked Navbar -->
-    <iframe src="https://themes-blush-one.vercel.app/snippets/web-theme/navbar.html?title=ThemeCorp&docked=true&link1_label=Home&link1_href=/&link2_label=Products&link2_href=/products&link3_label=Login&link3_href=/login" height="70"></iframe>
+    /* Adjusted this style to prevent interference with dynamic resizing */
+    .sample-section {
+      height: auto;
+      border: none;
+      overflow-y: hidden;
+    }
+    .component-group {
+      max-width: 900px;
+      margin: 0 auto;
+      padding: 20px;
+    }
+  </style>
 
-    <div class="component-group">
-        <h2>Neon Theme Snippets</h2>
-        <iframe src="https://themes-blush-one.vercel.app/snippets/neon/navbar.html?title=NEON&link1_label=CYBER&link1_href=#&link2_label=PUNK&link2_href=#" height="70"></iframe>
-        <iframe src="https://themes-blush-one.vercel.app/snippets/neon/alert.html?type=warning&message=System+breach+detected." height="80"></iframe>
-        <iframe src="https://themes-blush-one.vercel.app/snippets/neon/input.html?placeholder=Enter+Codename...&icon=user-secret" height="70"></iframe>
-        <iframe src="https://themes-blush-one.vercel.app/snippets/neon/footer.html?copyright=--[+SYSTEM+ONLINE+]--&social1_icon=github&social1_href=#&social2_icon=gitlab&social2_href=#" height="120"></iframe>
-    </div>
+  <iframe src="https://themes-blush-one.vercel.app/snippets/web-theme/navbar.html?title=ThemeCorp&docked=true&link1_label=Home&link1_href=/&link2_label=Products&link2_href=/products&link3_label=Login&link3_href=/login" height="70"></iframe>
 
-    <div class="component-group">
-        <h2>Web Theme Snippets</h2>
-        <p>Here are the import links for all the available web-theme components:</p>
-        
-        <h3>Navbar</h3>
-        <iframe src="https://themes-blush-one.vercel.app/snippets/web-theme/navbar.html?title=MySite&link1_label=Home&link1_href=#&link2_label=Features&link2_href=#" height="70"></iframe>
-        
-        <h3>Buttons</h3>
-        <iframe src="https://themes-blush-one.vercel.app/snippets/web-theme/button.html?text=Get Started" height="60"></iframe>
-        <iframe src="https://themes-blush-one.vercel.app/snippets/web-theme/button.html?text=Learn More&type=skeleton" height="60"></iframe>
-        
-        <h3>Alert</h3>
-        <iframe src="https://themes-blush-one.vercel.app/snippets/web-theme/alert.html?type=success&message=Your changes have been saved." height="80"></iframe>
-        
-        <h3>Input Field</h3>
+  <div class="component-group">
+    <h2>Neon Theme Snippets</h2>
+    <iframe src="https://themes-blush-one.vercel.app/snippets/neon/navbar.html?title=NEON&link1_label=CYBER&link1_href=#&link2_label=PUNK&link2_href=#" height="70"></iframe>
+    <iframe src="https://themes-blush-one.vercel.app/snippets/neon/alert.html?type=warning&message=System+breach+detected." height="80"></iframe>
+    <iframe src="https://themes-blush-one.vercel.app/snippets/neon/input.html?placeholder=Enter+Codename...&icon=user-secret" height="70"></iframe>
+    <iframe src="https://themes-blush-one.vercel.app/snippets/neon/footer.html?copyright=--[+SYSTEM+ONLINE+]--&social1_icon=github&social1_href=#&social2_icon=gitlab&social2_href=#" height="120"></iframe>
+  </div>
+
+  <div class="component-group">
+    <h2>Web Theme Snippets</h2>
+
+    <h3>Navbar</h3>
+    <iframe src="https://themes-blush-one.vercel.app/snippets/web-theme/navbar.html?title=MySite&link1_label=Home&link1_href=#&link2_label=Features&link2_href=#" height="70"></iframe>
+
+    <h3>Buttons</h3>
+    <iframe src="https://themes-blush-one.vercel.app/snippets/web-theme/button.html?text=Get+Started" height="60"></iframe>
+    <iframe src="https://themes-blush-one.vercel.app/snippets/web-theme/button.html?text=Learn+More&type=skeleton" height="60"></iframe>
+
+    <h3>Alert</h3>
+    <iframe src="https://themes-blush-one.vercel.app/snippets/web-theme/alert.html?type=success&message=Your+changes+have+been+saved." height="80"></iframe>
+
+    <h3>Input Field (FIXED: Added frame_id)</h3>
 <iframe
-    id="my-email-field"
-    src="https://themes-blush-one.vercel.app/snippets/web-theme/input.html?placeholder=Enter+your+email...&icon=envelope&frame_id=my-email-field"
-    width="450"
-    height="100"
-    style="border: none; overflow: hidden;"
+    id="my-email-field"
+    src="https://themes-blush-one.vercel.app/snippets/web-theme/input.html?placeholder=Enter+your+email...&icon=envelope" 
+    width="450"
+    height="100"      style="border: none; overflow: hidden;"
 ></iframe>
 
-        <h3>Card</h3>
-        <iframe src="https://themes-blush-one.vercel.app/snippets/web-theme/card.html?title=Our Mission&content=To build beautiful, responsive, and accessible web components for everyone." height="180"></iframe>
-        
-        <h3>Footer</h3>
-<iframe 
-    id="footer-snippet" 
-    class="footer-iframe" 
-    src="https://themes-blush-one.vercel.app/snippets/web-theme/footer.html?company_name=Web+Theme&copyright=©+2025+Web+Theme.+All+Rights+Reserved.&social1_icon=twitter&social1_href=https://twitter.com/komudesigns&social2_icon=instagram&social2_href=https://instagram.com/komudesigns&social3_icon=linkedin&social3_href=https://linkedin.com/in/komudesigns&frame_id=footer-snippet" 
-    width="100%" 
-    height="150" 
-    style="border:none;">
-</iframe>
-    </div>
-<iframe
-        id="sample-section-parent"
-        src="https://themes-blush-one.vercel.app/snippets/sample.html" 
-        width="100%"
-        height="650" 
-        style="border: none; box-shadow: none;"
-    ></iframe>
+    <h3>Card</h3>
+    <iframe src="https://themes-blush-one.vercel.app/snippets/web-theme/card.html?title=Our+Mission&content=To+build+beautiful,+responsive,+and+accessible+web+components+for+everyone." height="180"></iframe>
 
-<script>
+    <h3>Footer (Uses dynamic resizing)</h3>
+    <iframe
+      id="footer-snippet"
+      class="footer-iframe"
+      src="https://themes-blush-one.vercel.app/snippets/web-theme/footer.html?company_name=Web+Theme&copyright=©+2025+Web+Theme.+All+Rights+Reserved.&social1_icon=twitter&social1_href=https://twitter.com/komudesigns&social2_icon=instagram&social2_href=https://instagram.com/komudesigns&social3_icon=linkedin&social3_href=https://linkedin.com/in/komudesigns&frame_id=footer-snippet"
+      width="100%"
+      height="150"
+      style="border:none;">
+    </iframe>
+  </div>
+
+  <iframe
+    id="sample-section-parent"
+    src="https://themes-blush-one.vercel.app/snippets/sample.html?frame_id=sample-section-parent"
+    width="100%"
+    height="650"
+    style="border: none; box-shadow: none;">
+  </iframe>
+
+  <!-- JavaScript Resizing Listener (The Core Fixer) -->
+  <script>
     /**
      * Handles the PostMessage event to dynamically resize an iframe.
-     * @param {MessageEvent} event - The received message event.
+     * This code listens for messages from the components and adjusts the height
+     * of the corresponding iframe on this page.
      */
     function handleDynamicIframeResize(event) {
-        // OPTIONAL SECURITY CHECK: If your component is always hosted on the same domain 
-        // as the main page, you can skip the origin check or adjust it. 
-        // If your component is hosted externally, you should verify event.origin.
-        
-        const data = event.data;
+      // OPTIONAL SECURITY CHECK: uncomment to restrict messages
+      // if (event.origin !== "https://themes-blush-one.vercel.app") { return; }
 
-        // Ensure the message contains the necessary payload (height and ID)
-        if (data.frameHeight && data.frameId) {
-            // Find the iframe element in the current (parent) document by the reported ID
-            const iframe = document.getElementById(data.frameId);
+      const data = event.data;
 
-            if (iframe) {
-                // Set the iframe's height to the reported content height
-                // Adding a small buffer (+5px) helps prevent unwanted scrollbars.
-                iframe.style.height = `${data.frameHeight + 5}px`;
-                // console.log(`Resized iframe ${data.frameId} to ${data.frameHeight + 5}px`); // Optional logging
-            }
+      // Ensure the message contains the height and ID
+      if (data.frameHeight && data.frameId) {
+        const iframe = document.getElementById(data.frameId);
+
+        if (iframe) {
+          // Set the iframe's height, adding a small buffer (+5px)
+          iframe.style.height = (data.frameHeight + 5) + "px";
         }
+      }
     }
 
     // Attach the handler to the window's message event
     window.addEventListener("message", handleDynamicIframeResize, false);
-</script>
-
+  </script>
 </body>
 </html>
