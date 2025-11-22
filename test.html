@@ -65,9 +65,59 @@
         <iframe src="https://themes-blush-one.vercel.app/snippets/web-theme/card.html?title=Our Mission&content=To build beautiful, responsive, and accessible web components for everyone." height="180"></iframe>
         
         <h3>Footer</h3>
-        <iframe src="https://themes-blush-one.vercel.app/snippets/web-theme/footer.html?social1_icon=twitter&social1_href=#&social2_icon=github&social2_href=#" height="130"></iframe>
+<iframe 
+    id="footer-snippet" 
+    class="footer-iframe" 
+    src="https://themes-blush-one.vercel.app/snippets/web-theme/footer.html?company_name=Web+Theme&copyright=©+2025+Web+Theme.+All+Rights+Reserved.&social1_icon=twitter&social1_href=https://twitter.com/komudesigns&social2_icon=instagram&social2_href=https://instagram.com/komudesigns&social3_icon=linkedin&social3_href=https://linkedin.com/in/komudesigns&frame_id=footer-snippet" 
+    width="100%" 
+    height="150" 
+    style="border:none;">
+</iframe>
     </div>
 <iframe class="sample-section" src="https://themes-blush-one.vercel.app/snippets/sample.html" width="100%" height="500" style="border:none;"></iframe>
 
+
+    <script>
+    // --- START KomuTheme Embed Code: Universal Handler ---
+
+    document.addEventListener('DOMContentLoaded', function() {
+        // 1. URL Construction Logic
+        function constructSnippetUrl(iframe) {
+            const baseUrl = iframe.getAttribute('data-base-url');
+            if (!baseUrl) return;
+            let params = [];
+            for (const attr of iframe.attributes) {
+                if (attr.name.startsWith('data-')) {
+                    const paramKey = attr.name.substring(5).replace(/-/g, '_');
+                    const paramValue = encodeURIComponent(attr.value);
+                    if (paramKey !== 'base_url') {
+                        params.push(`${paramKey}=${paramValue}`);
+                    }
+                }
+            }
+            iframe.src = baseUrl + '?' + params.join('&');
+        }
+        document.querySelectorAll('iframe[data-base-url]').forEach(constructSnippetUrl);
+    });
+
+
+    // 2. Universal Responsive Height Listener (PostMessage)
+    window.addEventListener('message', function(event) {
+        const YOUR_SNIPPET_ORIGIN = "https://themes-blush-one.vercel.app";
+        if (event.origin !== YOUR_SNIPPET_ORIGIN) {
+            return; 
+        }
+        if (event.data.frameId && event.data.frameHeight) {
+            const targetIframe = document.getElementById(event.data.frameId);
+            if (targetIframe) {
+                const newHeight = event.data.frameHeight;
+                targetIframe.style.transition = 'height 0.3s ease-out';
+                targetIframe.style.height = newHeight + 'px';
+            }
+        }
+    });
+
+    // --- END KomuTheme Embed Code: Universal Handler ---
+    </script>
 </body>
 </html>
