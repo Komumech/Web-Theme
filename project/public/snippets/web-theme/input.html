@@ -1,28 +1,125 @@
 <!DOCTYPE html>
 <html>
 <head>
-  <link rel="stylesheet" href="theme.css">
-  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0-beta3/css/all.min.css">
+  <meta charset="UTF-8">
+  <title>Stylish Input Component</title>
+  <link rel="stylesheet" href="theme.css">
+  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0-beta3/css/all.min.css">
+  <style>
+        /* BASE STYLING for Component Container */
+        body {
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            padding: 20px;
+            margin: 0;
+            background: transparent; /* Ensure it blends with the parent page */
+            font-family: 'Poppins', sans-serif;
+        }
+
+        /* INPUT WRAPPER: The primary visual container */
+        .input-wrapper {
+            display: flex;
+            align-items: center;
+            width: 100%;
+            max-width: 400px;
+            padding: 12px 15px;
+            border-radius: 12px;
+            background-color: rgba(255, 255, 255, 0.05);
+            border: 2px solid rgba(255, 255, 255, 0.1);
+            transition: all 0.3s ease;
+            box-shadow: 0 4px 10px rgba(0, 0, 0, 0.1);
+            position: relative;
+        }
+
+        /* FOCUS GLOW EFFECT */
+        .input-wrapper:focus-within {
+            border-color: #7d44ff; /* Primary theme color for focus */
+            box-shadow: 0 0 15px rgba(125, 68, 255, 0.8), 0 0 5px rgba(125, 68, 255, 0.5);
+            background-color: rgba(255, 255, 255, 0.1);
+        }
+
+        /* INPUT FIELD */
+        .input-field {
+            flex-grow: 1;
+            padding: 5px 0;
+            margin-left: 10px;
+            border: none;
+            background: transparent;
+            color: #ffffff; /* White text for contrast */
+            font-size: 1rem;
+            outline: none;
+        }
+
+        /* Placeholder Styling */
+        .input-field::placeholder {
+            color: #a0a0a0; /* Light grey placeholder text */
+            transition: color 0.3s ease;
+        }
+
+        .input-field:focus::placeholder {
+            color: transparent; /* Hide placeholder on focus */
+        }
+
+        /* ICON STYLING */
+        .input-icon {
+            color: #7d44ff; /* Theme color for the icon */
+            font-size: 1.1rem;
+            transition: color 0.3s ease;
+        }
+
+        /* Icon color change on focus */
+        .input-wrapper:focus-within .input-icon {
+            color: #ffffff;
+        }
+    </style>
 </head>
 <body>
 
 <div class="input-wrapper">
-  <i class="fas fa-user input-icon" id="input-icon"></i>
-  <input type="text" class="input-field" id="input-field" placeholder="Enter text...">
+  <i class="fas fa-user input-icon" id="input-icon"></i>
+  <input type="text" class="input-field" id="input-field" placeholder="Enter text...">
 </div>
 
 <script>
-  const params = new URLSearchParams(window.location.search);
-  const placeholder = params.get("placeholder") || "Enter text...";
-  const icon = params.get("icon"); // e.g., "envelope", "lock"
+    // --- PostMessage Resizing Script Setup ---
 
-  const inputField = document.getElementById("input-field");
-  inputField.placeholder = placeholder;
+    // The component's height reporting function (for parent iframe resizing)
+    function sendComponentHeight() {
+        if (window.parent) {
+            const height = document.documentElement.scrollHeight || document.documentElement.offsetHeight;
+            const urlParams = new URLSearchParams(window.location.search);
+            const frameId = urlParams.get("frame_id"); 
 
-  if (icon) {
-    const iconEl = document.getElementById("input-icon");
-    iconEl.className = `fas fa-${icon} input-icon`;
-  }
+            if (frameId) {
+                window.parent.postMessage(
+                    { 
+                        frameHeight: height,
+                        frameId: frameId 
+                    }, 
+                    '*' 
+                );
+            }
+        }
+    }
+
+    // --- Component Logic ---
+    const params = new URLSearchParams(window.location.search);
+    const placeholder = params.get("placeholder") || "Enter text...";
+    const icon = params.get("icon"); // e.g., "envelope", "lock"
+
+    const inputField = document.getElementById("input-field");
+    inputField.placeholder = placeholder;
+
+    if (icon) {
+      const iconEl = document.getElementById("input-icon");
+      iconEl.className = `fas fa-${icon} input-icon`;
+    }
+
+    // Call height reporting on load (for parent page import)
+    window.addEventListener('load', sendComponentHeight);
+    window.addEventListener('resize', sendComponentHeight);
+
 </script>
 
 </body>
