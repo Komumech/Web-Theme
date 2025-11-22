@@ -13,7 +13,9 @@
             --text-color-dark: #000000;
             --nav-link-color: rgba(255, 255, 255, 0.7);
             --nav-link-hover-color: #ffffff;
-            --nav-bg-color: transparent; /* Navbar background is fully transparent */
+            --nav-bg-color: transparent;
+            --gradient-start: #333333; /* Default Gradient Start */
+            --gradient-end: #000000;   /* Default Gradient End */
         }
 
         body {
@@ -22,26 +24,26 @@
             font-family: 'Inter', sans-serif;
             background-color: transparent;
             box-sizing: border-box;
-            color: var(--text-color-light); /* Default text color for hero */
+            color: var(--text-color-light);
         }
 
         /* --- NAV BAR STYLES --- */
         .hero-nav {
-            position: absolute; /* Changed from fixed for iframe compatibility */
+            position: absolute;
             top: 0;
             left: 0;
             width: 100%;
             display: flex;
             justify-content: space-between;
             align-items: center;
-            padding: 20px 40px; /* Increased padding */
+            padding: 20px 40px;
             background-color: var(--nav-bg-color); 
-            z-index: 5; /* Ensure it's above everything */
+            z-index: 5;
             transition: background-color 0.3s ease;
         }
 
         #nav-title {
-            font-size: 1.2rem; /* Slightly smaller for minimalism */
+            font-size: 1.2rem;
             font-weight: 600;
             text-decoration: none;
             color: var(--text-color-light);
@@ -50,7 +52,7 @@
             align-items: center;
         }
         #nav-title svg {
-            margin-right: 8px; /* Space between icon and text */
+            margin-right: 8px;
             height: 24px;
             width: 24px;
             fill: var(--text-color-light);
@@ -58,7 +60,7 @@
 
         .nav-links {
             display: flex;
-            gap: 2rem; /* Increased gap */
+            gap: 2rem;
             list-style: none;
             margin: 0;
             padding: 0;
@@ -67,11 +69,11 @@
         .nav-links a {
             color: var(--nav-link-color);
             text-decoration: none;
-            font-weight: 400; /* Lighter font weight */
-            font-size: 0.95rem; /* Slightly smaller font size */
+            font-weight: 400;
+            font-size: 0.95rem;
             position: relative;
             transition: color 0.3s ease;
-            letter-spacing: 0.02em; /* Subtle letter spacing */
+            letter-spacing: 0.02em;
         }
 
         .nav-links a:hover {
@@ -81,14 +83,14 @@
         /* --- HERO SECTION --- */
         .hero-section {
             width: 100%;
-            height: 600px; /* Fixed height for consistency in iframe */
+            height: 600px;
             display: flex;
             align-items: center;
             justify-content: center;
             text-align: center;
             position: relative;
             overflow: hidden;
-            padding-top: 80px; /* Space for the absolute positioned nav */
+            padding-top: 80px;
         }
 
         .hero-background {
@@ -99,42 +101,45 @@
             height: 100%;
             background-size: cover;
             background-position: center;
-            filter: grayscale(80%) brightness(0.6) contrast(1.2); /* Muted, abstract effect */
+            /* Default filters applied only to images, will be overridden by JS if gradient is used */
+            filter: grayscale(80%) brightness(0.6) contrast(1.2); 
             z-index: 1;
+            /* Placeholder for gradient background (default image/color set via JS) */
+            background-color: var(--gradient-end); 
         }
 
-        /* Overlay to achieve the specific color tone */
+        /* Gradient overlay for depth (less aggressive for gradients) */
         .hero-section::before {
             content: "";
             position: absolute;
             top: 0; left: 0;
             width: 100%; height: 100%;
-            background: rgba(180, 255, 0, 0.1); /* Subtle green/yellow tint */
-            mix-blend-mode: overlay; /* Blends nicely with background */
+            background: rgba(180, 255, 0, 0.05); /* Lighter blend */
+            mix-blend-mode: overlay;
             z-index: 2;
         }
 
         .hero-content {
             position: relative;
             z-index: 3;
-            max-width: 900px; /* Wider content for larger headlines */
+            max-width: 900px;
             padding: 0 30px;
             color: var(--text-color-light);
-            opacity: 0; /* For initial animation */
+            opacity: 0;
             animation: fadeInScale 1s ease-out 0.5s forwards;
         }
 
         #hero-headline {
-            font-size: 4.2rem; /* Much larger headline */
+            font-size: 4.2rem;
             font-weight: 800;
             margin-bottom: 20px;
             line-height: 1.1;
             text-shadow: 0 4px 10px rgba(0, 0, 0, 0.3);
-            letter-spacing: -0.05em; /* Tighter letter spacing */
+            letter-spacing: -0.05em;
         }
 
         #hero-tagline {
-            font-size: 1.4rem; /* Larger tagline */
+            font-size: 1.4rem;
             font-weight: 400;
             margin-bottom: 40px;
             opacity: 0.9;
@@ -145,17 +150,17 @@
         .cta-buttons {
             display: flex;
             justify-content: center;
-            gap: 20px; /* Space between buttons */
+            gap: 20px;
         }
 
         .cta-button {
-            display: inline-flex; /* Use flex for potential icon alignment */
+            display: inline-flex;
             align-items: center;
-            padding: 15px 35px; /* Larger padding */
+            padding: 15px 35px;
             font-size: 1.05rem;
             font-weight: 600;
             text-decoration: none;
-            border-radius: 8px; /* Slightly less rounded */
+            border-radius: 8px;
             transition: all 0.3s ease;
             cursor: pointer;
         }
@@ -189,27 +194,15 @@
 
         /* Dark mode text adjustment */
         body.dark-mode-text #nav-title,
-        body.dark-mode-text .nav-links a {
-            color: var(--text-color-dark);
-        }
-        body.dark-mode-text #nav-title svg {
-            fill: var(--text-color-dark);
-        }
+        body.dark-mode-text .nav-links a { color: var(--text-color-dark); }
+        /* ... (rest of dark mode styles as before) ... */
+        body.dark-mode-text #nav-title svg { fill: var(--text-color-dark); }
         body.dark-mode-text #hero-headline,
-        body.dark-mode-text #hero-tagline {
-            color: var(--text-color-dark);
-            text-shadow: none;
-        }
-        body.dark-mode-text .cta-button.secondary {
-            color: var(--text-color-dark);
-            border-color: var(--text-color-dark);
-        }
-        body.dark-mode-text .cta-button.secondary:hover {
-            background-color: rgba(0, 0, 0, 0.05);
-        }
+        body.dark-mode-text #hero-tagline { color: var(--text-color-dark); text-shadow: none; }
+        body.dark-mode-text .cta-button.secondary { color: var(--text-color-dark); border-color: var(--text-color-dark); }
+        body.dark-mode-text .cta-button.secondary:hover { background-color: rgba(0, 0, 0, 0.05); }
 
-
-        /* --- RESPONSIVENESS --- */
+        /* --- RESPONSIVENESS AND ANIMATIONS (Unchanged) --- */
         @media (max-width: 900px) {
             #hero-headline { font-size: 3.5rem; }
             #hero-tagline { font-size: 1.2rem; }
@@ -222,14 +215,13 @@
             .hero-nav { padding: 15px 20px; }
             #nav-title { font-size: 1.1rem; }
             #nav-title svg { height: 20px; width: 20px; }
-            .nav-links { display: none; /* Hide nav links on small screens if desired */ }
+            .nav-links { display: none; }
             #hero-headline { font-size: 2.8rem; margin-bottom: 15px; }
             #hero-tagline { font-size: 1rem; margin-bottom: 30px; }
             .cta-buttons { flex-direction: column; gap: 15px; }
             .cta-button { width: 100%; max-width: 280px; }
         }
 
-        /* --- ANIMATIONS --- */
         @keyframes fadeInScale {
             from { opacity: 0; transform: scale(0.95); }
             to { opacity: 1; transform: scale(1); }
@@ -239,7 +231,7 @@
 <body>
 
 <div class="hero-section" id="hero-content-wrapper">
-    <div class="hero-background" id="hero-background" style="background-image:url('https://picsum.photos/1920/1080?blur');"></div>
+    <div class="hero-background" id="hero-background"></div>
     
     <nav class="hero-nav">
         <a href="#" id="nav-title">
@@ -256,7 +248,7 @@
             <a href="#" id="link5-href">Customers</a>
             <a href="#" id="link6-href">Resources</a>
             <a href="#" id="link7-href">Pricing</a>
-            </div>
+        </div>
     </nav>
     
     <div class="hero-content">
@@ -273,85 +265,76 @@
     const wrapper = document.getElementById('hero-content-wrapper');
     const params = new URLSearchParams(window.location.search);
     const frameId = params.get("frame_id");
+    const heroBackground = document.getElementById('hero-background');
 
-    // --- NAV BAR CUSTOMIZATION ---
+    // --- NAV BAR & HERO CONTENT CUSTOMIZATION (Unchanged logic) ---
+    // ... (Your existing customization logic for Nav links, headline, tagline, and buttons) ...
     const navTitleElement = document.getElementById('nav-title');
     navTitleElement.innerHTML = decodeURIComponent(params.get("nav_title") || "<svg viewBox='0 0 24 24' fill='currentColor' xmlns='http://www.w3.org/2000/svg'><path d='M12 2L2 7V17L12 22L22 17V7L12 2ZM12 4.41L19.59 8.5L12 12.59L4.41 8.5L12 4.41ZM4 9.5L11 13.41V20.5L4 16.59V9.5ZM13 13.41L20 9.5V16.59L13 20.5V13.41Z'/></svg> Fin-CX Models");
-
-    // Loop through up to 7 navigation links
     for (let i = 1; i <= 7; i++) {
         const label = params.get(`link${i}_label`);
         const href = params.get(`link${i}_href`);
-        
         const linkElement = document.getElementById(`link${i}-href`);
-        
         if (label && linkElement) {
             linkElement.textContent = decodeURIComponent(label);
             linkElement.href = decodeURIComponent(href || "#");
-        } else if (linkElement) {
-            linkElement.style.display = 'none'; // Hide if no label
-        }
+        } else if (linkElement) { linkElement.style.display = 'none'; }
     }
-
-    // --- HERO CONTENT CUSTOMIZATION ---
     document.getElementById('hero-headline').innerHTML = decodeURIComponent(params.get("headline") || "Meet the<br>fin-cx suite of models");
     document.getElementById('hero-tagline').textContent = decodeURIComponent(params.get("tagline") || "THE AI-POWERED PERSONALIZATION PLATFORM FOR CUSTOMER SERVICES");
-    
-    // CTA Button 1
     const cta1Button = document.getElementById('hero-cta1-button');
     cta1Button.textContent = decodeURIComponent(params.get("cta1_text") || "Start free trial");
     cta1Button.href = decodeURIComponent(params.get("cta1_href") || "#");
-
-    // CTA Button 2
     const cta2Button = document.getElementById('hero-cta2-button');
-    if (params.get("cta2_text")) { // Only show if text is provided
+    if (params.get("cta2_text")) {
         cta2Button.textContent = decodeURIComponent(params.get("cta2_text"));
         cta2Button.href = decodeURIComponent(params.get("cta2_href") || "#");
-        // You can add logic here for cta2_type if you want different styles
-    } else {
-        cta2Button.style.display = 'none'; // Hide if no second CTA text
-    }
+    } else { cta2Button.style.display = 'none'; }
 
-    // Colors
     const primaryColor = params.get("primary_color");
-    if (primaryColor) {
-        document.documentElement.style.setProperty('--primary-color', '#' + primaryColor);
-    }
+    if (primaryColor) { document.documentElement.style.setProperty('--primary-color', '#' + primaryColor); }
     const secondaryButtonBorder = params.get("secondary_button_border");
-    if (secondaryButtonBorder) {
-        document.documentElement.style.setProperty('--secondary-button-border', '#' + secondaryButtonBorder);
-    }
+    if (secondaryButtonBorder) { document.documentElement.style.setProperty('--secondary-button-border', '#' + secondaryButtonBorder); }
+    if (params.get("dark_mode_text") === 'true') { document.body.classList.add('dark-mode-text'); }
 
-    // Background Image
+
+    // --- 🌟 NEW: BACKGROUND LOGIC (Gradient overrides Image) 🌟 ---
+    const startColor = params.get("gradient_start");
+    const endColor = params.get("gradient_end");
+    const direction = params.get("gradient_direction") || "to bottom right"; // Default direction
     const backgroundUrl = params.get("background_url");
-    const heroBackground = document.getElementById('hero-background');
-    if (backgroundUrl) {
-        heroBackground.style.backgroundImage = `url(${decodeURIComponent(backgroundUrl)})`;
-    } else {
-        heroBackground.style.backgroundImage = `url('https://picsum.photos/1920/1080?blur')`; // Default placeholder
-    }
 
-    // Dark Mode Text (if background is light)
-    if (params.get("dark_mode_text") === 'true') {
-        document.body.classList.add('dark-mode-text');
+    if (startColor && endColor) {
+        // 1. Apply Gradient
+        heroBackground.style.backgroundImage = `linear-gradient(${decodeURIComponent(direction)}, #${startColor}, #${endColor})`;
+        
+        // 2. Remove Image filters if gradient is used
+        heroBackground.style.filter = 'none';
+        
+        // 3. Optional: Set dark mode text if the gradient is too light (requires separate light_text_color check)
+        // For simplicity, we assume dark gradients/dark backgrounds use light text by default.
+
+    } else if (backgroundUrl) {
+        // 4. Fallback to Image URL
+        heroBackground.style.backgroundImage = `url(${decodeURIComponent(backgroundUrl)})`;
+        // Filters remain applied (from CSS)
+    } else {
+        // 5. Default Background (Plain Color or default CSS gradient)
+        heroBackground.style.backgroundImage = `linear-gradient(to bottom right, var(--gradient-start), var(--gradient-end))`;
+        heroBackground.style.filter = 'none'; // Ensure default gradient is clean
     }
+    // --- END BACKGROUND LOGIC ---
 
     // --- Dynamic Resizing (Standard Logic) ---
     function sendHeight() {
         if (!frameId) return;
-        // Since the hero is fixed-height (600px), report that fixed height.
-        // If content height changes due to responsiveness, this will adjust.
         const newHeight = wrapper.offsetHeight; 
-
-        window.parent.postMessage(
-            { frameId: frameId, frameHeight: newHeight }, 
-            "*"
-        );
+        window.parent.postMessage({ frameId: frameId, frameHeight: newHeight }, "*");
     }
     window.addEventListener('load', sendHeight);
     window.addEventListener('resize', sendHeight);
     setTimeout(sendHeight, 0); 
-    setTimeout(sendHeight, 500); // Safety net
+    setTimeout(sendHeight, 500);
 </script>
 
 </body>
