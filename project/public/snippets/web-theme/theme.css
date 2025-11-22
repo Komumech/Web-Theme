@@ -39,6 +39,7 @@ body {
   height: 60px;
   max-height: 3rem;
   text-decoration: none;
+  padding: 10px 20px;
   cursor: pointer;
   border-radius: var(--border-radius);
   font-family: var(--font-family);
