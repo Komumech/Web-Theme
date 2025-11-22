@@ -70,3 +70,52 @@ function onWindowResize() {
     camera.updateProjectionMatrix();
     renderer.setSize(window.innerWidth, window.innerHeight);
 }
+
+// --- Custom Page Scripts ---
+
+// --- 1. Navbar Docking Script ---
+const topSection = document.querySelector('.top-section');
+const navbarIframe = document.querySelector('.top-navbar');
+
+if (topSection && navbarIframe) {
+    window.addEventListener('scroll', () => {
+        // Check if the user has scrolled past the top section
+        const isDocked = window.scrollY > topSection.offsetHeight;
+        // Send a message to the iframe to toggle its class
+        if (navbarIframe.contentWindow) {
+            navbarIframe.contentWindow.postMessage({ action: 'setDocked', isDocked: isDocked }, '*');
+        }
+    });
+}
+
+// --- 2. Copy Button Script ---
+const copyBtn = document.getElementById('copyBtn');
+const codeContent = document.getElementById('codeContent');
+
+if (copyBtn && codeContent) {
+    copyBtn.addEventListener('click', () => {
+        const text = codeContent.innerText;
+        navigator.clipboard.writeText(text).then(() => {
+            copyBtn.textContent = "Copied!";
+            setTimeout(() => copyBtn.textContent = "Copy", 2000);
+        });
+    });
+}
+
+// --- 3. Text Rotator Script ---
+const wordRotator = document.querySelector('.word-rotator');
+if (wordRotator) {
+    const words = wordRotator.querySelectorAll('.word');
+    let currentIndex = 0;
+
+    setInterval(() => {
+        const currentWord = words[currentIndex];
+        const nextIndex = (currentIndex + 1) % words.length;
+        const nextWord = words[nextIndex];
+
+        currentWord.classList.remove('active');
+        nextWord.classList.add('active');
+
+        currentIndex = nextIndex;
+    }, 3000); // Change word every 3 seconds
+}

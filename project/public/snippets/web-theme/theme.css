@@ -16,16 +16,6 @@
   box-sizing: border-box;
 }
 
-/* === Selection Styling === */
-::selection {
-  background-color: var(--accent-color);
-  color: var(--primary-text-color);
-}
-
-::-moz-selection {
-  background-color: var(--accent-color);
-  color: var(--primary-text-color);
-}
 
 body {
   margin: 0;

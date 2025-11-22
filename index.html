@@ -3,7 +3,7 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-       <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.googleapis.com">
     <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
     <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@400;500;600;700&display=swap" rel="stylesheet">
     <link rel="stylesheet" href="style/top-navbar.css">
@@ -13,6 +13,24 @@
     <link rel="stylesheet" href="style/code-sample.css">
     <title>Web Theme</title>
     <style>
+        :root {
+            --primary-color: #93affc;
+            --accent-color: #ff9a9e;
+            --primary-text-color: #ffffff;
+            --secondary-text-color: #000000;
+        }
+
+        /* === Selection Styling === */
+        ::selection {
+            background-color: var(--accent-color);
+            color: var(--primary-text-color);
+        }
+
+        ::-moz-selection {
+            background-color: var(--accent-color);
+            color: var(--primary-text-color);
+        }
+
         html{
             min-height:380vh;
             position: relative;
@@ -27,37 +45,63 @@
             width: 100%;
         }
         .button-iframe {
-            width: 14rem;
+            width: 12rem;
         }
 
-.headline{
-    justify-self: center;
-    text-align: center;
-    color: rgb(19, 17, 17);
-    font-size: 5rem;
-    font-weight: 700;
-    max-width: 70vw;
-    padding-top: 3rem;
-    margin: 0px;
+        .headline{
+            justify-self: center;
+            text-align: center;
+            color: rgb(19, 17, 17);
+            font-size: 5rem;
+            font-weight: 700;
+            max-width: 70vw;
+            padding-top: 3rem;
+            margin: 0px;
+        }
+
+/* --- NEW STYLES FOR TEXT ROTATOR --- */
+.rotating-word-container {
+    /* Ensures the container stays the same size */
+    display: inline-block; 
+    overflow: hidden; 
+    /* Set min-width to perfectly fit the longest word (10 chars) */
+    min-width: 10ch; 
+    height: 5.6rem; /* Match the font-size of the headline */
+    line-height: 6rem; /* Match the height */
+    vertical-align: middle;
 }
-.tagline{
-    color: darkolivegreen;
-    color: #4a4a4a; /* A softer, neutral dark gray */
-    font-size: 1rem;
-    max-width: 62vw;
-    font-weight: 400;
-    margin-top: 1rem;
-    text-align: center;
-    line-height: 200%;
-    padding-top: 1rem;
-}
-.sample-section{
-    padding-top: 7rem;
-    display: flex;
-    width: 100vw;
-    border: none;
-    min-height: 100vh;
-}
+/* ... rest of the CSS ... */
+
+        #rotating-word {
+            display: inline-block;
+        }
+
+        /* Keyframes for the animation */
+        @keyframes slideUp {
+            0% { transform: translateY(0); opacity: 1; }
+            50% { transform: translateY(-100%); opacity: 0; }
+            51% { transform: translateY(100%); opacity: 0; }
+            100% { transform: translateY(0); opacity: 1; }
+        }
+        /* --- END NEW STYLES --- */
+
+        .tagline{
+            color: #4a4a4a; 
+            font-size: 1rem;
+            max-width: 62vw;
+            font-weight: 400;
+            margin-top: 1rem;
+            text-align: center;
+            line-height: 200%;
+            padding-top: 1rem;
+        }
+        .sample-section{
+            padding-top: 7rem;
+            display: flex;
+            width: 100vw;
+            border: none;
+            min-height: 100vh;
+        }
         .top-navbar {
             z-index: 1000;
             position: fixed;
@@ -95,7 +139,10 @@
                 max-width: 90vw;
                 padding-top: 8rem;
             }
- 
+            .rotating-word-container {
+                height: 3rem; 
+                line-height: 3rem;
+            }
         }
     </style>
 </head>
@@ -133,7 +180,11 @@
     <div class="top-section">
         <canvas id="bg"></canvas>
         <p class="headline">
-            Design Beautiful websites easily.
+            Design 
+            <span class="rotating-word-container">
+                <span id="rotating-word">Beautiful</span>
+            </span>
+            websites easily.
         </p>
         <p class="tagline">
             Create stunning and responsive sites with our collection of pre-built themes, expertly crafted to give your project a professional and polished look on any device.
@@ -141,49 +192,47 @@
         <div class="double-cta-group">
             <iframe class="button-iframe" src="https://themes-blush-one.vercel.app/snippets/web-theme/button?text=Get Your Theme&link=https://yourlink.com" width="200" height="60"></iframe>
             <iframe class="button-iframe" src="https://themes-blush-one.vercel.app/snippets/web-theme/button?text=Explore&link=https://explore.com&type=skeleton&color=transparent&textColor=%23000000&hoverColor=%23000000&hoverTextColor=%23ffffff&borderColor=%23000000&hoverBorderColor=transparent" width="200" height="60" style="border:none;"></iframe>
-
-
         </div>
     </div>
 </div>
-  <div class="sample">
-    <div class="sample-img">
-      <div class="sample-container">
-        <svg class="squiggle-line" viewBox="0 -80 800 310" xmlns="http://www.w3.org/2000/svg">
-          <path d="M 50 100 C 75 -50, 100 200, 125 100 S 175 -50, 200 100 S 250 200, 275 100 S 325 -50, 350 100 S 400 200, 425 100 S 475 -50, 500 100 S 550 200, 575 100 S 625 -50, 650 100" stroke="white" stroke-width="55" fill="none" />
-        </svg>
+    <div class="sample">
+        <div class="sample-img">
+            <div class="sample-container">
+                <svg class="squiggle-line" viewBox="0 -80 800 310" xmlns="http://www.w3.org/2000/svg">
+                    <path d="M 50 100 C 75 -50, 100 200, 125 100 S 175 -50, 200 100 S 250 200, 275 100 S 325 -50, 350 100 S 400 200, 425 100 S 475 -50, 500 100 S 550 200, 575 100 S 625 -50, 650 100" stroke="white" stroke-width="55" fill="none" />
+                </svg>
 
-                <iframe  class="top-navbar sample-navbar" src="https://themes-blush-one.vercel.app/snippets/web-theme/navbar.html?title=WebTheme&link1_label=Home&link1_href=#&link2_label=Features&link2_href=#&link3_label=Support&link3_href=#" height="70"></iframe>
+                <iframe  class="top-navbar sample-navbar" src="https://themes-blush-one.vercel.app/snippets/web-theme/navbar.html?title=WebTheme&link1_label=Home&link1_href=#&link2_label=Features&link2_href=#&link3_label=Support&link3_href=#" height="70"></iframe>
 
 
-        <p class="headline white">Interactive Sample Section</p>
-        <p class="tagline grey">
-          This is a smaller version of the hero section above. It's designed to be interactive and showcase more components.
-        </p>
+                <p class="headline white">Interactive Sample Section</p>
+                <p class="tagline grey">
+                    This is a smaller version of the hero section above. It's designed to be interactive and showcase more components.
+                </p>
 
-        <div class="double-cta-group">
-            <iframe class="button-iframe" src="https://themes-blush-one.vercel.app/snippets/web-theme/button.html?text=View+Components&link=test.html" width="200" height="60"></iframe>
-<iframe class="button-iframe" src="https://themes-blush-one.vercel.app/snippets/web-theme/button?text=Join+Now&link=https://explore.com&type=skeleton&color=green&textColor=%23ffffff&hoverColor=%23000000&hoverTextColor=%23ffffff&borderColor=transparent&hoverBorderColor=transparent" width="240" height="65" style="border:none;"></iframe>
+                <div class="double-cta-group">
+                    <iframe class="button-iframe" src="https://themes-blush-one.vercel.app/snippets/web-theme/button.html?text=View+Components&link=test.html" width="200" height="60"></iframe>
+                    <iframe class="button-iframe" src="https://themes-blush-one.vercel.app/snippets/web-theme/button?text=Join+Now&link=https://explore.com&type=skeleton&color=green&textColor=%23ffffff&hoverColor=%23000000&hoverTextColor=%23ffffff&borderColor=transparent&hoverBorderColor=transparent" width="240" height="65" style="border:none;"></iframe>
 
+                </div>
+            </div>
         </div>
-      </div>
     </div>
-  </div>
-  <div class="code-sample">
-    <div class="code">
-      <div class="code-header">
-        <span class="code-label">HTML</span>
-        <button class="copy-btn" id="copyBtn">Copy</button>
-      </div>
-      <pre><code id="codeContent">
+    <div class="code-sample">
+        <div class="code">
+            <div class="code-header">
+                <span class="code-label">HTML</span>
+                <button class="copy-btn" id="copyBtn">Copy</button>
+            </div>
+            <pre><code id="codeContent">
 &lt;<span class="token tag">iframe</span> 
 <span class="token attr">class</span>=<span class="token value">"top-navbar"</span> 
 <span class="token attr">src</span>=<span class="token value">"https://themes-blush-one.vercel.app/snippets/web-theme/navbar.html?title=WebTheme&amp;link1_label=Home&amp;link1_href=#&amp;link2_label=Features&amp;link2_href=#&amp;link3_label=Support&amp;link3_href=#"</span> 
 <span class="token attr">height</span>=<span class="token value">"70"</span>&gt;&lt;/<span class="token tag">iframe</span>&gt;
-      </code></pre>
+            </code></pre>
+        </div>
     </div>
-  </div>
-<iframe class="footer-iframe" src="https://themes-blush-one.vercel.app/snippets/web-theme/footer.html?company_name=Web+Theme&copyright=©+2025+Web+Theme.+All+Rights+Reserved.&social1_icon=twitter&social1_href=https://twitter.com/komudesigns&social2_icon=instagram&social2_href=https://instagram.com/komudesigns&social3_icon=linkedin&social3_href=https://linkedin.com/in/komudesigns" width="100%" height="130" style="border:none;"></iframe>
+    <iframe class="footer-iframe" src="https://themes-blush-one.vercel.app/snippets/web-theme/footer.html?company_name=Web+Theme&copyright=©+2025+Web+Theme.+All+Rights+Reserved.&social1_icon=twitter&social1_href=https://twitter.com/komudesigns&social2_icon=instagram&social2_href=https://instagram.com/komudesigns&social3_icon=linkedin&social3_href=https://linkedin.com/in/komudesigns" width="100%" height="130" style="border:none;"></iframe>
 
     <script type="module" src="main.js"></script>
 
@@ -194,7 +243,6 @@
 
             if (topSection && navbarIframe) {
                 window.addEventListener('scroll', () => {
-                    // Check if the user has scrolled past the top section
                     const isDocked = window.scrollY > topSection.offsetHeight;
                     // Send a message to the iframe to toggle its class
                     navbarIframe.contentWindow.postMessage({ action: 'setDocked', isDocked: isDocked }, '*');
@@ -203,60 +251,93 @@
         });
     </script>
 
-      <script>
-    const copyBtn = document.getElementById('copyBtn');
-    const codeContent = document.getElementById('codeContent');
+    <script>
+        const copyBtn = document.getElementById('copyBtn');
+        const codeContent = document.getElementById('codeContent');
 
-    copyBtn.addEventListener('click', () => {
-      const text = codeContent.innerText;
-      navigator.clipboard.writeText(text).then(() => {
-        copyBtn.textContent = "Copied!";
-        setTimeout(() => copyBtn.textContent = "Copy", 2000);
-      });
-    });
-  </script>
-
+        copyBtn.addEventListener('click', () => {
+            const text = codeContent.innerText;
+            navigator.clipboard.writeText(text).then(() => {
+                copyBtn.textContent = "Copied!";
+                setTimeout(() => copyBtn.textContent = "Copy", 2000);
+            });
+        });
+    </script>
+    
 <script>
-// --- START KomuTheme Embed Code: Universal Handler ---
+    document.addEventListener('DOMContentLoaded', () => {
+        // Updated words array to ensure all words have exactly 10 characters (the length of "Responsive")
+        const words = ["Beautiful", "Responsive", "Functional", "Integrated", "Sophistica"];
+        const rotatingWordSpan = document.getElementById('rotating-word');
+        let index = 0;
+        const intervalTime = 3000; // Time the word is visible
 
-document.addEventListener('DOMContentLoaded', function() {
-    // 1. URL Construction Logic (Reads data-attributes and builds the src URL)
-    function constructSnippetUrl(iframe) {
-        const baseUrl = iframe.getAttribute('data-base-url');
-        if (!baseUrl) return;
-        let params = [];
-        for (const attr of iframe.attributes) {
-            if (attr.name.startsWith('data-')) {
-                const paramKey = attr.name.substring(5).replace(/-/g, '_');
-                const paramValue = encodeURIComponent(attr.value);
-                if (paramKey !== 'base_url') {
-                    params.push(`${paramKey}=${paramValue}`);
+        function rotateWord() {
+            // Apply the slideUp animation to the current word
+            rotatingWordSpan.style.animation = 'slideUp 0.5s ease-in-out';
+            
+            // Wait for the word to slide up and disappear (500ms) before changing the text content
+            setTimeout(() => {
+                index = (index + 1) % words.length;
+                rotatingWordSpan.textContent = words[index];
+                
+                // Immediately reset the animation property to prepare for the next cycle
+                setTimeout(() => {
+                    rotatingWordSpan.style.animation = 'none';
+                }, 50);
+            }, 500); // 500ms delay to match the animation duration
+        }
+
+        // Start the rotation loop
+        setTimeout(() => {
+            rotateWord();
+            // Call rotateWord every 3 seconds (3000ms)
+            setInterval(rotateWord, intervalTime);
+        }, 1000); // Initial delay
+    });
+</script>
+
+    <script>
+    // --- START KomuTheme Embed Code: Universal Handler ---
+
+    document.addEventListener('DOMContentLoaded', function() {
+        // 1. URL Construction Logic
+        function constructSnippetUrl(iframe) {
+            const baseUrl = iframe.getAttribute('data-base-url');
+            if (!baseUrl) return;
+            let params = [];
+            for (const attr of iframe.attributes) {
+                if (attr.name.startsWith('data-')) {
+                    const paramKey = attr.name.substring(5).replace(/-/g, '_');
+                    const paramValue = encodeURIComponent(attr.value);
+                    if (paramKey !== 'base_url') {
+                        params.push(`${paramKey}=${paramValue}`);
+                    }
                 }
             }
+            iframe.src = baseUrl + '?' + params.join('&');
         }
-        iframe.src = baseUrl + '?' + params.join('&');
-    }
-    document.querySelectorAll('iframe[data-base-url]').forEach(constructSnippetUrl);
-});
+        document.querySelectorAll('iframe[data-base-url]').forEach(constructSnippetUrl);
+    });
 
 
-// 2. Universal Responsive Height Listener (PostMessage)
-window.addEventListener('message', function(event) {
-    const YOUR_SNIPPET_ORIGIN = "https://themes-blush-one.vercel.app";
-    if (event.origin !== YOUR_SNIPPET_ORIGIN) {
-        return; 
-    }
-    if (event.data.frameId && event.data.frameHeight) {
-        const targetIframe = document.getElementById(event.data.frameId);
-        if (targetIframe) {
-            const newHeight = event.data.frameHeight;
-            targetIframe.style.transition = 'height 0.3s ease-out';
-            targetIframe.style.height = newHeight + 'px';
+    // 2. Universal Responsive Height Listener (PostMessage)
+    window.addEventListener('message', function(event) {
+        const YOUR_SNIPPET_ORIGIN = "https://themes-blush-one.vercel.app";
+        if (event.origin !== YOUR_SNIPPET_ORIGIN) {
+            return; 
         }
-    }
-});
+        if (event.data.frameId && event.data.frameHeight) {
+            const targetIframe = document.getElementById(event.data.frameId);
+            if (targetIframe) {
+                const newHeight = event.data.frameHeight;
+                targetIframe.style.transition = 'height 0.3s ease-out';
+                targetIframe.style.height = newHeight + 'px';
+            }
+        }
+    });
 
-// --- END KomuTheme Embed Code: Universal Handler ---
-</script>
+    // --- END KomuTheme Embed Code: Universal Handler ---
+    </script>
 </body>
 </html>
