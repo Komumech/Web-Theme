@@ -1,0 +1,136 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Hero Section Snippet</title>
+    <link href="https://fonts.googleapis.com/css2?family=Montserrat:wght@400;700;900&display=swap" rel="stylesheet">
+    <style>
+        :root {
+            --primary-color: #007bff;
+            --text-color: #ffffff;
+            --shadow-color: rgba(0, 0, 0, 0.4);
+        }
+        body {
+            margin: 0;
+            padding: 0;
+            font-family: 'Montserrat', sans-serif;
+            background-color: transparent;
+            box-sizing: border-box;
+        }
+        .hero-section {
+            width: 100%;
+            height: 400px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            text-align: center;
+            position: relative;
+            overflow: hidden;
+        }
+        .hero-background {
+            position: absolute;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            background-size: cover;
+            background-position: center;
+            filter: brightness(0.7); /* Darken background for text visibility */
+            z-index: 1;
+        }
+        .hero-content {
+            position: relative;
+            z-index: 2;
+            max-width: 800px;
+            padding: 0 20px;
+            color: var(--text-color);
+        }
+        #hero-headline {
+            font-size: 3.5rem;
+            font-weight: 900;
+            margin-bottom: 15px;
+            text-shadow: 2px 2px 6px var(--shadow-color);
+        }
+        #hero-tagline {
+            font-size: 1.25rem;
+            font-weight: 400;
+            margin-bottom: 30px;
+            text-shadow: 1px 1px 4px var(--shadow-color);
+        }
+        .cta-button {
+            display: inline-block;
+            padding: 12px 30px;
+            font-size: 1.1rem;
+            font-weight: 700;
+            background-color: var(--primary-color);
+            color: var(--text-color);
+            text-decoration: none;
+            border-radius: 5px;
+            transition: background-color 0.3s, transform 0.2s;
+            border: none;
+            cursor: pointer;
+        }
+        .cta-button:hover {
+            background-color: #0056b3; 
+            transform: translateY(-2px);
+        }
+        @media (max-width: 768px) {
+            .hero-section { height: 350px; }
+            #hero-headline { font-size: 2.5rem; }
+            #hero-tagline { font-size: 1rem; }
+        }
+    </style>
+</head>
+<body>
+
+<div class="hero-section" id="hero-content-wrapper">
+    <div class="hero-background" id="hero-background"></div>
+    <div class="hero-content">
+        <h1 id="hero-headline">Powerful Solutions for Modern Web</h1>
+        <p id="hero-tagline">Start embedding dynamic, maintenance-free components today and transform your website instantly.</p>
+        <a id="hero-cta-button" class="cta-button" href="#">Get Started Now</a>
+    </div>
+</div>
+
+<script>
+    const wrapper = document.getElementById('hero-content-wrapper');
+    const params = new URLSearchParams(window.location.search);
+    const frameId = params.get("frame_id");
+
+    // --- Customization ---
+    document.getElementById('hero-headline').textContent = decodeURIComponent(params.get("headline") || "Powerful Solutions for Modern Web");
+    document.getElementById('hero-tagline').textContent = decodeURIComponent(params.get("tagline") || "Start embedding dynamic, maintenance-free components today.");
+    
+    const ctaButton = document.getElementById('hero-cta-button');
+    ctaButton.textContent = decodeURIComponent(params.get("cta_text") || "Get Started");
+    ctaButton.href = decodeURIComponent(params.get("cta_href") || "#");
+
+    // Color and Background
+    const primaryColor = params.get("primary_color");
+    if (primaryColor) {
+        document.documentElement.style.setProperty('--primary-color', '#' + primaryColor);
+    }
+    const backgroundUrl = params.get("background_url");
+    if (backgroundUrl) {
+        document.getElementById('hero-background').style.backgroundImage = `url(${decodeURIComponent(backgroundUrl)})`;
+    }
+
+    // --- Dynamic Resizing (Standard Logic) ---
+    function sendHeight() {
+        if (!frameId) return;
+        const newHeight = wrapper.offsetHeight; 
+
+        window.parent.postMessage(
+            { frameId: frameId, frameHeight: newHeight }, 
+            "*"
+        );
+    }
+    window.addEventListener('load', sendHeight);
+    window.addEventListener('resize', sendHeight);
+    setTimeout(sendHeight, 0); 
+    setTimeout(sendHeight, 500);
+</script>
+
+</body>
+</html>

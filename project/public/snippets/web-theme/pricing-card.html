@@ -1,0 +1,169 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Pricing Card Snippet</title>
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0-beta3/css/all.min.css">
+    <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@400;600;700;800&display=swap" rel="stylesheet">
+    <style>
+        :root {
+            --primary-color: #3b82f6; /* Default Blue */
+            --accent-color: #f59e0b;
+        }
+        body {
+            margin: 0;
+            padding: 0;
+            font-family: 'Poppins', sans-serif;
+            background-color: transparent;
+            box-sizing: border-box;
+        }
+        .pricing-card {
+            background-color: #fff;
+            border: 1px solid #e5e7eb;
+            border-radius: 12px;
+            padding: 30px;
+            text-align: center;
+            max-width: 350px;
+            margin: 0 auto;
+            box-shadow: 0 10px 15px -3px rgba(0, 0, 0, 0.1);
+        }
+        #plan-name {
+            font-size: 1.5rem;
+            font-weight: 700;
+            color: #1f2937;
+            margin-bottom: 10px;
+        }
+        .price-display {
+            font-size: 3rem;
+            font-weight: 800;
+            color: var(--primary-color);
+            margin-bottom: 25px;
+            line-height: 1;
+        }
+        .price-display small {
+            font-size: 1.2rem;
+            font-weight: 400;
+            color: #6b7280;
+        }
+        .feature-list {
+            list-style: none;
+            padding: 0;
+            margin: 0 0 30px 0;
+            text-align: left;
+        }
+        .feature-list li {
+            padding: 8px 0;
+            color: #4b5563;
+            border-bottom: 1px dashed #e5e7eb;
+            display: flex;
+            align-items: center;
+            font-weight: 600;
+        }
+        .feature-list li:last-child {
+            border-bottom: none;
+        }
+        .feature-list i {
+            color: var(--accent-color);
+            margin-right: 10px;
+        }
+        .cta-button {
+            display: block;
+            width: 100%;
+            padding: 12px;
+            background-color: var(--primary-color);
+            color: white;
+            text-decoration: none;
+            border-radius: 8px;
+            font-weight: 600;
+            transition: background-color 0.2s;
+        }
+        .cta-button:hover {
+            background-color: #2563eb;
+        }
+
+        /* Highlighted Style */
+        .pricing-card.highlighted {
+            border: 3px solid var(--accent-color);
+            box-shadow: 0 20px 25px -5px rgba(245, 158, 11, 0.3), 0 8px 10px -6px rgba(245, 158, 11, 0.3);
+            transform: scale(1.05);
+            transition: transform 0.3s ease-out, border 0.3s;
+        }
+    </style>
+</head>
+<body>
+
+<div class="pricing-card" id="pricing-card">
+    <div id="plan-name">Pro Plan</div>
+    <div class="price-display">
+        <span id="price">$99</span>
+        <small id="interval">/mo</small>
+    </div>
+    <ul class="feature-list" id="feature-list">
+        <li><i class="fas fa-check-circle"></i> 10 Projects</li>
+        <li><i class="fas fa-check-circle"></i> Dedicated Support</li>
+        <li><i class="fas fa-check-circle"></i> Unlimited Bandwidth</li>
+    </ul>
+    <a id="cta-button" class="cta-button" href="#">Choose Plan</a>
+</div>
+
+<script>
+    const card = document.getElementById('pricing-card');
+    const params = new URLSearchParams(window.location.search);
+    const frameId = params.get("frame_id");
+
+    // --- Customization ---
+    document.getElementById('plan-name').textContent = decodeURIComponent(params.get("plan_name") || "Standard Plan");
+    document.getElementById('price').textContent = decodeURIComponent(params.get("price") || "$29");
+    document.getElementById('interval').textContent = decodeURIComponent(params.get("interval") || "/mo");
+    
+    const ctaButton = document.getElementById('cta-button');
+    ctaButton.textContent = decodeURIComponent(params.get("cta_text") || "Sign Up");
+    ctaButton.href = decodeURIComponent(params.get("cta_href") || "#");
+
+    // Features List (CSV format: Feature A, Feature B, Feature C)
+    const featuresParam = params.get("features");
+    if (featuresParam) {
+        const features = decodeURIComponent(featuresParam).split(',').map(f => f.trim());
+        const ul = document.getElementById('feature-list');
+        ul.innerHTML = ''; 
+        features.forEach(feature => {
+            const li = document.createElement('li');
+            li.innerHTML = `<i class="fas fa-check-circle"></i> ${feature}`;
+            ul.appendChild(li);
+        });
+    }
+
+    // Colors and Highlight
+    const primaryColor = params.get("primary_color");
+    if (primaryColor) {
+        document.documentElement.style.setProperty('--primary-color', '#' + primaryColor);
+    }
+    const accentColor = params.get("accent_color");
+    if (accentColor) {
+        document.documentElement.style.setProperty('--accent-color', '#' + accentColor);
+    }
+
+    if (params.get("highlighted") === 'true') {
+        card.classList.add('highlighted');
+    }
+
+    // --- Dynamic Resizing (Standard Logic) ---
+    function sendHeight() {
+        if (!frameId) return;
+        // The card uses offsetHeight because it has no margins
+        const newHeight = card.offsetHeight; 
+
+        window.parent.postMessage(
+            { frameId: frameId, frameHeight: newHeight }, 
+            "*"
+        );
+    }
+    window.addEventListener('load', sendHeight);
+    window.addEventListener('resize', sendHeight);
+    setTimeout(sendHeight, 0); 
+    setTimeout(sendHeight, 500);
+</script>
+
+</body>
+</html>
