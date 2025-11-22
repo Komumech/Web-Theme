@@ -71,20 +71,6 @@
     width="450"
     height="100"      style="border: none; overflow: hidden;"
 ></iframe>
-
-    <h3>Card</h3>
-    <iframe src="https://themes-blush-one.vercel.app/snippets/web-theme/card.html?title=Our+Mission&content=To+build+beautiful,+responsive,+and+accessible+web+components+for+everyone." height="180"></iframe>
-
-    <h3>Footer (Uses dynamic resizing)</h3>
-    <iframe
-      id="footer-snippet"
-      class="footer-iframe"
-      src="https://themes-blush-one.vercel.app/snippets/web-theme/footer.html?company_name=Web+Theme&copyright=©+2025+Web+Theme.+All+Rights+Reserved.&social1_icon=twitter&social1_href=https://twitter.com/komudesigns&social2_icon=instagram&social2_href=https://instagram.com/komudesigns&social3_icon=linkedin&social3_href=https://linkedin.com/in/komudesigns&frame_id=footer-snippet"
-      width="100%"
-      height="150"
-      style="border:none;">
-    </iframe>
-  </div>
 <iframe
     id="features-section-snippet"
     src="" 
@@ -92,10 +78,10 @@
     height="600" 
     style="border: none; box-shadow: none; margin-top: 50px;"
     
-    data-base-url="https://themes-blush-one.vercel.app/snippets/features.html"
+    data-base-url="https://themes-blush-one.vercel.app/snippets/web-theme/features.html"
     data-frame-id="features-section-snippet"
     
-    data-headline="Our Comprehensive Advantages"
+    data-headline="Our Comprehensive Advantages3"
     data-tagline="We deliver powerful, responsive components, taking the burden of maintenance and compatibility off your shoulders. Start embedding today!"
     data-primary-color="1f5afe" 
     data-accent-color="ff0080"
@@ -109,6 +95,20 @@
     data-card3-title="Perfect Resizing"
     data-card3-content="Our custom PostMessage technology guarantees the iframe always adjusts perfectly to the content and screen size, even on mobile."
 ></iframe>
+    <h3>Card</h3>
+    <iframe src="https://themes-blush-one.vercel.app/snippets/web-theme/card.html?title=Our+Mission&content=To+build+beautiful,+responsive,+and+accessible+web+components+for+everyone." height="180"></iframe>
+
+    <h3>Footer (Uses dynamic resizing)</h3>
+    <iframe
+      id="footer-snippet"
+      class="footer-iframe"
+      src="https://themes-blush-one.vercel.app/snippets/web-theme/footer.html?company_name=Web+Theme&copyright=©+2025+Web+Theme.+All+Rights+Reserved.&social1_icon=twitter&social1_href=https://twitter.com/komudesigns&social2_icon=instagram&social2_href=https://instagram.com/komudesigns&social3_icon=linkedin&social3_href=https://linkedin.com/in/komudesigns&frame_id=footer-snippet"
+      width="100%"
+      height="150"
+      style="border:none;">
+    </iframe>
+  </div>
+
   <iframe
     id="sample-section-parent"
     src="https://themes-blush-one.vercel.app/snippets/sample.html?frame_id=sample-section-parent"
@@ -143,6 +143,28 @@
 
     // Attach the handler to the window's message event
     window.addEventListener("message", handleDynamicIframeResize, false);
+  </script>
+
+  <script>
+    document.addEventListener('DOMContentLoaded', function() {
+      // 1. URL Construction Logic
+      function constructSnippetUrl(iframe) {
+        const baseUrl = iframe.getAttribute('data-base-url');
+        if (!baseUrl) return;
+        let params = [];
+        for (const attr of iframe.attributes) {
+          if (attr.name.startsWith('data-')) {
+            const paramKey = attr.name.substring(5).replace(/-/g, '_');
+            const paramValue = encodeURIComponent(attr.value);
+            if (paramKey !== 'base_url') {
+              params.push(`${paramKey}=${paramValue}`);
+            }
+          }
+        }
+        iframe.src = baseUrl + '?' + params.join('&');
+      }
+      document.querySelectorAll('iframe[data-base-url]').forEach(constructSnippetUrl);
+    });
   </script>
 </body>
 </html>

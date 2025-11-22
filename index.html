@@ -33,7 +33,6 @@
         }
 
         html{
-            min-height: 300rem;
             position: relative;
         }
         body{
@@ -101,7 +100,7 @@
             padding-bottom: 0.5rem;
         }
         .footer-iframe {
-            position: absolute;
+            position: relative;
             left: 0;
             bottom: 0;
             justify-self: center;
@@ -240,44 +239,30 @@
         </div>
     </div>
 
-<div class="features-section">
-    <h2 class="headline" style="font-size: 3rem; margin-top: 0;">Benefits of Hosted Snippets</h2>
-    <p class="tagline" style="max-width: 800px; margin: 0 auto;">
-        Stop maintaining common components. Start embedding powerful, responsive, and always up-to-date UI blocks with a single line of code.
-    </p>
-
-    <div class="features-grid">
-        
-        <div class="feature-card">
-            <div class="card-glow"></div> <div class="card-content-wrapper"> <i class="fas fa-magic"></i> 
-                <h3>Zero Maintenance Burden</h3>
-                <p>
-                    Host all common UI elements on our secure servers. When we release an update, fix a bug, or enhance a feature, every client receives the benefit instantly, globally.
-                </p>
-            </div>
-        </div>
-
-        <div class="feature-card">
-            <div class="card-glow"></div> <div class="card-content-wrapper"> <i class="fas fa-cogs"></i>
-                <h3>Universal Stack Agnostic</h3>
-                <p>
-                    Our components work seamlessly across *any* platform—WordPress, Shopify, React, or static HTML. No framework dependencies, no installation, just copy and paste.
-                </p>
-            </div>
-        </div>
-
-        <div class="feature-card">
-            <div class="card-glow"></div> <div class="card-content-wrapper"> <i class="fas fa-arrows-alt-h"></i>
-                <h3>Guaranteed Perfect Fit</h3>
-                <p>
-                    Thanks to our custom PostMessage technology, your components will never break the parent layout. The iframe always resizes perfectly to its content, even on mobile.
-                </p>
-            </div>
-        </div>
-        
-    </div>
-
-</div>
+<iframe
+    id="features-section-snippet"
+    src="" 
+    width="100%"
+    height="600" 
+    style="border: none; box-shadow: none; margin-top: 50px;"
+    
+    data-base-url="https://themes-blush-one.vercel.app/snippets/web-theme/features.html"
+    data-frame-id="features-section-snippet"
+    
+    data-headline="Our Comprehensive Advantages"
+    data-tagline="We deliver powerful, responsive components, taking the burden of maintenance and compatibility off your shoulders. Start embedding today!"
+    data-primary-color="1f5afe" 
+    data-accent-color="ff0080"
+    
+    data-card1-title="Zero Maintenance"
+    data-card1-content="We handle the hosting, updates, and bug fixes instantly. When we improve it, your site improves automatically, globally."
+    
+    data-card2-title="Platform Agnostic"
+    data-card2-content="Seamlessly integrate our components across WordPress, Shopify, React, and every other platform—no frameworks required."
+    
+    data-card3-title="Perfect Resizing"
+    data-card3-content="Our custom PostMessage technology guarantees the iframe always adjusts perfectly to the content and screen size, even on mobile."
+></iframe>
 
 <iframe
     id="my-email-field"
