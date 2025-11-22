@@ -161,7 +161,7 @@
       .squiggle-line { width: 100%; overflow: hidden; }
       .headline {
         max-width: 90vw;
-        font-size: 2.7rem; /* Corrected typo: font -> font-size */
+        font-size: 2.7rem;
       }
       .button-iframe {
         width: 9rem;
@@ -191,7 +191,7 @@
           This is a smaller version of the hero section above. It's designed to be interactive and showcase more components.
         </p>
 
-        <div class="double-cta-group">
+      
           <iframe
             id="btn-sample-1"
             class="button-iframe"
@@ -207,13 +207,13 @@
             height="65"
             style="border:none;">
           </iframe>
-        </div>
+        
       </div>
     </div>
   </div>
 
-  <script>
-    // --- PostMessage Listener for Iframe Resizing ---
+<script>
+    // --- 1. EXISTING: Listener for NESTED Iframe Resizing (No Change Needed) ---
     function handleIframeResize(event) {
       // SECURITY: Ensure the message is from your expected origin
       if (event.origin !== "https://themes-blush-one.vercel.app") {
@@ -224,6 +224,7 @@
 
       // Check for the resizing payload
       if (data.frameHeight && data.frameId) {
+        // Find the specific iframe element using the ID provided by the snippet
         const iframe = document.getElementById(data.frameId);
 
         if (iframe) {
@@ -234,8 +235,37 @@
       }
     }
 
-    // Attach the handler to the window's message event
+    // --- 2. NEW: Function to Report THIS Component's total height to ITS parent ---
+    function sendComponentHeight() {
+        const root = document.body;
+        // Calculate the total scrollable height of the component page
+        const height = Math.max( root.scrollHeight, root.offsetHeight, root.clientHeight );
+        
+        // Get the parent iframe's ID from the URL parameter (e.g., ?frame_id=sample-section-parent)
+        const urlParams = new URLSearchParams(window.location.search);
+        const frameId = urlParams.get("frame_id"); 
+
+        if (frameId) {
+            // Send the total height and its own ID to the main application page
+            window.parent.postMessage(
+                { 
+                    frameHeight: height,
+                    frameId: frameId // This must match the ID of the parent iframe on the main page
+                }, 
+                '*' // Use '*' if origins are complex, or restrict to your main site's origin
+            );
+        }
+    }
+
+
+    // --- 3. Attach Handlers ---
+    // Attach the handler for nested iframes (existing logic)
     window.addEventListener("message", handleIframeResize, false);
-  </script>
+    
+    // Attach height reporting to the parent after load and on resize (NEW)
+    window.addEventListener('load', sendComponentHeight);
+    window.addEventListener('resize', sendComponentHeight);
+</script>
+
 </body>
 </html>
