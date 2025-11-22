@@ -10,6 +10,8 @@
             --primary-color: #007bff;
             --text-color: #ffffff;
             --shadow-color: rgba(0, 0, 0, 0.4);
+            --nav-bg-color: rgba(0, 0, 0, 0.1); /* Semi-transparent */
+            --nav-link-hover: #ffffff;
         }
         body {
             margin: 0;
@@ -18,6 +20,40 @@
             background-color: transparent;
             box-sizing: border-box;
         }
+        /* --- NAV BAR STYLES --- */
+        .hero-nav {
+            position: absolute;
+            top: 0;
+            left: 0;
+            width: 100%;
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            padding: 15px 40px;
+            background-color: var(--nav-bg-color); /* Subtle background */
+            z-index: 3; /* Above background and content */
+        }
+        #nav-title {
+            font-size: 1.5rem;
+            font-weight: 700;
+            color: var(--text-color);
+            text-decoration: none;
+            letter-spacing: 1px;
+            text-shadow: 1px 1px 3px var(--shadow-color);
+        }
+        .nav-links a {
+            color: var(--text-color);
+            text-decoration: none;
+            font-weight: 500;
+            margin-left: 25px;
+            transition: color 0.2s;
+            padding: 5px 0;
+        }
+        .nav-links a:hover {
+            color: var(--nav-link-hover);
+            border-bottom: 2px solid var(--primary-color);
+        }
+        /* --- HERO SECTION STYLES (Existing) --- */
         .hero-section {
             width: 100%;
             height: 600px;
@@ -27,16 +63,18 @@
             text-align: center;
             position: relative;
             overflow: hidden;
+            /* Ensures content stays within the 600px height for resizing */
         }
         .hero-background {
             position: absolute;
             top: 0;
             left: 0;
             width: 100%;
-            height: 100vh;
+            /* Changed height from 100vh back to 100% to ensure correct resizing within iframe */
+            height: 100%; 
             background-size: cover;
             background-position: center;
-            filter: brightness(0.7); /* Darken background for text visibility */
+            filter: brightness(0.7); 
             z-index: 1;
         }
         .hero-content {
@@ -76,7 +114,9 @@
             transform: translateY(-2px);
         }
         @media (max-width: 768px) {
-            .hero-section { height: 350px; }
+            .hero-section { height: 450px; } /* Increased height slightly for mobile view with nav */
+            .hero-nav { padding: 15px 20px; }
+            .nav-links a { margin-left: 15px; font-size: 0.9rem; }
             #hero-headline { font-size: 2.5rem; }
             #hero-tagline { font-size: 1rem; }
         }
@@ -86,6 +126,16 @@
 
 <div class="hero-section" id="hero-content-wrapper">
     <div class="hero-background" id="hero-background"></div>
+    
+    <nav class="hero-nav">
+        <a href="#" id="nav-title">ThemeCorp</a>
+        <div class="nav-links" id="nav-links">
+            <a href="#" id="link1-href">Home</a>
+            <a href="#" id="link2-href">Products</a>
+            <a href="#" id="link3-href">Login</a>
+        </div>
+    </nav>
+    
     <div class="hero-content">
         <h1 id="hero-headline">Powerful Solutions for Modern Web</h1>
         <p id="hero-tagline">Start embedding dynamic, maintenance-free components today and transform your website instantly.</p>
@@ -98,7 +148,26 @@
     const params = new URLSearchParams(window.location.search);
     const frameId = params.get("frame_id");
 
-    // --- Customization ---
+    // --- NAV BAR CUSTOMIZATION ---
+    document.getElementById('nav-title').textContent = decodeURIComponent(params.get("nav_title") || "ThemeCorp");
+
+    for (let i = 1; i <= 3; i++) {
+        const label = params.get(`link${i}_label`);
+        const href = params.get(`link${i}_href`);
+        
+        const linkElement = document.getElementById(`link${i}-href`);
+        
+        if (label && linkElement) {
+            linkElement.textContent = decodeURIComponent(label);
+            linkElement.href = decodeURIComponent(href || "#");
+        } else if (linkElement) {
+            // Hide the link if no label is provided
+            linkElement.style.display = 'none';
+        }
+    }
+
+
+    // --- HERO CONTENT CUSTOMIZATION ---
     document.getElementById('hero-headline').textContent = decodeURIComponent(params.get("headline") || "Powerful Solutions for Modern Web");
     document.getElementById('hero-tagline').textContent = decodeURIComponent(params.get("tagline") || "Start embedding dynamic, maintenance-free components today.");
     
@@ -119,6 +188,7 @@
     // --- Dynamic Resizing (Standard Logic) ---
     function sendHeight() {
         if (!frameId) return;
+        // The hero section height is fixed by CSS, but we report it correctly
         const newHeight = wrapper.offsetHeight; 
 
         window.parent.postMessage(
