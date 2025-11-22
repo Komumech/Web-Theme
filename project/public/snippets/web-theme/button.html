@@ -1,43 +1,105 @@
 <!DOCTYPE html>
 <html>
 <head>
-  <link rel="stylesheet" href="theme.css">
+    <link rel="stylesheet" href="theme.css">
+    <style>
+        /* CRUCIAL: Set minimal body styles for accurate measurement */
+        body {
+            margin: 0;
+            padding: 0;
+            display: inline-block; /* Make the body container fit the button width */
+            overflow: hidden; /* Prevent internal scrollbars */
+        } 
+        
+        /* Optional: Basic button styling for spacing/sizing */
+        .btn {
+            padding: 10px 20px;
+            cursor: pointer;
+            border-radius: 4px;
+            font-size: 16px;
+            font-weight: 600;
+            display: inline-block;
+            text-align: center;
+            text-decoration: none;
+            box-sizing: border-box; /* Ensures padding/border are within measured width/height */
+        }
+
+        /* Default CSS Variable for fallback */
+        :root {
+            --primary-color: #007bff; 
+        }
+    </style>
 </head>
 <body>
-  <button class="btn" id="dynamic-btn">Click Me</button>
-  
 
+    <div id="snippet-root">
+        <button class="btn" id="dynamic-btn">Click Me</button>
+    </div>
+    
 <script>
-const params = new URLSearchParams(window.location.search);
-const text = params.get("text") || "Click";
-const color = params.get("color") || getComputedStyle(document.documentElement).getPropertyValue('--primary-color');
-const textColor = params.get("textColor") || "#ffffff";
-const hoverColor = params.get("hoverColor") || "#ffffff";
-const hoverTextColor = params.get("hoverTextColor") || color; // new
-const borderColor = params.get("borderColor") || color;       // new
-const hoverBorderColor = params.get("hoverBorderColor") || hoverColor; // new
-const link = params.get("link") || "#";
-const type = params.get("type");
+    // --- 1. POSTMESSAGE UTILITY FUNCTION ---
+    function sendHeight() {
+        const root = document.getElementById("snippet-root");
+        // Measure the height of the root container
+        const height = root.offsetHeight; 
+        
+        // Read the unique ID passed from the client's URL
+        const frameId = new URLSearchParams(window.location.search).get("frame_id"); 
 
-const btn = document.getElementById("dynamic-btn");
-btn.textContent = text;
-btn.style.backgroundColor = color;
-btn.style.color = textColor;
-btn.style.border = `2px solid ${borderColor}`;
-btn.onclick = () => window.location.href = link;
+        if (frameId) {
+            window.parent.postMessage(
+                { 
+                    frameHeight: height,
+                    frameId: frameId 
+                }, 
+                '*' 
+            );
+        }
+    }
 
-// Hover effects
-btn.addEventListener("mouseover", () => {
-  btn.style.backgroundColor = hoverColor;
-  btn.style.color = hoverTextColor;
-  btn.style.border = `2px solid ${hoverBorderColor}`;
-});
-btn.addEventListener("mouseout", () => {
-  btn.style.backgroundColor = color;
-  btn.style.color = textColor;
-  btn.style.border = `2px solid ${borderColor}`;
-});
+    // --- 2. PARAMETER HANDLING AND STYLING ---
+    const params = new URLSearchParams(window.location.search);
+    
+    // --- Retrieve all parameters ---
+    const text = params.get("text") || "Click";
+    const color = params.get("color") || getComputedStyle(document.documentElement).getPropertyValue('--primary-color');
+    const textColor = params.get("textColor") || "#ffffff";
+    const hoverColor = params.get("hoverColor") || "#ffffff";
+    const hoverTextColor = params.get("hoverTextColor") || color;
+    const borderColor = params.get("borderColor") || color;
+    const hoverBorderColor = params.get("hoverBorderColor") || hoverColor;
+    const link = params.get("link") || "#";
+    // const type = params.get("type"); // Currently unused but available
 
+    const btn = document.getElementById("dynamic-btn");
+    
+    // --- Apply Initial Styles and Content ---
+    btn.textContent = text;
+    btn.style.backgroundColor = color;
+    btn.style.color = textColor;
+    btn.style.border = `2px solid ${borderColor}`;
+    btn.onclick = () => window.location.href = link;
+
+    // --- Apply Hover Effects ---
+    btn.addEventListener("mouseover", () => {
+        btn.style.backgroundColor = hoverColor;
+        btn.style.color = hoverTextColor;
+        btn.style.border = `2px solid ${hoverBorderColor}`;
+    });
+    btn.addEventListener("mouseout", () => {
+        btn.style.backgroundColor = color;
+        btn.style.color = textColor;
+        btn.style.border = `2px solid ${borderColor}`;
+    });
+
+    // --- 3. HEIGHT POSTING TRIGGERS ---
+
+    // Send height immediately after the DOM settles
+    window.addEventListener('load', () => {
+        sendHeight();
+        window.addEventListener('resize', sendHeight);
+    });
+    
 </script>
 
 </body>
