@@ -36,9 +36,10 @@ body {
   align-items: center;
   font-size: 1.1rem;
   font-weight: 400;
-  width: 180px;
+  min-width: 100px;
   height: 60px;
   max-height: 3rem;
+  text-decoration: none;
   cursor: pointer;
   border-radius: var(--border-radius);
   font-family: var(--font-family);
@@ -205,7 +206,7 @@ iframe {
     .button-iframe {
         width: 9rem;
     }
-    button{
+    .btn{
       width: 40vw;
     }
 }
