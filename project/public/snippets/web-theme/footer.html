@@ -1,56 +1,163 @@
 <!DOCTYPE html>
 <html>
 <head>
-  <link rel="stylesheet" href="theme.css">
-  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0-beta3/css/all.min.css">
-  <style>
-    body {
-      align-items: flex-end; /* Position footer at the bottom */
-      height: auto;
-    }
-  </style>
+    <link rel="stylesheet" href="theme.css">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0-beta3/css/all.min.css">
+    <style>
+        /* === Base Snippet Styles === */
+        body {
+            margin: 0;
+            font-family: var(--font-family, sans-serif);
+            color: #6c757d;
+            background-color: #f8f9fa;
+        }
+
+        /* === Footer Layout === */
+        .footer {
+            padding: 50px 5vw;
+            width: 100%;
+            box-sizing: border-box;
+        }
+
+        .footer-content {
+            display: flex;
+            flex-wrap: wrap;
+            justify-content: space-between;
+            gap: 40px;
+            padding-bottom: 40px;
+            border-bottom: 1px solid #e7e7e7;
+        }
+
+        .footer-column {
+            flex: 1;
+            min-width: 200px;
+        }
+
+        /* === Column Content Styling === */
+        .footer-column h4 {
+            font-size: 1.1rem;
+            font-weight: 600;
+            color: #343a40;
+            margin-bottom: 20px;
+        }
+
+        .footer-column p,
+        .footer-column a {
+            font-size: 0.95rem;
+            text-decoration: none;
+            color: #6c757d;
+            line-height: 1.6;
+        }
+
+        .footer-column .nav-links {
+            display: flex;
+            flex-direction: column;
+            gap: 10px;
+        }
+
+        .footer-column .nav-links a {
+            transition: color 0.3s ease;
+        }
+
+        .footer-column .nav-links a:hover {
+            color: var(--primary-color, #93affc);
+        }
+
+        /* === Social & Copyright === */
+        .social-links {
+            display: flex;
+            gap: 18px;
+            margin-top: 15px;
+        }
+
+        .social-links a {
+            font-size: 1.4rem;
+            transition: color 0.3s ease;
+        }
+
+        .social-links a:hover {
+            color: var(--accent-color, #ff9a9e);
+        }
+
+        .footer-bottom {
+            padding-top: 30px;
+            text-align: center;
+            font-size: 0.9rem;
+        }
+    </style>
 </head>
 <body>
 
 <div class="footer">
-  <div class="social-links" id="social-links">
-    <!-- Social links injected here -->
-  </div>
-  <div class="copyright" id="copyright-text">
-    &copy; 2025 Your Company. All Rights Reserved.
-  </div>
+    <div class="footer-content">
+        <!-- Column 1: Company Info -->
+        <div class="footer-column" id="company-column">
+            <h4 id="company-name">Your Company</h4>
+            <p id="company-description">Making the web a more beautiful and accessible place for everyone.</p>
+        </div>
+
+        <!-- Column 2: Navigation Links -->
+        <div class="footer-column">
+            <h4>Quick Links</h4>
+            <div class="nav-links" id="nav-links-container">
+                <!-- Navigation links injected here -->
+            </div>
+        </div>
+
+        <!-- Column 3: Social Media -->
+        <div class="footer-column">
+            <h4>Follow Us</h4>
+            <div class="social-links" id="social-links-container">
+                <!-- Social icons injected here -->
+            </div>
+        </div>
+    </div>
+    <div class="footer-bottom">
+        <p id="copyright-text">&copy; 2025 Your Company. All Rights Reserved.</p>
+    </div>
 </div>
 
 <script>
-  const params = new URLSearchParams(window.location.search);
-  const socialLinksContainer = document.getElementById("social-links");
-  const copyrightText = document.getElementById("copyright-text");
+    const params = new URLSearchParams(window.location.search);
 
-  const companyName = params.get("company_name") || "Your Company";
-  const defaultCopyright = `&copy; ${new Date().getFullYear()} ${companyName}. All Rights Reserved.`;
-  copyrightText.innerHTML = params.get("copyright") || defaultCopyright;
+    // --- Populate Company Info ---
+    const companyName = params.get("company_name") || "Your Company";
+    document.getElementById("company-name").textContent = companyName;
+    document.getElementById("company-description").textContent = params.get("description") || "Making the web a more beautiful and accessible place for everyone.";
 
-  let socialCount = 0;
-  for (let i = 1; i <= 5; i++) {
-    const icon = params.get(`social${i}_icon`); // e.g., 'facebook', 'twitter'
-    const href = params.get(`social${i}_href`);
-    if (icon && href) {
-      const a = document.createElement('a');
-      a.href = href;
-      a.innerHTML = `<i class="fab fa-${icon}"></i>`;
-      socialLinksContainer.appendChild(a);
-      socialCount++;
+    // --- Populate Navigation Links (up to 8) ---
+    const navLinksContainer = document.getElementById("nav-links-container");
+    let navLinkCount = 0;
+    for (let i = 1; i <= 8; i++) {
+        const label = params.get(`link${i}_label`);
+        const href = params.get(`link${i}_href`);
+        if (label && href) {
+            navLinksContainer.innerHTML += `<a href="${href}">${label}</a>`;
+            navLinkCount++;
+        }
     }
-  }
+    if (navLinkCount === 0) { // Default nav links
+        navLinksContainer.innerHTML = `<a href="#">Home</a><a href="#">About</a><a href="#">Services</a>`;
+    }
 
-  // Add default if none provided
-  if (socialCount === 0) {
-    socialLinksContainer.innerHTML = `
-      <a href="#"><i class="fab fa-twitter"></i></a>
-      <a href="#"><i class="fab fa-instagram"></i></a>
-      <a href="#"><i class="fab fa-linkedin"></i></a>
-    `;
-  }
+    // --- Populate Social Links (up to 8) ---
+    const socialContainer = document.getElementById("social-links-container");
+    let socialCount = 0;
+    for (let i = 1; i <= 8; i++) {
+        const icon = params.get(`social${i}_icon`);
+        const href = params.get(`social${i}_href`);
+        if (icon && href) {
+            socialContainer.innerHTML += `<a href="${href}" target="_blank" rel="noopener noreferrer"><i class="fab fa-${icon}"></i></a>`;
+            socialCount++;
+        }
+    }
+    if (socialCount === 0) { // Default social links
+        socialContainer.innerHTML = `<a href="#"><i class="fab fa-twitter"></i></a><a href="#"><i class="fab fa-instagram"></i></a><a href="#"><i class="fab fa-linkedin"></i></a>`;
+    }
+
+    // --- Populate Copyright ---
+    const defaultCopyright = `&copy; ${new Date().getFullYear()} ${companyName}. All Rights Reserved.`;
+    document.getElementById("copyright-text").innerHTML = params.get("copyright") || defaultCopyright;
 </script>
 
 </body>
