@@ -62,4 +62,7 @@ button{
     flex-direction: row;
     gap: 1rem;
     margin-top: 1rem;
+    width: 80vw;
+    justify-content: center;
+    align-content: center;
 }
