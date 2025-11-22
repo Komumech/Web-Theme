@@ -35,7 +35,7 @@ body {
   align-items: center;
   font-size: 1.1rem;
   font-weight: 400;
-  width: 190px;
+  width: fit-content;
   height: 60px;
   max-height: 3rem;
   text-decoration: none;
