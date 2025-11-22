@@ -1,123 +1,242 @@
 <!DOCTYPE html>
 <html lang="en">
 <head>
-    <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    
-    <title>Document</title>
+  <meta charset="UTF-8">
+  <title>Interactive Sample Section</title>
+  <link rel="stylesheet" href="../theme.css">
+  <style>
+    /* Base Typography and Container */
+    .headline {
+      justify-self: center;
+      text-align: center;
+      color: rgb(19, 17, 17);
+      font-size: 4.3rem;
+      font-weight: 700;
+      max-width: 70vw;
+      padding-top: 4rem;
+      margin: 0px;
+    }
+    .tagline {
+      color: #4a4a4a; /* A softer, neutral dark gray */
+      font-size: 1rem;
+      max-width: 62vw;
+      font-weight: 400;
+      margin-top: 1rem;
+      text-align: center;
+      line-height: 200%;
+      padding-top: 1rem;
+    }
+    .sample {
+      width: 100%;
+      display: flex;
+      justify-content: center;
+      align-items: center;
+      padding-top: 3rem;
+    }
+
+    /* Hero Image/Background */
+    .sample-img {
+      background-image: url('https://komu-theme.vercel.app/style/images/img1.png');
+      background-size: cover;
+      background-position: center;
+      background-repeat: no-repeat;
+      width: 89vw;
+      height: 90vh;
+      justify-self: center;
+      border-radius: 15px;
+      display: flex;
+      position: relative;
+      justify-content: center;
+      align-items: center;
+    }
+
+    /* Inner Content Container */
+    .sample-container {
+      width: 85vw;
+      height: 80vh;
+      display: flex;
+      flex-direction: column;
+      justify-content: center;
+      align-items: center;
+      text-align: center;
+      background-color: rgba(255, 255, 255, 0.1);
+      backdrop-filter: brightness(70%);
+      border-radius: 15px;
+      box-shadow: 0 10px 30px rgba(0, 0, 0, 0.1);
+      color: #333;
+      padding: 2rem;
+      position: relative;
+      overflow: visible;
+    }
+    /* Ensure content is above the new squiggle line */
+    .sample-container > * {
+      position: relative;
+      z-index: 2;
+    }
+
+    /* Squiggle SVG Styling */
+    .squiggle-line {
+      position: absolute;
+      width: 85%;
+      z-index: 1;
+      opacity: 0.15;
+      stroke-dasharray: 1500;
+      animation: draw 8s ease-in-out infinite;
+    }
+
+    /* Glowing Border Effect */
+    .sample-img::after {
+      content: '';
+      position: absolute;
+      z-index: -1;
+      width: calc(100% + 10px);
+      height: calc(100% + 10px);
+      top: -5px;
+      left: -5px;
+      background: linear-gradient(45deg, yellow, orange, red, violet, blue, green);
+      background-size: 300% 300%;
+      filter: blur(40px);
+      opacity: 0.6;
+      animation: moveGradient 10s ease infinite;
+    }
+
+    @keyframes moveGradient {
+      0% { background-position: 0% 50%; }
+      50% { background-position: 100% 50%; }
+      100% { background-position: 0% 50%; }
+    }
+
+    @keyframes draw {
+      0% { stroke-dashoffset: 1500; }
+      50% { stroke-dashoffset: 0; }
+      100% { stroke-dashoffset: -1500; }
+    }
+
+    /* === Iframe and Component Styles === */
+    body {
+      font-family: poppins, sans-serif;
+    }
+    iframe {
+      border: none;
+      box-shadow: none;
+      width: 100%;
+      transition: height 0.3s ease; /* Smooth height adjustment */
+    }
+
+    /* Navbar Positioning */
+    .top-navbar {
+      z-index: 1000;
+      position: fixed;
+    }
+    .sample-navbar {
+      position: absolute;
+      top: 0;
+      left: 0;
+      width: 100%;
+      height: 70px; /* Initial fixed height for resizing script */
+      z-index: 10;
+    }
+
+    /* Button Styles */
+    .button-iframe {
+      width: 12rem;
+      height: 60px; /* Initial fixed height for resizing script */
+    }
+    .double-cta-group {
+      display: flex;
+      gap: 15px;
+      margin-top: 2rem;
+      align-items: center;
+      justify-content: center;
+      z-index: 2;
+    }
+
+    /* Text Colors */
+    .white { color: white; }
+    .grey { color: #bbbbbb; }
+
+    /* Media Queries */
+    @media (max-width: 768px) {
+      .sample-img { height: 90vh; }
+      .squiggle-line { width: 100%; overflow: hidden; }
+      .headline {
+        max-width: 90vw;
+        font-size: 2.7rem;
+      }
+      .button-iframe {
+        width: 9rem;
+        height: 50px;
+      }
+      .double-cta-group { flex-direction: column; }
+    }
+  </style>
 </head>
 <body>
-    <style>
-        body {
-            font-family: sans-serif;
-            background-color: #f0f0f0;
-            margin: 0;
-            padding-top: 80px; /* Add padding to prevent content from hiding behind the docked navbar */
-        }
-        iframe {
-            border: none; 
-            box-shadow: none;
-            width: 100%;
-            margin-bottom: 2rem;
-        }
+  <div class="sample">
+    <div class="sample-img">
+      <div class="sample-container">
+        <svg class="squiggle-line" viewBox="0 -80 800 310" xmlns="http://www.w3.org/2000/svg">
+          <path d="M 50 100 C 75 -50, 100 200, 125 100 S 175 -50, 200 100 S 250 200, 275 100 S 325 -50, 350 100 S 400 200, 425 100 S 475 -50, 500 100 S 550 200, 575 100 S 625 -50, 650 100" stroke="white" stroke-width="55" fill="none" />
+        </svg>
 
-        h2 {
-            margin-top: 0;
-            border-bottom: 2px solid #ddd;
-            padding-bottom: 0.5rem;
-        }
-        .sample-section {
-            height: 100vh;
-            border: none;
-            overflow-y: hidden;
-        }
-    </style>
+        <iframe
+          id="nav-sample"
+          class="top-navbar sample-navbar"
+          src="https://themes-blush-one.vercel.app/snippets/web-theme/navbar.html?title=WebTheme&link1_label=Home&link1_href=#&link2_label=Features&link2_href=#&link3_label=Support&link3_href=#&frame_id=nav-sample"
+          height="70">
+        </iframe>
 
-    <!-- Docked Navbar -->
-    <iframe src="https://themes-blush-one.vercel.app/snippets/web-theme/navbar.html?title=ThemeCorp&docked=true&link1_label=Home&link1_href=/&link2_label=Products&link2_href=/products&link3_label=Login&link3_href=/login" height="70"></iframe>
+        <p class="headline white">Interactive Sample Section</p>
+        <p class="tagline grey">
+          This is a smaller version of the hero section above. It's designed to be interactive and showcase more components.
+        </p>
 
-    <div class="component-group">
-        <h2>Neon Theme Snippets</h2>
-        <iframe src="https://themes-blush-one.vercel.app/snippets/neon/navbar.html?title=NEON&link1_label=CYBER&link1_href=#&link2_label=PUNK&link2_href=#" height="70"></iframe>
-        <iframe src="https://themes-blush-one.vercel.app/snippets/neon/alert.html?type=warning&message=System+breach+detected." height="80"></iframe>
-        <iframe src="https://themes-blush-one.vercel.app/snippets/neon/input.html?placeholder=Enter+Codename...&icon=user-secret" height="70"></iframe>
-        <iframe src="https://themes-blush-one.vercel.app/snippets/neon/footer.html?copyright=--[+SYSTEM+ONLINE+]--&social1_icon=github&social1_href=#&social2_icon=gitlab&social2_href=#" height="120"></iframe>
+        <div class="double-cta-group">
+          <iframe
+            id="btn-sample-1"
+            class="button-iframe"
+            src="https://themes-blush-one.vercel.app/snippets/web-theme/button.html?text=View+Components&link=test.html&frame_id=btn-sample-1"
+            width="200"
+            height="60">
+          </iframe>
+          <iframe
+            id="btn-sample-2"
+            class="button-iframe"
+            src="https://themes-blush-one.vercel.app/snippets/web-theme/button.html?text=Join+Now&link=https://explore.com&type=skeleton&color=green&textColor=%23ffffff&hoverColor=%23000000&hoverTextColor=%23ffffff&borderColor=transparent&hoverBorderColor=transparent&frame_id=btn-sample-2"
+            width="240"
+            height="65"
+            style="border:none;">
+          </iframe>
+        </div>
+      </div>
     </div>
+  </div>
 
-    <div class="component-group">
-        <h2>Web Theme Snippets</h2>
-        <p>Here are the import links for all the available web-theme components:</p>
-        
-        <h3>Navbar</h3>
-        <iframe src="https://themes-blush-one.vercel.app/snippets/web-theme/navbar.html?title=MySite&link1_label=Home&link1_href=#&link2_label=Features&link2_href=#" height="70"></iframe>
-        
-        <h3>Buttons</h3>
-        <iframe src="https://themes-blush-one.vercel.app/snippets/web-theme/button.html?text=Get Started" height="60"></iframe>
-        <iframe src="https://themes-blush-one.vercel.app/snippets/web-theme/button.html?text=Learn More&type=skeleton" height="60"></iframe>
-        
-        <h3>Alert</h3>
-        <iframe src="https://themes-blush-one.vercel.app/snippets/web-theme/alert.html?type=success&message=Your changes have been saved." height="80"></iframe>
-        
-        <h3>Input Field</h3>
-        <iframe src="https://themes-blush-one.vercel.app/snippets/web-theme/input.html?placeholder=Enter your email...&icon=envelope" height="70"></iframe>
-        
-        <h3>Card</h3>
-        <iframe src="https://themes-blush-one.vercel.app/snippets/web-theme/card.html?title=Our Mission&content=To build beautiful, responsive, and accessible web components for everyone." height="180"></iframe>
-        
-        <h3>Footer</h3>
-<iframe 
-    id="footer-snippet" 
-    class="footer-iframe" 
-    src="https://themes-blush-one.vercel.app/snippets/web-theme/footer.html?company_name=Web+Theme&copyright=©+2025+Web+Theme.+All+Rights+Reserved.&social1_icon=twitter&social1_href=https://twitter.com/komudesigns&social2_icon=instagram&social2_href=https://instagram.com/komudesigns&social3_icon=linkedin&social3_href=https://linkedin.com/in/komudesigns&frame_id=footer-snippet" 
-    width="100%" 
-    height="150" 
-    style="border:none;">
-</iframe>
-    </div>
-<iframe class="sample-section" src="https://themes-blush-one.vercel.app/snippets/sample.html" width="100%" height="500" style="border:none;"></iframe>
+  <script>
+    // --- PostMessage Listener for Iframe Resizing ---
+    function handleIframeResize(event) {
+      // SECURITY: Ensure the message is from your expected origin
+      if (event.origin !== "https://themes-blush-one.vercel.app") {
+        return;
+      }
 
+      const data = event.data;
 
-    <script>
-    // --- START KomuTheme Embed Code: Universal Handler ---
+      // Check for the resizing payload
+      if (data.frameHeight && data.frameId) {
+        // Find the specific iframe element using the ID provided by the snippet
+        const iframe = document.getElementById(data.frameId);
 
-    document.addEventListener('DOMContentLoaded', function() {
-        // 1. URL Construction Logic
-        function constructSnippetUrl(iframe) {
-            const baseUrl = iframe.getAttribute('data-base-url');
-            if (!baseUrl) return;
-            let params = [];
-            for (const attr of iframe.attributes) {
-                if (attr.name.startsWith('data-')) {
-                    const paramKey = attr.name.substring(5).replace(/-/g, '_');
-                    const paramValue = encodeURIComponent(attr.value);
-                    if (paramKey !== 'base_url') {
-                        params.push(`${paramKey}=${paramValue}`);
-                    }
-                }
-            }
-            iframe.src = baseUrl + '?' + params.join('&');
+        if (iframe) {
+          // Set the iframe's height to the reported content height
+          // Add a small buffer (+2px) for cross-browser consistency
+          iframe.style.height = (data.frameHeight + 2) + "px";
         }
-        document.querySelectorAll('iframe[data-base-url]').forEach(constructSnippetUrl);
-    });
+      }
+    }
 
-
-    // 2. Universal Responsive Height Listener (PostMessage)
-    window.addEventListener('message', function(event) {
-        const YOUR_SNIPPET_ORIGIN = "https://themes-blush-one.vercel.app";
-        if (event.origin !== YOUR_SNIPPET_ORIGIN) {
-            return; 
-        }
-        if (event.data.frameId && event.data.frameHeight) {
-            const targetIframe = document.getElementById(event.data.frameId);
-            if (targetIframe) {
-                const newHeight = event.data.frameHeight;
-                targetIframe.style.transition = 'height 0.3s ease-out';
-                targetIframe.style.height = newHeight + 'px';
-            }
-        }
-    });
-
-    // --- END KomuTheme Embed Code: Universal Handler ---
-    </script>
+    // Attach the handler to the window's message event
+    window.addEventListener("message", handleIframeResize, false);
+  </script>
 </body>
 </html>
