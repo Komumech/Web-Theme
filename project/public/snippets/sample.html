@@ -1,270 +1,132 @@
 <!DOCTYPE html>
-<html lang="en">
+<html>
 <head>
-  <meta charset="UTF-8">
-  <title>Interactive Sample Section</title>
-  <link rel="stylesheet" href="../theme.css">
-  <style>
-    /* Base Typography and Container */
-    .headline {
-      justify-self: center;
-      text-align: center;
-      color: rgb(19, 17, 17);
-      font-size: 4.3rem;
-      font-weight: 700;
-      max-width: 70vw;
-      padding-top: 4rem;
-      margin: 0px;
-    }
-    .tagline {
-      color: #4a4a4a; /* A softer, neutral dark gray */
-      font-size: 1rem;
-      max-width: 62vw;
-      font-weight: 400;
-      margin-top: 1rem;
-      text-align: center;
-      line-height: 200%;
-      padding-top: 1rem;
-    }
-    .sample {
-      width: 100%;
-      display: flex;
-      justify-content: center;
-      align-items: center;
-      padding-top: 3rem;
-    }
+  <meta charset="UTF-8">
+  <title>Stylish Input Component</title>
+  <link rel="stylesheet" href="theme.css">
+  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0-beta3/css/all.min.css">
+  <style>
+        /* BASE STYLING for Component Container */
+        body {
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            padding: 20px;
+            /* CRITICAL FIX: Ensure no unexpected height from default margins */
+            margin: 0; 
+            background: transparent; 
+            font-family: 'Poppins', sans-serif;
+            box-sizing: border-box; 
+        }
 
-    /* Hero Image/Background */
-    .sample-img {
-      background-image: url('https://komu-theme.vercel.app/style/images/img1.png');
-      background-size: cover;
-      background-position: center;
-      background-repeat: no-repeat;
-      width: 89vw;
-      height: 90vh;
-      justify-self: center;
-      border-radius: 15px;
-      display: flex;
-      position: relative;
-      justify-content: center;
-      align-items: center;
-    }
+        /* INPUT WRAPPER: The primary visual container */
+        .input-wrapper {
+            display: flex;
+            align-items: center;
+            width: 100%;
+            max-width: 400px;
+            padding: 12px 15px;
+            border-radius: 12px;
+            background-color: rgba(255, 255, 255, 0.05);
+            border: 2px solid rgba(255, 255, 255, 0.1);
+            transition: all 0.3s ease;
+            box-shadow: 0 4px 10px rgba(0, 0, 0, 0.1);
+            position: relative;
+        }
 
-    /* Inner Content Container */
-    .sample-container {
-      width: 85vw;
-      height: 80vh;
-      display: flex;
-      flex-direction: column;
-      justify-content: center;
-      align-items: center;
-      text-align: center;
-      background-color: rgba(255, 255, 255, 0.1);
-      backdrop-filter: brightness(70%);
-      border-radius: 15px;
-      box-shadow: 0 10px 30px rgba(0, 0, 0, 0.1);
-      color: #333;
-      padding: 2rem;
-      position: relative;
-      overflow: visible;
-    }
-    /* Ensure content is above the new squiggle line */
-    .sample-container > * {
-      position: relative;
-      z-index: 2;
-    }
+        /* FOCUS GLOW EFFECT */
+        .input-wrapper:focus-within {
+            border-color: #7d44ff; /* Primary theme color for focus */
+            box-shadow: 0 0 15px rgba(125, 68, 255, 0.8), 0 0 5px rgba(125, 68, 255, 0.5);
+            background-color: rgba(255, 255, 255, 0.1);
+        }
 
-    /* Squiggle SVG Styling */
-    .squiggle-line {
-      position: absolute;
-      width: 85%;
-      z-index: 1;
-      opacity: 0.15;
-      stroke-dasharray: 1500;
-      animation: draw 8s ease-in-out infinite;
-    }
+        /* INPUT FIELD */
+        .input-field {
+            flex-grow: 1;
+            padding: 5px 0;
+            margin-left: 10px;
+            border: none;
+            background: transparent;
+            color: #ffffff; 
+            font-size: 1rem;
+            outline: none;
+        }
 
-    /* Glowing Border Effect */
-    .sample-img::after {
-      content: '';
-      position: absolute;
-      z-index: -1;
-      width: calc(100% + 10px);
-      height: calc(100% + 10px);
-      top: -5px;
-      left: -5px;
-      background: linear-gradient(45deg, yellow, orange, red, violet, blue, green);
-      background-size: 300% 300%;
-      filter: blur(40px);
-      opacity: 0.6;
-      animation: moveGradient 10s ease infinite;
-    }
+        /* Placeholder Styling */
+        .input-field::placeholder {
+            color: #a0a0a0; 
+            transition: color 0.3s ease;
+        }
 
-    @keyframes moveGradient {
-      0% { background-position: 0% 50%; }
-      50% { background-position: 100% 50%; }
-      100% { background-position: 0% 50%; }
-    }
+        .input-field:focus::placeholder {
+            color: transparent; 
+        }
 
-    @keyframes draw {
-      0% { stroke-dashoffset: 1500; }
-      50% { stroke-dashoffset: 0; }
-      100% { stroke-dashoffset: -1500; }
-    }
+        /* ICON STYLING */
+        .input-icon {
+            color: #7d44ff; 
+            font-size: 1.1rem;
+            transition: color 0.3s ease;
+        }
 
-    /* === Iframe and Component Styles === */
-    body {
-      font-family: poppins, sans-serif;
-    }
-    iframe {
-      border: none;
-      box-shadow: none;
-      width: 100%;
-      transition: height 0.3s ease; /* Smooth height adjustment */
-    }
-
-    /* Navbar Positioning */
-    .top-navbar {
-      z-index: 1000;
-      position: fixed;
-    }
-    .sample-navbar {
-      position: absolute;
-      top: 0;
-      left: 0;
-      width: 100%;
-      height: 70px; /* Initial fixed height for resizing script */
-      z-index: 10;
-    }
-
-    /* Button Styles */
-    .button-iframe {
-      width: 12rem;
-      height: 60px; /* Initial fixed height for resizing script */
-    }
-    .double-cta-group {
-      display: flex;
-      gap: 15px;
-      margin-top: 2rem;
-      align-items: center;
-      justify-content: center;
-      z-index: 2;
-    }
-
-    /* Text Colors */
-    .white { color: white; }
-    .grey { color: #bbbbbb; }
-
-    /* Media Queries */
-    @media (max-width: 768px) {
-      .sample-img { height: 90vh; }
-      .squiggle-line { width: 100%; overflow: hidden; }
-      .headline {
-        max-width: 90vw;
-        font-size: 2.7rem;
-      }
-      .button-iframe {
-        width: 9rem;
-        height: 50px;
-      }
-      .double-cta-group { flex-direction: column; }
-    }
-  </style>
+        /* Icon color change on focus */
+        .input-wrapper:focus-within .input-icon {
+            color: #ffffff;
+        }
+    </style>
 </head>
 <body>
-  <div class="sample">
-    <div class="sample-img">
-      <div class="sample-container">
-        <svg class="squiggle-line" viewBox="0 -80 800 310" xmlns="http://www.w3.org/2000/svg">
-          <path d="M 50 100 C 75 -50, 100 200, 125 100 S 175 -50, 200 100 S 250 200, 275 100 S 325 -50, 350 100 S 400 200, 425 100 S 475 -50, 500 100 S 550 200, 575 100 S 625 -50, 650 100" stroke="white" stroke-width="55" fill="none" />
-        </svg>
 
-        <iframe
-          id="nav-sample"
-          class="top-navbar sample-navbar"
-          src="https://themes-blush-one.vercel.app/snippets/web-theme/navbar.html?title=WebTheme&link1_label=Home&link1_href=#&link2_label=Features&link2_href=#&link3_label=Support&link3_href=#&frame_id=nav-sample"
-          height="70">
-        </iframe>
-
-        <p class="headline white">Interactive Sample Section</p>
-        <p class="tagline grey">
-          This is a smaller version of the hero section above. It's designed to be interactive and showcase more components.
-        </p>
-
-      
-          <iframe
-            id="btn-sample-1"
-            class="button-iframe"
-            src="https://themes-blush-one.vercel.app/snippets/web-theme/button.html?text=View+Components&link=test.html&frame_id=btn-sample-1"
-            width="200"
-            height="60">
-          </iframe>
-          <iframe
-            id="btn-sample-2"
-            class="button-iframe"
-            src="https://themes-blush-one.vercel.app/snippets/web-theme/button.html?text=Join+Now&link=https://explore.com&type=skeleton&color=green&textColor=%23ffffff&hoverColor=%23000000&hoverTextColor=%23ffffff&borderColor=transparent&hoverBorderColor=transparent&frame_id=btn-sample-2"
-            width="240"
-            height="65"
-            style="border:none;">
-          </iframe>
-        
-      </div>
-    </div>
-  </div>
+<div class="input-wrapper">
+  <i class="fas fa-user input-icon" id="input-icon"></i>
+  <input type="text" class="input-field" id="input-field" placeholder="Enter text...">
+</div>
 
 <script>
-    // --- 1. EXISTING: Listener for NESTED Iframe Resizing (No Change Needed) ---
-    function handleIframeResize(event) {
-      // SECURITY: Ensure the message is from your expected origin
-      if (event.origin !== "https://themes-blush-one.vercel.app") {
-        return;
-      }
+    // --- PostMessage Resizing Script Setup (Includes FIX for resizing loop) ---
 
-      const data = event.data;
-
-      // Check for the resizing payload
-      if (data.frameHeight && data.frameId) {
-        // Find the specific iframe element using the ID provided by the snippet
-        const iframe = document.getElementById(data.frameId);
-
-        if (iframe) {
-          // Set the iframe's height to the reported content height
-          // Add a small buffer (+2px) for cross-browser consistency
-          iframe.style.height = (data.frameHeight + 2) + "px";
-        }
-      }
-    }
-
-    // --- 2. NEW: Function to Report THIS Component's total height to ITS parent ---
+    // The component's height reporting function (for parent iframe resizing)
     function sendComponentHeight() {
-        const root = document.body;
-        // Calculate the total scrollable height of the component page
-        const height = Math.max( root.scrollHeight, root.offsetHeight, root.clientHeight );
-        
-        // Get the parent iframe's ID from the URL parameter (e.g., ?frame_id=sample-section-parent)
-        const urlParams = new URLSearchParams(window.location.search);
-        const frameId = urlParams.get("frame_id"); 
+        if (window.parent) {
+            // FIX: Use document.body.offsetHeight for a stable measurement 
+            // of the rendered content, ignoring potential scroll height or viewport changes.
+            const height = document.body.offsetHeight; 
+            
+            const urlParams = new URLSearchParams(window.location.search);
+            const frameId = urlParams.get("frame_id"); 
 
-        if (frameId) {
-            // Send the total height and its own ID to the main application page
-            window.parent.postMessage(
-                { 
-                    frameHeight: height,
-                    frameId: frameId // This must match the ID of the parent iframe on the main page
-                }, 
-                '*' // Use '*' if origins are complex, or restrict to your main site's origin
-            );
+            if (frameId) {
+                window.parent.postMessage(
+                    { 
+                        frameHeight: height,
+                        frameId: frameId 
+                    }, 
+                    '*' 
+                );
+            }
         }
     }
 
+    // --- Component Logic ---
+    const params = new URLSearchParams(window.location.search);
+    const placeholder = params.get("placeholder") || "Enter text...";
+    const icon = params.get("icon"); 
 
-    // --- 3. Attach Handlers ---
-    // Attach the handler for nested iframes (existing logic)
-    window.addEventListener("message", handleIframeResize, false);
-    
-    // Attach height reporting to the parent after load and on resize (NEW)
+    const inputField = document.getElementById("input-field");
+    inputField.placeholder = placeholder;
+
+    if (icon) {
+      const iconEl = document.getElementById("input-icon");
+      // Use replace() to ensure class name is set correctly, 
+      // not just appending.
+      iconEl.className = `fas fa-${icon} input-icon`; 
+    }
+
+    // Call height reporting on load (for parent page import)
     window.addEventListener('load', sendComponentHeight);
     window.addEventListener('resize', sendComponentHeight);
+
 </script>
 
 </body>
