@@ -3,9 +3,24 @@
 <head>
     <link rel="stylesheet" href="theme.css">
     <style>
-        html, body {
-            width: fit-content; /* CRUCIAL: Make the html container fit the button width */
-        }
+/* --- CSS INSIDE THE BUTTON SNIPPET HTML FILE --- */
+
+html, body {
+    /* 1. Remove default browser margins and padding */
+    margin: 0;
+    padding: 0;
+    /* 2. Essential for height reduction: tell the document to only take up the minimum height required by its content. */
+    height: auto;
+    min-height: 0;
+    
+    /* Optional: Ensure any overflow is hidden */
+    overflow: hidden; 
+}
+
+/* Ensure the button element itself is inline-block to shrink-wrap its content */
+.button-class {
+    display: inline-block; 
+}
         /* CRUCIAL: Basic body styles for accurate measurement */
         body {
             margin: 0;
