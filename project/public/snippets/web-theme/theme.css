@@ -193,9 +193,7 @@ iframe {
   width: 100%;
 }
 
-.button-iframe {
-    width: 12rem;
-}
+
 
 
 
@@ -203,8 +201,6 @@ iframe {
     .navbar a {
         display: none;
     }
-    .button-iframe {
-        width: 9rem;
-    }
+
 
 }
