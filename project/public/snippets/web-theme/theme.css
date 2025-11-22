@@ -1,5 +1,5 @@
 :root {
-  --primary-color: #09ff00;
+  --primary-color: #93affc;
   --accent-color: #ff9a9e;
   --primary-text-color: #ffffff;
   --secondary-text-color: #000000;
@@ -35,7 +35,6 @@ body {
   align-items: center;
   font-size: 1.1rem;
   font-weight: 400;
-  min-width: 100px;
   width: 190px;
   height: 60px;
   max-height: 3rem;
