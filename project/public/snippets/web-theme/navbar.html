@@ -3,22 +3,43 @@
 <head>
   <link rel="stylesheet" href="theme.css">
   <style>
+    /* BEST PRACTICE: Add this to prevent scrollbars inside the iframe */
     body {
       align-items: flex-start;
       height: auto;
       margin: 0;
+      overflow: hidden; /* Prevent internal scrollbars */
+      box-sizing: border-box; /* Include padding/border in height measurement */
     } 
+    
     .navbar.blue {
       background-color: #1f5afe; /* blue when scrolled past 50% */
+    }
+
+    /* Example for the internal container/root to ensure correct height measurement */
+    .navbar {
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      padding: 15px;
+      /* Add your default navbar styles here */
+    }
+    
+    /* Example for responsive layout on smaller screens (for height change demonstration) */
+    @media (max-width: 600px) {
+        .navbar {
+            flex-direction: column;
+            align-items: flex-start;
+            gap: 10px;
+        }
     }
   </style>
 </head>
 <body>
- <div class="navbar" id="nav">
+<div class="navbar" id="nav">
    <div class="navbar-title" id="nav-title">My Site</div>
-   <button class="navbar-cta" id="nav-cta">Get Started</button>
-   <!-- Links will be injected here -->
- </div>
+      <button class="navbar-cta" id="nav-cta">Get Started</button>
+</div>
 
   <script>
     const params = new URLSearchParams(window.location.search);
@@ -26,18 +47,42 @@
     const navTitle = document.getElementById("nav-title");
     const navCta = document.getElementById("nav-cta");
 
+    // --- 1. POSTMESSAGE UTILITY FUNCTION ---
+    // This is the core function for communicating with the client's page.
+    function sendHeight() {
+        // Measure the root container's height
+        const height = nav.offsetHeight; 
+        
+        // IMPORTANT: Retrieve the unique ID passed from the client's URL
+        const frameId = params.get("frame_id"); 
+
+        if (frameId) {
+            window.parent.postMessage(
+                { 
+                    frameHeight: height,
+                    frameId: frameId 
+                }, 
+                '*' // Can be replaced with the client's expected origin for higher security
+            );
+        }
+    }
+
     // Set title
     navTitle.textContent = params.get("title") || "My Site";
 
-    // Set docked mode
-    if (params.get("docked") === "true") {
+    // Set docked mode (This is client-controlled via postMessage, so we don't need a scroll listener here)
+    // The scroll listener for the background change is better handled by the parent page
+    /* if (params.get("docked") === "true") {
       nav.classList.add("docked");
     }
+    */
 
     // Set CTA button
     navCta.textContent = params.get("cta_text") || "Get Started";
     navCta.onclick = () => {
       const ctaLink = params.get("cta_link") || "#";
+      // OPTION: You may want to send a message to the parent to handle the link, 
+      // preventing the iframe from navigating away.
       window.open(ctaLink, '_blank');
     };
 
@@ -46,6 +91,7 @@
     const linksContainer = document.createElement('div');
     linksContainer.style.display = 'flex';
     linksContainer.style.gap = '2rem';
+    linksContainer.classList.add('navbar-links'); // Add a class for styling
 
     for (let i = 1; i <= 5; i++) {
       const label = params.get(`link${i}_label`);
@@ -59,6 +105,7 @@
       }
     }
 
+    // ... (Default links logic remains the same)
     if (linkCount === 0) {
       const defaultLinks = ['Home', 'About', 'Contact'];
       defaultLinks.forEach(label => {
@@ -71,7 +118,7 @@
 
     nav.insertBefore(linksContainer, navCta);
 
-    // Listen for messages from the parent window to toggle docked state
+    // Listen for messages from the parent window to toggle docked state (for sticky/fixed navbars)
     window.addEventListener('message', (event) => {
       if (event.data.action === 'setDocked') {
         if (event.data.isDocked) {
@@ -82,18 +129,32 @@
       }
     });
 
-    // Scroll listener for background change
-    window.addEventListener('scroll', () => {
-      const scrollTop = window.scrollY;
-      const docHeight = document.documentElement.scrollHeight - window.innerHeight;
-      const scrollPercent = scrollTop / docHeight;
+    // --- 2. HEIGHT POSTING TRIGGERS ---
 
-      if (scrollPercent >= 0.5) {
-        nav.classList.add('blue');
-      } else {
-        nav.classList.remove('blue');
-      }
+    // A. Send height immediately after all content is rendered
+    // Use setTimeout to ensure the DOM has fully settled after injection
+    window.addEventListener('load', () => {
+        sendHeight();
+        
+        // B. Send height whenever the window size changes (e.g., mobile rotation, or when
+        // your CSS media queries change the internal layout, causing a new height).
+        window.addEventListener('resize', sendHeight);
+
+        // C. OPTIONAL: Use a MutationObserver to watch for dynamic changes (like a dropdown opening)
+        // If your navbar includes a hidden mobile menu that expands, this is crucial:
+        const observer = new MutationObserver(sendHeight);
+        observer.observe(nav, { 
+            childList: true, 
+            subtree: true, 
+            attributes: true, 
+            attributeFilter: ['style', 'class'] 
+        });
     });
+
+    // Removed: Scroll listener for background change. 
+    // This scroll logic belongs on the *parent* page, which hosts the main scrollbar.
+    // The parent page should listen to its own scroll and then send a postMessage to the iframe to change the class.
+    
   </script>
 </body>
 </html>

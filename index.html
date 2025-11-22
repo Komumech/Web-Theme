@@ -90,7 +90,7 @@
                 margin-top: -35rem;
             }
             .headline{
-                font-size: 2rem;
+                font-size: 3rem;
                 max-width: 90vw;
                 padding-top: 8rem;
             }
@@ -192,5 +192,47 @@
     });
   </script>
 
+<script>
+// --- START KomuTheme Embed Code: Universal Handler ---
+
+document.addEventListener('DOMContentLoaded', function() {
+    // 1. URL Construction Logic (Reads data-attributes and builds the src URL)
+    function constructSnippetUrl(iframe) {
+        const baseUrl = iframe.getAttribute('data-base-url');
+        if (!baseUrl) return;
+        let params = [];
+        for (const attr of iframe.attributes) {
+            if (attr.name.startsWith('data-')) {
+                const paramKey = attr.name.substring(5).replace(/-/g, '_');
+                const paramValue = encodeURIComponent(attr.value);
+                if (paramKey !== 'base_url') {
+                    params.push(`${paramKey}=${paramValue}`);
+                }
+            }
+        }
+        iframe.src = baseUrl + '?' + params.join('&');
+    }
+    document.querySelectorAll('iframe[data-base-url]').forEach(constructSnippetUrl);
+});
+
+
+// 2. Universal Responsive Height Listener (PostMessage)
+window.addEventListener('message', function(event) {
+    const YOUR_SNIPPET_ORIGIN = "https://themes-blush-one.vercel.app";
+    if (event.origin !== YOUR_SNIPPET_ORIGIN) {
+        return; 
+    }
+    if (event.data.frameId && event.data.frameHeight) {
+        const targetIframe = document.getElementById(event.data.frameId);
+        if (targetIframe) {
+            const newHeight = event.data.frameHeight;
+            targetIframe.style.transition = 'height 0.3s ease-out';
+            targetIframe.style.height = newHeight + 'px';
+        }
+    }
+});
+
+// --- END KomuTheme Embed Code: Universal Handler ---
+</script>
 </body>
 </html>
