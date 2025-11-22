@@ -16,6 +16,17 @@
   box-sizing: border-box;
 }
 
+/* === Selection Styling === */
+::selection {
+  background-color: var(--accent-color);
+  color: var(--primary-text-color);
+}
+
+::-moz-selection {
+  background-color: var(--accent-color);
+  color: var(--primary-text-color);
+}
+
 body {
   margin: 0;
   padding: 0;
@@ -35,8 +46,7 @@ body {
   align-items: center;
   font-size: 1.1rem;
   font-weight: 400;
-  padding: 7px 8px;
-  width: 200px;
+  width: 180px;
   height: 60px;
   max-height: 3rem;
   cursor: pointer;

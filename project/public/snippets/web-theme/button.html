@@ -3,7 +3,7 @@
 <head>
     <link rel="stylesheet" href="theme.css">
     <style>
-        /* CRUCIAL: Set minimal body styles for accurate measurement */
+        /* CRUCIAL: Basic body styles for accurate measurement */
         body {
             margin: 0;
             padding: 0;
@@ -11,7 +11,12 @@
             overflow: hidden; /* Prevent internal scrollbars */
         } 
         
-        /* Optional: Basic button styling for spacing/sizing */
+        /* Default CSS Variable for fallback */
+        :root {
+            --primary-color: #007bff; 
+        }
+
+        /* Styling the anchor tag to look like a button */
         .btn {
             padding: 10px 20px;
             cursor: pointer;
@@ -20,30 +25,23 @@
             font-weight: 600;
             display: inline-block;
             text-align: center;
-            text-decoration: none;
-            box-sizing: border-box; /* Ensures padding/border are within measured width/height */
-        }
-
-        /* Default CSS Variable for fallback */
-        :root {
-            --primary-color: #007bff; 
+            text-decoration: none; /* Remove underline */
+            box-sizing: border-box; 
+            transition: background-color 0.3s, color 0.3s, border-color 0.3s; /* Smooth hover transition */
         }
     </style>
 </head>
 <body>
 
     <div id="snippet-root">
-        <button class="btn" id="dynamic-btn">Click Me</button>
+        <a href="#" class="btn" id="dynamic-btn">Click Me</a>
     </div>
     
 <script>
     // --- 1. POSTMESSAGE UTILITY FUNCTION ---
     function sendHeight() {
         const root = document.getElementById("snippet-root");
-        // Measure the height of the root container
         const height = root.offsetHeight; 
-        
-        // Read the unique ID passed from the client's URL
         const frameId = new URLSearchParams(window.location.search).get("frame_id"); 
 
         if (frameId) {
@@ -69,16 +67,16 @@
     const borderColor = params.get("borderColor") || color;
     const hoverBorderColor = params.get("hoverBorderColor") || hoverColor;
     const link = params.get("link") || "#";
-    // const type = params.get("type"); // Currently unused but available
 
+    // --- Select the new anchor tag ---
     const btn = document.getElementById("dynamic-btn");
     
-    // --- Apply Initial Styles and Content ---
+    // --- Apply Initial Styles, Content, and Navigation (HREF) ---
     btn.textContent = text;
     btn.style.backgroundColor = color;
     btn.style.color = textColor;
     btn.style.border = `2px solid ${borderColor}`;
-    btn.onclick = () => window.location.href = link;
+    btn.href = link; // CRITICAL FIX: Set navigation via the native HREF attribute!
 
     // --- Apply Hover Effects ---
     btn.addEventListener("mouseover", () => {
