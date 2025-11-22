@@ -22,32 +22,41 @@
         }
         /* --- NAV BAR STYLES --- */
         .hero-nav {
-            position: absolute;
-            top: 0;
-            left: 0;
-            width: 100%;
-            display: flex;
-            justify-content: space-between;
-            align-items: center;
-            padding: 15px 40px;
-            background-color: var(--nav-bg-color); /* Subtle background */
-            z-index: 3; /* Above background and content */
+    z-index: 999;
+    width: 100vw;
+    height: 3rem;
+    height: 3.5rem; /* Slightly taller for better spacing */
+    top: 0;
+    left: 0;
+    display: flex;
+    flex-direction: row;
+    justify-content: space-between;
+    position: fixed;
+    color: white;
         }
         #nav-title {
-            font-size: 1.5rem;
-            font-weight: 700;
-            color: var(--text-color);
-            text-decoration: none;
-            letter-spacing: 1px;
-            text-shadow: 1px 1px 3px var(--shadow-color);
+    font-size: 1.2rem;
+    font-weight: 600;
+    padding: 0px 16px;
+    margin-top: 13px;
+    text-decoration: none;
+    color: var(--text-color);
         }
+        .nav-links{
+    display: flex;
+    flex-direction: row;
+    gap: 1.5rem;
+    list-style: none;
+    position: absolute;
+    left: 50%;
+    transform: translateX(-50%);
+}
         .nav-links a {
-            color: var(--text-color);
-            text-decoration: none;
-            font-weight: 500;
-            margin-left: 25px;
-            transition: color 0.2s;
-            padding: 5px 0;
+    padding-right: 10px;
+    color: white;
+    text-decoration: none;
+    font-weight: 500;
+    font-size: 0.9rem;
         }
         .nav-links a:hover {
             color: var(--nav-link-hover);
