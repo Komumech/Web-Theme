@@ -20,6 +20,8 @@
       box-shadow: none;
       width: 100%;
       margin-bottom: 2rem;
+      /* FIX: Added overflow hidden */
+      overflow: hidden;
     }
 
     h2 {
@@ -62,52 +64,51 @@
     <iframe src="https://themes-blush-one.vercel.app/snippets/web-theme/button.html?text=Learn+More&type=skeleton" height="60"></iframe>
 
     <h3>Alert</h3>
-<iframe
-    id="success-alert-1"
-    src="https://themes-blush-one.vercel.app/snippets/web-theme/alert.html?type=success&message=Successfully+Updated+your+profile.&frame_id=success-alert-1"
-    width="100%"
-    height="100" 
-    style="border: none;">
-</iframe>
+    <iframe
+      id="success-alert-1"
+      src="https://themes-blush-one.vercel.app/snippets/web-theme/alert.html?type=success&message=Successfully+Updated+your+profile.&frame_id=success-alert-1"
+      width="100%"
+      height="100"
+      style="border: none;">
+    </iframe>
 
-<iframe
-    id="warning-alert-2"
-    src="https://themes-blush-one.vercel.app/snippets/web-theme/alert.html?type=warning&message=You+have+5+days+left+on+your+trial+plan.&frame_id=warning-alert-2"
-    width="100%"
-    height="100" 
-    style="border: none;">
-</iframe>
+    <iframe
+      id="warning-alert-2"
+      src="https://themes-blush-one.vercel.app/snippets/web-theme/alert.html?type=warning&message=You+have+5+days+left+on+your+trial+plan.&frame_id=warning-alert-2"
+      width="100%"
+      height="100"
+      style="border: none;">
+    </iframe>
+
     <h3>Input Field (FIXED: Added frame_id)</h3>
-<iframe
-    id="my-email-field"
-    src="https://themes-blush-one.vercel.app/snippets/web-theme/input.html?placeholder=Enter+your+email...&icon=envelope" 
-    width="450"
-    height="100"      style="border: none; overflow: hidden;"
-></iframe>
-<iframe
-    id="features-section-snippet"
-    src="" 
-    width="100%"
-    height="600" 
-    style="border: none; box-shadow: none; margin-top: 50px;"
-    
-    data-base-url="https://themes-blush-one.vercel.app/snippets/web-theme/features.html"
-    data-frame-id="features-section-snippet"
-    
-    data-headline="Our Comprehensive Advantages3"
-    data-tagline="We deliver powerful, responsive components, taking the burden of maintenance and compatibility off your shoulders. Start embedding today!"
-    data-primary-color="1f5afe" 
-    data-accent-color="ff0080"
-    
-    data-card1-title="Zero Maintenance"
-    data-card1-content="We handle the hosting, updates, and bug fixes instantly. When we improve it, your site improves automatically, globally."
-    
-    data-card2-title="Platform Agnostic"
-    data-card2-content="Seamlessly integrate our components across WordPress, Shopify, React, and every other platform—no frameworks required."
-    
-    data-card3-title="Perfect Resizing"
-    data-card3-content="Our custom PostMessage technology guarantees the iframe always adjusts perfectly to the content and screen size, even on mobile."
-></iframe>
+    <iframe
+      id="my-email-field"
+      src="https://themes-blush-one.vercel.app/snippets/web-theme/input.html?placeholder=Enter+your+email...&icon=envelope"
+      width="450"
+      height="100"
+      style="border: none; overflow: hidden;">
+    </iframe>
+
+    <iframe
+      id="features-section-snippet"
+      src=""
+      width="100%"
+      height="600"
+      style="border: none; box-shadow: none; margin-top: 50px;"
+      data-base-url="https://themes-blush-one.vercel.app/snippets/web-theme/features.html"
+      data-frame-id="features-section-snippet"
+      data-headline="Our Comprehensive Advantages3"
+      data-tagline="We deliver powerful, responsive components, taking the burden of maintenance and compatibility off your shoulders. Start embedding today!"
+      data-primary-color="1f5afe"
+      data-accent-color="ff0080"
+      data-card1-title="Zero Maintenance"
+      data-card1-content="We handle the hosting, updates, and bug fixes instantly. When we improve it, your site improves automatically, globally."
+      data-card2-title="Platform Agnostic"
+      data-card2-content="Seamlessly integrate our components across WordPress, Shopify, React, and every other platform—no frameworks required."
+      data-card3-title="Perfect Resizing"
+      data-card3-content="Our custom PostMessage technology guarantees the iframe always adjusts perfectly to the content and screen size, even on mobile.">
+    </iframe>
+
     <h3>Card</h3>
     <iframe src="https://themes-blush-one.vercel.app/snippets/web-theme/card.html?title=Our+Mission&content=To+build+beautiful,+responsive,+and+accessible+web+components+for+everyone." height="180"></iframe>
 
@@ -130,7 +131,6 @@
     style="border: none; box-shadow: none;">
   </iframe>
 
-  <!-- JavaScript Resizing Listener (The Core Fixer) -->
   <script>
     /**
      * Handles the PostMessage event to dynamically resize an iframe.
@@ -150,6 +150,8 @@
         if (iframe) {
           // Set the iframe's height, adding a small buffer (+5px)
           iframe.style.height = (data.frameHeight + 5) + "px";
+          // FIX: Ensure the iframe itself is explicitly told not to scroll
+          iframe.style.overflow = 'hidden';
         }
       }
     }
@@ -160,7 +162,7 @@
 
   <script>
     document.addEventListener('DOMContentLoaded', function() {
-      // 1. URL Construction Logic
+      // URL Construction Logic
       function constructSnippetUrl(iframe) {
         const baseUrl = iframe.getAttribute('data-base-url');
         if (!baseUrl) return;

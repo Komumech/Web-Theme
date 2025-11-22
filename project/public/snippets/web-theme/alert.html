@@ -118,8 +118,15 @@
     function sendHeight() {
         if (!frameId) return;
 
-        // Use offsetHeight or scrollHeight for total height
-        const newHeight = alertBox.offsetHeight; 
+        // Get the computed styles to read the margins
+        const style = window.getComputedStyle(alertBox);
+        
+        // Get the computed margin values
+        const marginTop = parseFloat(style.marginTop);
+        const marginBottom = parseFloat(style.marginBottom);
+
+        // Calculate the total height: offsetHeight (content + padding + border) + margins
+        const newHeight = alertBox.offsetHeight + marginTop + marginBottom;
 
         window.parent.postMessage(
             {
