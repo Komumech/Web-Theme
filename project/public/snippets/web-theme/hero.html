@@ -1,158 +1,219 @@
 <!DOCTYPE html>
 <html lang="en">
 <head>
-    <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Hero Section Snippet</title>
-    <link href="https://fonts.googleapis.com/css2?family=Montserrat:wght@400;700;900&display=swap" rel="stylesheet">
-    <style>
-        :root {
-            --primary-color: #007bff;
-            --text-color: #ffffff;
-            --shadow-color: rgba(0, 0, 0, 0.4);
-            --nav-bg-color: rgba(0, 0, 0, 0.1); /* Semi-transparent */
-            --nav-link-hover: #ffffff;
-        }
-        body {
-            margin: 0;
-            padding: 0;
-            font-family: 'Montserrat', sans-serif;
-            background-color: transparent;
-            box-sizing: border-box;
-        }
-        /* --- NAV BAR STYLES --- */
-        .hero-nav {
-    z-index: 999;
-    width: 100vw;
-    height: 3rem;
-    height: 3.5rem; /* Slightly taller for better spacing */
-    top: 0;
-    left: 0;
-    display: flex;
-    flex-direction: row;
-    justify-content: space-between;
-    position: fixed;
-    color: white;
-        }
-        #nav-title {
-    font-size: 1.2rem;
-    font-weight: 600;
-    padding: 0px 16px;
-    margin-top: 13px;
-    text-decoration: none;
-    color: var(--text-color);
-        }
-        .nav-links{
-    display: flex;
-    flex-direction: row;
-    gap: 1.5rem;
-    list-style: none;
-    position: absolute;
-    left: 50%;
-    padding-top: 20px;
-    transform: translateX(-50%);
-    font-size: 1.3rem;
-}
-        .nav-links a {
-    padding-right: 10px;
-    color: white;
-    text-decoration: none;
-    font-weight: 500;
-    font-size: 0.9rem;
-        }
-        .nav-links a:hover {
-            color: var(--nav-link-hover);
-            border-bottom: 2px solid var(--primary-color);
-        }
-        /* --- HERO SECTION STYLES (Existing) --- */
-        .hero-section {
-            width: 100%;
-            height: 600px;
-            display: flex;
-            align-items: center;
-            justify-content: center;
-            text-align: center;
-            position: relative;
-            overflow: hidden;
-            /* Ensures content stays within the 600px height for resizing */
-        }
-        .hero-background {
-            position: absolute;
-            top: 0;
-            left: 0;
-            width: 100%;
-            /* Changed height from 100vh back to 100% to ensure correct resizing within iframe */
-            height: 100%; 
-            background-size: cover;
-            background-position: center;
-            filter: brightness(0.7); 
-            z-index: 1;
-        }
-        .hero-content {
-            position: relative;
-            z-index: 2;
-            max-width: 800px;
-            padding: 0 20px;
-            color: var(--text-color);
-        }
-        #hero-headline {
-            font-size: 3.5rem;
-            font-weight: 900;
-            margin-bottom: 15px;
-            text-shadow: 2px 2px 6px var(--shadow-color);
-        }
-        #hero-tagline {
-            font-size: 1.25rem;
-            font-weight: 400;
-            margin-bottom: 30px;
-            text-shadow: 1px 1px 4px var(--shadow-color);
-        }
-        .cta-button {
-            display: inline-block;
-            padding: 12px 30px;
-            font-size: 1.1rem;
-            font-weight: 700;
-            background-color: var(--primary-color);
-            color: var(--text-color);
-            text-decoration: none;
-            border-radius: 5px;
-            transition: background-color 0.3s, transform 0.2s;
-            border: none;
-            cursor: pointer;
-        }
-        .cta-button:hover {
-            background-color: #0056b3; 
-            transform: translateY(-2px);
-        }
-        @media (max-width: 768px) {
-            .hero-section { height: 450px; } /* Increased height slightly for mobile view with nav */
-            .hero-nav { padding: 15px 20px; }
-            .nav-links a { margin-left: 15px; font-size: 0.9rem; }
-            #hero-headline { font-size: 2.5rem; }
-            #hero-tagline { font-size: 1rem; }
-        }
-    </style>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Hero Section Snippet</title>
+  <link href="https://fonts.googleapis.com/css2?family=Montserrat:wght@400;700;900&display=swap" rel="stylesheet">
+  <style>
+    :root {
+      --primary-color: #007bff;
+      --text-color: #ffffff;
+      --shadow-color: rgba(0, 0, 0, 0.4);
+      --nav-bg-color: rgba(0, 0, 0, 0.3);
+      --nav-link-hover: #ffcc00;
+    }
+
+    body {
+      margin: 0;
+      padding: 0;
+      font-family: 'Montserrat', sans-serif;
+      background-color: transparent;
+      box-sizing: border-box;
+    }
+
+    /* --- NAV BAR STYLES --- */
+    .hero-nav {
+      z-index: 999;
+      width: 100vw;
+      height: 3.5rem;
+      top: 0;
+      left: 0;
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      position: fixed;
+      background: var(--nav-bg-color);
+      backdrop-filter: blur(8px);
+      padding: 0 20px;
+      transition: background 0.3s ease;
+    }
+
+    #nav-title {
+      font-size: 1.3rem;
+      font-weight: 700;
+      text-decoration: none;
+      color: var(--text-color);
+      transition: color 0.3s ease;
+    }
+
+    .nav-links {
+      display: flex;
+      gap: 1.5rem;
+      list-style: none;
+    }
+
+    .nav-links a {
+      color: var(--text-color);
+      text-decoration: none;
+      font-weight: 500;
+      font-size: 1rem;
+      position: relative;
+      transition: color 0.3s ease;
+    }
+
+    .nav-links a::after {
+      content: "";
+      position: absolute;
+      width: 0%;
+      height: 2px;
+      bottom: -4px;
+      left: 0;
+      background-color: var(--primary-color);
+      transition: width 0.3s ease;
+    }
+
+    .nav-links a:hover {
+      color: var(--nav-link-hover);
+    }
+
+    .nav-links a:hover::after {
+      width: 100%;
+    }
+
+    /* --- HERO SECTION --- */
+    .hero-section {
+      width: 100%;
+      height: 100vh;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      text-align: center;
+      position: relative;
+      overflow: hidden;
+    }
+
+    .hero-background {
+      position: absolute;
+      top: 0;
+      left: 0;
+      width: 100%;
+      height: 100%;
+      background-size: cover;
+      background-position: center;
+      filter: brightness(0.6);
+      z-index: 1;
+      animation: zoomIn 20s ease-in-out infinite alternate;
+    }
+
+    /* Gradient overlay for depth */
+    .hero-section::before {
+      content: "";
+      position: absolute;
+      top: 0; left: 0;
+      width: 100%; height: 100%;
+      background: linear-gradient(to bottom right, rgba(0,0,0,0.6), rgba(0,0,0,0.2));
+      z-index: 2;
+    }
+
+    .hero-content {
+      position: relative;
+      z-index: 3;
+      max-width: 800px;
+      padding: 0 20px;
+      color: var(--text-color);
+      animation: fadeInUp 1.5s ease forwards;
+    }
+
+    #hero-headline {
+      font-size: 3.5rem;
+      font-weight: 900;
+      margin-bottom: 15px;
+      text-shadow: 2px 2px 6px var(--shadow-color);
+      animation: slideIn 1.2s ease forwards;
+    }
+
+    #hero-tagline {
+      font-size: 1.25rem;
+      font-weight: 400;
+      margin-bottom: 30px;
+      text-shadow: 1px 1px 4px var(--shadow-color);
+      opacity: 0.9;
+      animation: fadeIn 2s ease forwards;
+    }
+
+    .cta-button {
+      display: inline-block;
+      padding: 14px 36px;
+      font-size: 1.1rem;
+      font-weight: 700;
+      background: linear-gradient(135deg, var(--primary-color), #0056b3);
+      color: var(--text-color);
+      text-decoration: none;
+      border-radius: 50px;
+      transition: all 0.3s ease;
+      border: none;
+      cursor: pointer;
+      box-shadow: 0 6px 20px rgba(0,0,0,0.3);
+    }
+
+    .cta-button:hover {
+      background: linear-gradient(135deg, #0056b3, var(--primary-color));
+      transform: translateY(-3px) scale(1.05);
+      box-shadow: 0 10px 25px rgba(0,0,0,0.4);
+    }
+
+    /* --- ANIMATIONS --- */
+    @keyframes fadeInUp {
+      from { opacity: 0; transform: translateY(40px); }
+      to { opacity: 1; transform: translateY(0); }
+    }
+
+    @keyframes slideIn {
+      from { opacity: 0; transform: translateX(-50px); }
+      to { opacity: 1; transform: translateX(0); }
+    }
+
+    @keyframes fadeIn {
+      from { opacity: 0; }
+      to { opacity: 1; }
+    }
+
+    @keyframes zoomIn {
+      from { transform: scale(1); }
+      to { transform: scale(1.1); }
+    }
+
+    @media (max-width: 768px) {
+      .hero-section { height: 500px; }
+      #hero-headline { font-size: 2.5rem; }
+      #hero-tagline { font-size: 1rem; }
+      .cta-button { padding: 12px 28px; font-size: 1rem; }
+    }
+  </style>
 </head>
 <body>
 
 <div class="hero-section" id="hero-content-wrapper">
-    <div class="hero-background" id="hero-background"></div>
-    
-    <nav class="hero-nav">
-        <a href="#" id="nav-title">ThemeCorp</a>
-        <div class="nav-links" id="nav-links">
-            <a href="#" id="link1-href">Home</a>
-            <a href="#" id="link2-href">Products</a>
-            <a href="#" id="link3-href">Login</a>
-        </div>
-    </nav>
-    
-    <div class="hero-content">
-        <h1 id="hero-headline">Powerful Solutions for Modern Web</h1>
-        <p id="hero-tagline">Start embedding dynamic, maintenance-free components today and transform your website instantly.</p>
-        <a id="hero-cta-button" class="cta-button" href="#">Get Started Now</a>
+  <div class="hero-background" id="hero-background" style="background-image:url('https://picsum.photos/1920/1080?blur');"></div>
+  
+  <nav class="hero-nav">
+    <a href="#" id="nav-title">ThemeCorp</a>
+    <div class="nav-links" id="nav-links">
+      <a href="#" id="link1-href">Home</a>
+      <a href="#" id="link2-href">Products</a>
+      <a href="#" id="link3-href">Login</a>
     </div>
+  </nav>
+  
+  <div class="hero-content">
+    <h1 id="hero-headline">Powerful Solutions for Modern Web</h1>
+    <p id="hero-tagline">Start embedding dynamic, maintenance-free components today and transform your website instantly.</p>
+    <a id="hero-cta-button" class="cta-button" href="#">Get Started Now</a>
+  </div>
 </div>
+
+// ... (start of HTML and CSS is unchanged) ...
 
 <script>
     const wrapper = document.getElementById('hero-content-wrapper');
@@ -165,18 +226,14 @@
     for (let i = 1; i <= 3; i++) {
         const label = params.get(`link${i}_label`);
         const href = params.get(`link${i}_href`);
-        
         const linkElement = document.getElementById(`link${i}-href`);
-        
         if (label && linkElement) {
             linkElement.textContent = decodeURIComponent(label);
             linkElement.href = decodeURIComponent(href || "#");
         } else if (linkElement) {
-            // Hide the link if no label is provided
             linkElement.style.display = 'none';
         }
     }
-
 
     // --- HERO CONTENT CUSTOMIZATION ---
     document.getElementById('hero-headline').textContent = decodeURIComponent(params.get("headline") || "Powerful Solutions for Modern Web");
@@ -186,21 +243,27 @@
     ctaButton.textContent = decodeURIComponent(params.get("cta_text") || "Get Started");
     ctaButton.href = decodeURIComponent(params.get("cta_href") || "#");
 
-    // Color and Background
     const primaryColor = params.get("primary_color");
     if (primaryColor) {
         document.documentElement.style.setProperty('--primary-color', '#' + primaryColor);
     }
+    
+    // 🔥 FIX 1: Completed the backgroundUrl assignment
     const backgroundUrl = params.get("background_url");
     if (backgroundUrl) {
         document.getElementById('hero-background').style.backgroundImage = `url(${decodeURIComponent(backgroundUrl)})`;
+    } else {
+        // Fallback for the placeholder URL in the HTML
+        document.getElementById('hero-background').style.backgroundImage = `url('https://picsum.photos/1920/1080?blur')`;
     }
 
     // --- Dynamic Resizing (Standard Logic) ---
     function sendHeight() {
         if (!frameId) return;
-        // The hero section height is fixed by CSS, but we report it correctly
-        const newHeight = wrapper.offsetHeight; 
+
+        // 🔥 FIX 2: Use document.body.scrollHeight to account for all content height
+        // Since the hero is fixed-height (100vh), this will report the correct fixed height.
+        const newHeight = document.body.scrollHeight; 
 
         window.parent.postMessage(
             { frameId: frameId, frameHeight: newHeight }, 
