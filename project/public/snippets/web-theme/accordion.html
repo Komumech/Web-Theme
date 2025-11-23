@@ -3,12 +3,20 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Accordion Snippet</title>
+    <title>Premium Accordion Snippet</title>
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0-beta3/css/all.min.css">
-    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;600;700&display=swap" rel="stylesheet">
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&display=swap" rel="stylesheet">
     <style>
         :root {
-            --accent-color: #007bff;
+            /* Adjusted Colors for High Contrast/Modern Theme */
+            --accent-color: #007bff; /* Primary Accent Color (Customizable) */
+            --border-color: #f0f0f0; /* Very light border */
+            --header-bg-closed: #fcfcfc; /* Near white, very subtle background */
+            --header-bg-open: #ffffff; /* Pure white for active item */
+            --text-color: #1a1a1a; /* Very dark text */
+            --light-text-color: #5a5a5a; /* Darker grey for content */
+            --box-shadow: 0 10px 30px rgba(0, 0, 0, 0.08); /* Stronger, softer shadow */
+            --hover-bg: #f5f5f5;
         }
         body {
             margin: 0;
@@ -16,71 +24,106 @@
             font-family: 'Inter', sans-serif;
             background-color: transparent;
             box-sizing: border-box;
-            color: #333;
+            color: var(--text-color);
+            /* Prevents page jump when accordion opens/closes */
+            overflow-y: scroll; 
         }
+
+        /* --- CONTAINER STYLES (The "Floating Card") --- */
         .accordion-container {
             max-width: 100%;
             margin: 0;
-            border: 1px solid #e0e0e0;
-            border-radius: 8px;
+            border-radius: 12px;
             overflow: hidden;
+            /* Frameless Look: Rely on Shadow instead of border */
+            box-shadow: var(--box-shadow); 
+            border: 1px solid var(--border-color); /* Light interior separation */
         }
         .accordion-item {
-            border-bottom: 1px solid #e0e0e0;
+            border-bottom: 1px solid var(--border-color);
+            background-color: var(--header-bg-open);
         }
         .accordion-item:last-child {
             border-bottom: none;
         }
+
+        /* --- HEADER STYLES --- */
         .accordion-header {
             display: flex;
             justify-content: space-between;
             align-items: center;
-            padding: 15px 20px;
-            background-color: #f7f7f7;
+            padding: 18px 25px; 
+            background-color: var(--header-bg-closed);
             cursor: pointer;
-            font-weight: 600;
-            font-size: 1.1rem;
+            font-weight: 600; /* Bolder header text */
+            font-size: 1.05rem; 
+            color: var(--text-color);
             transition: background-color 0.2s;
+            user-select: none;
         }
         .accordion-header:hover {
-            background-color: #ededed;
+            background-color: var(--hover-bg);
         }
+
+        /* Active Header Styling */
+        .accordion-item.open .accordion-header {
+            background-color: var(--header-bg-open);
+            color: var(--accent-color); /* Highlight text color when open */
+            font-weight: 700; /* Extra bold when active */
+        }
+        
+        /* Icon Styling */
         .accordion-header i {
+            font-size: 0.8rem; /* Slightly smaller icon */
             color: var(--accent-color);
-            transition: transform 0.3s;
+            transition: transform 0.35s ease-in-out; /* Slightly faster transition */
+            margin-left: 15px;
         }
-        .accordion-content {
-            max-height: 0;
-            overflow: hidden;
-            padding: 0 20px;
-            background-color: #fff;
-            transition: max-height 0.4s ease-in-out, padding 0.4s ease-in-out;
-        }
-        .accordion-content p {
-            padding: 10px 0;
-            margin: 0;
-            color: #555;
-            line-height: 1.6;
-        }
-        /* State for Open Item */
         .accordion-item.open .accordion-header i {
             transform: rotate(180deg);
         }
-        .accordion-item.open .accordion-content {
-            max-height: 500px; /* Large enough value to contain content */
-            padding: 15px 20px;
-        }
-        .accordion-content {
-    max-height: 0;
-    overflow: hidden; /* Hides internal scroll bar when closed */
-    transition: max-height 0.4s ease-out; /* Match your desired duration */
-}
 
-.accordion-item.active .accordion-content {
-    /* Set max-height to a value GUARANTEED to be larger than the content */
-    max-height: 500px; /* Adjust this value as necessary */ 
-    overflow: visible; /* Allows the content to display fully when open */
-}
+        /* --- CONTENT STYLES --- */
+        .accordion-content {
+            max-height: 0;
+            overflow: hidden;
+            padding: 0 25px;
+            background-color: #fff;
+            /* Smoother combined transition */
+            transition: max-height 0.5s cubic-bezier(0.25, 0.46, 0.45, 0.94), padding 0.5s cubic-bezier(0.25, 0.46, 0.45, 0.94); 
+        }
+        .accordion-item.open .accordion-content {
+            max-height: 800px; /* Safe, large height */
+            padding: 15px 25px 25px 25px; 
+            /* If the content is very long, allow it to scroll internally */
+            overflow-y: auto; 
+        }
+        .accordion-content p {
+            padding: 0;
+            margin: 0;
+            color: var(--light-text-color);
+            font-weight: 400;
+            line-height: 1.6;
+        }
+
+        /* --- 🌟 PREMIUM SCROLLBAR STYLING (Webkit Only) 🌟 --- */
+        .accordion-content::-webkit-scrollbar {
+            width: 8px; /* Make it thinner */
+            height: 8px;
+        }
+
+        .accordion-content::-webkit-scrollbar-track {
+            background: transparent;
+        }
+
+        .accordion-content::-webkit-scrollbar-thumb {
+            background: rgba(0, 0, 0, 0.15); /* Subtle dark grey */
+            border-radius: 10px;
+        }
+
+        .accordion-content::-webkit-scrollbar-thumb:hover {
+            background: var(--accent-color); /* Matches your customizable accent color */
+        }
     </style>
 </head>
 <body>
@@ -120,20 +163,21 @@
     const params = new URLSearchParams(window.location.search);
     const frameId = params.get("frame_id");
 
-    // --- Customization Logic (Allows up to 3 items) ---
+    // --- Customization Logic ---
     function customizeItem(index) {
         const header = params.get(`header_${index}`);
         const content = params.get(`content_${index}`);
 
+        const headerElement = document.getElementById(`header-${index}`);
+        const item = document.getElementById(`item-${index}`);
+
         if (header) {
-            document.getElementById(`header-${index}`).textContent = decodeURIComponent(header);
+            headerElement.textContent = decodeURIComponent(header);
         }
         if (content) {
             document.getElementById(`content-${index}`).innerHTML = decodeURIComponent(content);
-        } else if (!header) {
-            // Hide item if no header is provided
-            const item = document.getElementById(`item-${index}`);
-            if (item) item.style.display = 'none';
+        } else if (!header && item) {
+            item.style.display = 'none';
         }
     }
 
@@ -151,9 +195,8 @@
         const header = e.target.closest('.accordion-header');
         if (header) {
             const item = header.parentElement;
-            const content = item.querySelector('.accordion-content');
             
-            // Close all other items
+            // Close all other items (Exclusive behavior)
             document.querySelectorAll('.accordion-item').forEach(i => {
                 if (i !== item && i.classList.contains('open')) {
                     i.classList.remove('open');
@@ -163,15 +206,14 @@
             // Toggle current item
             item.classList.toggle('open');
             
-            // Must re-send height after toggle completes
-            setTimeout(sendHeight, 450); 
+            // Re-send height after transition completes (0.5s transition + buffer)
+            setTimeout(sendHeight, 550); 
         }
     });
 
     // --- Dynamic Resizing (Standard Logic) ---
     function sendHeight() {
         if (!frameId) return;
-        // Use offsetHeight of the container to include all visible content
         const newHeight = container.offsetHeight; 
 
         window.parent.postMessage(
@@ -181,9 +223,8 @@
     }
     window.addEventListener('load', sendHeight);
     window.addEventListener('resize', sendHeight);
-    // Send height immediately and after DOM manipulation finishes
     setTimeout(sendHeight, 0); 
-    setTimeout(sendHeight, 500);
+    setTimeout(sendHeight, 550); 
 </script>
 
 </body>
