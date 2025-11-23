@@ -70,6 +70,17 @@
             max-height: 500px; /* Large enough value to contain content */
             padding: 15px 20px;
         }
+        .accordion-content {
+    max-height: 0;
+    overflow: hidden; /* Hides internal scroll bar when closed */
+    transition: max-height 0.4s ease-out; /* Match your desired duration */
+}
+
+.accordion-item.active .accordion-content {
+    /* Set max-height to a value GUARANTEED to be larger than the content */
+    max-height: 500px; /* Adjust this value as necessary */ 
+    overflow: visible; /* Allows the content to display fully when open */
+}
     </style>
 </head>
 <body>
