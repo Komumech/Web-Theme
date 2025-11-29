@@ -1,0 +1,56 @@
+.small {
+    font-size: 2rem;
+    /* Ensure small text is visible */
+    color: rgb(232, 231, 231); 
+    font-weight: 500;
+    margin-bottom: -2rem;
+    display: block;
+}
+
+.large {
+    font-size: 13rem;
+}
+
+/* Base style for the entire powered-p line */
+.powered-p {
+    /* Set a visible color and appropriate font styles */
+    color: rgb(221, 221, 221); 
+    font-family: sans-serif;
+    font-size: 100px; /* Base size, will be overridden by .small/.large */
+    font-weight: 900;
+    line-height: 1;
+    justify-self: center;
+    margin: 0 auto;
+    display: flex;
+    flex-direction: column;
+    /* REMOVE all background-clip/image properties from the parent */
+    background-image: none;
+    background-clip: unset; 
+    -webkit-background-clip: unset; 
+}
+
+.powered-p a {
+    text-decoration: none;
+    /* 1. Make the anchor text transparent */
+    color: transparent; 
+    
+    /* 2. Apply the valid image texture to the anchor link */
+    background-image: url('images/img4.jpg'); /* VALID Wood Texture URL */ 
+    background-size: cover; 
+    backdrop-filter: blur(2px);
+    -webkit-backdrop-filter: blur(2px);
+    background-position: center; 
+    background-repeat: no-repeat;
+    
+    /* 3. Clip the background to the text shape */
+    -webkit-background-clip: text; 
+    background-clip: text; 
+}
+
+.powered-p a .large {
+    /* Since .large is a child of the anchor, it inherits transparent, 
+       but we need the texture to cover it. The background-clip trick works 
+       best when the text you want to texture is the direct content of the element 
+       with the background-clip property. */
+    color: transparent; /* Ensure it stays transparent */
+}
