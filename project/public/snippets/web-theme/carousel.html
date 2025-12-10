@@ -17,7 +17,7 @@
             --border-radius: 8px;
             --transition-fast: 0.3s ease-in-out;
             --carousel-height: 400px; 
-            --carousel-width: 100%; /* NEW variable for width */
+            --carousel-width: 100%;
         }
 
         body {
@@ -29,11 +29,11 @@
             display: flex;
             justify-content: center; /* Center the container horizontally */
             align-items: center;
-            min-height: var(--carousel-height);
+            /* Set min-height to allow the body to properly contain the carousel's height */
+            min-height: var(--carousel-height); 
         }
 
         .carousel-container {
-            /* Use the new CSS variable for width */
             width: var(--carousel-width); 
             max-width: 100%;
             position: relative;
@@ -57,12 +57,15 @@
         }
 
         .carousel-slide img {
+            width: 100%; /* *** FIX: Ensure image fills slide width *** */
             display: block;
-            justify-self: center;
-            height: 100%; /* Use 100% of container height */
+            height: 100%; 
+            /* *** FIX: Ensure image covers the area without distorting ratio *** */
+            object-fit: cover; 
+            max-width: 100%; /* Safety measure for small screens */
         }
 
-        /* ... Carousel Button Styles remain the same ... */
+        /* --- Carousel Button Styles --- */
 
         .carousel-btn {
             position: absolute;
@@ -135,7 +138,7 @@
                 document.documentElement.style.setProperty('--carousel-height', height);
             }
             
-            // Width: NEW PARAMETER HANDLING
+            // Width
             const width = params.get("width");
             if (width) {
                 document.documentElement.style.setProperty('--carousel-width', width);
