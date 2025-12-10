@@ -29,7 +29,6 @@
             display: flex;
             justify-content: center; /* Center the container horizontally */
             align-items: center;
-            /* Set min-height to allow the body to properly contain the carousel's height */
             min-height: var(--carousel-height); 
         }
 
@@ -40,8 +39,9 @@
             overflow: hidden;
             border-radius: var(--border-radius);
             box-shadow: 0 4px 15px rgba(0, 0, 0, 0.1);
-            background-color: var(--carousel-background);
-            height: var(--carousel-height); /* Set container height */
+            /* Background color for the empty space when using object-fit: contain */
+            background-color: var(--carousel-background); 
+            height: var(--carousel-height);
         }
 
         .carousel-slider {
@@ -54,15 +54,19 @@
             min-width: 100%;
             box-sizing: border-box;
             height: 100%;
+            /* Use flex on the slide itself to perfectly center the contained image */
+            display: flex;
+            justify-content: center;
+            align-items: center;
         }
 
         .carousel-slide img {
-            width: 100%; /* *** FIX: Ensure image fills slide width *** */
+            width: 100%; 
             display: block;
             height: 100%; 
-            /* *** FIX: Ensure image covers the area without distorting ratio *** */
-            object-fit: cover; 
-            max-width: 100%; /* Safety measure for small screens */
+            /* *** FIX: Use 'contain' to ensure the entire image is visible (no cropping) in portrait view *** */
+            object-fit: contain; 
+            max-width: 100%;
         }
 
         /* --- Carousel Button Styles --- */
