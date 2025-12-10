@@ -170,13 +170,46 @@
     ></iframe>
 </div>
     <h3>Input Field (FIXED: Added frame_id)</h3>
-    <iframe
-      id="my-email-field"
-      src="https://themes-blush-one.vercel.app/snippets/web-theme/input.html?placeholder=Enter+your+email...&icon=envelope"
-      width="450"
-      height="100"
-      style="border: none; overflow: hidden;">
-    </iframe>
+<iframe
+    id="my-contact-input"
+    src="https://themes-blush-one.vercel.app/snippets/web-theme/input.html" 
+    width="100%"    
+    height="100"    
+    style="border: none; overflow: hidden;"
+
+    data-frame-id="my-contact-input"
+    data-placeholder="Your Email Address"
+    data-icon="envelope"
+    data-submit-text="Sign Up" 
+    
+    data-primary-color="7d44ff" 
+></iframe>
+
+<script>
+    // 1. LISTEN FOR THE MESSAGE (This script must be on your main page)
+    window.addEventListener('message', function(event) {
+        // Check if the message came from your iframe and is a submission
+        if (event.data && event.data.action === 'input_submitted' && event.data.frameId === 'my-contact-input') {
+            const submittedValue = event.data.value;
+            
+            // 2. PROCESS THE DATA HERE
+            console.log("SUCCESS! Data received from iframe:", submittedValue);
+            
+            // Example action: Send this value to your server using a fetch request:
+            // fetch('/api/signup', {
+            //     method: 'POST',
+            //     headers: { 'Content-Type': 'application/json' },
+            //     body: JSON.stringify({ email: submittedValue })
+            // });
+            
+            alert(`Parent page received input: ${submittedValue}`);
+            // You can update a success message on the parent page here
+        }
+    });
+
+    // NOTE: You also need the 'constructSnippetUrl' function from earlier in the thread
+    // to build the URL from the 'data-' attributes, just as you did for your other snippets.
+</script>
 
     <iframe
       id="features-section-snippet"
@@ -223,19 +256,19 @@
 <iframe
     id="image-carousel-1"
     src=""
-    width="50%" 
     height="450" 
     style="border: none; overflow: hidden; margin-bottom: 2rem; display: block;"
     
     data-base-url="https://themes-blush-one.vercel.app/snippets/web-theme/carousel.html"
     data-frame-id="image-carousel-1"
     
-    data-images="https://komuhost.vercel.app/img1.jpg,https://komuhost.vercel.app/img1.jpg,https://komuhost.vercel.app/img1.jpg" 
+    data-images="https://komuhost.vercel.app/img2.png,https://komuhost.vercel.app/img2.png,https://komuhost.vercel.app/img2.png" 
     data-primary-color="ff66b2" 
     data-bg-color="#ffffff00" 
     data-height="400px" 
     
-    data-width="80%" ></iframe>
+    data-width="60%" >
+  </iframe>
 
   <script>
     /**
