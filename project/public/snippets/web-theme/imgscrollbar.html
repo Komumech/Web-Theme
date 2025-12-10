@@ -1,0 +1,208 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Embeddable Carousel</title>
+    <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@400;600&display=swap" rel="stylesheet">
+    <style>
+        :root {
+            /* Customizable Colors */
+            --carousel-background: #ffffff;
+            --button-background: rgba(255, 255, 255, 0.7);
+            --button-color: #333333;
+            --button-hover-bg: #93affc; /* Default Primary Color */
+            --button-hover-color: #ffffff;
+            /* Layout and Styling */
+            --border-radius: 8px;
+            --transition-fast: 0.3s ease-in-out;
+            --carousel-height: 400px; /* New variable for height */
+        }
+
+        body {
+            margin: 0;
+            padding: 0;
+            font-family: 'Poppins', sans-serif;
+            background-color: transparent; 
+            box-sizing: border-box;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            min-height: var(--carousel-height);
+        }
+
+        .carousel-container {
+            width: 100%;
+            max-width: 100%;
+            position: relative;
+            overflow: hidden;
+            border-radius: var(--border-radius);
+            box-shadow: 0 4px 15px rgba(0, 0, 0, 0.1);
+            background-color: var(--carousel-background);
+            height: var(--carousel-height); /* Set container height */
+        }
+
+        .carousel-slider {
+            display: flex;
+            transition: transform var(--transition-fast);
+            height: 100%;
+        }
+
+        .carousel-slide {
+            min-width: 100%;
+            box-sizing: border-box;
+            height: 100%;
+        }
+
+        .carousel-slide img {
+            width: 100%;
+            display: block;
+            object-fit: cover;
+            height: 100%; /* Use 100% of container height */
+        }
+
+        .carousel-btn {
+            position: absolute;
+            top: 50%;
+            transform: translateY(-50%);
+            background-color: var(--button-background);
+            border: none;
+            color: var(--button-color);
+            font-size: 1.5rem;
+            cursor: pointer;
+            padding: 10px;
+            border-radius: 50%;
+            width: 40px;
+            height: 40px;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            transition: all var(--transition-fast);
+            box-shadow: 0 2px 5px rgba(0, 0, 0, 0.2);
+            z-index: 10;
+        }
+
+        .carousel-btn:hover {
+            background-color: var(--button-hover-bg);
+            color: var(--button-hover-color);
+        }
+
+        .carousel-btn.prev {
+            left: 15px;
+        }
+
+        .carousel-btn.next {
+            right: 15px;
+        }
+    </style>
+</head>
+<body>
+    <div class="carousel-container" id="carousel-container">
+        <div class="carousel-slider" id="carousel-slider">
+            </div>
+        <button class="carousel-btn prev">&#10094;</button>
+        <button class="carousel-btn next">&#10095;</button>
+    </div>
+
+    <script>
+        document.addEventListener('DOMContentLoaded', function () {
+            const slider = document.getElementById('carousel-slider');
+            const container = document.getElementById('carousel-container');
+            const prevBtn = document.querySelector('.carousel-btn.prev');
+            const nextBtn = document.querySelector('.carousel-btn.next');
+            const params = new URLSearchParams(window.location.search);
+            const frameId = params.get("frame_id");
+            let currentIndex = 0;
+            let slides = [];
+            let slideCount = 0;
+
+            // --- Customization via URL Params ---
+
+            // Colors
+            const primaryColor = params.get("primary_color");
+            if (primaryColor) {
+                document.documentElement.style.setProperty('--button-hover-bg', '#' + primaryColor);
+            }
+            const bgColor = params.get("bg_color");
+            if (bgColor) {
+                document.documentElement.style.setProperty('--carousel-background', '#' + bgColor);
+            }
+            const height = params.get("height");
+            if (height) {
+                document.documentElement.style.setProperty('--carousel-height', height);
+            }
+
+            // Image Sources (CSV format: url1,url2,url3)
+            const imagesParam = params.get("images");
+            
+            // --- Default Image Fallback ---
+            const defaultImages = [
+                "https://picsum.photos/800/400?random=1",
+                "https://picsum.photos/800/400?random=2",
+                "https://picsum.photos/800/400?random=3"
+            ];
+
+            // Use provided images, or the default set if none are provided
+            const imageUrls = imagesParam 
+                ? decodeURIComponent(imagesParam).split(',').map(url => url.trim())
+                : defaultImages;
+
+            imageUrls.forEach((url, index) => {
+                const slideDiv = document.createElement('div');
+                slideDiv.classList.add('carousel-slide');
+                const img = document.createElement('img');
+                img.src = url;
+                img.alt = `Image ${index + 1}`;
+                slideDiv.appendChild(img);
+                slider.appendChild(slideDiv);
+            });
+            
+            slides = document.querySelectorAll('.carousel-slide');
+            slideCount = slides.length;
+
+
+            // Carousel Logic
+            function goToSlide(index) {
+                if (slideCount === 0) return; 
+                if (index < 0) {
+                    index = slideCount - 1;
+                } else if (index >= slideCount) {
+                    index = 0;
+                }
+                slider.style.transform = `translateX(-${index * 100}%)`;
+                currentIndex = index;
+            }
+
+            prevBtn.addEventListener('click', () => goToSlide(currentIndex - 1));
+            nextBtn.addEventListener('click', () => goToSlide(currentIndex + 1));
+            
+            goToSlide(0);
+
+            // --- Dynamic Resizing (Standard Logic) ---
+            function sendHeight() {
+                if (!frameId) return;
+                // Get the height of the container, which is fixed by --carousel-height
+                const newHeight = container.offsetHeight; 
+
+                window.parent.postMessage(
+                    { frameId: frameId, frameHeight: newHeight }, 
+                    "*"
+                );
+            }
+            
+            // Wait for the first image to load to ensure correct height reporting
+            const firstImage = slider.querySelector('img');
+            if (firstImage) {
+                // Ensure sendHeight runs after the image dimensions are finalized
+                firstImage.addEventListener('load', sendHeight);
+            }
+
+            // Fallback and general resize listeners
+            window.addEventListener('load', sendHeight);
+            window.addEventListener('resize', sendHeight);
+            setTimeout(sendHeight, 0); 
+            setTimeout(sendHeight, 500);
+        });
+    </script>
+</body>
+</html>
