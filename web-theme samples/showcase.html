@@ -1,0 +1,353 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Web Theme Snippet Showcase</title>
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@400;500;600;700&display=swap" rel="stylesheet">
+  <style>
+    /* General styling for the showcase page */
+    body {
+      font-family: 'Poppins', sans-serif;
+      background-color: #f4f6fc;
+      color: #1a1a1a;
+      margin: 0;
+      padding: 0;
+    }
+
+    iframe {
+      border: none;
+      box-shadow: none;
+      width: 100%;
+      margin-bottom: 2rem;
+      overflow: hidden;
+    }
+
+    .showcase-header {
+        background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+        color: white;
+        padding: 4rem 2rem;
+        text-align: center;
+    }
+
+    .showcase-header h1 {
+        font-size: 3rem;
+        margin: 0 0 1rem 0;
+        font-weight: 700;
+    }
+
+    .showcase-header p {
+        font-size: 1.2rem;
+        max-width: 700px;
+        margin: 0 auto;
+        opacity: 0.9;
+    }
+
+    .component-group {
+      max-width: 1000px;
+      margin: 3rem auto;
+      padding: 20px;
+      background-color: #ffffff;
+      border-radius: 12px;
+      box-shadow: 0 10px 30px rgba(0,0,0,0.07);
+    }
+
+    .component-group h2 {
+      font-size: 1.8rem;
+      margin-top: 0;
+      border-bottom: 2px solid #eef2f7;
+      padding-bottom: 0.75rem;
+      margin-bottom: 2rem;
+      color: #333;
+    }
+
+    h3 {
+        font-size: 1.2rem;
+        font-weight: 600;
+        color: #555;
+        margin-top: 2.5rem;
+        margin-bottom: 1rem;
+    }
+  </style>
+</head>
+<body>
+
+  <div class="showcase-header">
+    <h1>Web Theme Snippet Showcase</h1>
+    <p>A complete gallery of all available UI components. Each component is fully responsive, customizable, and ready to be embedded into any project.</p>
+  </div>
+
+  <!-- Hero Section -->
+  <iframe
+    id="hero-section-showcase"
+    src=""
+    width="100%"
+    height="500"
+    style="display: block;"
+    data-base-url="https://themes-blush-one.vercel.app/snippets/web-theme/hero.html"
+    data-frame-id="hero-section-showcase"
+    data-nav-title="Showcase"
+    data-link1-label="Features"
+    data-link1-href="#"
+    data-link2-label="Pricing"
+    data-link2-href="#"
+    data-headline="Dynamic Component Library"
+    data-tagline="Building beautiful websites, one snippet at a time."
+    data-cta1-text="Get Started"
+    data-cta2-text="View on GitHub"
+    data-gradient-start="667eea"
+    data-gradient-end="764ba2"
+    data-gradient-direction="to right"
+    data-primary-color="ffffff"
+    data-secondary-button-border="ffffff"
+  ></iframe>
+
+  <div class="component-group">
+    <h2>Interactive Components</h2>
+
+    <h3>Navbar</h3>
+    <iframe
+        id="navbar-showcase"
+        src=""
+        data-base-url="https://themes-blush-one.vercel.app/snippets/web-theme/navbar.html"
+        data-frame-id="navbar-showcase"
+        data-title="My Website"
+        data-link1-label="Home" data-link1-href="#"
+        data-link2-label="About" data-link2-href="#"
+        data-link3-label="Contact" data-link3-href="#"
+        data-cta_text="Sign Up"
+    ></iframe>
+
+    <h3>Buttons</h3>
+    <iframe data-base-url="https://themes-blush-one.vercel.app/snippets/web-theme/button.html" data-frame-id="button-showcase-1" id="button-showcase-1" data-text="Primary Button" data-color="#764ba2"></iframe>
+    <iframe data-base-url="https://themes-blush-one.vercel.app/snippets/web-theme/skeleton-button.html" data-frame-id="button-showcase-2" id="button-showcase-2" data-text="Skeleton Button" data-color="#764ba2"></iframe>
+
+    <h3>Input Form</h3>
+    <iframe
+        id="input-showcase"
+        src=""
+        data-base-url="https://themes-blush-one.vercel.app/snippets/web-theme/input.html"
+        data-frame-id="input-showcase"
+        data-placeholder="Enter your email for updates..."
+        data-icon="envelope"
+        data-submit-text="Subscribe"
+        data-primary-color="667eea"
+    ></iframe>
+
+    <h3>Alerts</h3>
+    <iframe id="alert-success" src="" data-base-url="https://themes-blush-one.vercel.app/snippets/web-theme/alert.html" data-frame-id="alert-success" data-type="success" data-message="Your profile was updated successfully!"></iframe>
+    <iframe id="alert-warning" src="" data-base-url="https://themes-blush-one.vercel.app/snippets/web-theme/alert.html" data-frame-id="alert-warning" data-type="warning" data-message="Your trial expires in 7 days."></iframe>
+    <iframe id="alert-error" src="" data-base-url="https://themes-blush-one.vercel.app/snippets/web-theme/alert.html" data-frame-id="alert-error" data-type="error" data-message="Failed to connect to the server."></iframe>
+    <iframe id="alert-info" src="" data-base-url="https://themes-blush-one.vercel.app/snippets/web-theme/alert.html" data-frame-id="alert-info" data-type="info" data-message="A new version of this application is available."></iframe>
+
+    <h3>Breadcrumbs</h3>
+    <iframe
+        id="breadcrumbs-showcase"
+        src=""
+        data-base-url="https://themes-blush-one.vercel.app/snippets/web-theme/breadcrumbs.html"
+        data-frame-id="breadcrumbs-showcase"
+        data-accent-color="764ba2"
+        data-links="Home|/,Components|/components,Navigation|/components/nav,Breadcrumbs|#"
+    ></iframe>
+
+    <h3>Pagination</h3>
+    <iframe
+        id="pagination-showcase"
+        src=""
+        data-base-url="https://themes-blush-one.vercel.app/snippets/web-theme/pagination.html"
+        data-frame-id="pagination-showcase"
+        data-primary-color="667eea"
+        data-current-page="5"
+        data-total-pages="20"
+    ></iframe>
+  </div>
+
+  <div class="component-group">
+    <h2>Content & Layout Components</h2>
+
+    <h3>Features Section</h3>
+    <iframe
+      id="features-showcase"
+      src=""
+      data-base-url="https://themes-blush-one.vercel.app/snippets/web-theme/features.html"
+      data-frame-id="features-showcase"
+      data-headline="Why Choose Our Snippets?"
+      data-tagline="We deliver powerful, responsive components, taking the burden of maintenance and compatibility off your shoulders."
+      data-primary-color="667eea"
+      data-accent-color="764ba2"
+      data-card1-title="Zero Maintenance" data-card1-content="We handle hosting, updates, and bug fixes. When we improve it, your site improves automatically."
+      data-card2-title="Platform Agnostic" data-card2-content="Seamlessly integrate across WordPress, Shopify, React, and any other platform."
+      data-card3-title="Perfect Resizing" data-card3-content="Our technology guarantees the iframe always adjusts perfectly to the content and screen size."
+    ></iframe>
+
+    <h3>Image Carousel</h3>
+    <iframe
+        id="carousel-showcase"
+        src=""
+        data-base-url="https://themes-blush-one.vercel.app/snippets/web-theme/carousel.html"
+        data-frame-id="carousel-showcase"
+        data-images="https://komuhost.vercel.app/img2.png,https://picsum.photos/800/400?random=2,https://picsum.photos/800/400?random=3"
+        data-primary-color="667eea"
+        data-height="400px"
+        data-width="100%"
+    ></iframe>
+
+    <h3>Accordion / FAQ (Dark Theme)</h3>
+    <iframe
+        id="accordion-showcase"
+        src=""
+        data-base-url="https://themes-blush-one.vercel.app/snippets/web-theme/accordion.html"
+        data-frame-id="accordion-showcase"
+        data-accent-color="93affc"
+        data-bg-color="2c2c2c"
+        data-hover-bg="3a3a3a"
+        data-text-color="ffffff"
+        data-content-bg-color="1a1a1a"
+        data-container-bg="222222"
+        data-header-1="What is a snippet-based website?"
+        data-content-1="It's a modern approach where websites are built by embedding pre-made, externally hosted UI components (like these!) via iframes."
+        data-header-2="How do I customize them?"
+        data-content-2="You can customize colors, text, links, and more by simply changing the `data-` attributes on the `iframe` tag in your HTML."
+        data-header-3="Is this approach SEO-friendly?"
+        data-content-3="While the iframe content itself isn't directly crawled as part of the parent page, this method is best for applications, dashboards, and specific sections of a larger site. For public marketing pages, key content should remain on the parent page."
+    ></iframe>
+
+    <h3>Tabbed Interface</h3>
+    <iframe
+        id="tabs-showcase"
+        src=""
+        data-base-url="https://themes-blush-one.vercel.app/snippets/web-theme/tabs.html"
+        data-frame-id="tabs-showcase"
+        data-primary-color="667eea"
+        data-tab1-label="Overview"
+        data-tab1-content="This is the main overview content. It supports **Markdown** for rich text formatting."
+        data-tab2-label="Specifications"
+        data-tab2-content="Detailed specs go here. You can include lists, tables, and more."
+        data-tab3-label="Support"
+        data-tab3-content="Contact our support team for any questions. We are available 24/7."
+    ></iframe>
+
+    <h3>Card</h3>
+    <iframe data-base-url="https://themes-blush-one.vercel.app/snippets/web-theme/card.html" data-frame-id="card-showcase" id="card-showcase" data-title="Simple Card" data-content="A basic card component for displaying a title and a short piece of content."></iframe>
+
+    <h3>Testimonial</h3>
+    <iframe
+        id="testimonial-showcase"
+        src=""
+        data-base-url="https://themes-blush-one.vercel.app/snippets/web-theme/testimonial.html"
+        data-frame-id="testimonial-showcase"
+        data-accent-color="10b981"
+        data-quote="Using these snippets has been a game-changer. It's accelerated our development cycle by weeks!"
+        data-author="Alex Williams"
+        data-title="Head of Engineering, Innovate Corp"
+    ></iframe>
+
+    <h3>Pricing Card</h3>
+    <iframe
+        id="pricing-card-showcase"
+        src=""
+        width="400"
+        style="margin: 2rem auto; display: block;"
+        data-base-url="https://themes-blush-one.vercel.app/snippets/web-theme/pricing-card.html"
+        data-frame-id="pricing-card-showcase"
+        data-plan-name="Pro"
+        data-price="$49"
+        data-interval="/mo"
+        data-features="All Standard Features,Priority Support,Team Collaboration,Advanced Analytics"
+        data-cta-text="Choose Pro"
+        data-primary-color="764ba2"
+        data-accent-color="764ba2"
+        data-highlighted="true"
+    ></iframe>
+  </div>
+
+  <div class="component-group">
+    <h2>Live Editor</h2>
+    <iframe
+        id="live-editor-showcase"
+        src=""
+        data-base-url="https://themes-blush-one.vercel.app/snippets/web-theme/live-editor.html"
+        data-frame-id="live-editor-showcase"
+        data-headline="Try It Live!"
+        data-tagline="Modify the code in the 'Code' tab and hit 'Run' to see your changes reflected instantly in the 'Preview' tab."
+        data-primary-color="1f5afe"
+        data-accent-color="ff0080"
+        data-initial-code='<iframe id="demo-card" src="" width="400" height="500" data-base-url="https://themes-blush-one.vercel.app/snippets/web-theme/pricing-card.html" data-frame-id="demo-card" data-plan-name="Business" data-price="$99" data-primary-color="1f5afe" data-highlighted="true"></iframe>'>
+    </iframe>
+  </div>
+
+  <!-- Footer -->
+  <iframe
+    id="footer-showcase"
+    class="footer-iframe"
+    src=""
+    data-base-url="https://themes-blush-one.vercel.app/snippets/web-theme/footer.html"
+    data-frame-id="footer-showcase"
+    data-company-name="Web Theme Showcase"
+    data-description="A demonstration of modular, embeddable web components."
+    data-copyright="© 2025 Komu Designs. All Rights Reserved."
+    data-link1-label="Home" data-link1-href="#"
+    data-link2-label="GitHub" data-link2-href="#"
+    data-link3-label="Contact" data-link3-href="#"
+    data-social1-icon="twitter" data-social1-href="#"
+    data-social2-icon="github" data-social2-href="#"
+    data-social3-icon="linkedin" data-social3-href="#"
+    data-bg-color="111111"
+    data-header-color="ffffff"
+    data-text-color="bbbbbb"
+    data-primary-color="667eea"
+    data-accent-color="764ba2"
+  ></iframe>
+
+  <!-- Universal Scripts for Dynamic Loading & Resizing -->
+  <script>
+    /**
+     * Constructs the full iframe src URL from data- attributes.
+     */
+    function constructSnippetUrl(iframe) {
+      const baseUrl = iframe.getAttribute('data-base-url');
+      if (!baseUrl) return;
+      let params = [];
+      for (const attr of iframe.attributes) {
+        if (attr.name.startsWith('data-')) {
+          const paramKey = attr.name.substring(5).replace(/-/g, '_');
+          const paramValue = encodeURIComponent(attr.value);
+          if (paramKey !== 'base_url') {
+            params.push(`${paramKey}=${paramValue}`);
+          }
+        }
+      }
+      iframe.src = baseUrl + '?' + params.join('&');
+    }
+
+    /**
+     * Handles the PostMessage event to dynamically resize an iframe.
+     */
+    function handleDynamicIframeResize(event) {
+      // For security, you might want to check event.origin
+      // if (event.origin !== "https://themes-blush-one.vercel.app") return;
+
+      const data = event.data;
+      if (data.frameId && data.frameHeight) {
+        const iframe = document.getElementById(data.frameId);
+        if (iframe) {
+          // Add a small buffer for stability
+          iframe.style.height = (data.frameHeight + 5) + "px";
+        }
+      }
+    }
+
+    // --- INITIALIZATION ---
+    document.addEventListener('DOMContentLoaded', function() {
+      // Build URLs for all dynamic iframes
+      document.querySelectorAll('iframe[data-base-url]').forEach(constructSnippetUrl);
+
+      // Listen for height adjustment messages from iframes
+      window.addEventListener("message", handleDynamicIframeResize, false);
+    });
+  </script>
+
+</body>
+</html>
