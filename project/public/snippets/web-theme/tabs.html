@@ -1,0 +1,155 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Tabbed Interface Snippet</title>
+    <style>
+        /* Base Reset */
+        body { margin: 0; font-family: sans-serif; background-color: transparent; }
+
+        /* Container for the Tabbed Structure */
+        .tabs-container {
+            background-color: #ffffff;
+            border-radius: 8px;
+            box-shadow: 0 4px 12px rgba(0, 0, 0, 0.08);
+            padding: 1rem;
+        }
+
+        /* Tab Header (Button) Styling */
+        .tabs-header {
+            display: flex;
+            border-bottom: 2px solid #eeeeee;
+            margin-bottom: 1rem;
+        }
+
+        .tab-button {
+            background: none;
+            border: none;
+            padding: 0.75rem 1.25rem;
+            cursor: pointer;
+            font-weight: 600;
+            color: #666666;
+            transition: color 0.3s, border-bottom 0.3s;
+            border-bottom: 2px solid transparent;
+            font-size: 1rem;
+            outline: none;
+        }
+
+        /* Active Tab Styling */
+        .tab-button.active {
+            color: var(--primary-color, #1f5afe); /* Use primary color */
+            border-bottom: 2px solid var(--primary-color, #1f5afe);
+        }
+
+        /* Tab Content Styling */
+        .tab-content {
+            padding: 1rem 0;
+            font-size: 0.95rem;
+            line-height: 1.6;
+            color: #333333;
+            /* Initially hide all content panes */
+            display: none; 
+        }
+
+        .tab-content.active {
+            /* Only show the active pane */
+            display: block;
+        }
+    </style>
+</head>
+<body>
+
+    <div class="tabs-container" id="snippet-container">
+        <div class="tabs-header" id="tabs-header">
+            </div>
+
+        <div class="tabs-content" id="tabs-content">
+            </div>
+    </div>
+
+    <script>
+        function initializeTabs() {
+            const urlParams = new URLSearchParams(window.location.search);
+            const frameId = urlParams.get('frame_id');
+            const primaryColor = urlParams.get('primary_color');
+            
+            const headerContainer = document.getElementById('tabs-header');
+            const contentContainer = document.getElementById('tabs-content');
+            const container = document.getElementById('snippet-container');
+
+            // Set dynamic accent color
+            if (primaryColor) {
+                container.style.setProperty('--primary-color', '#' + primaryColor);
+            }
+
+            // Extract tabs data (up to 5 tabs supported here)
+            let tabData = [];
+            for (let i = 1; i <= 5; i++) {
+                const label = urlParams.get(`tab${i}_label`);
+                const content = urlParams.get(`tab${i}_content`);
+                if (label && content) {
+                    tabData.push({ label: decodeURIComponent(label), content: decodeURIComponent(content), id: `tab${i}` });
+                }
+            }
+
+            // Render Tabs and Content
+            tabData.forEach((tab, index) => {
+                // Create Button
+                const button = document.createElement('button');
+                button.className = 'tab-button';
+                button.textContent = tab.label;
+                button.setAttribute('data-target', tab.id);
+                button.onclick = () => switchTab(tab.id);
+                headerContainer.appendChild(button);
+
+                // Create Content
+                const contentDiv = document.createElement('div');
+                contentDiv.className = 'tab-content';
+                contentDiv.id = tab.id;
+                contentDiv.innerHTML = tab.content;
+                contentContainer.appendChild(contentDiv);
+
+                // Activate the first tab
+                if (index === 0) {
+                    button.classList.add('active');
+                    contentDiv.classList.add('active');
+                }
+            });
+
+            // Tab Switching Logic
+            function switchTab(targetId) {
+                // Deactivate all buttons and content
+                document.querySelectorAll('.tab-button').forEach(btn => btn.classList.remove('active'));
+                document.querySelectorAll('.tab-content').forEach(content => content.classList.remove('active'));
+
+                // Activate selected button and content
+                document.querySelector(`.tab-button[data-target="${targetId}"]`).classList.add('active');
+                document.getElementById(targetId).classList.add('active');
+
+                // Recalculate and resize iframe after content switch
+                resizeIframe();
+            }
+
+            // PostMessage Resizing Function
+            function resizeIframe() {
+                if (window.parent && frameId) {
+                    // Give content a moment to render before measuring
+                    setTimeout(() => {
+                        const height = document.body.scrollHeight;
+                        window.parent.postMessage({
+                            frameId: frameId,
+                            frameHeight: height,
+                        }, '*');
+                    }, 50);
+                }
+            }
+
+            // Initial resize
+            resizeIframe();
+        }
+
+        document.addEventListener('DOMContentLoaded', initializeTabs);
+    </script>
+</body>
+</html>

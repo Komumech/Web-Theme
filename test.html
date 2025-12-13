@@ -8,45 +8,55 @@
 </head>
 <body>
   <style>
-    /* General styling for the main page */
+    /* 🎨 Standard Styling for Parent Page */
     body {
       font-family: sans-serif;
       background-color: #f0f0f0;
       margin: 0;
-      padding-top: 80px; /* Space for the docked navbar */
-    }
-    iframe {
-      border: none;
-      box-shadow: none;
-      width: 100%;
-      margin-bottom: 2rem;
-      /* FIX: Added overflow hidden */
-      overflow: hidden;
-    }
-
-    h2 {
-      margin-top: 0;
-      border-bottom: 2px solid #ddd;
-      padding-bottom: 0.5rem;
-    }
-
-    /* Adjusted this style to prevent interference with dynamic resizing */
-    .sample-section {
-      height: auto;
-      border: none;
-      overflow-y: hidden;
+      padding-top: 80px; 
     }
     .component-group {
       max-width: 900px;
       margin: 0 auto;
       padding: 20px;
+      padding-bottom: 0;
     }
+    h2 {
+      margin-top: 0;
+      border-bottom: 2px solid #ddd;
+      padding-bottom: 0.5rem;
+    }
+    h3 {
+      margin-top: 2rem;
+      margin-bottom: 0.5rem;
+    }
+
+    /* 🖼️ Iframe Styling and Fixes */
+    iframe {
+      border: none;
+      box-shadow: none;
+      width: 100%;
+      margin-bottom: 2rem;
+      /* CRITICAL FIX: Ensure no scrollbars appear on the parent iframe */
+      overflow: hidden; 
+    }
+    /* Specific adjustment for the centered price card */
+    #price-card-1 {
+        width: 400px;
+    }
+    /* Specific adjustment for the image carousel */
+    #image-carousel-1 {
+        width: 60%; 
+        margin-left: auto;
+        margin-right: auto;
+    }
+
   </style>
 
   <iframe src="https://themes-blush-one.vercel.app/snippets/web-theme/navbar.html?title=ThemeCorp&docked=true&link1_label=Home&link1_href=/&link2_label=Products&link2_href=/products&link3_label=Login&link3_href=/login" height="70"></iframe>
 
   <div class="component-group">
-    <h2>Neon Theme Snippets</h2>
+    <h2>👾 Neon Theme Snippets</h2>
     <iframe src="https://themes-blush-one.vercel.app/snippets/neon/navbar.html?title=NEON&link1_label=CYBER&link1_href=#&link2_label=PUNK&link2_href=#" height="70"></iframe>
     <iframe src="https://themes-blush-one.vercel.app/snippets/neon/alert.html?type=warning&message=System+breach+detected." height="80"></iframe>
     <iframe src="https://themes-blush-one.vercel.app/snippets/neon/input.html?placeholder=Enter+Codename...&icon=user-secret" height="70"></iframe>
@@ -54,7 +64,7 @@
   </div>
 
   <div class="component-group">
-    <h2>Web Theme Snippets</h2>
+    <h2>✨ Web Theme Snippets</h2>
 
     <h3>Navbar</h3>
     <iframe src="https://themes-blush-one.vercel.app/snippets/web-theme/navbar.html?title=MySite&link1_label=Home&link1_href=#&link2_label=Features&link2_href=#" height="70"></iframe>
@@ -63,7 +73,7 @@
     <iframe src="https://themes-blush-one.vercel.app/snippets/web-theme/button.html?text=Get+Started" height="60"></iframe>
     <iframe src="https://themes-blush-one.vercel.app/snippets/web-theme/button.html?text=Learn+More&type=skeleton" height="60"></iframe>
 
-    <h3>Alert</h3>
+    <h3>Alerts (Using PostMessage Resizing)</h3>
     <iframe
       id="success-alert-1"
       src="https://themes-blush-one.vercel.app/snippets/web-theme/alert.html?type=success&message=Successfully+Updated+your+profile.&frame_id=success-alert-1"
@@ -87,102 +97,138 @@
       height="100"
       style="border: none;">
     </iframe>
-<div class="component-group">
-    <h2>1. Hero Section Example</h2>
-<iframe
-    id="hero-section-2"
-    src=""
-    width="100%"
-    height="600"
-    style="border: none; overflow: hidden; margin-bottom: 2rem; display: block;"
-    
-    data-base-url="https://themes-blush-one.vercel.app/snippets/web-theme/hero.html"
-    data-frame-id="hero-section-2"
-    
-    data-nav-title="Blush Themes"
-    
-    data-link1-label="Features"
-    data-link1-href="/features"
-    
-    data-link2-label="Pricing"
-    data-link2-href="/pricing"
-    
-    data-link3-label="Docs"
-    data-link3-href="/docs"
-    
-    data-link4-label="Contact"
-    data-link4-href="/contact"
-    
-    data-link5-label="" 
-    data-link5-href="#"
-    data-link6-label="" 
-    data-link6-href="#"
-    data-link7-label="" 
-    data-link7-href="#"
-    
-    data-gradient-start="93affc"
-    data-gradient-end="1d2547"
-    data-gradient-direction="to top"
-    
-    data-headline="The Future is Gradient"
-    data-tagline="Customizable colors for a modern, code-free aesthetic."
-    data-cta1-text="Explore"
-    data-primary-color="000000"
-    data-secondary-button-border="ffffff"
-    data-dark-mode-text="false" 
-></iframe>
 
-    <h2>2. FAQ/Accordion Example</h2>
-    <iframe
-        id="faq-section-1"
-        src=""
-        width="100%"
-        height="350"
-        style="border: none; overflow: hidden; margin-bottom: 2rem;"
-        data-base-url="https://themes-blush-one.vercel.app/snippets/web-theme/accordion.html"
-        data-frame-id="faq-section-1"
-        data-accent-color="22c55e"
-        data-header-1="Do you offer a money-back guarantee?"
-        data-content-1="Yes, we offer a risk-free 30-day money-back guarantee on all our paid plans."
-        data-header-2="How does the dynamic resizing work?"
-        data-content-2="It uses the PostMessage API to securely communicate the height of the content from the iframe to the parent page."
-        data-header-3="What if I have custom content?"
-        data-content-3="You can pass raw HTML or complex data structures through the data- attributes."
-    ></iframe>
+    <div style="margin-top: 3rem;">
+        <h2>🆕 New: Breadcrumbs Component</h2>
+        <iframe
+            id="breadcrumbs-1"
+            src=""
+            width="100%"
+            height="50"
+            style="border: none; overflow: hidden; margin-bottom: 2rem;"
+            data-base-url="https://themes-blush-one.vercel.app/snippets/web-theme/breadcrumbs.html"
+            data-frame-id="breadcrumbs-1"
+            data-accent-color="3b82f6"
+            data-links="Home|/,Products|/products,Category Name|/category/name,Current Page|/current/page"
+        ></iframe>
+    </div>
 
-    <h2>3. Pricing Card Example</h2>
-    <iframe
-        id="price-card-1"
-        src=""
-        width="400"
-        height="500"
-        style="border: none; overflow: hidden; margin: 0 auto 2rem; display: block;"
-        data-base-url="https://themes-blush-one.vercel.app/snippets/web-theme/pricing-card.html"
-        data-frame-id="price-card-1"
-        data-plan-name="Premium Pro"
-        data-price="$299"
-        data-interval="/yr"
-        data-features="Advanced Analytics, Priority Support, 5 Team Members, 99.9% Uptime Guarantee"
-        data-cta-text="Go Annual"
-        data-primary-color="3b82f6"
-        data-accent-color="ef4444"
-        data-highlighted="true"
-    ></iframe>
+    <div style="margin-top: 3rem;">
+        <h2>🆕 New: Tabbed Interface Component</h2>
+        <iframe
+            id="tabs-1"
+            src=""
+            width="100%"
+            height="300" 
+            style="border: none; overflow: hidden; margin-bottom: 2rem;"
+            data-base-url="https://themes-blush-one.vercel.app/snippets/web-theme/tabs.html"
+            data-frame-id="tabs-1"
+            data-primary-color="10b981"
+            data-tab1-label="Details"
+            data-tab1-content="This is the **detailed** information for the product, focusing on specifications and technical aspects."
+            data-tab2-label="Reviews"
+            data-tab2-content="See what our customers are saying! This section would load dynamic customer feedback."
+            data-tab3-label="Shipping"
+            data-tab3-content="Shipping takes 5-7 business days. We offer expedited options for an extra fee."
+        ></iframe>
+    </div>
 
-    <h2>4. Live Snippet Editor Example</h2>
-    <iframe
-        id="live-editor-1"
-        src=""
-        width="100%"
-        height="100%" 
-        style="border: none; overflow: hidden; margin-bottom: 2rem;"
-        data-base-url="https://themes-blush-one.vercel.app/snippets/web-theme/live-editor.html"
-        data-frame-id="live-editor-1"
-        data-headline="Try it Yourself!"
-        data-tagline="Modify the code in the 'Code' tab and hit 'Run' to see your changes in the 'Preview' tab."
-        data-primary-color="1f5afe"
-        data-accent-color="ff0080"
-        data-initial-code='<iframe
+    <div style="margin-top: 3rem;">
+        <h2>1. Hero Section Example</h2>
+        <iframe
+            id="hero-section-2"
+            src=""
+            width="100%"
+            height="600"
+            style="border: none; overflow: hidden; margin-bottom: 2rem; display: block;"
+            
+            data-base-url="https://themes-blush-one.vercel.app/snippets/web-theme/hero.html"
+            data-frame-id="hero-section-2"
+            
+            data-nav-title="Blush Themes"
+            
+            data-link1-label="Features"
+            data-link1-href="/features"
+            
+            data-link2-label="Pricing"
+            data-link2-href="/pricing"
+            
+            data-link3-label="Docs"
+            data-link3-href="/docs"
+            
+            data-link4-label="Contact"
+            data-link4-href="/contact"
+            
+            data-link5-label="" 
+            data-link5-href="#"
+            data-link6-label="" 
+            data-link6-href="#"
+            data-link7-label="" 
+            data-link7-href="#"
+            
+            data-gradient-start="93affc"
+            data-gradient-end="1d2547"
+            data-gradient-direction="to top"
+            
+            data-headline="The Future is Gradient"
+            data-tagline="Customizable colors for a modern, code-free aesthetic."
+            data-cta1-text="Explore"
+            data-primary-color="000000"
+            data-secondary-button-border="ffffff"
+            data-dark-mode-text="false" 
+        ></iframe>
+
+        <h2>2. FAQ/Accordion Example</h2>
+        <iframe
+            id="faq-section-1"
+            src=""
+            width="100%"
+            height="350"
+            style="border: none; overflow: hidden; margin-bottom: 2rem;"
+            data-base-url="https://themes-blush-one.vercel.app/snippets/web-theme/accordion.html"
+            data-frame-id="faq-section-1"
+            data-accent-color="22c55e"
+            data-header-1="Do you offer a money-back guarantee?"
+            data-content-1="Yes, we offer a risk-free 30-day money-back guarantee on all our paid plans."
+            data-header-2="How does the dynamic resizing work?"
+            data-content-2="It uses the PostMessage API to securely communicate the height of the content from the iframe to the parent page."
+            data-header-3="What if I have custom content?"
+            data-content-3="You can pass raw HTML or complex data structures through the data- attributes."
+        ></iframe>
+
+        <h2>3. Pricing Card Example</h2>
+        <iframe
+            id="price-card-1"
+            src=""
+            width="400"
+            height="500"
+            style="border: none; overflow: hidden; margin: 0 auto 2rem; display: block;"
+            data-base-url="https://themes-blush-one.vercel.app/snippets/web-theme/pricing-card.html"
+            data-frame-id="price-card-1"
+            data-plan-name="Premium Pro"
+            data-price="$299"
+            data-interval="/yr"
+            data-features="Advanced Analytics, Priority Support, 5 Team Members, 99.9% Uptime Guarantee"
+            data-cta-text="Go Annual"
+            data-primary-color="3b82f6"
+            data-accent-color="ef4444"
+            data-highlighted="true"
+        ></iframe>
+
+        <h2>4. Live Snippet Editor Example</h2>
+        <iframe
+            id="live-editor-1"
+            src=""
+            width="100%"
+            height="600"
+            style="border: none; overflow: hidden; margin-bottom: 2rem;"
+            data-base-url="https://themes-blush-one.vercel.app/snippets/web-theme/live-editor.html"
+            data-frame-id="live-editor-1"
+            data-headline="Try it Yourself!"
+            data-tagline="Modify the code in the 'Code' tab and hit 'Run' to see your changes in the 'Preview' tab."
+            data-primary-color="1f5afe"
+            data-accent-color="ff0080"
+            data-initial-code='<iframe
     id="demo-card"
     src=""
     width="400"
@@ -191,49 +237,25 @@
     data-frame-id="demo-card"
     data-plan-name="Business"
     data-price="$499" ></iframe>'>
-    </iframe>
-</div>
-    <h3>Input Field (FIXED: Added frame_id)</h3>
-<iframe
-    id="my-contact-input"
-    src="https://themes-blush-one.vercel.app/snippets/web-theme/input.html" 
-    width="100%"    
-    height="600"    
-    style="border: none; overflow: hidden;"
+        </iframe>
+    </div>
 
-    data-frame-id="my-contact-input"
-    data-placeholder="Your Email Address"
-    data-icon="envelope"
-    data-submit-text="Sign Up" 
-    
-    data-primary-color="7d44ff" 
-></iframe>
+    <h3>Input Field with PostMessage Submission</h3>
+    <iframe
+        id="my-contact-input"
+        src=""
+        width="100%"    
+        height="100"    
+        style="border: none; overflow: hidden;"
 
-<script>
-    // 1. LISTEN FOR THE MESSAGE (This script must be on your main page)
-    window.addEventListener('message', function(event) {
-        // Check if the message came from your iframe and is a submission
-        if (event.data && event.data.action === 'input_submitted' && event.data.frameId === 'my-contact-input') {
-            const submittedValue = event.data.value;
-            
-            // 2. PROCESS THE DATA HERE
-            console.log("SUCCESS! Data received from iframe:", submittedValue);
-            
-            // Example action: Send this value to your server using a fetch request:
-            // fetch('/api/signup', {
-            //     method: 'POST',
-            //     headers: { 'Content-Type': 'application/json' },
-            //     body: JSON.stringify({ email: submittedValue })
-            // });
-            
-            alert(`Parent page received input: ${submittedValue}`);
-            // You can update a success message on the parent page here
-        }
-    });
-
-    // NOTE: You also need the 'constructSnippetUrl' function from earlier in the thread
-    // to build the URL from the 'data-' attributes, just as you did for your other snippets.
-</script>
+        data-base-url="https://themes-blush-one.vercel.app/snippets/web-theme/input.html"
+        data-frame-id="my-contact-input"
+        data-placeholder="Your Email Address"
+        data-icon="envelope"
+        data-submit-text="Sign Up" 
+        
+        data-primary-color="7d44ff" 
+    ></iframe>
 
     <iframe
       id="features-section-snippet"
@@ -255,7 +277,7 @@
       data-card3-content="Our custom PostMessage technology guarantees the iframe always adjusts perfectly to the content and screen size, even on mobile.">
     </iframe>
 
-    <h3>Card</h3>
+    <h3>Card (Static)</h3>
     <iframe src="https://themes-blush-one.vercel.app/snippets/web-theme/card.html?title=Our+Mission&content=To+build+beautiful,+responsive,+and+accessible+web+components+for+everyone." height="180"></iframe>
 
     <h3>Footer (Uses dynamic resizing)</h3>
@@ -267,41 +289,40 @@
       height="150"
       style="border:none;">
     </iframe>
+
+    <iframe
+      id="sample-section-parent"
+      src="https://themes-blush-one.vercel.app/snippets/sample.html?frame_id=sample-section-parent"
+      width="100%"
+      height="650"
+      style="border: none; box-shadow: none;">
+    </iframe>
+
+    <iframe
+        id="image-carousel-1"
+        src=""
+        height="450" 
+        style="border: none; overflow: hidden; margin-bottom: 2rem; display: block;"
+        
+        data-base-url="https://themes-blush-one.vercel.app/snippets/web-theme/carousel.html"
+        data-frame-id="image-carousel-1"
+        
+        data-images="https://komuhost.vercel.app/img2.png,https://komuhost.vercel.app/img2.png,https://komuhost.vercel.app/img2.png" 
+        data-primary-color="ff66b2" 
+        data-bg-color="#ffffff00" 
+        data-height="400px" 
+        
+        data-width="60%" >
+    </iframe>
   </div>
-
-  <iframe
-    id="sample-section-parent"
-    src="https://themes-blush-one.vercel.app/snippets/sample.html?frame_id=sample-section-parent"
-    width="100%"
-    height="650"
-    style="border: none; box-shadow: none;">
-  </iframe>
-
-<iframe
-    id="image-carousel-1"
-    src=""
-    height="450" 
-    style="border: none; overflow: hidden; margin-bottom: 2rem; display: block;"
-    
-    data-base-url="https://themes-blush-one.vercel.app/snippets/web-theme/carousel.html"
-    data-frame-id="image-carousel-1"
-    
-    data-images="https://komuhost.vercel.app/img2.png,https://komuhost.vercel.app/img2.png,https://komuhost.vercel.app/img2.png" 
-    data-primary-color="ff66b2" 
-    data-bg-color="#ffffff00" 
-    data-height="400px" 
-    
-    data-width="60%" >
-  </iframe>
 
   <script>
     /**
-     * Handles the PostMessage event to dynamically resize an iframe.
-     * This code listens for messages from the components and adjusts the height
-     * of the corresponding iframe on this page.
+     * 1. Dynamic Iframe Resizing Handler (PostMessage Listener)
+     * This script listens for messages from components and sets the height of the parent iframe.
      */
     function handleDynamicIframeResize(event) {
-      // OPTIONAL SECURITY CHECK: uncomment to restrict messages
+      // Basic origin check recommended for production for security:
       // if (event.origin !== "https://themes-blush-one.vercel.app") { return; }
 
       const data = event.data;
@@ -311,21 +332,31 @@
         const iframe = document.getElementById(data.frameId);
 
         if (iframe) {
-          // Set the iframe's height, adding a small buffer (+5px)
+          // Set the iframe's height, adding a small buffer (+5px) for safety
           iframe.style.height = (data.frameHeight + 5) + "px";
-          // FIX: Ensure the iframe itself is explicitly told not to scroll
           iframe.style.overflow = 'hidden';
         }
       }
     }
-
-    // Attach the handler to the window's message event
     window.addEventListener("message", handleDynamicIframeResize, false);
-  </script>
 
-  <script>
+
+    /**
+     * 2. Input Submission Listener (Specific to my-contact-input)
+     */
+    window.addEventListener('message', function(event) {
+        if (event.data && event.data.action === 'input_submitted' && event.data.frameId === 'my-contact-input') {
+            const submittedValue = event.data.value;
+            console.log("SUCCESS! Data received from iframe:", submittedValue);
+            alert(`Parent page received input: ${submittedValue}`);
+        }
+    });
+
+
+    /**
+     * 3. URL Construction Logic (Initializes data-base-url iframes)
+     */
     document.addEventListener('DOMContentLoaded', function() {
-      // URL Construction Logic
       function constructSnippetUrl(iframe) {
         const baseUrl = iframe.getAttribute('data-base-url');
         if (!baseUrl) return;
@@ -341,6 +372,7 @@
         }
         iframe.src = baseUrl + '?' + params.join('&');
       }
+      // Select all iframes that rely on the data-base-url attribute
       document.querySelectorAll('iframe[data-base-url]').forEach(constructSnippetUrl);
     });
   </script>

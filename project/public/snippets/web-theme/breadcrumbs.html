@@ -1,0 +1,124 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Breadcrumbs Snippet</title>
+    <style>
+        /* Base Reset */
+        body { margin: 0; font-family: sans-serif; }
+        
+        /* Breadcrumb Container Styling */
+        .breadcrumbs-container {
+            padding: 1rem 1.5rem;
+            background-color: #ffffff; /* Standard light background */
+            border-radius: 6px;
+            box-shadow: 0 1px 3px rgba(0,0,0,0.05);
+            display: flex;
+            align-items: center;
+            flex-wrap: wrap;
+        }
+
+        /* Individual Item Styling */
+        .breadcrumb-item {
+            display: flex;
+            align-items: center;
+        }
+
+        .breadcrumb-item a {
+            text-decoration: none;
+            color: #555555;
+            transition: color 0.2s;
+            font-size: 0.9rem;
+        }
+
+        .breadcrumb-item a:hover {
+            color: var(--accent-color, #3b82f6); /* Uses accent color for hover */
+            text-decoration: underline;
+        }
+
+        /* Separator Styling */
+        .separator {
+            margin: 0 0.5rem;
+            color: #aaaaaa;
+            font-weight: 300;
+        }
+
+        /* Last (Active) Item Styling */
+        .breadcrumb-item:last-child a {
+            color: #333333; /* Darker color for current page */
+            font-weight: 600;
+            cursor: default;
+            pointer-events: none; /* Prevents clicking the current page */
+        }
+    </style>
+</head>
+<body>
+
+    <div class="breadcrumbs-container" id="snippet-container">
+        </div>
+
+    <script>
+        function initializeBreadcrumbs() {
+            // Parse URL parameters
+            const urlParams = new URLSearchParams(window.location.search);
+            const frameId = urlParams.get('frame_id');
+            const linksParam = urlParams.get('links'); // Expected format: Label1|URL1,Label2|URL2,...
+            const accentColor = urlParams.get('accent_color');
+
+            const container = document.getElementById('snippet-container');
+
+            // Set dynamic accent color
+            if (accentColor) {
+                container.style.setProperty('--accent-color', '#' + accentColor);
+            }
+
+            if (linksParam) {
+                const linkPairs = linksParam.split(',').filter(pair => pair.includes('|'));
+
+                linkPairs.forEach((pair, index) => {
+                    const [label, url] = pair.split('|');
+
+                    // 1. Create the link element
+                    const itemDiv = document.createElement('div');
+                    itemDiv.className = 'breadcrumb-item';
+                    
+                    const link = document.createElement('a');
+                    link.href = url;
+                    link.textContent = decodeURIComponent(label);
+
+                    itemDiv.appendChild(link);
+                    container.appendChild(itemDiv);
+
+                    // 2. Add separator unless it's the last item
+                    if (index < linkPairs.length - 1) {
+                        const separator = document.createElement('span');
+                        separator.className = 'separator';
+                        separator.textContent = '/'; // Unicode for a nice slash
+                        container.appendChild(separator);
+                    }
+                });
+            } else {
+                // Default content if no links are provided
+                container.innerHTML = `<div class="breadcrumb-item"><a href="#">Home</a></div>
+                                     <span class="separator">/</span>
+                                     <div class="breadcrumb-item"><a href="#">Default Page</a></div>`;
+            }
+
+            // PostMessage Resizing
+            if (window.parent && frameId) {
+                // Use a slight delay to ensure all DOM elements are fully rendered
+                setTimeout(() => {
+                    const height = document.body.scrollHeight;
+                    window.parent.postMessage({
+                        frameId: frameId,
+                        frameHeight: height,
+                    }, '*');
+                }, 50);
+            }
+        }
+
+        document.addEventListener('DOMContentLoaded', initializeBreadcrumbs);
+    </script>
+</body>
+</html>
