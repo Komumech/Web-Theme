@@ -6,10 +6,7 @@
     <style>
         /* === Base Snippet Styles (Crucial for height measurement) === */
         html, body {
-            margin: 0;
-            padding: 0;
-            /* Crucial: ensures body only takes up the height of its content */
-            height: auto; 
+            margin: 0; padding: 0; height: auto; 
             overflow: hidden;
         }
         body {
@@ -18,77 +15,69 @@
             background-color: #f8f9fa00;
         }
 
+        /* --- Dynamic Colors (New CSS Variables for customization) --- */
+        :root {
+            --primary-color: #93affc; /* For hover links */
+            --accent-color: #ff9a9e; /* For social icon hover */
+            --header-color: #343a40; /* For column titles */
+            --text-color: #6c757d;   /* For body text and links */
+            --bg-color: #ffffff;    /* For footer background */
+            --border-color: #e7e7e7; /* For separator line */
+        }
+
         /* === Footer Layout === */
         .footer {
             padding: 50px 5vw;
             width: 100%;
             box-sizing: border-box;
+            background-color: var(--bg-color);
         }
 
         .footer-content {
-            display: flex;
-            flex-wrap: wrap;
-            justify-content: space-between;
-            gap: 40px;
-            padding-bottom: 40px;
-            border-bottom: 1px solid #e7e7e7;
+            display: flex; flex-wrap: wrap; justify-content: space-between;
+            gap: 40px; padding-bottom: 40px;
+            border-bottom: 1px solid var(--border-color);
         }
 
         .footer-column {
-            flex: 1;
-            min-width: 200px;
+            flex: 1; min-width: 200px;
         }
 
         /* === Column Content Styling === */
         .footer-column h4 {
-            font-size: 1.1rem;
-            font-weight: 600;
-            color: #343a40;
+            font-size: 1.1rem; font-weight: 600;
+            color: var(--header-color); /* Uses dynamic color */
             margin-bottom: 20px;
         }
 
         .footer-column p,
         .footer-column a {
-            font-size: 0.95rem;
-            text-decoration: none;
-            color: #6c757d;
+            font-size: 0.95rem; text-decoration: none;
+            color: var(--text-color); /* Uses dynamic color */
             line-height: 1.6;
         }
 
         .footer-column .nav-links {
-            display: flex;
-            flex-direction: column;
-            gap: 10px;
-        }
-
-        .footer-column .nav-links a {
-            transition: color 0.3s ease;
+            display: flex; flex-direction: column; gap: 10px;
         }
 
         .footer-column .nav-links a:hover {
-            color: var(--primary-color, #93affc);
+            color: var(--primary-color); /* Uses dynamic color */
         }
 
         /* === Social & Copyright === */
         .social-links {
-            display: flex;
-            gap: 18px;
-            margin-top: 15px;
-        }
-
-        .social-links a {
-            font-size: 1.4rem;
-            transition: color 0.3s ease;
+            display: flex; gap: 18px; margin-top: 15px;
         }
 
         .social-links a:hover {
-            color: var(--accent-color, #ff9a9e);
+            color: var(--accent-color); /* Uses dynamic color */
         }
 
         .footer-bottom {
-            padding-top: 30px;
-            text-align: center;
+            padding-top: 30px; text-align: center;
             font-size: 0.9rem;
+            color: var(--text-color);
         }
     </style>
 </head>
@@ -120,20 +109,33 @@
 
 <script>
     const params = new URLSearchParams(window.location.search);
+    const rootStyle = document.documentElement.style;
 
-    // --- POSTMESSAGE UTILITY FUNCTION ---
+    // --- COLOR CUSTOMIZATION ---
+    function applyColor(paramName, cssVar) {
+        const value = params.get(paramName);
+        if (value) {
+            // Check if it's a 6-digit hex code
+            const finalValue = value.length === 6 ? '#' + value : value;
+            rootStyle.setProperty(cssVar, finalValue);
+        }
+    }
+    // Apply colors if provided via data- attributes
+    applyColor("primary_color", "--primary-color");
+    applyColor("accent_color", "--accent-color");
+    applyColor("header_color", "--header-color");
+    applyColor("text_color", "--text-color");
+    applyColor("bg_color", "--bg-color");
+
+    // --- POSTMESSAGE UTILITY FUNCTION (Unchanged) ---
     function sendHeight() {
         const root = document.getElementById("footer-root");
-        // Use scrollHeight for accurate measurement, including padding
         const height = root.scrollHeight; 
-        const frameId = params.get("frame_id"); // Get the frame ID from URL params
+        const frameId = params.get("frame_id"); 
 
         if (frameId) {
             window.parent.postMessage(
-                { 
-                    frameHeight: height,
-                    frameId: frameId 
-                }, 
+                { frameHeight: height, frameId: frameId }, 
                 '*' 
             );
         }
@@ -141,8 +143,11 @@
 
     // --- Populate Company Info ---
     const companyName = params.get("company_name") || "Your Company";
-    document.getElementById("company-name").textContent = companyName;
-    document.getElementById("company-description").textContent = params.get("description") || "Making the web a more beautiful and accessible place for everyone.";
+    document.getElementById("company-name").textContent = decodeURIComponent(companyName);
+    const description = params.get("description");
+    if (description) {
+        document.getElementById("company-description").textContent = decodeURIComponent(description);
+    }
 
     // --- Populate Navigation Links (up to 8) ---
     const navLinksContainer = document.getElementById("nav-links-container");
@@ -151,12 +156,13 @@
         const label = params.get(`link${i}_label`);
         const href = params.get(`link${i}_href`);
         if (label && href) {
-            navLinksContainer.innerHTML += `<a href="${href}">${label}</a>`;
+            // Use decodeURIComponent on the label
+            navLinksContainer.innerHTML += `<a href="${href}" target="_parent">${decodeURIComponent(label)}</a>`;
             navLinkCount++;
         }
     }
     if (navLinkCount === 0) { // Default nav links
-        navLinksContainer.innerHTML = `<a href="#">Home</a><a href="#">About</a><a href="#">Services</a>`;
+        navLinksContainer.innerHTML = `<a href="#" target="_parent">Home</a><a href="#" target="_parent">About</a><a href="#" target="_parent">Services</a>`;
     }
 
     // --- Populate Social Links (up to 8) ---
@@ -175,16 +181,17 @@
     }
 
     // --- Populate Copyright ---
+    const copyrightParam = params.get("copyright");
     const defaultCopyright = `&copy; ${new Date().getFullYear()} ${companyName}. All Rights Reserved.`;
-    document.getElementById("copyright-text").innerHTML = params.get("copyright") || defaultCopyright;
+    document.getElementById("copyright-text").innerHTML = copyrightParam ? decodeURIComponent(copyrightParam) : defaultCopyright;
     
     // --- EVENT LISTENERS FOR RESIZING ---
-    // Send height immediately after the DOM settles and content is injected
     window.addEventListener('load', () => {
         sendHeight();
-        // Send height again on resize (e.g., when the column layout changes on mobile)
         window.addEventListener('resize', sendHeight);
     });
+    // Fallback to catch elements loaded after window load
+    setTimeout(sendHeight, 100); 
 </script>
 
 </body>
