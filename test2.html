@@ -3,52 +3,53 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Document</title>
+    <title>Dynamic Snippet Example with Dark Accordion</title>
 </head>
 <body>
     <style>
         body {
             margin: 0; 
-            background: black; 
+            background: #222; /* Dark background on the parent page */
             font-family: 'Poppins', sans-serif;
+            padding: 20px;
         }
     </style>
     
-    <iframe
-        id="my-contact-input"
-        src="https://themes-blush-one.vercel.app/snippets/web-theme/input.html" 
-        width="100%"    
-        height="650"    
-        style="border: none; box-shadow: none;"
-        data-placeholder="Your Email Address"
-        data-icon="envelope"
-        data-submit-text="Sign Up" 
-        data-primary-color="7d44ff" 
-        data-frame-id="my-contact-input" 
-        data-base-url="https://themes-blush-one.vercel.app/snippets/web-theme/input.html"
-    ></iframe>
 
-<iframe
-    id="faq-section-1"
-    src=""  
-    width="100%"
-    height="350"
-    style="border: none; overflow: hidden; margin-bottom: 2rem;"
+    <iframe
+    id="my-contact-input"
+    src="https://themes-blush-one.vercel.app/snippets/web-theme/input.html" 
+    width="100%"    
+    height="650"    
+    style="border: none; box-shadow: none;"
+    data-placeholder="Your Email Address"
+    data-icon="envelope"
+    data-submit-text="Sign Up" 
     
-    data-accent-color="7d44ff"      data-bg-color="000000"         data-text-color="ffffff"       data-content-bg-color="1a1a1a" data-base-url="https://themes-blush-one.vercel.app/snippets/web-theme/accordion.html"
-    data-frame-id="faq-section-1"
-    
-    data-header-1="Do you offer a money-back guarantee?"
-    data-content-1="Yes, we offer a risk-free 30-day money-back guarantee on all our paid plans."
-    data-header-2="How does the dynamic resizing work?"
-    data-content-2="It uses the PostMessage API to securely communicate the height of the content from the iframe to the parent page."
-    data-header-3="What if I have custom content?"
-    data-content-3="You can pass raw HTML or complex data structures through the data- attributes."
+    data-primary-color="7d44ff" 
 ></iframe>
+
+    <iframe
+        id="faq-section-1"
+        src=""  
+        width="100%"
+        height="350"
+        style="border: none; overflow: hidden; margin-bottom: 2rem;"
+        
+        data-accent-color="7d44ff"      data-bg-color="000000"         data-text-color="ffffff"       data-content-bg-color="1a1a1a" data-base-url="https://themes-blush-one.vercel.app/snippets/web-theme/accordion.html"
+        data-frame-id="faq-section-1"
+        
+        data-header-1="Do you offer a money-back guarantee?"
+        data-content-1="Yes, we offer a risk-free 30-day money-back guarantee on all our paid plans."
+        data-header-2="How does the dynamic resizing work?"
+        data-content-2="It uses the PostMessage API to securely communicate the height of the content from the iframe to the parent page."
+        data-header-3="What if I have custom content?"
+        data-content-3="You can pass raw HTML or complex data structures through the data- attributes."
+    ></iframe>
 
 <script>
     // ---------------------------------------------
-    // ⭐ FIX 1: URL Construction Script ⭐
+    // ⭐ URL Construction Script ⭐
     // Finds all iframes with data-base-url and generates the full SRC URL
     // ---------------------------------------------
     document.addEventListener('DOMContentLoaded', function() {
@@ -66,16 +67,15 @@
                     }
                 }
             }
-            // Construct the final URL and set the src attribute
+            // Sets the correct URL string to the iframe's src attribute
             iframe.src = baseUrl + '?' + params.join('&');
         }
 
-        // Apply this function to all iframes that define a data-base-url
         document.querySelectorAll('iframe[data-base-url]').forEach(constructSnippetUrl);
     });
 
     // ---------------------------------------------
-    // FIX 2: Dynamic Resizing Handler (Your existing code)
+    // Dynamic Resizing Handler 
     // ---------------------------------------------
     function handleDynamicIframeResize(event) {
         const data = event.data;
