@@ -3,7 +3,7 @@
 <head>
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
-  <title>Stylish Input Component</title>
+  <title>Stylish Input Component (Inline Button)</title>
   
   <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0-beta3/css/all.min.css">
   
@@ -18,37 +18,39 @@
       font-family: 'Poppins', sans-serif;
       box-sizing: border-box; 
       overflow-x: hidden; /* Prevents mobile scrollbars */
+      padding: 10px 0; /* Add slight vertical spacing */
     }
 
-    /* FORM STRUCTURE (Use a form for proper input behavior) */
+    /* FORM STRUCTURE (Handles the main 100% width container) */
     .form-wrapper {
       display: flex;
-      flex-direction: column; /* Allows wrapper and button to stack */
-      align-items: center;
+      align-items: center; /* Vertically align items */
       width: 100%;
-      max-width: 400px;
+      max-width: 600px; /* Increased max-width for side-by-side layout */
       margin: 0;
-    }
-
-    /* INPUT WRAPPER: The primary visual container for input */
-    .input-wrapper {
-      display: flex;
-      align-items: center;
-      width: 100%;
-      padding: 12px 15px;
+      /* Style that used to be on .input-wrapper */
+      padding: 10px; /* Padding for the entire component */
       border-radius: 12px;
-      background-color: rgba(255, 255, 255, 0.05);
-      border: 2px solid rgba(255, 255, 255, 0.1);
-      transition: all 0.3s ease;
       box-shadow: 0 4px 10px rgba(0, 0, 0, 0.1);
-      position: relative;
+      background-color: rgba(255, 255, 255, 0.05); 
     }
 
+    /* INPUT SECTION: Takes up most of the space */
+    .input-section {
+        display: flex;
+        align-items: center;
+        flex-grow: 1; /* Allows input area to take remaining space */
+        border: 2px solid rgba(255, 255, 255, 0.1);
+        border-radius: 10px;
+        padding: 5px 15px;
+        margin-right: 10px; /* Space before the button */
+        transition: all 0.3s ease;
+    }
+    
     /* FOCUS GLOW EFFECT */
-    .input-wrapper:focus-within {
+    .input-section:focus-within {
       border-color: var(--primary-color, #7d44ff); 
-      box-shadow: 0 0 15px var(--primary-color-shadow, rgba(125, 68, 255, 0.8)), 0 0 5px var(--primary-color-shadow-light, rgba(125, 68, 255, 0.5));
-      background-color: rgba(255, 255, 255, 0.1);
+      box-shadow: 0 0 10px var(--primary-color-shadow, rgba(125, 68, 255, 0.6));
     }
 
     /* INPUT FIELD */
@@ -61,17 +63,12 @@
       color: #504e4e; 
       font-size: 1rem;
       outline: none;
+      min-width: 100px; /* Ensures input has minimum space on mobile */
     }
 
-    /* Placeholder Styling */
-    .input-field::placeholder {
-      color: #a0a0a0; 
-      transition: color 0.3s ease;
-    }
-
-    .input-field:focus::placeholder {
-      color: #a0a0a094; 
-    }
+    /* Placeholder Styling (unchanged) */
+    .input-field::placeholder { color: #a0a0a0; transition: color 0.3s ease; }
+    .input-field:focus::placeholder { color: #a0a0a094; }
 
     /* ICON STYLING */
     .input-icon {
@@ -79,16 +76,14 @@
       font-size: 1.1rem;
       transition: color 0.3s ease;
     }
-
-    /* Icon color change on focus */
-    .input-wrapper:focus-within .input-icon {
+    .input-section:focus-within .input-icon {
       color: var(--primary-color-light, #b99ff5);
     }
 
     /* SUBMIT BUTTON STYLING */
     .submit-button {
-      margin-top: 15px; /* Space between input and button */
-      padding: 10px 20px;
+      flex-shrink: 0; /* Ensures button doesn't shrink */
+      padding: 12px 20px;
       border: none;
       border-radius: 10px;
       background-color: var(--primary-color, #7d44ff);
@@ -97,29 +92,34 @@
       font-weight: 600;
       cursor: pointer;
       transition: background-color 0.3s, transform 0.1s;
-      width: 100%;
       box-shadow: 0 4px 10px rgba(0, 0, 0, 0.2);
     }
 
-    .submit-button:hover {
-      background-color: var(--primary-color-dark, #5d35c2);
-    }
+    .submit-button:hover { background-color: var(--primary-color-dark, #5d35c2); }
+    .submit-button:active { transform: scale(0.98); }
     
-    .submit-button:active {
-      transform: scale(0.98);
-    }
-    
-    @media (max-width: 768px) {
-      .form-wrapper {
-        max-width: 90vw;
-      }
+    /* MOBILE FALLBACK: Stack input and button on very small screens */
+    @media (max-width: 450px) {
+        .form-wrapper {
+            flex-direction: column;
+            max-width: 90vw;
+        }
+        .input-section {
+            width: 100%;
+            margin-right: 0;
+            margin-bottom: 10px;
+        }
+        .submit-button {
+            width: 100%;
+            padding: 10px 0;
+        }
     }
   </style>
 </head>
 <body>
 
 <form class="form-wrapper" id="input-form">
-  <div class="input-wrapper">
+  <div class="input-section">
     <i class="fas fa-user input-icon" id="input-icon"></i>
     <input type="email" class="input-field" id="input-field" required>
   </div>
@@ -161,15 +161,12 @@
 
     // 1. Set Dynamic Styling
     if (primaryColorHex) {
-      // Use standard CSS variables for easy theming
       const root = document.documentElement.style;
       root.setProperty('--primary-color', '#' + primaryColorHex);
       
-      // Calculate lighter/darker shades for hover/focus effects (simple approximation)
       root.setProperty('--primary-color-dark', '#' + getDarkerColor(primaryColorHex, 20));
       root.setProperty('--primary-color-light', '#' + getLighterColor(primaryColorHex, 20));
       root.setProperty('--primary-color-shadow', 'rgba(' + hexToRgb(primaryColorHex) + ', 0.8)');
-      root.setProperty('--primary-color-shadow-light', 'rgba(' + hexToRgb(primaryColorHex) + ', 0.5)');
     }
 
     // 2. Set Content
@@ -187,17 +184,11 @@
       const inputValue = inputField.value;
 
       if (window.parent && frameId) {
-        // Send the input data back to the parent page
         window.parent.postMessage(
-          {
-            action: 'input_submitted',
-            value: inputValue,
-            frameId: frameId
-          },
+          { action: 'input_submitted', value: inputValue, frameId: frameId },
           '*'
         );
       }
-      // Optionally reset the form
       form.reset();
     });
 
@@ -205,7 +196,7 @@
     window.addEventListener('load', sendComponentHeight);
     window.addEventListener('resize', sendComponentHeight);
     
-    // Fallback/Utility functions for color manipulation
+    // Utility functions for color manipulation (unchanged)
     function hexToRgb(hex) {
       const bigint = parseInt(hex, 16);
       const r = (bigint >> 16) & 255;
