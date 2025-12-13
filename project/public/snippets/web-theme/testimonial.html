@@ -6,10 +6,22 @@
     <title>Testimonial Snippet</title>
     <style>
         /* Base Reset */
-        body { margin: 0; font-family: sans-serif; background-color: transparent; }
+        body { 
+            margin: 0; 
+            font-family: sans-serif; 
+            background-color: transparent; 
+            /* CRITICAL FIX: Ensure the body of the snippet takes up 100% of the iframe's visible space */
+            width: 100%; 
+            padding: 10px 0; /* Add slight vertical padding for aesthetic spacing */
+        }
 
         /* Testimonial Container */
         .testimonial-container {
+            /* NEW FIX: Limit the content width and center it */
+            max-width: 500px; /* Use a reasonable maximum width (e.g., 500px) */
+            width: 90%; /* Use 90% of the available width up to max-width */
+            margin: 0 auto; /* This centers the container horizontally */
+
             padding: 2rem;
             background-color: #ffffff;
             border-radius: 8px;
@@ -20,7 +32,8 @@
             gap: 1rem;
             text-align: left;
         }
-
+        
+        /* ... (Rest of your existing styling remains the same) ... */
         /* Quote Text */
         .quote-text {
             font-size: 1.25rem;
@@ -100,8 +113,8 @@
 
             // PostMessage Resizing
             if (window.parent && frameId) {
-                // Use a slight delay to ensure all DOM elements are fully rendered
                 setTimeout(() => {
+                    // Use document.body.scrollHeight for vertical resizing
                     const height = document.body.scrollHeight;
                     window.parent.postMessage({
                         frameId: frameId,
@@ -114,4 +127,4 @@
         document.addEventListener('DOMContentLoaded', initializeTestimonial);
     </script>
 </body>
-</html>
+</html> 
