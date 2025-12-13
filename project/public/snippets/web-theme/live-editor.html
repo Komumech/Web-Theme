@@ -17,6 +17,8 @@
             margin: 0;
             padding: 2rem 1vw;
             box-sizing: border-box;
+            overflow-x: hidden; /* FIX: Prevent horizontal scrollbar on inner body */
+            overflow-y: hidden; /* FIX: Prevent vertical scrollbar on inner body */
         }
 
         iframe {
@@ -393,7 +395,8 @@
         // --- Height Management ---
         function sendComponentHeight() {
             if (window.parent && frameId) {
-                const height = root.scrollHeight;
+                // Use offsetHeight as scrollHeight can sometimes be too large
+                const height = root.offsetHeight; 
                 window.parent.postMessage({ frameHeight: height, frameId: frameId }, '*');
             }
         }
@@ -410,6 +413,7 @@
 
         window.addEventListener('load', sendComponentHeight);
         window.addEventListener('resize', sendComponentHeight);
+        // Use a less aggressive observer or one focusing on the main height-contributing container if needed
         new MutationObserver(sendComponentHeight).observe(root, { childList: true, subtree: true, attributes: true });
     });
 </script>
