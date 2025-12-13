@@ -33,7 +33,8 @@
         }
 
         .breadcrumb-item a:hover {
-            color: var(--accent-color, #3b82f6); /* Uses accent color for hover */
+            /* Uses accent color for hover. Accent color is set via JS. */
+            color: var(--accent-color, #3b82f6); 
             text-decoration: underline;
         }
 
@@ -50,26 +51,28 @@
             font-weight: 600;
             cursor: default;
             pointer-events: none; /* Prevents clicking the current page */
+            text-decoration: none; /* Ensure no underline */
         }
     </style>
 </head>
 <body>
 
     <div class="breadcrumbs-container" id="snippet-container">
-        </div>
+    </div>
 
     <script>
         function initializeBreadcrumbs() {
             // Parse URL parameters
             const urlParams = new URLSearchParams(window.location.search);
             const frameId = urlParams.get('frame_id');
-            const linksParam = urlParams.get('links'); // Expected format: Label1|URL1,Label2|URL2,...
+            const linksParam = urlParams.get('links'); 
             const accentColor = urlParams.get('accent_color');
 
             const container = document.getElementById('snippet-container');
 
             // Set dynamic accent color
             if (accentColor) {
+                // Apply the hex code to the CSS variable
                 container.style.setProperty('--accent-color', '#' + accentColor);
             }
 
@@ -86,6 +89,9 @@
                     const link = document.createElement('a');
                     link.href = url;
                     link.textContent = decodeURIComponent(label);
+                    
+                    // ⭐ CRITICAL FIX: Forces link to open in the parent window. ⭐
+                    link.target = '_parent'; 
 
                     itemDiv.appendChild(link);
                     container.appendChild(itemDiv);
@@ -94,15 +100,15 @@
                     if (index < linkPairs.length - 1) {
                         const separator = document.createElement('span');
                         separator.className = 'separator';
-                        separator.textContent = '/'; // Unicode for a nice slash
+                        separator.textContent = '/';
                         container.appendChild(separator);
                     }
                 });
             } else {
                 // Default content if no links are provided
                 container.innerHTML = `<div class="breadcrumb-item"><a href="#">Home</a></div>
-                                     <span class="separator">/</span>
-                                     <div class="breadcrumb-item"><a href="#">Default Page</a></div>`;
+                                       <span class="separator">/</span>
+                                       <div class="breadcrumb-item"><a href="#">Default Page</a></div>`;
             }
 
             // PostMessage Resizing
