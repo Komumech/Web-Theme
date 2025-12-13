@@ -94,49 +94,49 @@
 </div>
 
 <script>
-  // --- PostMessage Resizing Script Setup (FIXED) ---
+    // --- PostMessage Resizing Script Setup (Includes FIX for resizing loop) ---
 
-  // The component's height reporting function (for parent iframe resizing)
-  function sendComponentHeight() {
-    if (window.parent) {
-      // CRITICAL FIX: Use document.body.offsetHeight for stability.
-      const contentHeight = document.body.offsetHeight;
-      
-      // Add a small buffer (e.g., 5px) to prevent scrollbar appearance
-      const height = contentHeight + 5; 
-      
-      const urlParams = new URLSearchParams(window.location.search);
-      const frameId = urlParams.get("frame_id");
+    // The component's height reporting function (for parent iframe resizing)
+    function sendComponentHeight() {
+        if (window.parent) {
+            // FIX: Use document.body.offsetHeight for a stable measurement 
+            // of the rendered content, ignoring potential scroll height or viewport changes.
+            const height = document.body.offsetHeight; 
+            
+            const urlParams = new URLSearchParams(window.location.search);
+            const frameId = urlParams.get("frame_id"); 
 
-      if (frameId) {
-        window.parent.postMessage(
-          {
-            frameHeight: height,
-            frameId: frameId
-          },
-          '*'
-        );
-      }
+            if (frameId) {
+                window.parent.postMessage(
+                    { 
+                        frameHeight: height,
+                        frameId: frameId 
+                    }, 
+                    '*' 
+                );
+            }
+        }
     }
-  }
 
-  // --- Component Logic ---
-  const params = new URLSearchParams(window.location.search);
-  const placeholder = params.get("placeholder") || "Enter text...";
-  const icon = params.get("icon");
+    // --- Component Logic ---
+    const params = new URLSearchParams(window.location.search);
+    const placeholder = params.get("placeholder") || "Enter text...";
+    const icon = params.get("icon"); 
 
-  const inputField = document.getElementById("input-field");
-  inputField.placeholder = placeholder;
+    const inputField = document.getElementById("input-field");
+    inputField.placeholder = placeholder;
 
-  if (icon) {
-    const iconEl = document.getElementById("input-icon");
-    // Ensure existing classes are preserved
-    iconEl.className = `fas fa-${icon} input-icon`;
-  }
+    if (icon) {
+      const iconEl = document.getElementById("input-icon");
+      // Use replace() to ensure class name is set correctly, 
+      // not just appending.
+      iconEl.className = `fas fa-${icon} input-icon`; 
+    }
 
-  // Call height reporting on load and resize
-  window.addEventListener('load', sendComponentHeight);
-  window.addEventListener('resize', sendComponentHeight);
+    // Call height reporting on load (for parent page import)
+    window.addEventListener('load', sendComponentHeight);
+    window.addEventListener('resize', sendComponentHeight);
+
 </script>
 
 </body>
