@@ -5,22 +5,23 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Testimonial Snippet</title>
     <style>
-        /* Base Reset */
+        /* Base Reset and Fixes */
         body { 
             margin: 0; 
             font-family: sans-serif; 
             background-color: transparent; 
-            /* CRITICAL FIX: Ensure the body of the snippet takes up 100% of the iframe's visible space */
             width: 100%; 
-            padding: 10px 0; /* Add slight vertical padding for aesthetic spacing */
+            padding: 10px 0; 
+            /* CRITICAL FIX: Prevent horizontal overflow/scrollbars on mobile */
+            overflow-x: hidden; 
         }
 
         /* Testimonial Container */
         .testimonial-container {
-            /* NEW FIX: Limit the content width and center it */
-            max-width: 500px; /* Use a reasonable maximum width (e.g., 500px) */
-            width: 90%; /* Use 90% of the available width up to max-width */
-            margin: 0 auto; /* This centers the container horizontally */
+            /* Fixes for Centering and Limiting Width, respecting outer iframe width */
+            max-width: 500px; 
+            width: 90%; 
+            margin: 0 auto; 
 
             padding: 2rem;
             background-color: #ffffff;
@@ -32,8 +33,7 @@
             gap: 1rem;
             text-align: left;
         }
-        
-        /* ... (Rest of your existing styling remains the same) ... */
+
         /* Quote Text */
         .quote-text {
             font-size: 1.25rem;
@@ -41,6 +41,7 @@
             color: #333333;
             line-height: 1.5;
             position: relative;
+            word-wrap: break-word; /* Ensure long words wrap */
         }
         
         /* Quote icon styling */
@@ -52,8 +53,8 @@
             margin-right: 10px;
             vertical-align: -10px;
             opacity: 0.7;
-            position: absolute;
-            left: -30px;
+            position: absolute; 
+            left: -15px; /* Adjusted to prevent overflow */
             top: 5px;
         }
 
@@ -91,7 +92,6 @@
 
     <script>
         function initializeTestimonial() {
-            // Parse URL parameters
             const urlParams = new URLSearchParams(window.location.search);
             const frameId = urlParams.get('frame_id');
             const quote = urlParams.get('quote');
@@ -101,12 +101,10 @@
 
             const container = document.getElementById('snippet-container');
 
-            // Set dynamic accent color
             if (accentColor) {
                 container.style.setProperty('--accent-color', '#' + accentColor);
             }
 
-            // Set content
             document.getElementById('quote-text').textContent = decodeURIComponent(quote || "The service was amazing and truly transformed my workflow.");
             document.getElementById('author-name').textContent = decodeURIComponent(author || "Jane Doe");
             document.getElementById('author-title').textContent = decodeURIComponent(title || "CEO, Example Corp");
@@ -114,7 +112,6 @@
             // PostMessage Resizing
             if (window.parent && frameId) {
                 setTimeout(() => {
-                    // Use document.body.scrollHeight for vertical resizing
                     const height = document.body.scrollHeight;
                     window.parent.postMessage({
                         frameId: frameId,
@@ -127,4 +124,4 @@
         document.addEventListener('DOMContentLoaded', initializeTestimonial);
     </script>
 </body>
-</html> 
+</html>

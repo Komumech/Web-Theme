@@ -5,8 +5,14 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Pagination Snippet</title>
     <style>
-        /* Base Reset */
-        body { margin: 0; font-family: sans-serif; background-color: transparent; }
+        /* Base Reset and Fixes */
+        body { 
+            margin: 0; 
+            font-family: sans-serif; 
+            background-color: transparent; 
+            /* CRITICAL FIX: Prevent horizontal overflow/scrollbars on mobile */
+            overflow-x: hidden; 
+        }
 
         /* Container and Layout */
         .pagination-container {
@@ -14,6 +20,8 @@
             justify-content: center;
             align-items: center;
             padding: 1rem 0;
+            /* CRITICAL FIX: Allow buttons to wrap to the next line on small screens */
+            flex-wrap: wrap; 
         }
 
         /* Common Button Styling */
@@ -22,12 +30,13 @@
             border: 1px solid #dddddd;
             color: #555555;
             padding: 0.5rem 0.9rem;
-            margin: 0 0.2rem;
+            /* Added margin-bottom to separate rows when wrapping */
+            margin: 0 0.2rem 0.5rem 0.2rem; 
             cursor: pointer;
             border-radius: 4px;
             font-size: 1rem;
             transition: background-color 0.2s, color 0.2s, border-color 0.2s;
-            text-decoration: none; /* For nav buttons if they are links */
+            text-decoration: none; 
         }
 
         .page-button:hover, .nav-button:hover {
@@ -57,7 +66,6 @@
 
     <script>
         function initializePagination() {
-            // Parse URL parameters
             const urlParams = new URLSearchParams(window.location.search);
             const frameId = urlParams.get('frame_id');
             const currentPage = parseInt(urlParams.get('current_page') || '1');
@@ -66,12 +74,10 @@
 
             const container = document.getElementById('snippet-container');
 
-            // Set dynamic primary color
             if (primaryColor) {
                 container.style.setProperty('--primary-color', '#' + primaryColor);
             }
             
-            // Utility function to create button
             const createButton = (text, className, isDisabled = false, pageNumber = null) => {
                 const button = document.createElement('button');
                 button.className = className;
@@ -79,7 +85,6 @@
                 button.disabled = isDisabled;
                 
                 if (pageNumber) {
-                    // This is where you would hook up the actual site navigation logic
                     button.onclick = () => alert(`Navigating to Page ${pageNumber}`);
                     if (pageNumber === currentPage) {
                         button.classList.add('active');
@@ -95,7 +100,6 @@
             let startPage = Math.max(1, currentPage - 2);
             let endPage = Math.min(totalPages, currentPage + 2);
 
-            // Adjust start/end if near boundaries
             if (currentPage <= 2) {
                 endPage = Math.min(totalPages, 5);
             }
@@ -109,7 +113,7 @@
                 if (startPage > 2) {
                     const ellipsis = document.createElement('span');
                     ellipsis.textContent = '...';
-                    ellipsis.style.margin = '0 0.2rem';
+                    ellipsis.style.margin = '0 0.2rem 0.5rem 0.2rem'; /* Added margin for wrapping */
                     ellipsis.style.color = '#777';
                     container.appendChild(ellipsis);
                 }
@@ -125,7 +129,7 @@
                 if (endPage < totalPages - 1) {
                     const ellipsis = document.createElement('span');
                     ellipsis.textContent = '...';
-                    ellipsis.style.margin = '0 0.2rem';
+                    ellipsis.style.margin = '0 0.2rem 0.5rem 0.2rem'; /* Added margin for wrapping */
                     ellipsis.style.color = '#777';
                     container.appendChild(ellipsis);
                 }
