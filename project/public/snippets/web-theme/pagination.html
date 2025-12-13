@@ -1,0 +1,153 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Pagination Snippet</title>
+    <style>
+        /* Base Reset */
+        body { margin: 0; font-family: sans-serif; background-color: transparent; }
+
+        /* Container and Layout */
+        .pagination-container {
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            padding: 1rem 0;
+        }
+
+        /* Common Button Styling */
+        .page-button, .nav-button {
+            background-color: transparent;
+            border: 1px solid #dddddd;
+            color: #555555;
+            padding: 0.5rem 0.9rem;
+            margin: 0 0.2rem;
+            cursor: pointer;
+            border-radius: 4px;
+            font-size: 1rem;
+            transition: background-color 0.2s, color 0.2s, border-color 0.2s;
+            text-decoration: none; /* For nav buttons if they are links */
+        }
+
+        .page-button:hover, .nav-button:hover {
+            background-color: #f0f0f0;
+        }
+        
+        /* Active Page Styling */
+        .page-button.active {
+            background-color: var(--primary-color, #1f5afe);
+            border-color: var(--primary-color, #1f5afe);
+            color: #ffffff;
+            font-weight: 600;
+        }
+
+        /* Disabled Navigation Styling */
+        .nav-button:disabled {
+            cursor: not-allowed;
+            opacity: 0.5;
+            background-color: #f9f9f9;
+        }
+    </style>
+</head>
+<body>
+
+    <div class="pagination-container" id="snippet-container">
+        </div>
+
+    <script>
+        function initializePagination() {
+            // Parse URL parameters
+            const urlParams = new URLSearchParams(window.location.search);
+            const frameId = urlParams.get('frame_id');
+            const currentPage = parseInt(urlParams.get('current_page') || '1');
+            const totalPages = parseInt(urlParams.get('total_pages') || '5');
+            const primaryColor = urlParams.get('primary_color');
+
+            const container = document.getElementById('snippet-container');
+
+            // Set dynamic primary color
+            if (primaryColor) {
+                container.style.setProperty('--primary-color', '#' + primaryColor);
+            }
+            
+            // Utility function to create button
+            const createButton = (text, className, isDisabled = false, pageNumber = null) => {
+                const button = document.createElement('button');
+                button.className = className;
+                button.textContent = text;
+                button.disabled = isDisabled;
+                
+                if (pageNumber) {
+                    // This is where you would hook up the actual site navigation logic
+                    button.onclick = () => alert(`Navigating to Page ${pageNumber}`);
+                    if (pageNumber === currentPage) {
+                        button.classList.add('active');
+                    }
+                }
+                container.appendChild(button);
+            };
+
+            // 1. Previous Button
+            createButton('Prev', 'nav-button', currentPage === 1);
+
+            // 2. Page Number Buttons (Show a maximum of 5 pages, centered around current)
+            let startPage = Math.max(1, currentPage - 2);
+            let endPage = Math.min(totalPages, currentPage + 2);
+
+            // Adjust start/end if near boundaries
+            if (currentPage <= 2) {
+                endPage = Math.min(totalPages, 5);
+            }
+            if (currentPage > totalPages - 2) {
+                startPage = Math.max(1, totalPages - 4);
+            }
+            
+            // Render first page and ellipsis if needed
+            if (startPage > 1) {
+                createButton('1', 'page-button', false, 1);
+                if (startPage > 2) {
+                    const ellipsis = document.createElement('span');
+                    ellipsis.textContent = '...';
+                    ellipsis.style.margin = '0 0.2rem';
+                    ellipsis.style.color = '#777';
+                    container.appendChild(ellipsis);
+                }
+            }
+
+            // Render main page numbers
+            for (let i = startPage; i <= endPage; i++) {
+                createButton(i.toString(), 'page-button', false, i);
+            }
+
+            // Render last page and ellipsis if needed
+            if (endPage < totalPages) {
+                if (endPage < totalPages - 1) {
+                    const ellipsis = document.createElement('span');
+                    ellipsis.textContent = '...';
+                    ellipsis.style.margin = '0 0.2rem';
+                    ellipsis.style.color = '#777';
+                    container.appendChild(ellipsis);
+                }
+                createButton(totalPages.toString(), 'page-button', false, totalPages);
+            }
+
+            // 3. Next Button
+            createButton('Next', 'nav-button', currentPage === totalPages);
+
+            // PostMessage Resizing
+            if (window.parent && frameId) {
+                setTimeout(() => {
+                    const height = document.body.scrollHeight;
+                    window.parent.postMessage({
+                        frameId: frameId,
+                        frameHeight: height,
+                    }, '*');
+                }, 50);
+            }
+        }
+
+        document.addEventListener('DOMContentLoaded', initializePagination);
+    </script>
+</body>
+</html>

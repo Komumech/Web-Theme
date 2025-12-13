@@ -1,0 +1,309 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>ThemeCorp - Full Dynamic Site Showcase</title>
+  <style>
+    /* General styling for the main page 
+      (Kept minimal to let the snippets define the look)
+    */
+    body {
+      font-family: sans-serif;
+      background-color: #f7f7f7; /* Light background for the content areas */
+      margin: 0;
+      padding-top: 80px; /* Space for the docked navbar */
+    }
+    iframe {
+      border: none;
+      box-shadow: none;
+      width: 100%;
+      margin-bottom: 2rem;
+      overflow: hidden;
+      display: block; /* Ensure iframes are block elements for full width */
+    }
+    .component-group {
+      max-width: 1000px;
+      margin: 0 auto;
+      padding: 40px 20px;
+    }
+    h2 {
+      text-align: center;
+      margin-top: 0;
+      margin-bottom: 30px;
+      border-bottom: 2px solid #ddd;
+      padding-bottom: 0.5rem;
+      color: #333;
+    }
+    /* Special container for items that should be centered, like the pricing card */
+    .centered-content {
+        display: flex;
+        justify-content: center;
+        align-items: center;
+        flex-wrap: wrap;
+        gap: 20px;
+        margin-bottom: 2rem;
+    }
+  </style>
+</head>
+<body>
+
+  <iframe src="https://themes-blush-one.vercel.app/snippets/web-theme/navbar.html?title=ThemeCorp&docked=true&link1_label=Home&link1_href=/&link2_label=Products&link2_href=/products&link3_label=Login&link3_href=/login" height="70"></iframe>
+
+  <iframe
+    id="hero-section-2"
+    src=""
+    width="100%"
+    height="600"
+    style="border: none; overflow: hidden; margin-bottom: 2rem; display: block;"
+    data-base-url="https://themes-blush-one.vercel.app/snippets/web-theme/hero.html"
+    data-frame-id="hero-section-2"
+    data-nav-title="Blush Themes"
+    data-link1-label="Features"
+    data-link1-href="#features"
+    data-link2-label="Pricing"
+    data-link2-href="#pricing"
+    data-link3-label="Docs"
+    data-link3-href="#"
+    data-link4-label="Contact"
+    data-link4-href="#"
+    data-link5-label="" data-link5-href="#"
+    data-link6-label="" data-link6-href="#"
+    data-link7-label="" data-link7-href="#"
+    data-gradient-start="93affc"
+    data-gradient-end="1d2547"
+    data-gradient-direction="to top"
+    data-headline="The Future is Gradient"
+    data-tagline="Customizable colors for a modern, code-free aesthetic."
+    data-cta1-text="Explore Features"
+    data-primary-color="000000"
+    data-secondary-button-border="ffffff"
+    data-dark-mode-text="false" 
+  ></iframe>
+
+  <div class="component-group" id="features">
+    <h2>🚀 Why Choose Our Components?</h2>
+    <iframe
+      id="features-section-snippet"
+      src=""
+      width="100%"
+      height="600"
+      style="border: none; box-shadow: none; margin-top: 50px;"
+      data-base-url="https://themes-blush-one.vercel.app/snippets/web-theme/features.html"
+      data-frame-id="features-section-snippet"
+      data-headline="Our Comprehensive Advantages"
+      data-tagline="We deliver powerful, responsive components, taking the burden of maintenance and compatibility off your shoulders. Start embedding today!"
+      data-primary-color="1f5afe"
+      data-accent-color="ff0080"
+      data-card1-title="Zero Maintenance"
+      data-card1-content="We handle the hosting, updates, and bug fixes instantly. When we improve it, your site improves automatically, globally."
+      data-card2-title="Platform Agnostic"
+      data-card2-content="Seamlessly integrate our components across WordPress, Shopify, React, and every other platform—no frameworks required."
+      data-card3-title="Perfect Resizing"
+      data-card3-content="Our custom PostMessage technology guarantees the iframe always adjusts perfectly to the content and screen size, even on mobile.">
+    </iframe>
+  </div>
+
+  <div class="component-group" id="pricing">
+    <h2>💰 Simple & Transparent Pricing</h2>
+    <div class="centered-content">
+        <iframe
+            id="price-card-1"
+            src=""
+            width="400" 
+            height="500"
+            style="border: none; overflow: hidden;"
+            data-base-url="https://themes-blush-one.vercel.app/snippets/web-theme/pricing-card.html"
+            data-frame-id="price-card-1"
+            data-plan-name="Premium Pro"
+            data-price="$299"
+            data-interval="/yr"
+            data-features="Advanced Analytics, Priority Support, 5 Team Members, 99.9% Uptime Guarantee"
+            data-cta-text="Go Annual"
+            data-primary-color="3b82f6"
+            data-accent-color="ef4444"
+            data-highlighted="true"
+        ></iframe>
+    </div>
+  </div>
+  
+  <div class="component-group">
+    <h2>❓ Frequently Asked Questions</h2>
+    <iframe
+        id="faq-section-1"
+        src=""
+        width="100%"
+        height="350"
+        style="border: none; overflow: hidden; margin-bottom: 2rem;"
+        data-base-url="https://themes-blush-one.vercel.app/snippets/web-theme/accordion.html"
+        data-frame-id="faq-section-1"
+        data-accent-color="22c55e"
+        data-header-1="Do you offer a money-back guarantee?"
+        data-content-1="Yes, we offer a risk-free 30-day money-back guarantee on all our paid plans."
+        data-header-2="How does the dynamic resizing work?"
+        data-content-2="It uses the PostMessage API to securely communicate the height of the content from the iframe to the parent page."
+        data-header-3="What if I have custom content?"
+        data-content-3="You can pass raw HTML or complex data structures through the data- attributes."
+    ></iframe>
+  </div>
+
+  <div class="component-group">
+    <h2>📩 Stay Up-to-Date</h2>
+    <iframe
+        id="my-contact-input"
+        src="" 
+        width="100%"    
+        height="fit-content"    
+        style="border: none; overflow: hidden;"
+        data-base-url="https://themes-blush-one.vercel.app/snippets/web-theme/input.html"
+        data-frame-id="my-contact-input"
+        data-placeholder="Your Email Address"
+        data-icon="envelope"
+        data-submit-text="Sign Up for Beta" 
+        data-primary-color="7d44ff" 
+    ></iframe>
+  </div>
+
+  <iframe
+    id="footer-snippet"
+    class="footer-iframe"
+    src="https://themes-blush-one.vercel.app/snippets/web-theme/footer.html?company_name=ThemeCorp&copyright=©+2025+ThemeCorp.+All+Rights+Reserved.&social1_icon=twitter&social1_href=#&social2_icon=instagram&social2_href=#&social3_icon=linkedin&social3_href=#&frame_id=footer-snippet"
+    width="100%"
+    height="150"
+    style="border:none;">
+  </iframe>
+
+<script>
+    /* 1. CRITICAL: Function to construct the URL from data- attributes 
+         This is required for all snippets that use the `data-base-url` attribute.
+    */
+    function constructSnippetUrl() {
+        document.querySelectorAll('iframe[data-base-url]').forEach(iframe => {
+            if (!iframe.src) { // Only build if src is empty
+                const baseUrl = iframe.getAttribute('data-base-url');
+                const dataAttributes = Array.from(iframe.attributes)
+                    .filter(attr => attr.name.startsWith('data-'))
+                    .map(attr => {
+                        // Convert data-frame-id to frame_id
+                        const paramName = attr.name.substring(5).replace(/-/g, '_');
+                        return `${paramName}=${encodeURIComponent(attr.value)}`;
+                    })
+                    .join('&');
+                
+                iframe.src = `${baseUrl}?${dataAttributes}`;
+            }
+        });
+    }
+
+    // Run the function immediately after the DOM is ready
+    document.addEventListener('DOMContentLoaded', constructSnippetUrl);
+
+    /*
+      2. CRITICAL: PostMessage Listener for Dynamic Height Adjustment
+         This is required for snippets like Accordion, Input, and Features 
+         to resize the iframe height to match their content.
+    */
+    window.addEventListener('message', function(event) {
+        // Only process messages from the expected origin for security (optional but recommended)
+        // const allowedOrigin = 'https://themes-blush-one.vercel.app';
+        // if (event.origin !== allowedOrigin) return;
+
+        // Check for dynamic height message
+        if (event.data && event.data.action === 'set_iframe_height' && event.data.frameId) {
+            const iframe = document.getElementById(event.data.frameId);
+            if (iframe) {
+                // Set the height of the iframe
+                iframe.style.height = `${event.data.height}px`;
+                console.log(`Resized iframe ${event.data.frameId} to ${event.data.height}px`);
+            }
+        }
+        
+        // Check for form submission message (for the my-contact-input iframe)
+        if (event.data && event.data.action === 'input_submitted' && event.data.frameId === 'my-contact-input') {
+            const submittedValue = event.data.value;
+            console.log("SUCCESS! Data received from iframe:", submittedValue);
+            alert(`Parent page received input: ${submittedValue}. In a real app, you would send this to your server.`);
+        }
+    });
+</script>
+
+
+<script>
+    // 1. LISTEN FOR THE MESSAGE (This script must be on your main page)
+    window.addEventListener('message', function(event) {
+        // Check if the message came from your iframe and is a submission
+        if (event.data && event.data.action === 'input_submitted' && event.data.frameId === 'my-contact-input') {
+            const submittedValue = event.data.value;
+            
+            // 2. PROCESS THE DATA HERE
+            console.log("SUCCESS! Data received from iframe:", submittedValue);
+            
+            // Example action: Send this value to your server using a fetch request:
+            // fetch('/api/signup', {
+            //     method: 'POST',
+            //     headers: { 'Content-Type': 'application/json' },
+            //     body: JSON.stringify({ email: submittedValue })
+            // });
+            
+            alert(`Parent page received input: ${submittedValue}`);
+            // You can update a success message on the parent page here
+        }
+    });
+
+    // NOTE: You also need the 'constructSnippetUrl' function from earlier in the thread
+    // to build the URL from the 'data-' attributes, just as you did for your other snippets.
+</script>
+
+
+ <script>
+    /**
+     * Handles the PostMessage event to dynamically resize an iframe.
+     * This code listens for messages from the components and adjusts the height
+     * of the corresponding iframe on this page.
+     */
+    function handleDynamicIframeResize(event) {
+      // OPTIONAL SECURITY CHECK: uncomment to restrict messages
+      // if (event.origin !== "https://themes-blush-one.vercel.app") { return; }
+
+      const data = event.data;
+
+      // Ensure the message contains the height and ID
+      if (data.frameHeight && data.frameId) {
+        const iframe = document.getElementById(data.frameId);
+
+        if (iframe) {
+          // Set the iframe's height, adding a small buffer (+5px)
+          iframe.style.height = (data.frameHeight + 5) + "px";
+          // FIX: Ensure the iframe itself is explicitly told not to scroll
+          iframe.style.overflow = 'hidden';
+        }
+      }
+    }
+
+    // Attach the handler to the window's message event
+    window.addEventListener("message", handleDynamicIframeResize, false);
+  </script>
+
+  <script>
+    document.addEventListener('DOMContentLoaded', function() {
+      // URL Construction Logic
+      function constructSnippetUrl(iframe) {
+        const baseUrl = iframe.getAttribute('data-base-url');
+        if (!baseUrl) return;
+        let params = [];
+        for (const attr of iframe.attributes) {
+          if (attr.name.startsWith('data-')) {
+            const paramKey = attr.name.substring(5).replace(/-/g, '_');
+            const paramValue = encodeURIComponent(attr.value);
+            if (paramKey !== 'base_url') {
+              params.push(`${paramKey}=${paramValue}`);
+            }
+          }
+        }
+        iframe.src = baseUrl + '?' + params.join('&');
+      }
+      document.querySelectorAll('iframe[data-base-url]').forEach(constructSnippetUrl);
+    });
+  </script>
+</body>
+</html>
