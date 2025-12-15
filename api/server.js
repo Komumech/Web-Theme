@@ -18,7 +18,7 @@ function findUserByToken(token) {
 
 // --- Snippet Configuration ---
 // Load the configuration from the dedicated config file.
-const snippetConfig = require('../project/public/snippets/web-theme/snippetConfig');
+const snippetConfig = require('../snippet-server/snippetConfig');
 // --- End Snippet Configuration ---
 
 
@@ -66,7 +66,10 @@ app.get('/render/:snippetName', (req, res) => {
     templateData = { ...config.free };
   }
 
-  const templatePath = path.join(__dirname, '..', 'project', 'public', 'snippets', 'web-theme', config.template);
+  // Use process.cwd() for a reliable path to the project root on Vercel.
+  // This ensures the server can always find the HTML template files.
+  const templatePath = path.join(process.cwd(), 'project', 'public', 'snippets', 'web-theme', config.template);
+
   fs.readFile(templatePath, 'utf8', (err, html) => {
     if (err) {
       console.error("Error reading template file:", err);

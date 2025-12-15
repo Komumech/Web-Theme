@@ -43,48 +43,57 @@
     }
   </style>
 
-  <iframe src="https://themes-blush-one.vercel.app/snippets/web-theme/navbar.html?title=ThemeCorp&docked=true&link1_label=Home&link1_href=/&link2_label=Products&link2_href=/products&link3_label=Login&link3_href=/login" height="70"></iframe>
+  <iframe id="main-nav" src="" data-base-url="https://themes-blush-one.vercel.app/snippets/web-theme/navbar.html" data-frame-id="main-nav" data-title="ThemeCorp" data-docked="true" data-link1-label="Home" data-link1-href="/" data-link2-label="Products" data-link2-href="/products" data-link3-label="Login" data-link3-href="/login"></iframe>
 
   <div class="component-group">
     <h2>Neon Theme Snippets</h2>
-    <iframe src="https://themes-blush-one.vercel.app/snippets/neon/navbar.html?title=NEON&link1_label=CYBER&link1_href=#&link2_label=PUNK&link2_href=#" height="70"></iframe>
-    <iframe src="https://themes-blush-one.vercel.app/snippets/neon/alert.html?type=warning&message=System+breach+detected." height="80"></iframe>
-    <iframe src="https://themes-blush-one.vercel.app/snippets/neon/input.html?placeholder=Enter+Codename...&icon=user-secret" height="70"></iframe>
-    <iframe src="https://themes-blush-one.vercel.app/snippets/neon/footer.html?copyright=--[+SYSTEM+ONLINE+]--&social1_icon=github&social1_href=#&social2_icon=gitlab&social2_href=#" height="120"></iframe>
+    <iframe id="neon-nav" src="" data-base-url="https://themes-blush-one.vercel.app/snippets/neon/navbar.html" data-frame-id="neon-nav" data-title="NEON" data-link1-label="CYBER" data-link1-href="#" data-link2-label="PUNK" data-link2-href="#"></iframe>
+    <iframe id="neon-alert" src="" data-base-url="https://themes-blush-one.vercel.app/snippets/neon/alert.html" data-frame-id="neon-alert" data-type="warning" data-message="System breach detected."></iframe>
+    <iframe id="neon-input" src="" data-base-url="https://themes-blush-one.vercel.app/snippets/neon/input.html" data-frame-id="neon-input" data-placeholder="Enter Codename..." data-icon="user-secret"></iframe>
+    <iframe id="neon-footer" src="" data-base-url="https://themes-blush-one.vercel.app/snippets/neon/footer.html" data-frame-id="neon-footer" data-copyright="--[+SYSTEM ONLINE+]--" data-social1-icon="github" data-social1-href="#" data-social2-icon="gitlab" data-social2-href="#"></iframe>
   </div>
 
   <div class="component-group">
     <h2>Web Theme Snippets</h2>
 
     <h3>Navbar</h3>
-    <iframe src="https://themes-blush-one.vercel.app/snippets/web-theme/navbar.html?title=MySite&link1_label=Home&link1_href=#&link2_label=Features&link2_href=#" height="70"></iframe>
+    <iframe id="web-nav" src="" data-base-url="https://themes-blush-one.vercel.app/snippets/web-theme/navbar.html" data-frame-id="web-nav" data-title="MySite" data-link1-label="Home" data-link1-href="#" data-link2-label="Features" data-link2-href="#"></iframe>
 
     <h3>Buttons</h3>
-    <iframe src="https://themes-blush-one.vercel.app/snippets/web-theme/button.html?text=Get+Started" height="60"></iframe>
-    <iframe src="https://themes-blush-one.vercel.app/snippets/web-theme/button.html?text=Learn+More&type=skeleton" height="60"></iframe>
+    <iframe id="btn-1" src="" data-base-url="https://themes-blush-one.vercel.app/snippets/web-theme/button.html" data-frame-id="btn-1" data-text="Get Started"></iframe>
+    <iframe id="btn-2" src="" data-base-url="https://themes-blush-one.vercel.app/snippets/web-theme/button.html" data-frame-id="btn-2" data-text="Learn More" data-type="skeleton"></iframe>
 
     <h3>Alert</h3>
     <iframe
       id="success-alert-1"
-      src="https://themes-blush-one.vercel.app/snippets/web-theme/alert.html?type=success&message=Successfully+Updated+your+profile.&frame_id=success-alert-1"
+      src=""
+      data-base-url="https://themes-blush-one.vercel.app/snippets/web-theme/alert.html"
+      data-frame-id="success-alert-1"
+      data-type="success"
+      data-message="Successfully Updated your profile."
       width="100%"
-      height="100"
       style="border: none;">
     </iframe>
 
     <iframe
       id="error-alert-3"
-      src="https://themes-blush-one.vercel.app/snippets/web-theme/alert.html?type=error&message=Couldn't+successfully+update+your+profile.&frame_id=error-alert-3"
+      src=""
+      data-base-url="https://themes-blush-one.vercel.app/snippets/web-theme/alert.html"
+      data-frame-id="error-alert-3"
+      data-type="error"
+      data-message="Couldn't successfully update your profile."
       width="100%"
-      height="100"
       style="border: none;">
     </iframe>
 
     <iframe
       id="warning-alert-2"
-      src="https://themes-blush-one.vercel.app/snippets/web-theme/alert.html?type=warning&message=You+have+5+days+left+on+your+trial+plan.&frame_id=warning-alert-2"
+      src=""
+      data-base-url="https://themes-blush-one.vercel.app/snippets/web-theme/alert.html"
+      data-frame-id="warning-alert-2"
+      data-type="warning"
+      data-message="You have 5 days left on your trial plan."
       width="100%"
-      height="100"
       style="border: none;">
     </iframe>
 <div class="component-group">
@@ -154,7 +163,7 @@
     <iframe
         id="price-card-1"
         src=""
-        width="400"
+        width="100%"
         height="500"
         style="border: none; overflow: hidden; margin: 0 auto 2rem; display: block;"
         data-base-url="https://themes-blush-one.vercel.app/snippets/web-theme/pricing-card.html"
@@ -196,14 +205,14 @@
     <h3>Input Field (FIXED: Added frame_id)</h3>
 <iframe
     id="my-contact-input"
-    src="https://themes-blush-one.vercel.app/snippets/web-theme/input.html" 
+    src=""
     width="100%"    
-    height="650"    
     style="border: none; box-shadow: none;"
+    data-base-url="https://themes-blush-one.vercel.app/snippets/web-theme/input.html"
+    data-frame-id="my-contact-input"
     data-placeholder="Your Email Address"
     data-icon="envelope"
     data-submit-text="Sign Up" 
-    
     data-primary-color="7d44ff" 
 ></iframe>
 <div class="component-group">
@@ -357,7 +366,7 @@
   <iframe
     id="sample-section-parent"
     src="https://themes-blush-one.vercel.app/snippets/sample.html?frame_id=sample-section-parent"
-    width="100%"
+    width="98%"
     height="650"
     style="border: none; box-shadow: none;">
   </iframe>
