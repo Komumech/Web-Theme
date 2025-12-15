@@ -91,7 +91,5 @@ app.get('/render/:snippetName', (req, res) => {
   });
 });
 
-app.listen(PORT, () => {
-  console.log(`✅ Dynamic snippet server running at http://localhost:${PORT}`);
-  console.log("Test it with your test2.html file!");
-});
+// Vercel handles the server creation, so we just need to export the app.
+module.exports = app;

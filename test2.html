@@ -39,24 +39,87 @@
 
     <div class="test-case">
         <h3>1. Free User (gets default free plan)</h3>
-        <iframe src="https://themes-blush-one.vercel.app/api/render/pricing-card?token=abc123_free_token&frame_id=free-card" width="100%" height="450" style="border:none;"></iframe>
+        <iframe
+            id="free-card"
+            src=""
+            width="100%"
+            height="450"
+            style="border:none;"
+            data-base-url="https://themes-blush-one.vercel.app/api/server/render/pricing-card"
+            data-frame-id="free-card"
+            data-token="abc123_free_token"
+        ></iframe>
     </div>
     <div class="test-case">
         <h3>2. Free User (tries to use `highlighted=true`, is denied)</h3>
-        <iframe src="https://themes-blush-one.vercel.app/api/render/pricing-card?token=abc123_free_token&highlighted=true&frame_id=free-hack-card" width="100%" height="450" style="border:none;"></iframe>
+        <iframe
+            id="free-hack-card"
+            src=""
+            width="100%"
+            height="450"
+            style="border:none;"
+            data-base-url="https://themes-blush-one.vercel.app/api/server/render/pricing-card"
+            data-frame-id="free-hack-card"
+            data-token="abc123_free_token"
+            data-highlighted="true"
+        ></iframe>
     </div>
     <div class="test-case">
         <h3>3. Pro User (with full customizations)</h3>
-        <iframe src="https://themes-blush-one.vercel.app/api/render/pricing-card?token=xyz789_pro_token&plan_name=Premium Pro&price=$299&interval=/yr&features=Advanced Analytics,Priority Support,5 Team Members,99.9% Uptime Guarantee&cta_text=Go Annual&primary_color=3b82f6&accent_color=ef4444&highlighted=true&frame_id=price-card-1" width="100%" height="450" style="border:none;"></iframe>
+        <iframe
+            id="price-card-1"
+            src=""
+            width="100%"
+            height="450"
+            style="border:none;"
+            data-base-url="https://themes-blush-one.vercel.app/api/server/render/pricing-card"
+            data-frame-id="price-card-1"
+            data-token="xyz789_pro_token"
+            data-plan-name="Premium Pro"
+            data-price="$299"
+            data-interval="/yr"
+            data-features="Advanced Analytics,Priority Support,5 Team Members,99.9% Uptime Guarantee"
+            data-cta-text="Go Annual"
+            data-primary-color="3b82f6"
+            data-accent-color="ef4444"
+            data-highlighted="true"
+        ></iframe>
     </div>
     <div class="test-case">
         <h3>4. Pro User (Accordion with customizations)</h3>
-        <iframe 
-            src="https://themes-blush-one.vercel.app/api/render/accordion?token=xyz789_pro_token&frame_id=pro-accordion&accent_color=22c55e&header_1=Is this secure?&content_1=Yes, all validation happens on the server."
-            width="100%" 
-            height="450" 
+        <iframe
+            id="pro-accordion"
+            src=""
+            width="100%"
+            height="450"
             style="border:none;"
+            data-base-url="https://themes-blush-one.vercel.app/api/server/render/accordion"
+            data-frame-id="pro-accordion"
+            data-token="xyz789_pro_token"
+            data-accent-color="22c55e"
+            data-header-1="Is this secure?"
+            data-content-1="Yes, all validation happens on the server."
         ></iframe>
     </div>
+    <script>
+        document.addEventListener('DOMContentLoaded', function() {
+            function constructSnippetUrl(iframe) {
+                const baseUrl = iframe.getAttribute('data-base-url');
+                if (!baseUrl) return;
+                let params = [];
+                for (const attr of iframe.attributes) {
+                    if (attr.name.startsWith('data-')) {
+                        const paramKey = attr.name.substring(5).replace(/-/g, '_');
+                        const paramValue = encodeURIComponent(attr.value);
+                        if (paramKey !== 'base_url') {
+                            params.push(`${paramKey}=${paramValue}`);
+                        }
+                    }
+                }
+                iframe.src = baseUrl + '?' + params.join('&');
+            }
+            document.querySelectorAll('iframe[data-base-url]').forEach(constructSnippetUrl);
+        });
+    </script>
 </body>
 </html>

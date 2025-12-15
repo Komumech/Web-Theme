@@ -285,7 +285,7 @@
     </iframe>
 
     <h3>Card</h3>
-    <iframe src="https://themes-blush-one.vercel.app/snippets/web-theme/card.html?title=Our+Mission&content=To+build+beautiful,+responsive,+and+accessible+web+components+for+everyone." height="180"></iframe>
+    <iframe id="card-1" src="" data-base-url="https://themes-blush-one.vercel.app/snippets/web-theme/card.html" data-frame-id="card-1" data-title="Our Mission" data-content="To build beautiful, responsive, and accessible web components for everyone."></iframe>
 
     <h3>Footer (Uses dynamic resizing)</h3>
 <h3>Footer (Uses dynamic resizing)</h3>
@@ -379,34 +379,33 @@
     data-width="60%" >
   </iframe>
 
-  <script>
-    /**
-     * Handles the PostMessage event to dynamically resize an iframe.
-     * This code listens for messages from the components and adjusts the height
-     * of the corresponding iframe on this page.
-     */
-    function handleDynamicIframeResize(event) {
-      // OPTIONAL SECURITY CHECK: uncomment to restrict messages
-      // if (event.origin !== "https://themes-blush-one.vercel.app") { return; }
+    <script>
+        /**
+         * Handles the PostMessage event to dynamically resize an iframe.
+         * This code listens for messages from the components and adjusts the height
+         * of the corresponding iframe on this page.
+         */
+        function handleDynamicIframeResize(event) {
+            // OPTIONAL SECURITY CHECK: uncomment to restrict messages
+            // if (event.origin !== "https://themes-blush-one.vercel.app") { return; }
 
-      const data = event.data;
+            const data = event.data;
 
-      // Ensure the message contains the height and ID
-      if (data.frameHeight && data.frameId) {
-        const iframe = document.getElementById(data.frameId);
+            // Ensure the message contains the height and ID
+            if (data.frameHeight && data.frameId) {
+                const iframe = document.getElementById(data.frameId);
 
-        if (iframe) {
-          // Set the iframe's height, adding a small buffer (+5px)
-          iframe.style.height = (data.frameHeight + 5) + "px";
-          // FIX: Ensure the iframe itself is explicitly told not to scroll
-          iframe.style.overflow = 'hidden';
+                if (iframe) {
+                    // Set the iframe's height, adding a small buffer (+5px)
+                    iframe.style.height = (data.frameHeight + 5) + "px";
+                    // FIX: Ensure the iframe itself is explicitly told not to scroll
+                    iframe.style.overflow = 'hidden';
+                }
+            }
         }
-      }
-    }
-
-    // Attach the handler to the window's message event
-    window.addEventListener("message", handleDynamicIframeResize, false);
-  </script>
+        // Attach the handler to the window's message event
+        window.addEventListener("message", handleDynamicIframeResize, false);
+    </script>
 
   <script>
     document.addEventListener('DOMContentLoaded', function() {
