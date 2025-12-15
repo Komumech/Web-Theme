@@ -3,116 +3,60 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Dynamic Snippet Example with Dark Accordion</title>
+    <title>Server-Side Rendering Test Page</title>
+    <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@400;600;700;800&display=swap" rel="stylesheet">
 </head>
 <body>
     <style>
         body {
             margin: 0; 
-            background: #222; /* Dark background on the parent page */
+            background: #f0f2f5;
             font-family: 'Poppins', sans-serif;
-            padding: 20px;
+            padding: 40px;
+            display: flex;
+            flex-direction: column;
+            gap: 2rem;
+            align-items: center;
+        }
+        .test-case {
+            width: 100%;
+            max-width: 400px;
+            border: 1px solid #ddd;
+            border-radius: 8px;
+            padding: 1rem;
+            background: #fff;
+        }
+        h3 {
+            margin-top: 0;
+            font-size: 1rem;
+            color: #333;
+            border-bottom: 1px solid #eee;
+            padding-bottom: 0.5rem;
         }
     </style>
     
+    <h2>Server-Side Rendering Snippet Tests</h2>
 
-    <iframe
-    id="my-contact-input"
-    src="https://themes-blush-one.vercel.app/snippets/web-theme/input.html" 
-    width="100%"    
-    height="650"    
-    style="border: none; box-shadow: none;"
-    data-placeholder="Your Email Address"
-    data-icon="envelope"
-    data-submit-text="Sign Up" 
-    
-    data-primary-color="7d44ff" 
-></iframe>
-<iframe
-    id="faq-section-1"
-    src=""  
-    width="100%"
-    height="350"
-    style="border: none; overflow: hidden; margin-bottom: 2rem;"
-    
-    data-accent-color="7d44ff"      
-    data-bg-color="000000"            
-    data-hover-bg="c44646"            
-    data-text-color="ffffff"       
-    data-content-bg-color="1a1a1a" 
-    data-container-bg="121212"
-    data-base-url="https://themes-blush-one.vercel.app/snippets/web-theme/accordion.html"
-    data-frame-id="faq-section-1"
-    
-    data-header-1="Do you offer a money-back guarantee?"
-    data-content-1="Yes, we offer a risk-free 30-day money-back guarantee on all our paid plans."
-    data-header-2="How does the dynamic resizing work?"
-    data-content-2="It uses the PostMessage API to securely communicate the height of the content from the iframe to the parent page."
-    data-header-3="What if I have custom content?"
-    data-content-3="You can pass raw HTML or complex data structures through the data- attributes."
-></iframe>
-
-        <iframe
-            id="features-innovate"
-            src=""
-            height="100%"
-            data-base-url="https://themes-blush-one.vercel.app/snippets/web-theme/features.html"
-            data-frame-id="features-innovate"
-            data-headline="The InnovateSphere Advantage"
-            data-tagline="Our platform is built on three core principles designed for maximum impact."
-            data-primary-color="4343A4"
-            data-accent-color="2C5364"
-            data-card1-title="Predictive Analytics" data-card1-content="Forecast market trends and customer behavior with over 95% accuracy using our proprietary AI models."
-            data-card2-title="Real-time Dashboards" data-card2-content="Monitor your key performance indicators with live, interactive data visualizations accessible on any device."
-            data-card3-title="Seamless Integration" data-card3-content="Connect our platform to your existing data sources like Salesforce, HubSpot, and Google Analytics in minutes."
+    <div class="test-case">
+        <h3>1. Free User (gets default free plan)</h3>
+        <iframe src="https://themes-blush-one.vercel.app/api/render/pricing-card?token=abc123_free_token&frame_id=free-card" width="100%" height="450" style="border:none;"></iframe>
+    </div>
+    <div class="test-case">
+        <h3>2. Free User (tries to use `highlighted=true`, is denied)</h3>
+        <iframe src="https://themes-blush-one.vercel.app/api/render/pricing-card?token=abc123_free_token&highlighted=true&frame_id=free-hack-card" width="100%" height="450" style="border:none;"></iframe>
+    </div>
+    <div class="test-case">
+        <h3>3. Pro User (with full customizations)</h3>
+        <iframe src="https://themes-blush-one.vercel.app/api/render/pricing-card?token=xyz789_pro_token&plan_name=Premium Pro&price=$299&interval=/yr&features=Advanced Analytics,Priority Support,5 Team Members,99.9% Uptime Guarantee&cta_text=Go Annual&primary_color=3b82f6&accent_color=ef4444&highlighted=true&frame_id=price-card-1" width="100%" height="450" style="border:none;"></iframe>
+    </div>
+    <div class="test-case">
+        <h3>4. Pro User (Accordion with customizations)</h3>
+        <iframe 
+            src="https://themes-blush-one.vercel.app/api/render/accordion?token=xyz789_pro_token&frame_id=pro-accordion&accent_color=22c55e&header_1=Is this secure?&content_1=Yes, all validation happens on the server."
+            width="100%" 
+            height="450" 
+            style="border:none;"
         ></iframe>
-    
-
-<script>
-    // ---------------------------------------------
-    // ⭐ URL Construction Script ⭐
-    // Finds all iframes with data-base-url and generates the full SRC URL
-    // ---------------------------------------------
-    document.addEventListener('DOMContentLoaded', function() {
-        function constructSnippetUrl(iframe) {
-            const baseUrl = iframe.getAttribute('data-base-url');
-            if (!baseUrl) return;
-            
-            let params = [];
-            for (const attr of iframe.attributes) {
-                if (attr.name.startsWith('data-')) {
-                    const paramKey = attr.name.substring(5).replace(/-/g, '_');
-                    const paramValue = encodeURIComponent(attr.value);
-                    if (paramKey !== 'base_url') {
-                        params.push(`${paramKey}=${paramValue}`);
-                    }
-                }
-            }
-            // Sets the correct URL string to the iframe's src attribute
-            iframe.src = baseUrl + '?' + params.join('&');
-        }
-
-        document.querySelectorAll('iframe[data-base-url]').forEach(constructSnippetUrl);
-    });
-
-    // ---------------------------------------------
-    // Dynamic Resizing Handler 
-    // ---------------------------------------------
-    function handleDynamicIframeResize(event) {
-        const data = event.data;
-
-        if (data && data.frameHeight && data.frameId) {
-            const iframe = document.getElementById(data.frameId);
-
-            if (iframe) {
-                const newHeight = data.frameHeight + 5;
-                
-                iframe.style.height = newHeight + "px";
-                iframe.style.overflow = 'hidden'; 
-            }
-        }
-    }
-    window.addEventListener("message", handleDynamicIframeResize, false);
-</script>
+    </div>
 </body>
 </html>

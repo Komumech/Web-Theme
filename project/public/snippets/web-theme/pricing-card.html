@@ -93,76 +93,37 @@
 </head>
 <body>
 
-<div class="pricing-card" id="pricing-card">
-    <div id="plan-name">Pro Plan</div>
+<div class="pricing-card {{HIGHLIGHT_CLASS}}" id="pricing-card">
+    <div id="plan-name">{{PLAN_NAME}}</div>
     <div class="price-display">
-        <span id="price">$99</span>
-        <small id="interval">/mo</small>
+        <span id="price">{{PRICE}}</span>
+        <small id="interval">{{INTERVAL}}</small>
     </div>
     <ul class="feature-list" id="feature-list">
-        <li><i class="fas fa-check-circle"></i> 10 Projects</li>
-        <li><i class="fas fa-check-circle"></i> Dedicated Support</li>
-        <li><i class="fas fa-check-circle"></i> Unlimited Bandwidth</li>
+        <!-- Features will be injected here by the server -->
+        {{FEATURES_LIST}}
     </ul>
-    <a id="cta-button" class="cta-button" href="#">Choose Plan</a>
+    <a id="cta-button" class="cta-button" href="{{CTA_HREF}}">{{CTA_TEXT}}</a>
 </div>
 
 <script>
-    const card = document.getElementById('pricing-card');
-    const params = new URLSearchParams(window.location.search);
-    const frameId = params.get("frame_id");
+    // Standard resizing logic - no changes needed here.
+    // This part communicates the iframe's height to the parent page.
+    (function() {
+        const card = document.getElementById('pricing-card');
+        const params = new URLSearchParams(window.location.search);
+        const frameId = params.get("frame_id");
 
-    // --- Customization ---
-    document.getElementById('plan-name').textContent = decodeURIComponent(params.get("plan_name") || "Standard Plan");
-    document.getElementById('price').textContent = decodeURIComponent(params.get("price") || "$29");
-    document.getElementById('interval').textContent = decodeURIComponent(params.get("interval") || "/mo");
-    
-    const ctaButton = document.getElementById('cta-button');
-    ctaButton.textContent = decodeURIComponent(params.get("cta_text") || "Sign Up");
-    ctaButton.href = decodeURIComponent(params.get("cta_href") || "#");
+        function sendHeight() {
+            if (!frameId) return;
+            // The card uses offsetHeight because it has no margins.
+            const newHeight = card.offsetHeight; 
 
-    // Features List (CSV format: Feature A, Feature B, Feature C)
-    const featuresParam = params.get("features");
-    if (featuresParam) {
-        const features = decodeURIComponent(featuresParam).split(',').map(f => f.trim());
-        const ul = document.getElementById('feature-list');
-        ul.innerHTML = ''; 
-        features.forEach(feature => {
-            const li = document.createElement('li');
-            li.innerHTML = `<i class="fas fa-check-circle"></i> ${feature}`;
-            ul.appendChild(li);
-        });
-    }
-
-    // Colors and Highlight
-    const primaryColor = params.get("primary_color");
-    if (primaryColor) {
-        document.documentElement.style.setProperty('--primary-color', '#' + primaryColor);
-    }
-    const accentColor = params.get("accent_color");
-    if (accentColor) {
-        document.documentElement.style.setProperty('--accent-color', '#' + accentColor);
-    }
-
-    if (params.get("highlighted") === 'true') {
-        card.classList.add('highlighted');
-    }
-
-    // --- Dynamic Resizing (Standard Logic) ---
-    function sendHeight() {
-        if (!frameId) return;
-        // The card uses offsetHeight because it has no margins
-        const newHeight = card.offsetHeight; 
-
-        window.parent.postMessage(
-            { frameId: frameId, frameHeight: newHeight }, 
-            "*"
-        );
-    }
-    window.addEventListener('load', sendHeight);
-    window.addEventListener('resize', sendHeight);
-    setTimeout(sendHeight, 0); 
-    setTimeout(sendHeight, 500);
+            window.parent.postMessage({ frameId: frameId, frameHeight: newHeight }, "*");
+        }
+        window.addEventListener('load', sendHeight);
+        window.addEventListener('resize', sendHeight);
+    })();
 </script>
 
 </body>

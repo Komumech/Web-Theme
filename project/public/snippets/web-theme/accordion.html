@@ -85,31 +85,31 @@
 <body>
 
 <div class="accordion-container" id="accordion-container">
-    <div class="accordion-item" id="item-1">
+    <div class="accordion-item" id="item-1" style="{{ITEM_1_STYLE}}">
         <div class="accordion-header">
-            <span id="header-1">What is dynamic embedding?</span>
+            <span id="header-1">{{HEADER_1}}</span>
             <i class="fas fa-chevron-down"></i>
         </div>
         <div class="accordion-content">
-            <p id="content-1">It's a modern technique using iframes and PostMessage to embed complex UI components that automatically resize and update without affecting the parent website's security or performance.</p>
+            <p id="content-1">{{CONTENT_1}}</p>
         </div>
     </div>
-    <div class="accordion-item" id="item-2">
+    <div class="accordion-item" id="item-2" style="{{ITEM_2_STYLE}}">
         <div class="accordion-header">
-            <span id="header-2">Is this compatible with WordPress?</span>
+            <span id="header-2">{{HEADER_2}}</span>
             <i class="fas fa-chevron-down"></i>
         </div>
         <div class="accordion-content">
-            <p id="content-2">Yes, completely. Since the component is hosted externally and embedded via a simple HTML iframe tag, it works on any platform that allows custom HTML, including WordPress, Shopify, and React apps.</p>
+            <p id="content-2">{{CONTENT_2}}</p>
         </div>
     </div>
-    <div class="accordion-item" id="item-3">
+    <div class="accordion-item" id="item-3" style="{{ITEM_3_STYLE}}">
         <div class="accordion-header">
-            <span id="header-3">How do I change the colors?</span>
+            <span id="header-3">{{HEADER_3}}</span>
             <i class="fas fa-chevron-down"></i>
         </div>
         <div class="accordion-content">
-            <p id="content-3">You change colors by modifying the data- attributes on the iframe tag itself. Our universal handler script automatically reads these parameters and applies them to the component's CSS variables.</p>
+            <p id="content-3">{{CONTENT_3}}</p>
         </div>
     </div>
 </div>
@@ -119,50 +119,6 @@
     const params = new URLSearchParams(window.location.search);
     const frameId = params.get("frame_id");
 
-    // --- Color Customization Logic ---
-    function applyColor(paramName, cssVar, fallback) {
-        const value = params.get(paramName);
-        const root = document.documentElement.style;
-
-        if (value) {
-            const finalValue = value.length === 6 ? '#' + value : value;
-            root.setProperty(cssVar, finalValue);
-            
-            // Special handling for light content text when using a dark container
-            if (cssVar === '--container-bg' && finalValue.toLowerCase() === '#000000') {
-                 root.setProperty('--light-text-color', '#aaaaaa'); 
-            }
-        } else if (fallback) {
-             root.setProperty(cssVar, fallback);
-        }
-    }
-
-    applyColor("accent_color", "--accent-color", "#007bff");
-    applyColor("bg_color", "--container-bg", "#ffffff");
-    applyColor("text_color", "--main-text-color", "#1a1a1a");
-    applyColor("content_bg_color", "--content-bg", "#f5f5f5");
-    applyColor("hover_bg", "--hover-bg-custom", "#f5f5f5"); // NEW: Reading hover color
-    
-    // --- Content Customization Logic (Unchanged) ---
-    function customizeItem(index) {
-        const header = params.get(`header_${index}`);
-        const content = params.get(`content_${index}`);
-        const headerElement = document.getElementById(`header-${index}`);
-        const contentElement = document.getElementById(`content-${index}`);
-        const item = document.getElementById(`item-${index}`);
-
-        if (header) {
-            headerElement.textContent = decodeURIComponent(header);
-        }
-        if (content) {
-            contentElement.innerHTML = decodeURIComponent(content);
-        } else if (!header && item) {
-            item.style.display = 'none';
-        }
-    }
-
-    customizeItem(1); customizeItem(2); customizeItem(3);
-    
     // --- Accordion Toggle Logic (Unchanged) ---
     container.addEventListener('click', (e) => {
         const header = e.target.closest('.accordion-header');
