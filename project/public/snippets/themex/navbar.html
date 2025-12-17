@@ -1,0 +1,133 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>ThemeX Navbar</title>
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@500;700;800&display=swap" rel="stylesheet">
+    <style>
+        :root {
+            --accent: #00b894;
+            --muted: #9aa4b2;
+        }
+        body {
+            margin: 0;
+            font-family: 'Inter', sans-serif;
+            color-scheme: dark;
+            overflow: hidden;
+        }
+        .site-header {
+            backdrop-filter: blur(6px);
+            background: linear-gradient(180deg, rgba(7,10,20,0.6), rgba(7,10,20,0.35));
+            border-bottom: 1px solid rgba(255,255,255,0.03);
+        }
+        .header-inner {
+            display: flex;
+            align-items: center;
+            gap: 16px;
+            padding: 18px 24px;
+            width: 100%;
+            box-sizing: border-box;
+        }
+        .brand .logo {
+            font-weight: 800;
+            letter-spacing: 0.6px;
+            color: #fff;
+            text-decoration: none;
+            font-size: 1.1rem;
+        }
+        .main-nav {
+            display: flex;
+            gap: 18px;
+            margin-left: 24px;
+            flex: 1;
+        }
+        .main-nav a {
+            color: var(--muted);
+            text-decoration: none;
+            font-weight: 500;
+            transition: color .15s;
+        }
+        .main-nav a:hover { color: #fff }
+        .header-cta .btn {
+            white-space: nowrap;
+            display: inline-flex;
+            padding: 8px 14px;
+            border-radius: 10px;
+            font-weight: 700;
+            cursor: pointer;
+            text-decoration: none;
+            background: transparent;
+            color: var(--accent);
+            border: 1px solid rgba(0,184,148,0.2);
+            transition: all 0.2s ease;
+        }
+        .header-cta .btn:hover {
+            background: rgba(0, 184, 148, 0.1);
+            border-color: rgba(0, 184, 148, 0.4);
+        }
+    </style>
+</head>
+<body>
+
+<header class="site-header" id="navbar-root">
+    <div class="header-inner">
+        <div class="brand">
+            <a href="#" class="logo" id="brand-logo">ThemeX</a>
+        </div>
+        <nav class="main-nav" id="main-nav-links">
+        </nav>
+        <div class="header-cta">
+            <a href="#" class="btn" id="header-cta">Get Started</a>
+        </div>
+    </div>
+</header>
+
+<script>
+    document.addEventListener('DOMContentLoaded', function () {
+        const params = new URLSearchParams(window.location.search);
+        const root = document.documentElement;
+
+        // Set Accent Color
+        const accentColor = params.get('accent_color');
+        if (accentColor) root.style.setProperty('--accent', `#${accentColor}`);
+
+        // Set Brand
+        document.getElementById('brand-logo').textContent = params.get('brand_text') || 'ThemeX';
+        document.getElementById('brand-logo').href = params.get('brand_href') || '#';
+
+        // Set CTA
+        document.getElementById('header-cta').textContent = params.get('cta_text') || 'Get Started';
+        document.getElementById('header-cta').href = params.get('cta_href') || '#';
+
+        // Set Nav Links
+        const navContainer = document.getElementById('main-nav-links');
+        let navHtml = '';
+        for (let i = 1; i <= 5; i++) {
+            const label = params.get(`nav_link${i}_label`);
+            const href = params.get(`nav_link${i}_href`);
+            if (label) {
+                navHtml += `<a href="${href || '#'}">${label}</a>`;
+            }
+        }
+        if (navHtml) {
+            navContainer.innerHTML = navHtml;
+        } else {
+            navContainer.innerHTML = `<a href="#">Home</a><a href="#">About</a><a href="#">Contact</a>`;
+        }
+
+        // Dynamic Resizing
+        function sendHeight() {
+            const frameId = params.get('frame_id');
+            if (frameId && window.parent) {
+                const height = document.getElementById('navbar-root').offsetHeight;
+                window.parent.postMessage({ frameId: frameId, frameHeight: height }, '*');
+            }
+        }
+        sendHeight();
+        window.addEventListener('resize', sendHeight);
+    });
+</script>
+
+</body>
+</html>
