@@ -1,5 +1,10 @@
 {
+  "rootDirectory": "project",
   "rewrites": [
-    { "source": "/snippets/:theme/:snippet", "destination": "/snippets/:theme/:snippet.html" }
+    {
+      "source": "/snippets/:theme/:snippet",
+      "destination": "/snippets/:theme/:snippet.html"
+    }
   ]
 }
+ 
