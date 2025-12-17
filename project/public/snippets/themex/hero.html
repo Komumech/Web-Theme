@@ -415,7 +415,7 @@ document.addEventListener('DOMContentLoaded', function () {
   setHref('header-cta', 'header_cta_href', '#');
 
   // Main Navigation Links
-  const mainNav = document.getElementById('main-nav');
+  const mainNavContainer = document.getElementById('main-nav');
   let navLinksHtml = '';
   for (let i = 1; i <= 5; i++) {
     const label = params.get(`nav_link${i}_label`);
@@ -425,8 +425,8 @@ document.addEventListener('DOMContentLoaded', function () {
     }
   }
   // Only replace the nav content if links were provided, otherwise it keeps the defaults
-  if (navLinksHtml) {
-    mainNav.innerHTML = navLinksHtml;
+  if (navLinksHtml && mainNavContainer) {
+    mainNavContainer.innerHTML = navLinksHtml;
   }
 
   // Hero Content
