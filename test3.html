@@ -20,7 +20,6 @@
             box-shadow: none;
             margin-bottom: 1rem;
             overflow: hidden;
-            /* Default to 100% but overridden by HTML width attribute */
             width: 100%; 
             transition: height 0.3s ease;
         }
@@ -82,19 +81,15 @@
         data-bg_color="f6c3c3"
         data-accent_color="a43939"
         data-hero_title="The Ultimate Component"
-        /* Card 1 */
-    data-f1_title="Titanium Case"
-    data-f1_text="Aerospace-grade durability for extreme conditions."
-    /* Card 2 */
-    data-f2_title="Neural Engine"
-    data-f2_text="Advanced AI tracking for health and performance."
-    /* Card 3 */
-    data-f3_title="72hr Battery"
-    data-f3_text="Go further with optimized power management."
-    /* Card 4 */
-    data-f4_title="Waterproof"
-    data-f4_text="WR100 certified for deep sea diving.
         data-hero_sub="Now featuring the refined #f6c3c3 color palette."
+        data-f1_title="Titanium Case"
+        data-f1_text="Aerospace-grade durability for extreme conditions."
+        data-f2_title="Neural Engine"
+        data-f2_text="Advanced AI tracking for health and performance."
+        data-f3_title="72hr Battery"
+        data-f3_text="Go further with optimized power management."
+        data-f4_title="Waterproof"
+        data-f4_text="WR100 certified for deep sea diving."
         data-img_main="https://media.wired.com/photos/68c8d0484b7ef13d056bf85c/4:3/w_1280%2Cc_limit/Watch%2520Ultra%25203%2520Apple%2520Watch%252011%2520Series%2520Source%2520Adrienne%2520So.png"
     ></iframe>
 
@@ -129,7 +124,6 @@
             if (event.data.frameHeight && event.data.frameId) {
                 const iframe = document.getElementById(event.data.frameId);
                 if (iframe) {
-                    // Only auto-resize height if no manual height attribute is set
                     if (!iframe.hasAttribute('height')) {
                         iframe.style.height = event.data.frameHeight + "px";
                     }
@@ -142,13 +136,11 @@
             document.querySelectorAll('iframe[data-base-url]').forEach(iframe => {
                 const baseUrl = iframe.getAttribute('data-base-url');
                 
-                // Handle Width Attribute (supports px and %)
                 const manualWidth = iframe.getAttribute('width');
                 if (manualWidth) {
                     iframe.style.width = manualWidth.includes('%') ? manualWidth : manualWidth + 'px';
                 }
 
-                // Handle Height Attribute
                 const manualHeight = iframe.getAttribute('height');
                 if (manualHeight) {
                     iframe.style.height = manualHeight + 'px';
@@ -165,7 +157,6 @@
             });
         });
 
-        // 3. LIVE ALERT INJECTION
         function testInjection(targetId, msg, color) {
             const frame = document.getElementById(targetId);
             if (frame && frame.contentWindow) {
@@ -176,7 +167,6 @@
             }
         }
 
-        // 4. LIVE PRICING INJECTION
         function testPricing() {
             const frame = document.getElementById('price-card-1');
             if (frame && frame.contentWindow) {
