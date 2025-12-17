@@ -481,6 +481,8 @@ document.addEventListener('DOMContentLoaded', function () {
   // Send height on load, and also after a short delay to allow images to load
   sendHeight();
   setTimeout(sendHeight, 500);
+  // Add a final check after all page assets (like images) are loaded
+  window.addEventListener('load', sendHeight);
   window.addEventListener('resize', sendHeight);
 });
 
