@@ -27,7 +27,6 @@
     html,body{height:100%}
     body{
       margin:0;
-      min-height:100vh;
       display:flex;
       align-items:center;
       justify-content:center;
@@ -107,8 +106,6 @@
       align-items:baseline;
       gap:12px;
       margin-bottom:14px;
-      /* Increased spacing */
-      margin-bottom:22px;
     }
     .price{
       font-size:2.6rem;
@@ -163,8 +160,6 @@
       list-style:none;
       padding:0;
       margin:18px 0 22px 0;
-      /* Increased spacing */
-      margin:24px 0 28px 0;
       display:grid;
       gap:10px;
     }
@@ -315,7 +310,6 @@
       const ctaHref = params.get('cta_href') || '#';
       const badgeText = params.get('badge') || 'BEST VALUE';
       const highlighted = params.get('highlighted') === 'true';
-      const highlighted = params.get('highlighted') === 'true'; // This is already correct
       const ribbonText = params.get('ribbon_text') || 'MOST POPULAR';
       const savingsText = params.get('savings_text');
       const secondaryCtaText = params.get('secondary_cta_text');
@@ -327,25 +321,10 @@
       document.getElementById('cta-button').textContent = ctaText;
       document.getElementById('cta-button').href = ctaHref;
       document.getElementById('plan-badge').textContent = badgeText;
-      document.getElementById('cta-button').href = ctaHref; // The button link is already configurable
       document.getElementById('ribbon').textContent = ribbonText;
 
       // Handle optional elements
       if (savingsText) document.getElementById('savings').textContent = savingsText;
-      const savingsEl = document.getElementById('savings');
-      if (savingsText) {
-        savingsEl.textContent = savingsText;
-      } else {
-        savingsEl.style.display = 'none';
-      }
-
-      const badgeEl = document.getElementById('plan-badge');
-      if (params.has('badge')) {
-        badgeEl.textContent = badgeText;
-      } else {
-        badgeEl.style.display = 'none';
-      }
-
       if (secondaryCtaText) {
         document.getElementById('secondary').textContent = secondaryCtaText;
       } else {
@@ -361,14 +340,6 @@
       // Ribbon for highlighted
       if (highlighted) {
         document.getElementById('ribbon').style.display = 'block';
-      }
-
-      // Hide footer by default unless text is provided
-      const cardFoot = document.getElementById('card-foot');
-      if (footerText) {
-        cardFoot.innerHTML = `<span><i class="fas fa-info-circle"></i> ${footerText}</span>`;
-      } else {
-        cardFoot.style.display = 'none';
       }
 
       // Features parsing
