@@ -1,7 +1,7 @@
 // snippet-server/server.js
 
 const express = require('express');
-const fs = require('fs');
+const fs = require('fs').promises; // Use the promise-based version of fs
 const path = require('path');
 
 // --- Mock Database ---
@@ -23,10 +23,9 @@ const snippetConfig = require('../snippet-server/snippetConfig');
 
 
 const app = express();
-const PORT = 3000;
 
 // A single, dynamic endpoint for all snippets
-app.get('/render/:snippetName', (req, res) => {
+app.get('/render/:snippetName', async (req, res) => {
   const { snippetName } = req.params;
   const { token, ...queryParams } = req.query;
 
@@ -66,32 +65,30 @@ app.get('/render/:snippetName', (req, res) => {
     templateData = { ...config.free };
   }
 
-  // Use process.cwd() for a reliable path to the project root on Vercel.
-  // This ensures the server can always find the HTML template files.
-  const templatePath = path.join(process.cwd(), 'project', 'public', 'snippets', 'web-theme', config.template);
+  // Construct path relative to the current file's directory for robustness.
+  const templatePath = path.join(__dirname, '..', 'project', 'public', 'snippets', 'web-theme', config.template);
 
-  fs.readFile(templatePath, 'utf8', (err, html) => {
-    if (err) {
-      console.error("Error reading template file:", err);
-      return res.status(500).send('Error rendering snippet.');
-    }
+  try {
+    const html = await fs.readFile(templatePath, 'utf8');
 
     let renderedHtml = html;
     for (const key in templateData) {
       const regex = new RegExp(`{{${key}}}`, 'g');
       renderedHtml = renderedHtml.replace(regex, templateData[key]);
     }
-
+    // Remove any un-replaced placeholders
     renderedHtml = renderedHtml.replace(/\{\{[A-Z_]+\}\}/g, '');
 
     if (dynamicStyles) {
       const styleTag = `<style>:root { ${dynamicStyles} }</style>`;
       renderedHtml = renderedHtml.replace('</head>', `${styleTag}</head>`);
     }
-
     res.setHeader('Content-Type', 'text/html');
     res.send(renderedHtml);
-  });
+  } catch (err) {
+    console.error("Error reading template file:", err);
+    return res.status(500).send('Error rendering snippet.');
+  }
 });
 
 // Vercel handles the server creation, so we just need to export the app.
