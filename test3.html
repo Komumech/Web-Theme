@@ -3,78 +3,77 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>ThemeX - Full Component Suite</title>
+    <title>ThemeX - Rose Suite</title>
     <style>
         body {
             background-color: rgb(248, 241, 230);
             display: flex;
             flex-direction: column;
             align-items: center;
-            padding-bottom: 5rem;
+            padding: 0 5rem 5rem 5rem;
             margin: 0;
             font-family: 'Inter', sans-serif;
         }
-        h2 { margin-top: 3rem; color: #333; }
+        h2 { margin-top: 3rem; color: #444; font-size: 1rem; text-transform: uppercase; letter-spacing: 1.5px; }
         
         iframe {
             border: none;
             box-shadow: none;
             margin-bottom: 1rem;
             overflow: hidden;
-            width: 100%;
+            /* Default to 100% but overridden by HTML width attribute */
+            width: 100%; 
             transition: height 0.3s ease;
         }
 
-        /* Test Panel UI */
         .test-dashboard {
+            position: sticky;
             top: 0;
             z-index: 100;
             width: 100%;
-            background: rgba(255,255,255,0.9);
+            background: rgba(255,255,255,0.95);
             backdrop-filter: blur(10px);
             padding: 15px;
             border-bottom: 1px solid #ddd;
             display: flex;
             justify-content: center;
-            gap: 20px;
+            gap: 15px;
             box-shadow: 0 2px 10px rgba(0,0,0,0.05);
         }
         .test-btn {
-            padding: 8px 16px;
-            background: #2427cd;
+            padding: 10px 18px;
+            background: #a43939;
             color: white;
             border: none;
-            border-radius: 6px;
+            border-radius: 8px;
             cursor: pointer;
             font-weight: bold;
         }
-        .test-btn.error-btn { background: #d63031; }
+        .test-btn:hover { background: #7a2a2a; }
     </style>
 </head>
 <body>
 
     <div class="test-dashboard">
-        <button class="test-btn" onclick="testInjection('alert-success', '✅ System Variable Injected!', '2427cd')">Test Success Injection</button>
-        <button class="test-btn error-btn" onclick="testInjection('alert-error', '❌ Critical Error Detected!', 'ff0000')">Test Error Injection</button>
+        <button class="test-btn" onclick="testInjection('alert-status-info', '✅ Rose Theme Applied!', 'f6c3c3')">Test Alert</button>
+        <button class="test-btn" onclick="testPricing()">Test Pricing Live</button>
     </div>
 
-    <h2>ThemeX Navbar</h2>
+    <h2>Navbar</h2>
     <iframe
         id="themex-navbar-top"
         src=""
         scrolling="no"
         data-base-url="https://komutheme2.vercel.app/project/public/snippets/themex/navbar.html"
         data-frame-id="themex-navbar-top"
+        data-navbar_color="f6c3c3"
+        data-accent_color="a43939"
         data-logo_img="https://komuhost.vercel.app/logo1.png"
         data-logo_h="55"
-        data-navbar_color="f6c3c3"
-        data-accent_color="38bdf8"
-        data-nav_link1_label="Features" data-nav_link1_href="#features"
-        data-nav_link2_label="Performance" data-nav_link2_href="#performance"
-        data-cta_text="Buy Now"
+        data-cta_text="Get Started"
     ></iframe>
 
-    <h2>🆕 ThemeX Hero Section</h2>
+    <h2>Hero</h2>
     <iframe
         id="themex-hero-1"
         src=""
@@ -82,53 +81,68 @@
         data-base-url="https://komutheme2.vercel.app/project/public/snippets/themex/hero.html"
         data-frame-id="themex-hero-1"
         data-bg_color="f6c3c3"
-        data-navbar_color="f6c3c3"
-        data-accent_color="FF0000"
-        data-radius="12"
-        data-brand_text="ThemeX"
+        data-accent_color="a43939"
         data-hero_title="The Ultimate Component"
-        data-hero_sub="Fully customizable dynamic hero section."
+        data-hero_sub="Now featuring the refined #f6c3c3 color palette."
         data-img_main="https://media.wired.com/photos/68c8d0484b7ef13d056bf85c/4:3/w_1280%2Cc_limit/Watch%2520Ultra%25203%2520Apple%2520Watch%252011%2520Series%2520Source%2520Adrienne%2520So.png"
     ></iframe>
 
-    <h2>ThemeX Buttons</h2>
-    <div style="display: flex; gap: 10px;">
-        <iframe id="btn-1" src="" scrolling="no" data-base-url="https://komutheme2.vercel.app/project/public/snippets/themex/button.html" data-frame-id="btn-1" data-text="Primary" data-type="primary" data-accent_color="FF0000"></iframe>
-        <iframe id="btn-2" src="" scrolling="no" data-base-url="https://komutheme2.vercel.app/project/public/snippets/themex/button.html" data-frame-id="btn-2" data-text="Ghost" data-type="ghost" data-accent_color="F32100"></iframe>
+    <h2>Live Alerts (Width Testing)</h2>
+    <iframe id="alert-status-info" src="" scrolling="no" width="400" data-base-url="https://komutheme2.vercel.app/project/public/snippets/themex/alert.html" data-frame-id="alert-status-info" data-type="info" data-message="I am fixed at 400px wide." data-accent_color="98eddf"></iframe>
+    
+    <iframe id="alert-status-success" src="" scrolling="no" width="50%" data-base-url="https://komutheme2.vercel.app/project/public/snippets/themex/alert.html" data-frame-id="alert-status-success" data-type="success" data-message="I am 50% of the screen width." data-accent_color="9dfcc4"></iframe>
+
+    <iframe id="alert-status-error" src="" scrolling="no" data-base-url="https://komutheme2.vercel.app/project/public/snippets/themex/alert.html" data-frame-id="alert-status-error" data-type="error" data-message="I am full width (default)." data-accent_color="fa4661"></iframe>
+
+    <h2>Pricing Card</h2>
+    <div style="display: flex; justify-content: center; width: 100%;">
+        <iframe 
+            id="price-card-1" 
+            src="" 
+            width="400"
+            data-base-url="https://komutheme2.vercel.app/project/public/snippets/themex/pricing-card.html" 
+            data-frame-id="price-card-1" 
+            data-plan_name="Standard Access" 
+            data-price="$42" 
+            data-features="Full Analytics, Cloud Storage, Team Access"
+            data-accent_color="f6c3c3"
+        ></iframe>
     </div>
 
-    <h2>ThemeX Alerts (Live Enabled)</h2>
-    <iframe id="alert-success" src="" scrolling="no" data-base-url="https://komutheme2.vercel.app/project/public/snippets/themex/alert.html" data-frame-id="alert-success" data-type="success" data-message="Waiting for injection..." data-accent_color="00b894"></iframe>
-    <iframe id="alert-warning" src="" scrolling="no" data-base-url="https://komutheme2.vercel.app/project/public/snippets/themex/alert.html" data-frame-id="alert-warning" data-type="warning" data-message="Warning: Action Required" data-accent_color="f1c40f"></iframe>
-    <iframe id="alert-error" src="" scrolling="no" data-base-url="https://komutheme2.vercel.app/project/public/snippets/themex/alert.html" data-frame-id="alert-error" data-type="error" data-message="System Error 404" data-accent_color="e74c3c"></iframe>
-
-    <h2>Pricing Cards</h2>
-    <div style="display: flex; gap: 20px; flex-wrap: wrap; justify-content: center;">
-        <iframe id="price-1" src="" style="width: 320px;" data-base-url="https://komutheme2.vercel.app/project/public/snippets/themex/pricing-card.html" data-frame-id="price-1" data-plan-name="Standard" data-price="$42" data-features="Feature 1, Feature 2"></iframe>
-        <iframe id="price-custom" src="" style="width: 320px;" data-base-url="https://komutheme2.vercel.app/project/public/snippets/themex/pricing-card.html" data-frame-id="price-custom" data-highlighted="true" data-plan_name="Nexus Tier" data-price="$125" data-accent_color="d63031"></iframe>
-    </div>
-
-    <h2>Input & Footer</h2>
-    <iframe id="themex-input-1" src="" data-base-url="https://komutheme2.vercel.app/project/public/snippets/themex/input.html" data-frame-id="themex-input-1" data-width="600px" data-placeholder="Enter access code..." data-icon="key"></iframe>
-
-    <iframe id="themex-footer-1" src="" width="100%" data-base-url="https://komutheme2.vercel.app/project/public/snippets/themex/footer.html" data-frame-id="themex-footer-1" data-company_name="ThemeX Industries" data-accent_color="e84393" data-bg_color="f6c3c3"></iframe>
+    <h2>Footer</h2>
+    <iframe id="themex-footer-1" src="" width="100%" data-base-url="https://komutheme2.vercel.app/project/public/snippets/themex/footer.html" data-frame-id="themex-footer-1" data-company_name="ThemeX" data-accent_color="a43939" data-bg_color="f6c3c3"></iframe>
 
     <script>
-        // 1. DYNAMIC RESIZER
+        // 1. IMPROVED DYNAMIC RESIZER
         window.addEventListener("message", function(event) {
             if (event.data.frameHeight && event.data.frameId) {
                 const iframe = document.getElementById(event.data.frameId);
                 if (iframe) {
-                    iframe.style.height = event.data.frameHeight + "px";
-                    iframe.style.overflow = 'hidden';
+                    // Only auto-resize height if no manual height attribute is set
+                    if (!iframe.hasAttribute('height')) {
+                        iframe.style.height = event.data.frameHeight + "px";
+                    }
                 }
             }
         });
 
-        // 2. URL CONSTRUCTOR (Runs on Load)
+        // 2. URL CONSTRUCTOR & DIMENSION HANDLER
         document.addEventListener('DOMContentLoaded', function() {
             document.querySelectorAll('iframe[data-base-url]').forEach(iframe => {
                 const baseUrl = iframe.getAttribute('data-base-url');
+                
+                // Handle Width Attribute (supports px and %)
+                const manualWidth = iframe.getAttribute('width');
+                if (manualWidth) {
+                    iframe.style.width = manualWidth.includes('%') ? manualWidth : manualWidth + 'px';
+                }
+
+                // Handle Height Attribute
+                const manualHeight = iframe.getAttribute('height');
+                if (manualHeight) {
+                    iframe.style.height = manualHeight + 'px';
+                }
+
                 let params = [];
                 for (const attr of iframe.attributes) {
                     if (attr.name.startsWith('data-')) {
@@ -140,15 +154,29 @@
             });
         });
 
-        // 3. LIVE INJECTION TEST FUNCTION
+        // 3. LIVE ALERT INJECTION
         function testInjection(targetId, msg, color) {
             const frame = document.getElementById(targetId);
             if (frame && frame.contentWindow) {
                 frame.contentWindow.postMessage({
                     type: 'THEMEX_UPDATE',
+                    config: { message: msg, accent_color: color }
+                }, '*');
+            }
+        }
+
+        // 4. LIVE PRICING INJECTION
+        function testPricing() {
+            const frame = document.getElementById('price-card-1');
+            if (frame && frame.contentWindow) {
+                frame.contentWindow.postMessage({
+                    type: 'THEMEX_UPDATE',
                     config: {
-                        message: msg,
-                        accent_color: color
+                        plan_name: "Enterprise Rose",
+                        price: "$199",
+                        features: "Custom Domain, Dedicated Support, White Labeling",
+                        highlighted: "true",
+                        accent_color: "a43939"
                     }
                 }, '*');
             }
