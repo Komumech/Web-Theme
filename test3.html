@@ -210,6 +210,12 @@
             if (data.frameHeight && data.frameId) {
                 const iframe = document.getElementById(data.frameId);
 
+                // If the iframe already has a height attribute, respect it and do nothing.
+                if (iframe && iframe.hasAttribute('height')) {
+                    iframe.style.overflow = 'hidden'; // Ensure no scrollbars
+                    return;
+                }
+
                 if (iframe) {
                     // Set the iframe's height to the exact value reported by the child
                     iframe.style.height = data.frameHeight + "px";
