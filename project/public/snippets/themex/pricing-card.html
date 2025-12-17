@@ -5,411 +5,199 @@
   <meta name="viewport" content="width=device-width,initial-scale=1" />
   <title>ThemeX Pricing Card</title>
 
-  <!-- Icons and font -->
   <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0-beta3/css/all.min.css">
-  <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;600;700;800&display=swap" rel="stylesheet">
+  <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;800&display=swap" rel="stylesheet">
 
   <style>
-    :root{
+    :root {
       --bg-color: transparent;
-      --card:#0b1220;
-      --glass: rgba(255, 255, 255, 0.03);
-      --accent: #b248eb;
-      --accent-2: var(--accent); /* Fallback to accent color */
-      --muted: #9aa4b2;
-      --radius: 14px;
-      --max-width: 420px;
-      --card-bg-color: #0b1220;
-      font-family: 'Inter', system-ui, -apple-system, 'Segoe UI', Roboto, 'Helvetica Neue', Arial;
+      --card-bg: #ffffff;
+      --accent: #fade96;      /* Default Primary */
+      --accent-text: #6b4e00;  /* High contrast text for buttons */
+      --muted: #64748b;
+      --text-main: #1e293b;
+      --radius: 20px;
     }
 
-    *{box-sizing:border-box}
-    html,body{height:100%}
-    body{
-      margin:0;
-      display:flex;
-      align-items:center;
-      justify-content:center;
+    * { box-sizing: border-box; }
+    body {
+      margin: 0;
+      padding: 10px;
+      font-family: 'Inter', sans-serif;
       background-color: var(--bg-color);
-      color: var(--muted);
-      -webkit-font-smoothing:antialiased;
-      -moz-osx-font-smoothing:grayscale;
-    }
-
-    /* Card wrapper */
-    .pricing-wrap{
-      width:100%;
-      max-width:var(--max-width);
-      position:relative;
+      display: flex;
+      justify-content: center;
+      align-items: center;
       overflow: hidden;
     }
 
-    /* Ribbon for highlighted plan */
-    .ribbon{
-      position:absolute;
-      right:-36px;
-      top:18px;
-      transform:rotate(45deg);
-      background: linear-gradient(90deg,var(--accent),var(--accent-2));
-      color:#042024;
-      padding:8px 72px;
-      font-weight:800;
-      font-size:0.85rem;
-      letter-spacing:0.6px;
-      border-radius:6px;
-      z-index:5;
+    /* Cleaned Up Card */
+    .pricing-card {
+      background: var(--card-bg);
+      width: 100%;
+      max-width: 360px;
+      border-radius: var(--radius);
+      padding: 32px;
+      box-shadow: 0 10px 25px -5px rgba(0, 0, 0, 0.05), 0 8px 10px -6px rgba(0, 0, 0, 0.05);
+      border: 1px solid rgba(0,0,0,0.05);
+      position: relative;
+      transition: all 0.3s ease;
     }
 
-    /* Card */
-    .pricing-card{
-      background: var(--card-bg-color);
-      border: 1px solid rgba(255,255,255,0.04);
-      border-radius:var(--radius);
-      padding:30px;
-      overflow:hidden;
-      position:relative;
-      transition: transform .28s cubic-bezier(.2,.9,.2,1), box-shadow .28s;
-    }
-    /* Header */
-    .card-head{
-      display:flex;
-      align-items:center;
-      justify-content:space-between;
-      gap:1px;
-      margin-bottom:18px;
-      margin-left: -16px;
-    }
-    .plan-meta{
-      display:flex;
-      gap:12px;
-      align-items:center;
-    }
-    .plan-badge{
-      background: linear-gradient(90deg, rgba(255,255,255,0.03), rgba(255,255,255,0.02));
-      padding:8px 12px;
-      border-radius:10px;
-      font-weight:700;
-      color:var(--accent);
-      font-size:0.9rem;
-      border:1px solid rgba(0,184,148,0.06);
-    }
-    #plan-name{
-      font-size:1.15rem;
-      font-weight:800;
-      color:#e6eef6;
-      letter-spacing:0.2px;
+    .plan-badge {
+      display: inline-block;
+      padding: 6px 12px;
+      background: var(--accent);
+      color: var(--accent-text);
+      font-size: 0.75rem;
+      font-weight: 700;
+      border-radius: 100px;
+      margin-bottom: 16px;
+      text-transform: uppercase;
     }
 
-    /* Price area */
-    .price-row{
-      display:flex;
-      align-items:baseline;
-      gap:12px;
-      margin-bottom:14px;
-    }
-    .price{
-      font-size:2.6rem;
-      font-weight:900;
-      color:var(--accent);
-      line-height:1;
-    }
-    .interval{
-      color:var(--muted);
-      font-weight:600;
-      font-size:0.95rem;
-    }
-    .savings{
-      margin-left:auto;
-      font-size:0.85rem;
-      color:var(--muted);
-      background: rgba(255,255,255,0.02);
-      padding:6px 10px;
-      border-radius:8px;
-      border:1px solid rgba(255,255,255,0.02);
+    #plan-name {
+      font-size: 1.5rem;
+      font-weight: 800;
+      color: var(--text-main);
+      margin: 0 0 8px 0;
     }
 
-    /* Toggle */
-    .toggle{
-      display:flex;
-      align-items:center;
-      gap:10px;
-      background:transparent;
-      padding:6px;
-      border-radius:999px;
-      border:1px solid rgba(255,255,255,0.03);
-    }
-    .toggle input{display:none}
-    .toggle-label{
-      display:inline-flex;
-      align-items:center;
-      gap:8px;
-      padding:6px 10px;
-      border-radius:999px;
-      cursor:pointer;
-      font-weight:700;
-      font-size:0.85rem;
-      color:var(--muted);
-    }
-    .toggle .active{
-      background: linear-gradient(90deg,var(--accent),var(--accent-2));
-      color:#042024;
+    .price-row {
+      display: flex;
+      align-items: baseline;
+      gap: 4px;
+      margin-bottom: 24px;
     }
 
-    /* Features */
-    .feature-list{
-      list-style:none;
-      padding:0;
-      margin:18px 0 22px 0;
-      display:grid;
-      gap:10px;
-    }
-    .feature-list li{
-      display:flex;
-      gap:12px;
-      align-items:center;
-      color:var(--muted);
-      font-weight:600;
-      padding:10px;
-      border-radius:10px;
-      background: linear-gradient(180deg, rgba(255,255,255,0.01), transparent);
-      border:1px solid rgba(255,255,255,0.02);
-    }
-    .feature-list i{
-      color:var(--accent);
-      min-width:22px;
-      text-align:center;
-      font-size:1.05rem;
+    .price {
+      font-size: 2.5rem;
+      font-weight: 800;
+      color: var(--text-main);
     }
 
-    /* CTA area */
-    .cta-row{
-      display:flex;
-      gap:12px;
-      align-items:center;
-      margin-top:6px;
-    }
-    .cta-button{
-      flex:1;
-      display:inline-flex;
-      align-items:center;
-      justify-content:center;
-      gap:10px;
-      padding:12px 14px;
-      border-radius:12px;
-      font-weight:800;
-      text-decoration:none;
-      color:#042024;
-      background: linear-gradient(90deg,var(--accent),var(--accent-2));
-      border:1px solid rgba(0,184,148,0.08);
-      box-shadow: 0 8px 30px rgba(0,184,148,0.12);
-      transition: transform .18s, box-shadow .18s;
-    }
-    .cta-button:hover{ transform: translateY(-3px); box-shadow: 0 18px 50px rgba(0,184,148,0.18); }
-
-    .secondary{
-      padding:10px 12px;
-      border-radius:10px;
-      background:transparent;
-      color:var(--muted);
-      border:1px solid rgba(255,255,255,0.03);
-      font-weight:700;
-      cursor:pointer;
+    .interval {
+      color: var(--muted);
+      font-weight: 500;
     }
 
-    /* Footer small text */
-    .card-foot{
-      margin-top:14px;
-      font-size:0.85rem;
-      color:var(--muted);
-      display:flex;
-      gap:8px;
-      align-items:center;
-      justify-content:center;
+    /* Minimalist Feature List */
+    .feature-list {
+      list-style: none;
+      padding: 0;
+      margin: 0 0 30px 0;
     }
 
-    /* Responsive */
-    @media (max-width:420px){
-      :root{ --max-width:380px }
-      .price{ font-size:2.2rem }
-      .ribbon{ right:-28px; padding:6px 56px; font-size:0.78rem }
+    .feature-list li {
+      display: flex;
+      align-items: center;
+      gap: 12px;
+      margin-bottom: 14px;
+      color: var(--muted);
+      font-size: 0.95rem;
+      font-weight: 500;
+    }
+
+    .feature-list i {
+      color: #10b981; /* Success Green */
+      font-size: 1rem;
+    }
+
+    /* Simple Large Button */
+    .cta-button {
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      width: 100%;
+      padding: 14px;
+      background: var(--accent);
+      color: var(--accent-text);
+      text-decoration: none;
+      border-radius: 14px;
+      font-weight: 700;
+      transition: opacity 0.2s;
+      border: none;
+      cursor: pointer;
+    }
+
+    .cta-button:hover { opacity: 0.9; }
+
+    .card-foot {
+      margin-top: 20px;
+      text-align: center;
+      font-size: 0.8rem;
+      color: var(--muted);
+    }
+
+    /* Highlighted State */
+    .highlighted {
+      outline: 3px solid var(--accent);
     }
   </style>
 </head>
 <body>
 
-  <div class="pricing-wrap" id="pricing-wrap">
-    <!-- Ribbon appears only when highlighted -->
-    <div class="ribbon" id="ribbon" style="display:none">MOST POPULAR</div>
+  <article class="pricing-card" id="pricing-card">
+    <div class="plan-badge" id="plan-badge">Standard</div>
+    <h3 id="plan-name">Pro Access</h3>
+    
+    <div class="price-row">
+      <span class="price" id="price">$42</span>
+      <span class="interval" id="interval">/mo</span>
+    </div>
 
-    <article class="pricing-card" id="pricing-card" role="region" aria-label="Pricing plan card">
-      <header class="card-head">
-        <div class="plan-meta">
-          <div class="plan-badge" id="plan-badge">BEST VALUE</div>
-          <div id="plan-name">Data Plan</div>
-        </div>
-
-        <div class="toggle" role="tablist" aria-label="Billing toggle">
-          <label class="toggle-label" id="monthlyLabel" data-mode="monthly">Monthly</label>
-          <label class="toggle-label active" id="yearlyLabel" data-mode="yearly">Yearly</label>
-        </div>
-      </header>
-
-      <div class="price-row" aria-hidden="false">
-        <div>
-          <div class="price" id="price">$42</div>
-          <div class="interval" id="interval">/cycle</div>
-        </div>
-        <div class="savings" id="savings" aria-hidden="true">Save 20%</div>
-      </div>
-
-      <ul class="feature-list" id="feature-list" aria-label="Plan features">
-        <li><i class="fas fa-check-circle"></i> Core Matrix Access</li>
-        <li><i class="fas fa-check-circle"></i> 1TB Data Stream</li>
-        <li><i class="fas fa-check-circle"></i> Priority Support</li>
+    <ul class="feature-list" id="feature-list">
       </ul>
 
-      <div class="cta-row">
-        <a id="cta-button" class="cta-button" href="#">Activate</a>
-        <button id="secondary" class="secondary" aria-label="Compare plans">Compare</button>
-      </div>
-
-      <div class="card-foot" id="card-foot">
-        <span><i class="fas fa-lock"></i> Secure checkout</span>
-        <span>•</span>
-        <span id="foot-note">No hidden fees</span>
-      </div>
-    </article>
-  </div>
+    <a id="cta-button" class="cta-button" href="#">Get Started</a>
+    
+    <div class="card-foot" id="footer-text">
+      <i class="fas fa-lock"></i> Secure 256-bit Payment
+    </div>
+  </article>
 
   <script>
     document.addEventListener('DOMContentLoaded', function () {
       const params = new URLSearchParams(window.location.search);
-      const root = document.documentElement;
-
-      // Apply accent color if provided
-      const accentColor = params.get('accent_color');
-      if (accentColor) {
-        const hex = accentColor.replace('#','');
-        root.style.setProperty('--accent', `#${hex}`);
-      }
-      const accentColor2 = params.get('accent_color_2');
-      if (accentColor2) root.style.setProperty('--accent-2', `#${accentColor2}`);
-      const mutedColor = params.get('muted_color');
-      if (mutedColor) root.style.setProperty('--muted', `#${mutedColor}`);
-      const planNameColor = params.get('plan_name_color');
-      if (planNameColor) document.getElementById('plan-name').style.color = `#${planNameColor}`;
-
-      const bgColor = params.get('bg_color');
-      if (bgColor) root.style.setProperty('--bg-color', `#${bgColor}`);
-
-      // Populate basic fields
-      const planName = params.get('plan_name') || 'Data Plan';
-      const priceDefault = params.get('price') || '$42';
-      const intervalDefault = params.get('interval') || '/cycle';
-      const ctaText = params.get('cta_text') || 'Activate';
-      const ctaHref = params.get('cta_href') || '#';
-      const badgeText = params.get('badge') || 'BEST VALUE';
-      const highlighted = params.get('highlighted') === 'true';
-      const ribbonText = params.get('ribbon_text') || 'MOST POPULAR';
-      const savingsText = params.get('savings_text');
-      const secondaryCtaText = params.get('secondary_cta_text');
-      const footerText = params.get('footer_text');
-
-      document.getElementById('plan-name').textContent = planName;
-      document.getElementById('price').textContent = priceDefault;
-      document.getElementById('interval').textContent = intervalDefault;
-      document.getElementById('cta-button').textContent = ctaText;
-      document.getElementById('cta-button').href = ctaHref;
-      document.getElementById('plan-badge').textContent = badgeText;
-      document.getElementById('ribbon').textContent = ribbonText;
-
-      // Handle optional elements
-      if (savingsText) document.getElementById('savings').textContent = savingsText;
-      if (secondaryCtaText) {
-        document.getElementById('secondary').textContent = secondaryCtaText;
-      } else {
-        document.getElementById('secondary').style.display = 'none';
-      }
-      if (footerText) {
-        document.getElementById('card-foot').innerHTML = `<span><i class="fas fa-info-circle"></i> ${footerText}</span>`;
-      }
-      if (params.get('toggle_visible') === 'false') {
-        document.querySelector('.toggle').style.display = 'none';
-      }
-
-      // Ribbon for highlighted
-      if (highlighted) {
-        document.getElementById('ribbon').style.display = 'block';
-      }
-
-      // Features parsing
-      const featuresParam = params.get('features');
-      const featureList = document.getElementById('feature-list');
-      featureList.innerHTML = '';
-      if (featuresParam) {
-        const features = featuresParam.split(',');
-        features.forEach(f => {
-          const li = document.createElement('li');
-          li.innerHTML = `<i class="fas fa-check-circle"></i> ${f.trim()}`;
-          featureList.appendChild(li);
-        });
-      } else {
-        const defaults = ['Core Matrix Access','1TB Data Stream','Priority Support'];
-        defaults.forEach(f => {
-          const li = document.createElement('li');
-          li.innerHTML = `<i class="fas fa-check-circle"></i> ${f}`;
-          featureList.appendChild(li);
-        });
-      }
-
-      // Billing toggle logic with simple price transform
-      const monthlyLabel = document.getElementById('monthlyLabel');
-      const yearlyLabel = document.getElementById('yearlyLabel');
-      const priceEl = document.getElementById('price');
-      const savingsEl = document.getElementById('savings');
-
-      // Parse numeric price for simple demo calculations
-      function parsePrice(text) {
-        const num = parseFloat(text.replace(/[^0-9.]/g,''));
-        return isNaN(num) ? 0 : num;
-      }
-      const basePrice = parsePrice(priceDefault) || 42;
-
-      function setActiveMode(mode) {
-        if (mode === 'monthly') {
-          monthlyLabel.classList.add('active');
-          yearlyLabel.classList.remove('active');
-          const monthly = (basePrice).toFixed(0);
-          priceEl.textContent = `$${monthly}`;
-          savingsEl.style.display = 'none';
-          document.getElementById('interval').textContent = '/mo';
-        } else {
-          yearlyLabel.classList.add('active');
-          monthlyLabel.classList.remove('active');
-          const yearly = Math.round(basePrice * 12 * 0.8); // 20% off yearly
-          priceEl.textContent = `$${yearly}`;
-          savingsEl.style.display = 'inline-block';
-          document.getElementById('interval').textContent = '/yr';
+      
+      function updateUI(config) {
+        if (config.accent_color) {
+          document.documentElement.style.setProperty('--accent', `#${config.accent_color.replace('#','')}`);
         }
-        // Recalculate iframe height if embedded
+        if (config.plan_name) document.getElementById('plan-name').textContent = config.plan_name;
+        if (config.price) document.getElementById('price').textContent = config.price;
+        if (config.badge) document.getElementById('plan-badge').textContent = config.badge;
+        if (config.cta_text) document.getElementById('cta-button').textContent = config.cta_text;
+        
+        if (config.features) {
+          const list = document.getElementById('feature-list');
+          list.innerHTML = '';
+          config.features.split(',').forEach(f => {
+            const li = document.createElement('li');
+            li.innerHTML = `<i class="fas fa-check-circle"></i> ${f.trim()}`;
+            list.appendChild(li);
+          });
+        }
+        
+        if (config.highlighted === 'true') {
+          document.getElementById('pricing-card').classList.add('highlighted');
+        }
+
         sendHeight();
       }
 
-      monthlyLabel.addEventListener('click', () => setActiveMode('monthly'));
-      yearlyLabel.addEventListener('click', () => setActiveMode('yearly'));
+      // 1. INITIAL LOAD from URL
+      const initialConfig = Object.fromEntries(params.entries());
+      updateUI(initialConfig);
 
-      // Initialize default mode from query param or yearly
-      const defaultMode = params.get('billing') || 'yearly';
-      setActiveMode(defaultMode);
-
-      // Secondary button action placeholder
-      document.getElementById('secondary').addEventListener('click', function () {
-        // Minimal inline interaction: toggle a small note
-        const foot = document.getElementById('foot-note');
-        foot.textContent = foot.textContent === 'No hidden fees' ? 'Compare features to other plans' : 'No hidden fees';
+      // 2. THE BRIDGE (Listen for live updates from parent)
+      window.addEventListener('message', function(event) {
+        if (event.data.type === 'THEMEX_UPDATE') {
+          updateUI(event.data.config);
+        }
       });
 
-      // Post message height for embedding frames
+      // 3. AUTO-RESIZE
       function sendHeight() {
         const frameId = params.get('frame_id');
         if (frameId && window.parent) {
@@ -417,8 +205,9 @@
           window.parent.postMessage({ frameId: frameId, frameHeight: height }, '*');
         }
       }
-      sendHeight();
+      
       window.addEventListener('resize', sendHeight);
+      setTimeout(sendHeight, 200); // Double check after fonts load
     });
   </script>
 </body>

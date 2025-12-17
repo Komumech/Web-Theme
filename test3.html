@@ -3,381 +3,156 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>ThemeX   -   Web theme by Komumech</title>
-</head>
-<style>
-    body{
-        background-color: rgb(248, 241, 230);
-        display: flex;
-        flex-direction: column;
-        align-items: center;
-        justify-content: center;
-    }
+    <title>ThemeX - Full Component Suite</title>
+    <style>
+        body {
+            background-color: rgb(248, 241, 230);
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            padding-bottom: 5rem;
+            margin: 0;
+            font-family: 'Inter', sans-serif;
+        }
+        h2 { margin-top: 3rem; color: #333; }
+        
         iframe {
-      border: none;
-      box-shadow: none;
-      margin-bottom: 2rem;
-      /* FIX: Added overflow hidden */
-      overflow: hidden;
-    }
-</style>
+            border: none;
+            box-shadow: none;
+            margin-bottom: 1rem;
+            overflow: hidden;
+            width: 100%;
+            transition: height 0.3s ease;
+        }
+
+        /* Test Panel UI */
+        .test-dashboard {
+            top: 0;
+            z-index: 100;
+            width: 100%;
+            background: rgba(255,255,255,0.9);
+            backdrop-filter: blur(10px);
+            padding: 15px;
+            border-bottom: 1px solid #ddd;
+            display: flex;
+            justify-content: center;
+            gap: 20px;
+            box-shadow: 0 2px 10px rgba(0,0,0,0.05);
+        }
+        .test-btn {
+            padding: 8px 16px;
+            background: #2427cd;
+            color: white;
+            border: none;
+            border-radius: 6px;
+            cursor: pointer;
+            font-weight: bold;
+        }
+        .test-btn.error-btn { background: #d63031; }
+    </style>
+</head>
+<body>
+
+    <div class="test-dashboard">
+        <button class="test-btn" onclick="testInjection('alert-success', '✅ System Variable Injected!', '2427cd')">Test Success Injection</button>
+        <button class="test-btn error-btn" onclick="testInjection('alert-error', '❌ Critical Error Detected!', 'ff0000')">Test Error Injection</button>
+    </div>
 
     <h2>ThemeX Navbar</h2>
-<iframe
-    id="themex-navbar-top"
-    src=""
-    scrolling="no"
-    width="100%"
-    style="border: none; overflow: hidden;"
-    
-    data-base-url="https://komutheme2.vercel.app/project/public/snippets/themex/navbar.html"
-    data-frame-id="themex-navbar-top"
-    
-    data-logo_img="https://komuhost.vercel.app/logo1.png"
-    data-logo_h="55"
-    data-brand_href="/"
-    
-    data-navbar_color="b68cfa"
-    data-accent_color="38bdf8"
-    data-logo_color="ffffff"
-    data-link_color="000000"
-    data-hover_color="ffffff"
-    
-    data-nav_link1_label="Features"
-    data-nav_link1_href="#features"
-    data-nav_link2_label="Performance"
-    data-nav_link2_href="#performance"
-    data-nav_link3_label="Support"
-    data-nav_link3_href="/support"
-    data-nav_link4_label="Pricing"
-    data-nav_link4_href="/pricing"
-    
-    data-cta_text="Buy Now"
-    data-cta_href="/checkout"
-></iframe>
-
-<body>
-    <h2>🆕 New: ThemeX Hero Section</h2>
-
-    
- <iframe
-    id="themex-hero-1"
-    src=""
-    scrolling="no"
-    width="100%"
-    style="border: none; overflow: hidden; margin-bottom: 2rem;"
-    
-    data-base-url="https://komutheme2.vercel.app/project/public/snippets/themex/hero.html"
-    data-frame-id="themex-hero-1"
-    
-    data-bg_color="f6c3c3"
-    data-accent_color="FF0000"
-    data-accent2_color="2427cd"
-    data-glass_color="FFFFFF0A"
-    data-muted_color="000000"
-    data-subhead_color="0000FF"
-    data-navbar_color="face8c"
-    data-radius="12"
-    
-    data-brand_text="ThemeX"
-    data-eyebrow="BUILT FOR YOU"
-    data-hero_title="The Ultimate Component"
-    data-hero_sub="This dynamic hero section is fully customizable, from colors and text to images and features."
-    data-cta_text="Get Started"
-    
-    data-img_main="https://media.wired.com/photos/68c8d0484b7ef13d056bf85c/4:3/w_1280%2Cc_limit/Watch%2520Ultra%25203%2520Apple%2520Watch%252011%2520Series%2520Source%2520Adrienne%2520So.png"
-    data-img_side="https://media.wired.com/photos/68cb09f78ab34197e02b0c20/4:3/w_1280%2Cc_limit/Apple%2520Watch%2520SE%2520source%2520Adrienne%2520So.png"
-    
-    data-nav1="Services"
-    data-link1="/services"
-    data-nav2="Showcase"
-    data-link2="/showcase"
-    data-nav3="Pricing"
-    data-link3="/pricing"
-></iframe>
-
-</div>
-
-        <iframe
-        id="themex-btn-1"
-        src=""
-        scrolling = "no"
-        style="margin-bottom: 1rem;"
-        data-base-url="https://komutheme2.vercel.app/project/public/snippets/themex/button.html"
-        data-frame-id="themex-btn-1"
-        data-text="Primary Action"
-        data-type="primary"
-        data-href="/signup"
-        data-accent_color="FF0000"
-    ></iframe>
     <iframe
-        id="themex-btn-2"
+        id="themex-navbar-top"
         src=""
-        scrolling = "no"
-        style="margin-bottom: 1rem;"
-        data-base-url="https://komutheme2.vercel.app/project/public/snippets/themex/button.html"
-        data-frame-id="themex-btn-2"
-        data-text="Ghost Button"
-        data-type="ghost"
-        data-href="/signup"
-        data-accent_color="F32100"
+        scrolling="no"
+        data-base-url="https://komutheme2.vercel.app/project/public/snippets/themex/navbar.html"
+        data-frame-id="themex-navbar-top"
+        data-logo_img="https://komuhost.vercel.app/logo1.png"
+        data-logo_h="55"
+        data-navbar_color="f6c3c3"
+        data-accent_color="38bdf8"
+        data-nav_link1_label="Features" data-nav_link1_href="#features"
+        data-nav_link2_label="Performance" data-nav_link2_href="#performance"
+        data-cta_text="Buy Now"
     ></iframe>
+
+    <h2>🆕 ThemeX Hero Section</h2>
     <iframe
-        id="themex-btn-3"
+        id="themex-hero-1"
         src=""
-        scrolling = "no"
-        data-base-url="https://komutheme2.vercel.app/project/public/snippets/themex/button.html"
-        data-frame-id="themex-btn-3"
-        data-text="Outline CTA"
-        data-type="outline"
+        scrolling="no"
+        data-base-url="https://komutheme2.vercel.app/project/public/snippets/themex/hero.html"
+        data-frame-id="themex-hero-1"
+        data-bg_color="f6c3c3"
+        data-navbar_color="f6c3c3"
         data-accent_color="FF0000"
+        data-radius="12"
+        data-brand_text="ThemeX"
+        data-hero_title="The Ultimate Component"
+        data-hero_sub="Fully customizable dynamic hero section."
+        data-img_main="https://media.wired.com/photos/68c8d0484b7ef13d056bf85c/4:3/w_1280%2Cc_limit/Watch%2520Ultra%25203%2520Apple%2520Watch%252011%2520Series%2520Source%2520Adrienne%2520So.png"
     ></iframe>
 
-  <h2 style="color: white; border-color: #333;">ThemeX Alerts</h2>
-<iframe
-    id="themex-alert-1"
-    src=""
-    scrolling="no"
-    width="100%"
-    style="border: none; overflow: hidden; margin-top: 1rem;"
-    
-    data-base-url="https://komutheme2.vercel.app/project/public/snippets/themex/alert.html"
-    data-frame-id="themex-alert-1"
-    
-    data-accent_color="FF0000"
-    data-glass_color="FFFFFF0A"
-    data-muted_color="000000"
-    data-radius="12"
-    
-    data-type="success"
-    data-message="Your watch configuration has been saved successfully!"
-></iframe>
-<iframe
-    id="themex-alert-1"
-    src=""
-    scrolling="no"
-    width="100%"
-    style="border: none; overflow: hidden; margin-top: 1rem;"
-    
-    data-base-url="https://komutheme2.vercel.app/project/public/snippets/themex/alert.html"
-    data-frame-id="themex-alert-1"
-    
-    data-accent_color="FF0000"
-    data-glass_color="FFFFFF0A"
-    data-muted_color="000000"
-    data-radius="12"
-    
-    data-type="warning"
-    data-message="Your watch configuration has been saved successfully!"
-></iframe>
-<iframe
-    id="themex-alert-1"
-    src=""
-    scrolling="no"
-    width="100%"
-    style="border: none; overflow: hidden; margin-top: 1rem;"
-    
-    data-base-url="https://komutheme2.vercel.app/project/public/snippets/themex/alert.html"
-    data-frame-id="themex-alert-1"
-    
-    data-accent_color="FF0000"
-    data-glass_color="FFFFFF0A"
-    data-muted_color="000000"
-    data-radius="12"
-    
-    data-type="error"
-    data-message="Your watch configuration has been saved successfully!"
-></iframe>
-<iframe
-    id="themex-alert-1"
-    src=""
-    scrolling="no"
-    width="100%"
-    style="border: none; overflow: hidden; margin-top: 1rem;"
-    
-    data-base-url="https://komutheme2.vercel.app/project/public/snippets/themex/alert.html"
-    data-frame-id="themex-alert-1"
-    
-    data-accent_color="FF0000"
-    data-glass_color="FFFFFF0A"
-    data-muted_color="000000"
-    data-radius="12"
-    
-    data-type="info"
-    data-message="Your watch configuration has been saved successfully!"
-></iframe>
+    <h2>ThemeX Buttons</h2>
+    <div style="display: flex; gap: 10px;">
+        <iframe id="btn-1" src="" scrolling="no" data-base-url="https://komutheme2.vercel.app/project/public/snippets/themex/button.html" data-frame-id="btn-1" data-text="Primary" data-type="primary" data-accent_color="FF0000"></iframe>
+        <iframe id="btn-2" src="" scrolling="no" data-base-url="https://komutheme2.vercel.app/project/public/snippets/themex/button.html" data-frame-id="btn-2" data-text="Ghost" data-type="ghost" data-accent_color="F32100"></iframe>
+    </div>
 
-   <h2 style="color: white; border-color: #333;">ThemeX Pricing Card</h2>
-      <iframe
-            id="themex-price-1"
-            src=""
-            style="width: 320px;"
-            data-base-url="https://komutheme2.vercel.app/project/public/snippets/themex/pricing-card.html"
-            data-frame-id="themex-price-1"
-            data-plan-name="Standard"
-            data-price="$42"
-            data-interval="/cycle"
-            data-features="Core Matrix Access,1TB Data Stream,Standard Latency"
-            data-cta-text="Activate"
-        ></iframe>
-<iframe
-            id="themex-price-custom"
-            src=""
-            style="width: 320px;"
-            data-base-url="https://komutheme2.vercel.app/project/public/snippets/themex/pricing-card.html"
-            data-frame-id="themex-price-custom"
-            
-            data-highlighted="true"
-            data-ribbon_text="LIMITED"
-            
-            data-badge="Cybernetic"
-            data-plan_name="Nexus Tier"
-            data-price="$125"
-            data-billing="monthly"
-            data-savings_text="Save 25% Annually"
-            
-            data-features="Quantum Core Access,Encrypted Data Streams,24/7 AI Support,Neural Link Ready"
-            
-            data-cta_text="Interface Now"
-            data-cta_href="/connect"
-            data-secondary_cta_text="View Specs"
-            
-            data-footer_text="Billed per cycle. Cancel anytime."
-            card-bg-color="1a1a1a"
-            data-accent_color="d63031"
-            data-accent_color_2="ff7675"
-            data-muted_color="b2bec3"
-            data-plan_name_color="ffffff"
-            data-bg_color="transparent
-        ></iframe>
+    <h2>ThemeX Alerts (Live Enabled)</h2>
+    <iframe id="alert-success" src="" scrolling="no" data-base-url="https://komutheme2.vercel.app/project/public/snippets/themex/alert.html" data-frame-id="alert-success" data-type="success" data-message="Waiting for injection..." data-accent_color="00b894"></iframe>
+    <iframe id="alert-warning" src="" scrolling="no" data-base-url="https://komutheme2.vercel.app/project/public/snippets/themex/alert.html" data-frame-id="alert-warning" data-type="warning" data-message="Warning: Action Required" data-accent_color="f1c40f"></iframe>
+    <iframe id="alert-error" src="" scrolling="no" data-base-url="https://komutheme2.vercel.app/project/public/snippets/themex/alert.html" data-frame-id="alert-error" data-type="error" data-message="System Error 404" data-accent_color="e74c3c"></iframe>
 
-    <h2 style="color: white; border-color: #333; margin-top: 2rem;">ThemeX Input</h2>
-     <iframe
-        id="themex-input-1"
-        src=""
-        data-base-url="https://komutheme2.vercel.app/project/public/snippets/themex/input.html"
-        data-frame-id="themex-input-1"
-        data-width="600px"
-        data-placeholder="Enter your access code..."
-        data-icon="key"
-        data-submit_text="Authorize"
-    ></iframe>
+    <h2>Pricing Cards</h2>
+    <div style="display: flex; gap: 20px; flex-wrap: wrap; justify-content: center;">
+        <iframe id="price-1" src="" style="width: 320px;" data-base-url="https://komutheme2.vercel.app/project/public/snippets/themex/pricing-card.html" data-frame-id="price-1" data-plan-name="Standard" data-price="$42" data-features="Feature 1, Feature 2"></iframe>
+        <iframe id="price-custom" src="" style="width: 320px;" data-base-url="https://komutheme2.vercel.app/project/public/snippets/themex/pricing-card.html" data-frame-id="price-custom" data-highlighted="true" data-plan_name="Nexus Tier" data-price="$125" data-accent_color="d63031"></iframe>
+    </div>
 
+    <h2>Input & Footer</h2>
+    <iframe id="themex-input-1" src="" data-base-url="https://komutheme2.vercel.app/project/public/snippets/themex/input.html" data-frame-id="themex-input-1" data-width="600px" data-placeholder="Enter access code..." data-icon="key"></iframe>
 
+    <iframe id="themex-footer-1" src="" width="100%" data-base-url="https://komutheme2.vercel.app/project/public/snippets/themex/footer.html" data-frame-id="themex-footer-1" data-company_name="ThemeX Industries" data-accent_color="e84393" data-bg_color="f6c3c3"></iframe>
 
-<iframe
-    id="themex-footer-1"
-    src=""
-    width="100%"
-    data-bg-color="fae6dc"
-    data-muted-color="ff0059"
-    data-header-color="#4dd2ff"
-    data-border-color="ff0059"
-    data-accent-color="d258ed"
-    data-base-url="https://komutheme2.vercel.app/project/public/snippets/themex/footer.html"
-    data-frame-id="themex-footer-1"
-    data-company_name="ThemeX Industries"
-    data-description="Pioneering the next generation of digital interfaces."
-    data-copyright="© 2077 ThemeX Industries. All Rights Reserved."
-    data-link1_label="Careers" data-link1_href="#"
-    data-link2_label="Grid Status" data-link2_href="#"
-    data-social1_icon="github" data-social1_href="#"
-    data-accent_color="e84393"
-></iframe>
     <script>
-        /**
-         * Handles the PostMessage event to dynamically resize an iframe.
-         * This code listens for messages from the components and adjusts the height
-         * of the corresponding iframe on this page.
-         */
-        function handleDynamicIframeResize(event) {
-            // OPTIONAL SECURITY CHECK: uncomment to restrict messages
-            // if (event.origin !== "https://themes-blush-one.vercel.app") { return; }
-
-            const data = event.data;
-
-            // Ensure the message contains the height and ID
-            if (data.frameHeight && data.frameId) {
-                const iframe = document.getElementById(data.frameId);
-
-                // If the iframe already has a height attribute, respect it and do nothing.
-                if (iframe && iframe.hasAttribute('height')) {
-                    iframe.style.overflow = 'hidden'; // Ensure no scrollbars
-                    return;
-                }
-
+        // 1. DYNAMIC RESIZER
+        window.addEventListener("message", function(event) {
+            if (event.data.frameHeight && event.data.frameId) {
+                const iframe = document.getElementById(event.data.frameId);
                 if (iframe) {
-                    // Set the iframe's height to the exact value reported by the child
-                    iframe.style.height = data.frameHeight + "px";
-                    // FIX: Ensure the iframe itself is explicitly told not to scroll
+                    iframe.style.height = event.data.frameHeight + "px";
                     iframe.style.overflow = 'hidden';
                 }
             }
-        }
-        // Attach the handler to the window's message event
-        window.addEventListener("message", handleDynamicIframeResize, false);
-    </script>
+        });
 
-  <script>
-    document.addEventListener('DOMContentLoaded', function() {
-      // URL Construction Logic
-      function constructSnippetUrl(iframe) {
-        const baseUrl = iframe.getAttribute('data-base-url');
-        if (!baseUrl) return;
-        let params = [];
-        for (const attr of iframe.attributes) {
-          if (attr.name.startsWith('data-')) {
-            const paramKey = attr.name.substring(5).replace(/-/g, '_');
-            const paramValue = encodeURIComponent(attr.value);
-            if (paramKey !== 'base_url') {
-              params.push(`${paramKey}=${paramValue}`);
+        // 2. URL CONSTRUCTOR (Runs on Load)
+        document.addEventListener('DOMContentLoaded', function() {
+            document.querySelectorAll('iframe[data-base-url]').forEach(iframe => {
+                const baseUrl = iframe.getAttribute('data-base-url');
+                let params = [];
+                for (const attr of iframe.attributes) {
+                    if (attr.name.startsWith('data-')) {
+                        const key = attr.name.substring(5).replace(/-/g, '_');
+                        if (key !== 'base_url') params.push(`${key}=${encodeURIComponent(attr.value)}`);
+                    }
+                }
+                iframe.src = baseUrl + '?' + params.join('&');
+            });
+        });
+
+        // 3. LIVE INJECTION TEST FUNCTION
+        function testInjection(targetId, msg, color) {
+            const frame = document.getElementById(targetId);
+            if (frame && frame.contentWindow) {
+                frame.contentWindow.postMessage({
+                    type: 'THEMEX_UPDATE',
+                    config: {
+                        message: msg,
+                        accent_color: color
+                    }
+                }, '*');
             }
-          }
         }
-        iframe.src = baseUrl + '?' + params.join('&');
-      }
-      document.querySelectorAll('iframe[data-base-url]').forEach(constructSnippetUrl);
-    });
-  </script>
-
-  <script>
-    // 1. LISTEN FOR THE MESSAGE (This script must be on your main page)
-    window.addEventListener('message', function(event) {
-        // Check if the message came from your iframe and is a submission
-        if (event.data && event.data.action === 'input_submitted' && event.data.frameId === 'my-contact-input') {
-            const submittedValue = event.data.value;
-            
-            // 2. PROCESS THE DATA HERE
-            console.log("SUCCESS! Data received from iframe:", submittedValue);
-            
-            // Example action: Send this value to your server using a fetch request:
-            // fetch('/api/signup', {
-            //     method: 'POST',
-            //     headers: { 'Content-Type': 'application/json' },
-            //     body: JSON.stringify({ email: submittedValue })
-            // });
-            
-            alert(`Parent page received input: ${submittedValue}`);
-            // You can update a success message on the parent page here
-        }
-    });
-
-    // NOTE: You also need the 'constructSnippetUrl' function from earlier in the thread
-    // to build the URL from the 'data-' attributes, just as you did for your other snippets.
-</script>
-
-<script>
-    const alertIframe = document.getElementById('themex-alert-1');
-
-// This updates the alert INSTANTLY without a page refresh
-alertIframe.contentWindow.postMessage({
-    type: 'THEMEX_UPDATE',
-    config: {
-        message: "New Dynamic Message!",
-        accent_color: "2427cd",
-        type: "success"
-    }
-}, '*');
-</script>
+    </script>
 </body>
 </html>
