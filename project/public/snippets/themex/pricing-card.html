@@ -106,6 +106,7 @@
       display:flex;
       align-items:baseline;
       gap:12px;
+      margin-bottom:14px;
       /* Increased spacing */
       margin-bottom:22px;
     }
@@ -161,6 +162,7 @@
     .feature-list{
       list-style:none;
       padding:0;
+      margin:18px 0 22px 0;
       /* Increased spacing */
       margin:24px 0 28px 0;
       display:grid;
@@ -312,6 +314,7 @@
       const ctaText = params.get('cta_text') || 'Activate';
       const ctaHref = params.get('cta_href') || '#';
       const badgeText = params.get('badge') || 'BEST VALUE';
+      const highlighted = params.get('highlighted') === 'true';
       const highlighted = params.get('highlighted') === 'true'; // This is already correct
       const ribbonText = params.get('ribbon_text') || 'MOST POPULAR';
       const savingsText = params.get('savings_text');
@@ -322,10 +325,13 @@
       document.getElementById('price').textContent = priceDefault;
       document.getElementById('interval').textContent = intervalDefault;
       document.getElementById('cta-button').textContent = ctaText;
+      document.getElementById('cta-button').href = ctaHref;
+      document.getElementById('plan-badge').textContent = badgeText;
       document.getElementById('cta-button').href = ctaHref; // The button link is already configurable
       document.getElementById('ribbon').textContent = ribbonText;
 
       // Handle optional elements
+      if (savingsText) document.getElementById('savings').textContent = savingsText;
       const savingsEl = document.getElementById('savings');
       if (savingsText) {
         savingsEl.textContent = savingsText;
@@ -344,6 +350,9 @@
         document.getElementById('secondary').textContent = secondaryCtaText;
       } else {
         document.getElementById('secondary').style.display = 'none';
+      }
+      if (footerText) {
+        document.getElementById('card-foot').innerHTML = `<span><i class="fas fa-info-circle"></i> ${footerText}</span>`;
       }
       if (params.get('toggle_visible') === 'false') {
         document.querySelector('.toggle').style.display = 'none';

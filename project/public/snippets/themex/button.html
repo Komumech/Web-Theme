@@ -8,15 +8,24 @@
     <style>
         :root {
             --accent: #00b894;
+            --accent2: #00d1a1; /* Default gradient end color */
+            --primary-text-color: #042024; /* Default text color for primary button */
         }
         body {
             margin: 0;
-            padding: 10px;
+            padding: 0;
             background-color: transparent;
             font-family: 'Inter', sans-serif;
             display: flex;
             align-items: center;
             justify-content: center;
+        }
+        .link-wrapper {
+            display: block;
+            padding: 10px; /* Moved padding here */
+            text-decoration: none;
+            width: 100%;
+            box-sizing: border-box;
         }
         .btn {
             display: inline-flex;
@@ -32,8 +41,8 @@
             font-size: 1rem;
         }
         .btn-primary {
-            background: linear-gradient(90deg, var(--accent), #00d1a1);
-            color: #042024;
+            background: linear-gradient(90deg, var(--accent), var(--accent2));
+            color: var(--primary-text-color);
             box-shadow: 0 4px 20px rgba(0, 184, 148, 0.1);
         }
         .btn-primary:hover {
@@ -62,23 +71,28 @@
 </head>
 <body>
 
-    <a href="#" id="dynamic-btn">Button</a>
+    <a href="#" id="link-wrapper" class="link-wrapper">
+        <span id="dynamic-btn">Button</span>
+    </a>
 
     <script>
         document.addEventListener('DOMContentLoaded', function() {
             const params = new URLSearchParams(window.location.search);
             const btn = document.getElementById('dynamic-btn');
+            const linkWrapper = document.getElementById('link-wrapper');
 
             // --- Customization ---
             const text = params.get('text') || 'Click Me';
             const type = params.get('type') || 'primary'; // primary, ghost, outline
             const href = params.get('href') || '#';
             const accentColor = params.get('accent_color');
+            const accent2Color = params.get('accent2_color');
+            const primaryTextColor = params.get('primary_text_color');
 
             // Set content and link
             btn.textContent = text;
-            btn.href = href;
-            btn.target = '_parent'; // Ensure link opens in the main window
+            linkWrapper.href = href;
+            linkWrapper.target = '_parent'; // Ensure link opens in the main window
 
             // Set button style
             btn.className = `btn btn-${type}`;
@@ -86,6 +100,12 @@
             // Set accent color if provided
             if (accentColor) {
                 document.documentElement.style.setProperty('--accent', `#${accentColor}`);
+            }
+            if (accent2Color) {
+                document.documentElement.style.setProperty('--accent2', `#${accent2Color}`);
+            }
+            if (primaryTextColor) {
+                document.documentElement.style.setProperty('--primary-text-color', `#${primaryTextColor}`);
             }
 
             // --- Dynamic Resizing ---
