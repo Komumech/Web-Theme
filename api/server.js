@@ -77,8 +77,8 @@ app.get('/:snippetName', async (req, res) => {
     ? processProParams(queryParams, config)
     : { templateData: { ...config.free }, dynamicStyles: '' };
 
-  // Construct path relative to the current file's directory for robustness.
-  const templatePath = path.join(__dirname, '..', 'project', 'public', 'snippets', 'web-theme', config.template);
+  // Use process.cwd() for a reliable path to the project root on Vercel.
+  const templatePath = path.join(process.cwd(), 'project', 'public', 'snippets', 'web-theme', config.template);
 
   try {
     const html = await fs.readFile(templatePath, 'utf8');
