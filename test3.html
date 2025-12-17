@@ -365,5 +365,19 @@
     // NOTE: You also need the 'constructSnippetUrl' function from earlier in the thread
     // to build the URL from the 'data-' attributes, just as you did for your other snippets.
 </script>
+
+<script>
+    const alertIframe = document.getElementById('themex-alert-1');
+
+// This updates the alert INSTANTLY without a page refresh
+alertIframe.contentWindow.postMessage({
+    type: 'THEMEX_UPDATE',
+    config: {
+        message: "New Dynamic Message!",
+        accent_color: "2427cd",
+        type: "success"
+    }
+}, '*');
+</script>
 </body>
 </html>
