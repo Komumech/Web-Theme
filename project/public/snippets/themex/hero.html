@@ -248,12 +248,7 @@ body{
       <div class="brand">
         <a href="#" class="logo" id="brand-logo">XTRA Watch</a>
       </div>
-      <nav class="main-nav">
-        <a href="#">Home</a>
-        <a href="#">Collections</a>
-        <a href="#">Watches</a>
-        <a href="#">Quick Find</a>
-        <a href="#">Pages</a>
+      <nav class="main-nav" id="main-nav">
       </nav>
       <div class="header-cta">
         <a href="#" class="btn btn-outline" id="header-cta">Contact Us</a>
@@ -418,6 +413,21 @@ document.addEventListener('DOMContentLoaded', function () {
   setHref('brand-logo', 'brand_href', '#');
   setText('header-cta', 'header_cta_text', 'Contact Us');
   setHref('header-cta', 'header_cta_href', '#');
+
+  // Main Navigation Links
+  const mainNav = document.getElementById('main-nav');
+  let navLinksHtml = '';
+  for (let i = 1; i <= 5; i++) {
+    const label = params.get(`nav_link${i}_label`);
+    const href = params.get(`nav_link${i}_href`);
+    if (label) {
+      navLinksHtml += `<a href="${href || '#'}">${label}</a>`;
+    }
+  }
+  // Only replace the nav content if links were provided, otherwise it keeps the defaults
+  if (navLinksHtml) {
+    mainNav.innerHTML = navLinksHtml;
+  }
 
   // Hero Content
   setText('eyebrow', 'eyebrow', 'Skip the Impossible');

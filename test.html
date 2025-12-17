@@ -386,6 +386,79 @@
     
     data-width="60%" >
   </iframe>
+<h4>ThemeX</h4>
+
+<div class="component-group">
+    <h2>🆕 New: ThemeX Hero Section</h2>
+    <iframe
+        id="themex-hero-1"
+        src=""
+        width="100%"
+        style="border: none; overflow: hidden; margin-bottom: 2rem;"
+        data-base-url="https://komutheme2.vercel.app/project/public/snippets/themex/hero.html"
+        data-frame-id="themex-hero-1"
+        
+        data-accent-color="FF0000"
+        data-brand-text="ThemeX"
+        data-header-cta-text="Get Quote"
+        
+        data-eyebrow="BUILT FOR YOU"
+        data-hero-title="The Ultimate Component"
+        data-hero-sub="This dynamic hero section is fully customizable, from colors and text to images and features, all through simple data attributes."
+        data-cta-primary-text="Get Started"
+        data-cta-primary-href="/signup"
+        data-nav_link1_label="Services3"
+        data-nav_link1_href="/services3"
+        data-nav_link2_label="Showcase33"
+        data-nav_link2_href="/showcase"
+        data-nav_link3_label="Pricing333"
+        data-nav_link3_href="/pricing3"
+        data-main-image-url="https://images.pexels.com/photos/277390/pexels-photo-277390.jpeg?auto=compress&cs=tinysrgb&w=1260&h=750&dpr=1"
+        data-side-image-url="https://images.pexels.com/photos/1399283/pexels-photo-1399283.jpeg?auto=compress&cs=tinysrgb&w=1260&h=750&dpr=1"
+        
+        data-video-url="https://www.youtube.com/embed/1VIZ89FEjYI"
+        
+        data-hero-features="Dynamic Content|Update text and links instantly.,Custom Styling|Easily change colors to match your brand.,Responsive Design|Looks great on all devices, from mobile to desktop."
+        
+        data-feature-card-1="Dynamic Content|Update text and links instantly. Yeah Chickens!"
+        data-feature-card-2="Custom Styling|Easily change colors to match your brand. Bubba"
+        data-feature-card-3="Responsive Design|Looks great on all devices, from mobile to desktop. Oh yeah"
+        data-feature-card-4="Video Integration|Embed promotional videos in a clean modal. Oh!!!!!"
+    ></iframe>
+
+
+
+        <iframe
+        id="themex-btn-1"
+        src=""
+        style="margin-bottom: 1rem;"
+        data-base-url="https://komutheme2.vercel.app/project/public/snippets/themex/button.html"
+        data-frame-id="themex-btn-1"
+        data-text="Primary Action"
+        data-type="primary"
+        data-href="/signup"
+    ></iframe>
+    <iframe
+        id="themex-btn-2"
+        src=""
+        style="margin-bottom: 1rem;"
+        data-base-url="https://komutheme2.vercel.app/project/public/snippets/themex/button.html"
+        data-frame-id="themex-btn-2"
+        data-text="Ghost Button"
+        data-type="ghost"
+    ></iframe>
+    <iframe
+        id="themex-btn-3"
+        src=""
+        data-base-url="https://komutheme2.vercel.app/project/public/snippets/themex/button.html"
+        data-frame-id="themex-btn-3"
+        data-text="Outline CTA"
+        data-type="outline"
+        data-accent_color="e84393"
+    ></iframe>
+
+    
+</div>
 
     <script>
         /**
@@ -404,8 +477,8 @@
                 const iframe = document.getElementById(data.frameId);
 
                 if (iframe) {
-                    // Set the iframe's height, adding a small buffer (+5px)
-                    iframe.style.height = (data.frameHeight + 5) + "px";
+                    // Set the iframe's height to the exact value reported by the child
+                    iframe.style.height = data.frameHeight + "px";
                     // FIX: Ensure the iframe itself is explicitly told not to scroll
                     iframe.style.overflow = 'hidden';
                 }

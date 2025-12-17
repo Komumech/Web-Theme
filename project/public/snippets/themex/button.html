@@ -1,0 +1,108 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>ThemeX Button</title>
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@700&display=swap" rel="stylesheet">
+    <style>
+        :root {
+            --accent: #00b894;
+        }
+        body {
+            margin: 0;
+            padding: 10px;
+            background-color: transparent;
+            font-family: 'Inter', sans-serif;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+        }
+        .btn {
+            display: inline-flex;
+            align-items: center;
+            gap: 10px;
+            padding: 12px 18px;
+            border-radius: 10px;
+            font-weight: 700;
+            cursor: pointer;
+            text-decoration: none;
+            border: 1px solid transparent;
+            transition: all 0.2s ease;
+            font-size: 1rem;
+        }
+        .btn-primary {
+            background: linear-gradient(90deg, var(--accent), #00d1a1);
+            color: #042024;
+            box-shadow: 0 4px 20px rgba(0, 184, 148, 0.1);
+        }
+        .btn-primary:hover {
+            transform: translateY(-2px);
+            box-shadow: 0 8px 30px rgba(0, 184, 148, 0.2);
+        }
+        .btn-ghost {
+            background: transparent;
+            color: #fff;
+            border: 1px solid rgba(255, 255, 255, 0.1);
+        }
+        .btn-ghost:hover {
+            background: rgba(255, 255, 255, 0.05);
+            border-color: rgba(255, 255, 255, 0.2);
+        }
+        .btn-outline {
+            background: transparent;
+            color: var(--accent);
+            border: 1px solid rgba(0, 184, 148, 0.2);
+        }
+        .btn-outline:hover {
+            background: rgba(0, 184, 148, 0.1);
+            border-color: rgba(0, 184, 148, 0.4);
+        }
+    </style>
+</head>
+<body>
+
+    <a href="#" id="dynamic-btn">Button</a>
+
+    <script>
+        document.addEventListener('DOMContentLoaded', function() {
+            const params = new URLSearchParams(window.location.search);
+            const btn = document.getElementById('dynamic-btn');
+
+            // --- Customization ---
+            const text = params.get('text') || 'Click Me';
+            const type = params.get('type') || 'primary'; // primary, ghost, outline
+            const href = params.get('href') || '#';
+            const accentColor = params.get('accent_color');
+
+            // Set content and link
+            btn.textContent = text;
+            btn.href = href;
+            btn.target = '_parent'; // Ensure link opens in the main window
+
+            // Set button style
+            btn.className = `btn btn-${type}`;
+
+            // Set accent color if provided
+            if (accentColor) {
+                document.documentElement.style.setProperty('--accent', `#${accentColor}`);
+            }
+
+            // --- Dynamic Resizing ---
+            function sendHeight() {
+                const frameId = params.get('frame_id');
+                if (frameId && window.parent) {
+                    // Use offsetHeight for a single inline element
+                    const height = document.body.offsetHeight;
+                    window.parent.postMessage({ frameId: frameId, frameHeight: height }, '*');
+                }
+            }
+
+            // Send height on load and resize
+            sendHeight();
+            window.addEventListener('resize', sendHeight);
+        });
+    </script>
+
+</body>
+</html>
