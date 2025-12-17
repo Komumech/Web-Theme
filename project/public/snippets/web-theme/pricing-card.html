@@ -107,43 +107,56 @@
 <script>
     document.addEventListener('DOMContentLoaded', function() {
         const params = new URLSearchParams(window.location.search);
-        const card = document.getElementById('pricing-card');
-        const frameId = params.get("frame_id");
+        const root = document.documentElement;
 
-        // --- 1. Customization via URL Params ---
-        const planName = params.get("plan_name") || "Pro Plan";
-        const price = params.get("price") || "$99";
-        const interval = params.get("interval") || "/mo";
-        const ctaText = params.get("cta_text") || "Choose Plan";
-        const ctaHref = params.get("cta_href") || "#";
-        const features = params.get("features") || "Unlimited Projects,Priority Support";
-        const isHighlighted = params.get("highlighted") === 'true';
-        const primaryColor = params.get("primary_color");
-        const accentColor = params.get("accent_color");
-
-        // --- 2. Apply Content ---
-        document.getElementById('plan-name').textContent = planName;
-        document.getElementById('price').textContent = price;
-        document.getElementById('interval').textContent = interval;
-        const ctaButton = document.getElementById('cta-button');
-        ctaButton.textContent = ctaText;
-        ctaButton.href = ctaHref;
-
-        const featureList = document.getElementById('feature-list');
-        featureList.innerHTML = features.split(',').map(f => `<li><i class="fas fa-check-circle"></i> ${f.trim()}</li>`).join('');
-
-        // --- 3. Apply Styling ---
-        if (isHighlighted) card.classList.add('highlighted');
-        if (primaryColor) document.documentElement.style.setProperty('--primary-color', '#' + primaryColor);
-        if (accentColor) document.documentElement.style.setProperty('--accent-color', '#' + accentColor);
-
-        // --- 4. Resizing Logic ---
-        function sendHeight() {
-            if (!frameId) return;
-            const newHeight = card.offsetHeight;
-            window.parent.postMessage({ frameId: frameId, frameHeight: newHeight }, "*");
+        // --- Set Colors ---
+        const primaryColor = params.get('primary_color');
+        if (primaryColor) {
+            root.style.setProperty('--primary-color', `#${primaryColor}`);
         }
-        window.addEventListener('load', sendHeight);
+        const accentColor = params.get('accent_color');
+        if (accentColor) {
+            root.style.setProperty('--accent-color', `#${accentColor}`);
+        }
+
+        // --- Populate Content ---
+        document.getElementById('plan-name').textContent = params.get('plan_name') || 'Plan Name';
+        document.getElementById('price').textContent = params.get('price') || '$0';
+        document.getElementById('interval').textContent = params.get('interval') || '/mo';
+        document.getElementById('cta-button').textContent = params.get('cta_text') || 'Get Started';
+        
+        const ctaHref = params.get('cta_href');
+        if (ctaHref) {
+            document.getElementById('cta-button').href = ctaHref;
+        }
+
+        // --- Populate Features ---
+        const featuresParam = params.get('features');
+        if (featuresParam) {
+            const featureList = document.getElementById('feature-list');
+            const features = featuresParam.split(',');
+            features.forEach(featureText => {
+                const li = document.createElement('li');
+                li.innerHTML = `<i class="fas fa-check-circle"></i> ${featureText.trim()}`;
+                featureList.appendChild(li);
+            });
+        }
+
+        // --- Handle Highlight ---
+        if (params.get('highlighted') === 'true') {
+            document.getElementById('pricing-card').classList.add('highlighted');
+        }
+
+        // --- Dynamic Resizing ---
+        function sendHeight() {
+            const frameId = params.get('frame_id');
+            if (frameId && window.parent) {
+                const height = document.body.scrollHeight;
+                window.parent.postMessage({ frameId: frameId, frameHeight: height }, '*');
+            }
+        }
+        // Send height on load and on window resize
+        sendHeight();
         window.addEventListener('resize', sendHeight);
     });
 </script>
