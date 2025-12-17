@@ -1,0 +1,10 @@
+{
+  "name": "api",
+  "version": "1.0.0",
+  "description": "Serverless function for rendering snippets.",
+  "main": "server.js",
+  "dependencies": {
+    "express": "^4.18.2",
+    "he": "^1.2.0"
+  }
+}
