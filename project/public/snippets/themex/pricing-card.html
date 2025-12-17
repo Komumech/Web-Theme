@@ -11,10 +11,10 @@
 
   <style>
     :root{
-      --bg:#07102100;
+      --bg-color: transparent;
       --card:#0b1220;
       --glass: rgba(255,255,255,0.03);
-      --accent:#00b894;
+      --accent:#b248eb;
       --accent-2: var(--accent); /* Fallback to accent color */
       --muted:#9aa4b2;
       --radius:14px;
@@ -32,7 +32,7 @@
       align-items:center;
       justify-content:center;
       padding:28px;
-      background: linear-gradient(180deg,#04101a 0%, #071827 100%);
+      background-color: var(--bg-color);
       color: var(--muted);
       -webkit-font-smoothing:antialiased;
       -moz-osx-font-smoothing:grayscale;
@@ -304,6 +304,9 @@
       if (mutedColor) root.style.setProperty('--muted', `#${mutedColor}`);
       const planNameColor = params.get('plan_name_color');
       if (planNameColor) document.getElementById('plan-name').style.color = `#${planNameColor}`;
+
+      const bgColor = params.get('bg_color');
+      if (bgColor) root.style.setProperty('--bg-color', `#${bgColor}`);
 
       // Populate basic fields
       const planName = params.get('plan_name') || 'Data Plan';
