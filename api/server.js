@@ -19,7 +19,7 @@ function findUserByToken(token) {
 
 // --- Snippet Configuration ---
 // Load the configuration from the dedicated config file.
-const snippetConfig = require('../snippet-server/snippetConfig');
+const snippetConfig = require('./snippetConfig');
 // --- End Snippet Configuration ---
 
 
