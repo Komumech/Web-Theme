@@ -10,10 +10,13 @@
 <body>
     <style>
         :root{
-  --bg:#0f1724;
+  --bg:#ffffff;
   --card:#0b1220;
   --accent:#00b894;
-  --muted:#9aa4b2;
+  --accent2:#2427cd;
+  --navbar-bg-color:#0f1724;
+  --muted:#000000;
+  --subhead-color:#0080ff;
   --glass: rgba(255,255,255,0.04);
   --max-width:1200px;
   --radius:12px;
@@ -25,7 +28,7 @@
 html,body{height:100%}
 body{
   margin:0;
-  background: linear-gradient(180deg,#071021 0%, #071827 100%);
+  background: var(--bg);
   color:#e6eef6;
   -webkit-font-smoothing:antialiased;
   -moz-osx-font-smoothing:grayscale;
@@ -45,7 +48,7 @@ body{
   top:0;
   z-index:40;
   backdrop-filter: blur(6px);
-  background: linear-gradient(180deg, rgba(7,10,20,0.6), rgba(7,10,20,0.35));
+  background: var(--navbar-bg-color);
   border-bottom:1px solid rgba(255,255,255,0.03);
 }
 .header-inner{
@@ -118,7 +121,7 @@ body{
   border:1px solid transparent;
 }
 .btn-primary{
-  background: linear-gradient(90deg,var(--accent), #00d1a1);
+  background: linear-gradient(90deg,var(--accent), var(--accent2));
   color:#042024;
   box-shadow: 0 8px 30px rgba(0,184,148,0.12);
 }
@@ -197,7 +200,11 @@ body{
   padding:18px;
   border:1px solid rgba(255,255,255,0.03);
 }
-.feature-card h3{margin:0 0 8px;font-size:1.05rem}
+.feature-card h3{
+  margin:0 0 8px;
+  font-size:1.05rem;
+  color: var(--subhead-color);
+}
 .feature-card p{margin:0;color:var(--muted);font-size:0.95rem}
 
 /* Modal */
