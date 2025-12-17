@@ -391,8 +391,8 @@ document.addEventListener('DOMContentLoaded', function () {
   const setCssVar = (paramName, varName, isColor = false, unit = '') => {
     const value = params.get(paramName);
     if (value) {
-      // For colors, add '#' if it's a 6-digit hex, otherwise use the value as is (for rgba, etc.)
-      const finalValue = isColor && /^[0-9A-Fa-f]{6}$/.test(value) ? `#${value}` : value;
+      // For colors, add '#' if it's a 6 or 8-digit hex, otherwise use the value as is (for rgba, etc.)
+      const finalValue = isColor && /^[0-9A-Fa-f]{6,8}$/.test(value) ? `#${value}` : value;
       root.style.setProperty(varName, finalValue + unit);
     }
   };
@@ -429,7 +429,7 @@ document.addEventListener('DOMContentLoaded', function () {
   setCssVar('navbar_bg_color', '--navbar-bg-color', true);
   setCssVar('muted_color', '--muted', true);
   setCssVar('subhead_color', '--subhead-color', true);
-  setCssVar('glass_color', '--glass', false); // Handles full values like 'rgba(...)'
+  setCssVar('glass_color', '--glass', true); // Now handles hex/rgba
   setCssVar('max_width', '--max-width', false, 'px');
   setCssVar('radius', '--radius', false, 'px');
 
