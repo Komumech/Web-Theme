@@ -1,5 +1,6 @@
 // snippet-server/server.js
 
+const he = require('he');
 const express = require('express');
 const fs = require('fs').promises; // Use the promise-based version of fs
 const path = require('path');
@@ -22,6 +23,41 @@ const snippetConfig = require('../snippet-server/snippetConfig');
 // --- End Snippet Configuration ---
 
 
+/**
+ * Processes query parameters for 'pro' plan users to generate template data and dynamic styles.
+ * @param {object} queryParams - The query parameters from the request.
+ * @param {object} config - The snippet configuration for the current snippet.
+ * @returns {{templateData: object, dynamicStyles: string}}
+ */
+function processProParams(queryParams, config) {
+  const templateData = { ...config.pro };
+  let dynamicStyles = '';
+
+  for (const param of config.pro_params) {
+    if (queryParams[param]) {
+      const key = param.toUpperCase();
+      const value = queryParams[param];
+
+      if (key === 'FEATURES') {
+        templateData.FEATURES_LIST = value.split(',')
+          .map(f => `<li><i class="fas fa-check-circle"></i> ${he.encode(f.trim())}</li>`)
+          .join('\n');
+      } else if (key === 'HIGHLIGHTED') {
+        templateData.HIGHLIGHT_CLASS = value === 'true' ? 'highlighted' : '';
+      } else if (key.endsWith('_COLOR')) {
+        // Basic validation for hex color codes
+        if (/^[0-9A-F]{3,6}$/i.test(value)) {
+          const cssVar = `--${param.replace(/_/g, '-')}`;
+          dynamicStyles += `${cssVar}: #${value};\n`;
+        }
+      } else {
+        templateData[key] = he.encode(value); // Sanitize all other text inputs
+      }
+    }
+  }
+  return { templateData, dynamicStyles };
+}
+
 const app = express();
 
 // A single, dynamic endpoint for all snippets
@@ -30,40 +66,16 @@ app.get('/render/:snippetName', async (req, res) => {
   const { token, ...queryParams } = req.query;
 
   const config = snippetConfig[snippetName];
-  if (!config) {
+  if (!config || !config.template) {
     return res.status(404).send(`Snippet '${snippetName}' not found.`);
   }
 
   const user = findUserByToken(token);
   const plan = user ? user.plan : 'free';
 
-  let templateData = {};
-  let dynamicStyles = '';
-
-  if (plan === 'pro') {
-    templateData = { ...config.pro };
-    for (const param of config.pro_params) {
-      if (queryParams[param]) {
-        const key = param.toUpperCase();
-        const value = queryParams[param];
-
-        if (key === 'FEATURES') {
-          templateData.FEATURES_LIST = value.split(',')
-            .map(f => `<li><i class="fas fa-check-circle"></i> ${f.trim()}</li>`)
-            .join('\n');
-        } else if (key === 'HIGHLIGHTED') {
-          templateData.HIGHLIGHT_CLASS = value === 'true' ? 'highlighted' : '';
-        } else if (key.endsWith('_COLOR')) {
-          const cssVar = `--${param.replace(/_/g, '-')}`;
-          dynamicStyles += `${cssVar}: #${value};\n`;
-        } else {
-          templateData[key] = value;
-        }
-      }
-    }
-  } else {
-    templateData = { ...config.free };
-  }
+  const { templateData, dynamicStyles } = (plan === 'pro' && config.pro_params)
+    ? processProParams(queryParams, config)
+    : { templateData: { ...config.free }, dynamicStyles: '' };
 
   // Construct path relative to the current file's directory for robustness.
   const templatePath = path.join(__dirname, '..', 'project', 'public', 'snippets', 'web-theme', config.template);
@@ -86,7 +98,7 @@ app.get('/render/:snippetName', async (req, res) => {
     res.setHeader('Content-Type', 'text/html');
     res.send(renderedHtml);
   } catch (err) {
-    console.error("Error reading template file:", err);
+    console.error(`Error rendering snippet '${snippetName}':`, err);
     return res.status(500).send('Error rendering snippet.');
   }
 });

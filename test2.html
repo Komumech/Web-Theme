@@ -39,16 +39,8 @@
 
     <div class="test-case">
         <h3>1. Free User (gets default free plan)</h3>
-        <iframe
-            id="free-card"
-            src=""
-            width="100%"
-            height="450"
-            style="border:none;"
-            data-base-url="https://themes-blush-one.vercel.app/api/server/render/pricing-card"
-            data-frame-id="free-card"
-            data-token="abc123_free_token"
-        ></iframe>
+<!-- Correct URL -->
+<iframe src="/render/pricing-card?token=abc123_free_token"></iframe>
     </div>
     <div class="test-case">
         <h3>2. Free User (tries to use `highlighted=true`, is denied)</h3>
