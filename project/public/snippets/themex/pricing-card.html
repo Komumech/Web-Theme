@@ -15,7 +15,7 @@
       --card:#0b1220;
       --glass: rgba(255,255,255,0.03);
       --accent:#00b894;
-      --accent-2:#00d1a1;
+      --accent-2: var(--accent); /* Fallback to accent color */
       --muted:#9aa4b2;
       --radius:14px;
       --max-width:420px;
@@ -33,7 +33,7 @@
       justify-content:center;
       padding:28px;
       background: linear-gradient(180deg,#04101a 0%, #071827 100%);
-      color:#e6eef6;
+      color: var(--muted);
       -webkit-font-smoothing:antialiased;
       -moz-osx-font-smoothing:grayscale;
     }
@@ -101,7 +101,7 @@
     #plan-name{
       font-size:1.15rem;
       font-weight:800;
-      color:#fff;
+      color:#e6eef6;
       letter-spacing:0.2px;
     }
 
@@ -298,6 +298,12 @@
         const hex = accentColor.replace('#','');
         root.style.setProperty('--accent', `#${hex}`);
       }
+      const accentColor2 = params.get('accent_color_2');
+      if (accentColor2) root.style.setProperty('--accent-2', `#${accentColor2}`);
+      const mutedColor = params.get('muted_color');
+      if (mutedColor) root.style.setProperty('--muted', `#${mutedColor}`);
+      const planNameColor = params.get('plan_name_color');
+      if (planNameColor) document.getElementById('plan-name').style.color = `#${planNameColor}`;
 
       // Populate basic fields
       const planName = params.get('plan_name') || 'Data Plan';
@@ -307,6 +313,10 @@
       const ctaHref = params.get('cta_href') || '#';
       const badgeText = params.get('badge') || 'BEST VALUE';
       const highlighted = params.get('highlighted') === 'true';
+      const ribbonText = params.get('ribbon_text') || 'MOST POPULAR';
+      const savingsText = params.get('savings_text');
+      const secondaryCtaText = params.get('secondary_cta_text');
+      const footerText = params.get('footer_text');
 
       document.getElementById('plan-name').textContent = planName;
       document.getElementById('price').textContent = priceDefault;
@@ -314,11 +324,25 @@
       document.getElementById('cta-button').textContent = ctaText;
       document.getElementById('cta-button').href = ctaHref;
       document.getElementById('plan-badge').textContent = badgeText;
+      document.getElementById('ribbon').textContent = ribbonText;
+
+      // Handle optional elements
+      if (savingsText) document.getElementById('savings').textContent = savingsText;
+      if (secondaryCtaText) {
+        document.getElementById('secondary').textContent = secondaryCtaText;
+      } else {
+        document.getElementById('secondary').style.display = 'none';
+      }
+      if (footerText) {
+        document.getElementById('card-foot').innerHTML = `<span><i class="fas fa-info-circle"></i> ${footerText}</span>`;
+      }
+      if (params.get('toggle_visible') === 'false') {
+        document.querySelector('.toggle').style.display = 'none';
+      }
 
       // Ribbon for highlighted
       if (highlighted) {
         document.getElementById('ribbon').style.display = 'block';
-        document.getElementById('pricing-card').style.borderColor = 'rgba(0,184,148,0.28)';
       }
 
       // Features parsing
