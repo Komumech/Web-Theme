@@ -1,0 +1,162 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>ThemeX Pricing Card</title>
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0-beta3/css/all.min.css">
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;600;700;800&display=swap" rel="stylesheet">
+    <style>
+        :root {
+            --accent: #00b894;
+            --muted: #9aa4b2;
+        }
+        body {
+            margin: 0;
+            padding: 20px;
+            font-family: 'Inter', sans-serif;
+            background-color: transparent;
+            color-scheme: dark;
+            color: #e6eef6;
+        }
+        .pricing-card {
+            background: linear-gradient(180deg, rgba(255,255,255,0.02), rgba(255,255,255,0.01));
+            border: 1px solid rgba(255,255,255,0.05);
+            border-radius: 12px;
+            padding: 30px;
+            text-align: center;
+            max-width: 320px;
+            margin: 0 auto;
+            position: relative;
+            overflow: hidden;
+            transition: transform 0.3s ease, border 0.3s ease;
+        }
+        #plan-name {
+            font-size: 1.5rem;
+            font-weight: 700;
+            color: #fff;
+            margin-bottom: 10px;
+        }
+        .price-display {
+            font-size: 3rem;
+            font-weight: 800;
+            color: var(--accent);
+            margin-bottom: 25px;
+            line-height: 1;
+        }
+        .price-display small {
+            font-size: 1.2rem;
+            font-weight: 400;
+            color: var(--muted);
+        }
+        .feature-list {
+            list-style: none;
+            padding: 0;
+            margin: 0 0 30px 0;
+            text-align: left;
+        }
+        .feature-list li {
+            padding: 10px 0;
+            color: var(--muted);
+            border-bottom: 1px solid rgba(255,255,255,0.05);
+            display: flex;
+            align-items: center;
+            font-weight: 500;
+        }
+        .feature-list li:last-child { border-bottom: none; }
+        .feature-list i {
+            color: var(--accent);
+            margin-right: 12px;
+        }
+        .cta-button {
+            display: block;
+            padding: 12px;
+            background: linear-gradient(90deg, var(--accent), #00d1a1);
+            color: #042024;
+            text-decoration: none;
+            border-radius: 10px;
+            font-weight: 700;
+            transition: all 0.2s ease;
+            box-shadow: 0 4px 20px rgba(0, 184, 148, 0.1);
+        }
+        .cta-button:hover {
+            transform: translateY(-2px);
+            box-shadow: 0 8px 30px rgba(0, 184, 148, 0.2);
+        }
+
+        /* Highlighted Style */
+        .pricing-card.highlighted {
+            border-color: rgba(0, 184, 148, 0.3);
+            transform: scale(1.05);
+        }
+        .pricing-card.highlighted::before {
+            content: '';
+            position: absolute;
+            top: 0; left: 0; right: 0; bottom: 0;
+            border-radius: 12px;
+            padding: 2px;
+            background: linear-gradient(45deg, var(--accent), #00d1a1);
+            -webkit-mask: linear-gradient(#fff 0 0) content-box, linear-gradient(#fff 0 0);
+            -webkit-mask-composite: xor;
+            mask-composite: exclude;
+            pointer-events: none;
+        }
+    </style>
+</head>
+<body>
+
+<div class="pricing-card" id="pricing-card">
+    <div id="plan-name"></div>
+    <div class="price-display">
+        <span id="price"></span>
+        <small id="interval"></small>
+    </div>
+    <ul class="feature-list" id="feature-list"></ul>
+    <a id="cta-button" class="cta-button" href="#"></a>
+</div>
+
+<script>
+    document.addEventListener('DOMContentLoaded', function() {
+        const params = new URLSearchParams(window.location.search);
+        const root = document.documentElement;
+
+        const accentColor = params.get('accent_color');
+        if (accentColor) root.style.setProperty('--accent', `#${accentColor}`);
+
+        document.getElementById('plan-name').textContent = params.get('plan_name') || 'Data Plan';
+        document.getElementById('price').textContent = params.get('price') || '$42';
+        document.getElementById('interval').textContent = params.get('interval') || '/cycle';
+        document.getElementById('cta-button').textContent = params.get('cta_text') || 'Activate';
+        document.getElementById('cta-button').href = params.get('cta_href') || '#';
+
+        const featuresParam = params.get('features');
+        const featureList = document.getElementById('feature-list');
+        if (featuresParam) {
+            const features = featuresParam.split(',');
+            features.forEach(featureText => {
+                const li = document.createElement('li');
+                li.innerHTML = `<i class="fas fa-check-circle"></i> ${featureText.trim()}`;
+                featureList.appendChild(li);
+            });
+        } else {
+            featureList.innerHTML = `<li><i class="fas fa-check-circle"></i> Core Matrix Access</li><li><i class="fas fa-check-circle"></i> 1TB Data Stream</li>`;
+        }
+
+        if (params.get('highlighted') === 'true') {
+            document.getElementById('pricing-card').classList.add('highlighted');
+        }
+
+        function sendHeight() {
+            const frameId = params.get('frame_id');
+            if (frameId && window.parent) {
+                const height = document.body.scrollHeight;
+                window.parent.postMessage({ frameId: frameId, frameHeight: height }, '*');
+            }
+        }
+        sendHeight();
+        window.addEventListener('resize', sendHeight);
+    });
+</script>
+
+</body>
+</html>
