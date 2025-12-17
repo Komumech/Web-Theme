@@ -65,6 +65,11 @@ app.get('/:snippetName', async (req, res) => {
   const { snippetName } = req.params;
   const { token, ...queryParams } = req.query;
 
+  // Gracefully handle requests that don't provide a snippet name.
+  if (!snippetName) {
+    return res.status(400).send('Bad Request: Snippet name is required.');
+  }
+
   const config = snippetConfig[snippetName];
   if (!config || !config.template) {
     return res.status(404).send(`Snippet '${snippetName}' not found.`);
