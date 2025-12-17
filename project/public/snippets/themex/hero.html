@@ -1,0 +1,479 @@
+<!doctype html>
+<html lang="en">
+<head>
+  <meta charset="utf-8" />
+  <meta name="viewport" content="width=device-width,initial-scale=1" />
+  <title>XTRA Watch — Extraordinary Performance</title>
+  <link rel="stylesheet" href="styles.css" />
+  <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;600;700;800&display=swap" rel="stylesheet">
+</head>
+<body>
+    <style>
+        :root{
+  --bg:#0f1724;
+  --card:#0b1220;
+  --accent:#00b894;
+  --muted:#9aa4b2;
+  --glass: rgba(255,255,255,0.04);
+  --max-width:1200px;
+  --radius:12px;
+  font-family: 'Inter', system-ui, -apple-system, 'Segoe UI', Roboto, 'Helvetica Neue', Arial;
+  color-scheme: dark;
+}
+
+*{box-sizing:border-box}
+html,body{height:100%}
+body{
+  margin:0;
+  background: linear-gradient(180deg,#071021 0%, #071827 100%);
+  color:#e6eef6;
+  -webkit-font-smoothing:antialiased;
+  -moz-osx-font-smoothing:grayscale;
+  line-height:1.45;
+}
+
+/* Container */
+.container{
+  width:90%;
+  max-width:var(--max-width);
+  margin:0 auto;
+}
+
+/* Header */
+.site-header{
+  position:sticky;
+  top:0;
+  z-index:40;
+  backdrop-filter: blur(6px);
+  background: linear-gradient(180deg, rgba(7,10,20,0.6), rgba(7,10,20,0.35));
+  border-bottom:1px solid rgba(255,255,255,0.03);
+}
+.header-inner{
+  display:flex;
+  align-items:center;
+  gap:16px;
+  padding:18px 0;
+}
+.brand .logo{
+  font-weight:800;
+  letter-spacing:0.6px;
+  color:#fff;
+  text-decoration:none;
+  font-size:1.1rem;
+}
+.main-nav{
+  display:flex;
+  gap:18px;
+  margin-left:24px;
+  flex:1;
+}
+.main-nav a{
+  color:var(--muted);
+  text-decoration:none;
+  font-weight:500;
+  transition:color .15s;
+}
+.main-nav a:hover{color:#fff}
+.header-cta .btn{white-space:nowrap}
+.nav-toggle{display:none;background:none;border:0;color:var(--muted);font-size:1.2rem}
+
+/* Hero */
+.hero{
+  padding:64px 0 40px;
+}
+.hero-grid{
+  display:grid;
+  grid-template-columns:1fr 520px;
+  gap:36px;
+  align-items:center;
+}
+.eyebrow{
+  color:var(--accent);
+  font-weight:700;
+  margin:0 0 8px;
+  letter-spacing:0.6px;
+}
+.hero-title{
+  font-size:clamp(2rem,4vw,3.2rem);
+  margin:0 0 12px;
+  line-height:1.02;
+  font-weight:800;
+  color:#fff;
+}
+.hero-sub{
+  color:var(--muted);
+  max-width:48ch;
+  margin-bottom:20px;
+}
+.hero-actions{display:flex;gap:12px;margin-bottom:22px}
+.btn{
+  display:inline-flex;
+  align-items:center;
+  gap:10px;
+  padding:12px 18px;
+  border-radius:10px;
+  font-weight:700;
+  cursor:pointer;
+  text-decoration:none;
+  border:1px solid transparent;
+}
+.btn-primary{
+  background: linear-gradient(90deg,var(--accent), #00d1a1);
+  color:#042024;
+  box-shadow: 0 8px 30px rgba(0,184,148,0.12);
+}
+.btn-ghost{
+  background:transparent;
+  color:#fff;
+  border:1px solid rgba(255,255,255,0.06);
+}
+.btn-outline{
+  background:transparent;
+  color:var(--accent);
+  border:1px solid rgba(0,184,148,0.12);
+}
+
+/* Feature list under hero text */
+.feature-list{
+  display:grid;
+  grid-template-columns:repeat(2,minmax(0,1fr));
+  gap:12px;
+  margin-top:8px;
+  padding:0;
+  list-style:none;
+}
+.feature-list li{
+  display:flex;
+  flex-direction:column;
+  gap:6px;
+  color:var(--muted);
+  font-size:0.95rem;
+}
+
+/* Right column watch visuals */
+.hero-right{
+  display:flex;
+  justify-content:center;
+  align-items:center;
+}
+.watch-stack{
+  position:relative;
+  width:420px;
+  height:420px;
+  display:flex;
+  align-items:center;
+  justify-content:center;
+}
+.watch{
+  max-width:320px;
+  width:60%;
+  transition:transform .45s cubic-bezier(.2,.9,.2,1), filter .3s;
+  border-radius:18px;
+  box-shadow: 0 30px 60px rgba(2,6,23,0.6);
+}
+.watch-side{
+  position:absolute;
+  right:-18%;
+  top:12%;
+  width:46%;
+  transform:rotate(-12deg) scale(.95);
+  filter:brightness(.95) saturate(.95);
+  opacity:0.95;
+}
+
+/* Features section */
+.features{
+  padding:36px 0 80px;
+}
+.features-grid{
+  display:grid;
+  grid-template-columns:repeat(4,1fr);
+  gap:18px;
+  margin-top:18px;
+}
+.feature-card{
+  background: linear-gradient(180deg, rgba(255,255,255,0.02), rgba(255,255,255,0.01));
+  border-radius:12px;
+  padding:18px;
+  border:1px solid rgba(255,255,255,0.03);
+}
+.feature-card h3{margin:0 0 8px;font-size:1.05rem}
+.feature-card p{margin:0;color:var(--muted);font-size:0.95rem}
+
+/* Modal */
+.modal{display:none;position:fixed;inset:0;z-index:80;align-items:center;justify-content:center}
+.modal[aria-hidden="false"]{display:flex}
+.modal-backdrop{position:absolute;inset:0;background:rgba(2,6,23,0.7)}
+.modal-content{
+  position:relative;
+  width:min(960px,95%);
+  max-height:80vh;
+  background:linear-gradient(180deg,#071021,#071827);
+  border-radius:12px;
+  padding:18px;
+  z-index:10;
+  box-shadow:0 30px 80px rgba(2,6,23,0.7);
+}
+.modal-close{
+  position:absolute;
+  right:12px;
+  top:12px;
+  background:transparent;
+  border:0;
+  color:#fff;
+  font-size:1.1rem;
+  cursor:pointer;
+}
+.video-wrap{width:100%;height:56vh;max-height:560px}
+
+/* Responsive */
+@media (max-width:1024px){
+  .hero-grid{grid-template-columns:1fr;gap:28px}
+  .hero-right{order:-1}
+  .watch-stack{width:320px;height:320px}
+  .features-grid{grid-template-columns:repeat(2,1fr)}
+}
+@media (max-width:640px){
+  .main-nav{display:none}
+  .nav-toggle{display:block}
+  .hero{padding:36px 0}
+  .feature-list{grid-template-columns:1fr}
+  .features-grid{grid-template-columns:1fr}
+  .watch{width:70%}
+}
+
+    </style>
+  <header class="site-header">
+    <div class="container header-inner">
+      <div class="brand">
+        <a href="#" class="logo" id="brand-logo">XTRA Watch</a>
+      </div>
+      <nav class="main-nav">
+        <a href="#">Home</a>
+        <a href="#">Collections</a>
+        <a href="#">Watches</a>
+        <a href="#">Quick Find</a>
+        <a href="#">Pages</a>
+      </nav>
+      <div class="header-cta">
+        <a href="#" class="btn btn-outline" id="header-cta">Contact Us</a>
+      </div>
+      <button class="nav-toggle" aria-label="Toggle navigation">☰</button>
+    </div>
+  </header>
+
+  <main>
+    <section class="hero">
+      <div class="container hero-grid">
+        <div class="hero-left">
+          <p class="eyebrow" id="eyebrow">Skip the Impossible</p>
+          <h1 class="hero-title" id="hero-title">Extraordinary Performance</h1>
+          <p class="hero-sub" id="hero-sub">A wearable computer in the form of a watch designed for performance, battery life, and everyday affordability.</p>
+          <div class="hero-actions">
+            <a href="#" class="btn btn-primary" id="cta-primary">Purchase Now</a>
+            <button class="btn btn-ghost" id="watchVideoBtn">Watch Video</button>
+          </div>
+
+          <ul class="feature-list" id="hero-features">
+            <li>
+              <strong>Extraordinary Performance</strong>
+              <span>A smartphone is a wearable computer in the form of a watch.</span>
+            </li>
+            <li>
+              <strong>Excellent Battery Life</strong>
+              <span>Long-lasting battery for all-day use.</span>
+            </li>
+            <li>
+              <strong>Shows Time & Date</strong>
+              <span>Clear digital display with customizable faces.</span>
+            </li>
+            <li>
+              <strong>Affordable Price</strong>
+              <span>Premium features without the premium cost.</span>
+            </li>
+          </ul>
+        </div>
+
+        <div class="hero-right">
+          <div class="watch-stack">
+            <img src="assets/watch-1.png" alt="XTRA Watch front" class="watch watch-main" id="watch-main-img" />
+            <img src="assets/watch-2.png" alt="XTRA Watch side" class="watch watch-side" id="watch-side-img" />
+          </div>
+        </div>
+      </div>
+    </section>
+
+    <section class="features container">
+      <div class="features-grid">
+        <div class="feature-card" id="feature-card-1">
+          <h3>Extraordinary Performance</h3>
+          <p>A wearable computer in the form of a watch.</p>
+        </div>
+        <div class="feature-card" id="feature-card-2">
+          <h3>Excellent Battery Life</h3>
+          <p>Power through your day with optimized battery management.</p>
+        </div>
+        <div class="feature-card" id="feature-card-3">
+          <h3>Shows Time & Date</h3>
+          <p>Multiple watch faces and accurate timekeeping.</p>
+        </div>
+        <div class="feature-card" id="feature-card-4">
+          <h3>Affordable Price</h3>
+          <p>High value at a competitive price point.</p>
+        </div>
+      </div>
+    </section>
+  </main>
+
+  <div id="videoModal" class="modal" aria-hidden="true">
+    <div class="modal-backdrop" id="modalBackdrop"></div>
+    <div class="modal-content" role="dialog" aria-modal="true" aria-labelledby="modalTitle">
+      <button class="modal-close" id="modalClose" aria-label="Close">✕</button>
+      <div class="video-wrap">
+        <iframe id="promoVideo" width="100%" height="100%" src="" title="XTRA Watch video" frameborder="0" allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture" allowfullscreen></iframe>
+      </div>
+    </div>
+  </div>
+<script>
+document.addEventListener('DOMContentLoaded', function () {
+  const params = new URLSearchParams(window.location.search);
+  const watchVideoBtn = document.getElementById('watchVideoBtn');
+  const videoModal = document.getElementById('videoModal');
+  const modalClose = document.getElementById('modalClose');
+  const modalBackdrop = document.getElementById('modalBackdrop');
+  const promoVideo = document.getElementById('promoVideo');
+
+  // Dynamic video URL from params, with a default
+  const videoUrl = params.get('video_url') ? `${params.get('video_url')}?autoplay=1&rel=0` : 'https://www.youtube.com/embed/example?autoplay=1&rel=0';
+
+  function openModal() {
+    promoVideo.src = videoUrl;
+    videoModal.setAttribute('aria-hidden', 'false');
+    document.body.style.overflow = 'hidden';
+  }
+
+  function closeModal() {
+    promoVideo.src = '';
+    videoModal.setAttribute('aria-hidden', 'true');
+    document.body.style.overflow = '';
+  }
+
+  watchVideoBtn.addEventListener('click', openModal);
+  modalClose.addEventListener('click', closeModal);
+  modalBackdrop.addEventListener('click', closeModal);
+
+  // Close on Escape
+  document.addEventListener('keydown', function (e) {
+    if (e.key === 'Escape' && videoModal.getAttribute('aria-hidden') === 'false') {
+      closeModal();
+    }
+  });
+
+  // Mobile nav toggle
+  const navToggle = document.querySelector('.nav-toggle');
+  const mainNav = document.querySelector('.main-nav');
+  navToggle && navToggle.addEventListener('click', function () {
+    if (mainNav.style.display === 'flex') {
+      mainNav.style.display = '';
+    } else {
+      mainNav.style.display = 'flex';
+      mainNav.style.flexDirection = 'column';
+      mainNav.style.gap = '12px';
+    }
+  });
+
+  // --- DYNAMIC CONTENT INJECTION ---
+  const root = document.documentElement;
+
+  // Helper to set text content if param exists
+  const setText = (id, paramName, defaultValue) => {
+    const element = document.getElementById(id);
+    if (element) {
+      element.textContent = params.get(paramName) || defaultValue;
+    }
+  };
+
+  // Helper to set href if param exists
+  const setHref = (id, paramName, defaultValue = '#') => {
+    const element = document.getElementById(id);
+    if (element) {
+      element.href = params.get(paramName) || defaultValue;
+    }
+  };
+
+  // Helper to set image src if param exists
+  const setImgSrc = (id, paramName, defaultValue) => {
+    const element = document.getElementById(id);
+    if (element) {
+      element.src = params.get(paramName) || defaultValue;
+    }
+  };
+
+  // Colors
+  const accentColor = params.get('accent_color');
+  if (accentColor) root.style.setProperty('--accent', `#${accentColor}`);
+
+  // Header
+  setText('brand-logo', 'brand_text', 'XTRA Watch');
+  setHref('brand-logo', 'brand_href', '#');
+  setText('header-cta', 'header_cta_text', 'Contact Us');
+  setHref('header-cta', 'header_cta_href', '#');
+
+  // Hero Content
+  setText('eyebrow', 'eyebrow', 'Skip the Impossible');
+  setText('hero-title', 'hero_title', 'Extraordinary Performance');
+  setText('hero-sub', 'hero_sub', 'A wearable computer in the form of a watch designed for performance, battery life, and everyday affordability.');
+  setText('cta-primary', 'cta_primary_text', 'Purchase Now');
+  setHref('cta-primary', 'cta_primary_href', '#');
+
+  // Hero Images
+  setImgSrc('watch-main-img', 'main_image_url', 'assets/watch-1.png');
+  setImgSrc('watch-side-img', 'side_image_url', 'assets/watch-2.png');
+
+  // Hero Feature List (Format: Title|Description,Title|Description)
+  const heroFeaturesParam = params.get('hero_features');
+  if (heroFeaturesParam) {
+    const list = document.getElementById('hero-features');
+    list.innerHTML = ''; // Clear defaults
+    heroFeaturesParam.split(',').forEach(item => {
+      const [title, description] = item.split('|');
+      if (title && description) {
+        const li = document.createElement('li');
+        li.innerHTML = `<strong>${title.trim()}</strong><span>${description.trim()}</span>`;
+        list.appendChild(li);
+      }
+    });
+  }
+
+  // Feature Cards (Format: Title|Description)
+  for (let i = 1; i <= 4; i++) {
+    const cardParam = params.get(`feature_card_${i}`);
+    const cardEl = document.getElementById(`feature-card-${i}`);
+    if (cardParam && cardEl) {
+      const [title, description] = cardParam.split('|');
+      if (title && description) {
+        cardEl.querySelector('h3').textContent = title.trim();
+        cardEl.querySelector('p').textContent = description.trim();
+      }
+    }
+  }
+
+  // --- Dynamic Resizing ---
+  function sendHeight() {
+    const frameId = params.get('frame_id');
+    if (frameId && window.parent) {
+      // Use scrollHeight for accurate content height
+      const height = document.body.scrollHeight;
+      window.parent.postMessage({ frameId: frameId, frameHeight: height }, '*');
+    }
+  }
+
+  // Send height on load, and also after a short delay to allow images to load
+  sendHeight();
+  setTimeout(sendHeight, 500);
+  window.addEventListener('resize', sendHeight);
+});
+
+</script>
+</body>
+</html>
