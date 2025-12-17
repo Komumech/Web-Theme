@@ -3,120 +3,90 @@
 <head>
   <meta charset="utf-8" />
   <meta name="viewport" content="width=device-width,initial-scale=1" />
-  <title>XTRA Watch — Extraordinary Performance</title>
+  <title>XTRA Watch — Snippet</title>
   <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;600;700;800&display=swap" rel="stylesheet">
   <style>
     :root {
-      /* All variables defined here can be controlled via the Bridge */
       --bg: #ffffff;
       --card: #0b1220;
-      --accent: #00b894;
-      --accent2: #2427cd;
-      --navbar-bg-color: #3d4e6a;
-      --muted: #000000;
-      --subhead-color: #0080ff;
-      --glass: #f6c3c362;
+      --accent: #a43939;
+      --accent2: #7a2a2a;
+      --navbar-bg-color: #f6c3c3;
+      --muted: #444444;
+      --subhead-color: #a43939;
+      --glass: rgba(246, 195, 195, 0.4);
       --max-width: 1200px;
       --radius: 12px;
-      font-family: 'Inter', system-ui, -apple-system, sans-serif;
-      color-scheme: dark;
+      font-family: 'Inter', sans-serif;
     }
 
     * { box-sizing: border-box; }
-    html, body { height: 100%; margin: 0; }
     body {
       background: var(--bg);
-      color: #e6eef6;
+      color: var(--muted);
+      margin: 0;
       line-height: 1.45;
+      overflow-x: hidden;
     }
 
     .container { width: 90%; max-width: var(--max-width); margin: 0 auto; }
 
-    /* Header using dynamic variables */
-    .site-header {
-      position: sticky;
-      top: 0;
-      z-index: 40;
-      backdrop-filter: blur(6px);
-      background: var(--navbar-bg-color);
-      border-bottom: 1px solid rgba(255, 255, 255, 0.03);
-    }
+    .hero { padding: 40px 0; }
+    .hero-grid { display: grid; grid-template-columns: 1fr 1fr; gap: 40px; align-items: center; }
     
-    .header-inner { display: flex; align-items: center; gap: 16px; padding: 18px 0; }
-    .brand .logo { font-weight: 800; color: #fff; text-decoration: none; font-size: 1.1rem; }
+    .eyebrow { color: var(--accent); font-weight: 700; text-transform: uppercase; letter-spacing: 1px; margin-bottom: 8px; }
+    .hero-title { font-size: clamp(2rem, 5vw, 3.5rem); line-height: 1.1; margin: 0 0 15px 0; font-weight: 800; color: #111; }
+    .hero-sub { color: var(--muted); font-size: 1.1rem; margin-bottom: 25px; max-width: 500px; }
     
-    .main-nav { display: flex; gap: 18px; margin-left: 24px; flex: 1; }
-    .main-nav a { color: var(--muted); text-decoration: none; font-weight: 500; transition: color .15s; }
-    .main-nav a:hover { color: #fff; }
+    .btn { display: inline-flex; align-items: center; padding: 14px 28px; border-radius: var(--radius); font-weight: 700; text-decoration: none; transition: transform 0.2s; }
+    .btn-primary { background: var(--accent); color: #fff; margin-right: 15px; }
+    .btn-primary:hover { transform: translateY(-2px); background: var(--accent2); }
 
-    /* Hero & Buttons using dynamic variables */
-    .hero { padding: 64px 0 40px; }
-    .hero-grid { display: grid; grid-template-columns: 1fr 520px; gap: 36px; align-items: center; }
-    .eyebrow { color: var(--accent); font-weight: 700; margin-bottom: 8px; }
-    .hero-title { font-size: clamp(2rem, 4vw, 3.2rem); margin-bottom: 12px; font-weight: 800; color: #fff; }
-    .hero-sub { color: var(--muted); max-width: 48ch; margin-bottom: 20px; }
-    
-    .btn { display: inline-flex; align-items: center; gap: 10px; padding: 12px 18px; border-radius: var(--radius); font-weight: 700; cursor: pointer; text-decoration: none; border: 1px solid transparent; }
-    .btn-primary { background: linear-gradient(90deg, var(--accent), var(--accent2)); color: #fff; }
-    .btn-outline { background: transparent; color: var(--accent); border: 1px solid var(--accent); }
+    .watch-stack { position: relative; width: 100%; display: flex; align-items: center; justify-content: center; }
+    .watch { max-width: 80%; border-radius: 20px; filter: drop-shadow(0 20px 40px rgba(0,0,0,0.15)); }
+    .watch-side { position: absolute; right: 0; top: 10%; width: 40%; transform: rotate(-10deg); z-index: 2; }
 
-    /* Features Cards using dynamic variables */
-    .features-grid { display: grid; grid-template-columns: repeat(4, 1fr); gap: 18px; margin-top: 18px; }
-    .feature-card { background: var(--glass); border-radius: var(--radius); padding: 18px; border: 1px solid rgba(255, 255, 255, 0.03); }
-    .feature-card h3 { margin-bottom: 8px; font-size: 1.05rem; color: var(--subhead-color); }
-    .feature-card p { margin: 0; color: var(--muted); font-size: 0.95rem; }
+    /* Features Section */
+    .features-grid { display: grid; grid-template-columns: repeat(4, 1fr); gap: 20px; margin-top: 50px; }
+    .feature-card { background: var(--glass); border-radius: var(--radius); padding: 20px; border: 1px solid rgba(0,0,0,0.05); }
+    .feature-card h3 { margin: 0 0 10px 0; font-size: 1rem; color: var(--subhead_color); }
+    .feature-card p { margin: 0; font-size: 0.9rem; opacity: 0.8; }
 
-    /* Right column watch visuals */
-    .watch-stack { position: relative; width: 420px; height: 420px; display: flex; align-items: center; justify-content: center; }
-    .watch { max-width: 320px; width: 60%; border-radius: 18px; box-shadow: 0 30px 60px rgba(2, 6, 23, 0.6); }
-    .watch-side { position: absolute; right: -18%; top: 12%; width: 46%; transform: rotate(-12deg); opacity: 0.95; }
-
-    @media (max-width: 1024px) {
-      .hero-grid { grid-template-columns: 1fr; }
-      .features-grid { grid-template-columns: repeat(2, 1fr); }
+    @media (max-width: 768px) {
+      .hero-grid { grid-template-columns: 1fr; text-align: center; }
+      .hero-sub { margin: 0 auto 25px auto; }
+      .features-grid { grid-template-columns: 1fr 1fr; }
     }
   </style>
 </head>
 <body>
 
-  <header class="site-header">
-    <div class="container header-inner">
-      <div class="brand"><a href="#" class="logo" id="brand-logo">XTRA Watch</a></div>
-      <nav class="main-nav" id="main-nav"></nav>
-      <div class="header-cta"><a href="#" class="btn btn-outline" id="header-cta">Contact Us</a></div>
-    </div>
-  </header>
-
-  <main>
-    <section class="hero">
-      <div class="container hero-grid">
+  <main class="hero">
+    <div class="container">
+      <div class="hero-grid">
         <div class="hero-left">
           <p class="eyebrow" id="eyebrow">Skip the Impossible</p>
           <h1 class="hero-title" id="hero-title">Extraordinary Performance</h1>
           <p class="hero-sub" id="hero-sub">Loading description...</p>
           <div class="hero-actions">
             <a href="#" class="btn btn-primary" id="cta-primary">Purchase Now</a>
-            <button class="btn btn-ghost" id="watchVideoBtn">Watch Video</button>
           </div>
-          <ul class="feature-list" id="hero-features"></ul>
         </div>
         <div class="hero-right">
           <div class="watch-stack">
-            <img src="assets/watch-1.png" class="watch" id="watch-main-img" />
-            <img src="assets/watch-2.png" class="watch watch-side" id="watch-side-img" />
+            <img src="" class="watch" id="watch-main-img" />
+            <img src="" class="watch watch-side" id="watch-side-img" />
           </div>
         </div>
       </div>
-    </section>
 
-    <section class="features container">
       <div class="features-grid">
-        <div class="feature-card" id="feature-card-1"><h3></h3><p></p></div>
-        <div class="feature-card" id="feature-card-2"><h3></h3><p></p></div>
-        <div class="feature-card" id="feature-card-3"><h3></h3><p></p></div>
-        <div class="feature-card" id="feature-card-4"><h3></h3><p></p></div>
+        <div class="feature-card" id="f-card-1"><h3></h3><p></p></div>
+        <div class="feature-card" id="f-card-2"><h3></h3><p></p></div>
+        <div class="feature-card" id="f-card-3"><h3></h3><p></p></div>
+        <div class="feature-card" id="f-card-4"><h3></h3><p></p></div>
       </div>
-    </section>
+    </div>
   </main>
 
 <script>
@@ -124,83 +94,68 @@ document.addEventListener('DOMContentLoaded', function () {
   const params = new URLSearchParams(window.location.search);
   const root = document.documentElement;
 
-  /**
-   * 1. THE BRIDGE - COLOR MAP
-   * Links URL params to CSS Variables
-   */
+  // 1. Style Bridge
   const styleBridge = {
     'bg_color': '--bg',
-    'card_color': '--card',
     'accent_color': '--accent',
     'accent2_color': '--accent2',
-    'navbar_color': '--navbar-bg-color',
-    'muted_color': '--muted',
     'subhead_color': '--subhead-color',
     'glass_color': '--glass',
-    'max_width': '--max-width',
     'radius': '--radius'
   };
 
-  // Process Style Bridge
   Object.keys(styleBridge).forEach(key => {
     const value = params.get(key);
     if (value) {
-      const cssVar = styleBridge[key];
-      // Format: add # for hex, add px for width/radius if purely numeric
       let finalValue = value;
       if (/^[0-9A-Fa-f]{3,8}$/.test(value)) finalValue = `#${value}`;
-      if (['max_width', 'radius'].includes(key) && !isNaN(value)) finalValue += 'px';
-      
-      root.style.setProperty(cssVar, finalValue);
+      if (key === 'radius' && !isNaN(value)) finalValue += 'px';
+      root.style.setProperty(styleBridge[key], finalValue);
     }
   });
 
-  /**
-   * 2. CONTENT INJECTION HELPERS
-   */
+  // 2. Content Injection
   const setText = (id, param, fallback) => {
     const el = document.getElementById(id);
     if (el) el.textContent = params.get(param) || fallback;
   };
 
-  const setImg = (id, param, fallback) => {
-    const el = document.getElementById(id);
-    if (el) el.src = params.get(param) || fallback;
-  };
-
-  // Content Execution
-  setText('brand-logo', 'brand_text', 'XTRA Watch');
-  setText('eyebrow', 'eyebrow', 'Skip the Impossible');
+  setText('eyebrow', 'eyebrow', 'Innovation Redefined');
   setText('hero-title', 'hero_title', 'Extraordinary Performance');
-  setText('hero-sub', 'hero_sub', 'A wearable computer designed for performance.');
-  setText('cta-primary', 'cta_text', 'Purchase Now');
-  setImg('watch-main-img', 'img_main', 'assets/watch-1.png');
-  setImg('watch-side-img', 'img_side', 'assets/watch-2.png');
+  setText('hero-sub', 'hero_sub', 'The next generation of wearable technology.');
+  setText('cta-primary', 'cta_text', 'Order Now');
+  
+  const mainImg = document.getElementById('watch-main-img');
+  const sideImg = document.getElementById('watch-side-img');
+  if(mainImg) mainImg.src = params.get('img_main') || 'https://via.placeholder.com/400';
+  if(sideImg) sideImg.src = params.get('img_side') || 'https://via.placeholder.com/200';
 
-  // Dynamic Nav Links Bridge
-  const nav = document.getElementById('main-nav');
-  let navHtml = '';
+  // 3. Feature Cards Bridge
   for (let i = 1; i <= 4; i++) {
-    if (params.has(`nav${i}`)) {
-      navHtml += `<a href="${params.get(`link${i}`) || '#'}">${params.get(`nav${i}`)}</a>`;
+    const card = document.getElementById(`f-card-${i}`);
+    const title = params.get(`f${i}_title`);
+    const text = params.get(`f${i}_text`);
+    
+    if (card) {
+      if (title || text) {
+        card.querySelector('h3').textContent = title || '';
+        card.querySelector('p').textContent = text || '';
+      } else {
+        card.style.display = 'none';
+      }
     }
   }
-  if (navHtml) nav.innerHTML = navHtml;
 
-  /**
-   * 3. DYNAMIC RESIZING (postMessage)
-   */
+  // 4. Height Resizer
   function sendHeight() {
     const frameId = params.get('frame_id');
-    if (frameId && window.parent) {
+    if (frameId) {
       window.parent.postMessage({ 
         frameId: frameId, 
         frameHeight: document.body.scrollHeight 
       }, '*');
     }
   }
-
-  sendHeight();
   window.addEventListener('load', sendHeight);
   window.addEventListener('resize', sendHeight);
 });
