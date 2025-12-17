@@ -414,6 +414,16 @@ document.addEventListener('DOMContentLoaded', function () {
   // Colors
   const accentColor = params.get('accent_color');
   if (accentColor) root.style.setProperty('--accent', `#${accentColor}`);
+  const accent2Color = params.get('accent2_color');
+  if (accent2Color) root.style.setProperty('--accent2', `#${accent2Color}`);
+  const bgColor = params.get('bg_color');
+  if (bgColor) root.style.setProperty('--bg', `#${bgColor}`);
+  const mutedColor = params.get('muted_color');
+  if (mutedColor) root.style.setProperty('--muted', `#${mutedColor}`);
+  const subheadColor = params.get('subhead_color');
+  if (subheadColor) root.style.setProperty('--subhead-color', `#${subheadColor}`);
+
+
 
   // Header
   setText('brand-logo', 'brand_text', 'XTRA Watch');
