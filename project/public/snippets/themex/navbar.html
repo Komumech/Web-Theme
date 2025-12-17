@@ -16,65 +16,71 @@
             --logo-width: auto;
             --logo-height: 32px;
         }
-        body {
-            margin: 0;
-            font-family: 'Inter', sans-serif;
-            color-scheme: dark;
-            overflow: hidden;
-        }
+        body { margin: 0; font-family: 'Inter', sans-serif; color-scheme: dark; }
+        
         .site-header {
             backdrop-filter: blur(6px);
             background: var(--navbar-bg);
             border-bottom: 1px solid rgba(255,255,255,0.03);
+            width: 100%;
         }
         .header-inner {
             display: flex;
             align-items: center;
-            gap: 16px;
-            padding: 18px 24px;
-            width: 100%;
-            box-sizing: border-box;
+            justify-content: space-between;
+            padding: 14px 24px;
+            max-width: 1400px;
+            margin: 0 auto;
         }
         .brand .logo {
             display: flex;
             align-items: center;
             font-weight: 800;
-            letter-spacing: 0.6px;
             color: var(--logo-color);
             text-decoration: none;
-            font-size: 1.1rem;
+            font-size: 1.2rem;
         }
-        .brand .logo img {
-            width: var(--logo-width);
-            height: var(--logo-height);
-            object-fit: contain;
-            display: block;
-        }
-        .main-nav {
-            display: flex;
-            gap: 18px;
-            margin-left: 24px;
-            flex: 1;
-        }
+        .brand .logo img { width: var(--logo-width); height: var(--logo-height); object-fit: contain; }
+
+        /* Desktop Nav */
+        .main-nav { display: flex; gap: 24px; }
         .main-nav a {
             color: var(--link-color);
             text-decoration: none;
             font-weight: 500;
+            font-size: 0.95rem;
             transition: color .15s;
         }
-        .main-nav a:hover { color: var(--link-hover-color)}
+        .main-nav a:hover { color: var(--link-hover-color); }
+
         .header-cta .btn {
-            white-space: nowrap;
-            display: inline-flex;
-            padding: 8px 14px;
-            border-radius: 10px;
+            padding: 8px 18px;
+            border-radius: 8px;
             font-weight: 700;
-            cursor: pointer;
             text-decoration: none;
-            background: transparent;
             color: var(--accent);
             border: 1px solid var(--accent);
-            transition: all 0.2s ease;
+            transition: 0.3s;
+        }
+
+        /* Mobile Toggle */
+        .nav-toggle { display: none; background: none; border: none; cursor: pointer; padding: 5px; }
+        .nav-toggle span {
+            display: block; width: 25px; height: 3px; 
+            background: var(--link-color); margin: 5px 0; border-radius: 3px;
+        }
+
+        @media (max-width: 768px) {
+            .nav-toggle { display: block; order: 3; }
+            .main-nav {
+                display: none; /* Controlled by JS */
+                position: absolute; top: 100%; left: 0; right: 0;
+                background: var(--navbar-bg);
+                flex-direction: column; padding: 20px; gap: 15px;
+                border-bottom: 1px solid rgba(255,255,255,0.1);
+            }
+            .main-nav.active { display: flex; }
+            .header-cta { display: none; } /* Hide CTA on mobile for space */
         }
     </style>
 </head>
@@ -83,13 +89,17 @@
 <header class="site-header" id="navbar-root">
     <div class="header-inner">
         <div class="brand">
-            <a href="#" class="logo" id="brand-logo">
-                <span id="logo-text">ThemeX</span>
-            </a>
+            <a href="#" class="logo" id="brand-logo"><span id="logo-text">ThemeX</span></a>
         </div>
+        
+        <button class="nav-toggle" id="mobile-toggle">
+            <span></span><span></span><span></span>
+        </button>
+
         <nav class="main-nav" id="main-nav-links"></nav>
+
         <div class="header-cta">
-            <a href="#" class="btn" id="header-cta">Get Started</a>
+            <a href="#" class="btn" id="header-cta-btn">Get Started</a>
         </div>
     </div>
 </header>
@@ -99,9 +109,7 @@
         const params = new URLSearchParams(window.location.search);
         const root = document.documentElement;
 
-        /**
-         * 1. THE BRIDGE - STYLES
-         */
+        // 1. STYLE BRIDGE
         const styleBridge = {
             'accent_color': '--accent',
             'navbar_color': '--navbar-bg',
@@ -113,60 +121,52 @@
         };
 
         Object.keys(styleBridge).forEach(key => {
-            const value = params.get(key);
-            if (value) {
-                const cssVar = styleBridge[key];
-                let finalValue = value;
-                // Hex check
-                if (/^[0-9A-Fa-f]{3,8}$/.test(value)) finalValue = `#${value}`;
-                // Pixel check for dimensions
-                if (['logo_w', 'logo_h'].includes(key) && !isNaN(value)) finalValue += 'px';
-                
-                root.style.setProperty(cssVar, finalValue);
+            const val = params.get(key);
+            if (val) {
+                let final = /^[0-9A-Fa-f]{3,8}$/.test(val) ? `#${val}` : val;
+                if (['logo_w', 'logo_h'].includes(key) && !isNaN(val)) final += 'px';
+                root.style.setProperty(styleBridge[key], final);
             }
         });
 
-        /**
-         * 2. LOGO LOGIC (Image vs Text)
-         */
+        // 2. LOGO & CTA
+        const logoImg = params.get('logo_img');
         const logoContainer = document.getElementById('brand-logo');
-        const logoImgUrl = params.get('logo_img');
-        
-        if (logoImgUrl) {
-            // Replace text with image
-            logoContainer.innerHTML = `<img src="${logoImgUrl}" alt="Logo">`;
+        if (logoImg) {
+            logoContainer.innerHTML = `<img src="${logoImg}" alt="Logo">`;
         } else {
-            // Use provided text or default
             document.getElementById('logo-text').textContent = params.get('brand_text') || 'ThemeX';
         }
         logoContainer.href = params.get('brand_href') || '#';
+        
+        const cta = document.getElementById('header-cta-btn');
+        cta.textContent = params.get('cta_text') || 'Get Started';
+        cta.href = params.get('cta_href') || '#';
 
-        /**
-         * 3. CONTENT & LINKS
-         */
-        document.getElementById('header-cta').textContent = params.get('cta_text') || 'Get Started';
-        document.getElementById('header-cta').href = params.get('cta_href') || '#';
-
-        const navContainer = document.getElementById('main-nav-links');
+        // 3. NAV LINKS
+        const nav = document.getElementById('main-nav-links');
         let navHtml = '';
         for (let i = 1; i <= 5; i++) {
             const label = params.get(`nav_link${i}_label`);
-            const href = params.get(`nav_link${i}_href`);
-            if (label) navHtml += `<a href="${href || '#'}">${label}</a>`;
+            if (label) navHtml += `<a href="${params.get(`nav_link${i}_href`) || '#'}">${label}</a>`;
         }
-        navContainer.innerHTML = navHtml || `<a href="#">Home</a><a href="#">About</a><a href="#">Contact</a>`;
+        nav.innerHTML = navHtml || `<a href="#">Home</a><a href="#">Services</a><a href="#">Contact</a>`;
 
-        /**
-         * 4. RESIZING
-         */
+        // 4. MOBILE LOGIC
+        const toggle = document.getElementById('mobile-toggle');
+        toggle.addEventListener('click', () => {
+            nav.classList.toggle('active');
+            setTimeout(sendHeight, 100); // Recalculate height when menu opens
+        });
+
+        // 5. RESIZING
         function sendHeight() {
             const frameId = params.get('frame_id');
             if (frameId && window.parent) {
                 const height = document.getElementById('navbar-root').offsetHeight;
-                window.parent.postMessage({ frameId: frameId, frameHeight: height }, '*');
+                window.parent.postMessage({ frameId, frameHeight: height }, '*');
             }
         }
-        sendHeight();
         window.addEventListener('load', sendHeight);
         window.addEventListener('resize', sendHeight);
     });
