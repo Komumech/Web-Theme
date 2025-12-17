@@ -387,6 +387,16 @@ document.addEventListener('DOMContentLoaded', function () {
   // --- DYNAMIC CONTENT INJECTION ---
   const root = document.documentElement;
 
+  // Helper to set a CSS variable if a URL parameter exists
+  const setCssVar = (paramName, varName, isColor = false, unit = '') => {
+    const value = params.get(paramName);
+    if (value) {
+      // For colors, add '#' if it's a 6-digit hex, otherwise use the value as is (for rgba, etc.)
+      const finalValue = isColor && /^[0-9A-Fa-f]{6}$/.test(value) ? `#${value}` : value;
+      root.style.setProperty(varName, finalValue + unit);
+    }
+  };
+
   // Helper to set text content if param exists
   const setText = (id, paramName, defaultValue) => {
     const element = document.getElementById(id);
@@ -411,18 +421,17 @@ document.addEventListener('DOMContentLoaded', function () {
     }
   };
 
-  // Colors
-  const accentColor = params.get('accent_color');
-  if (accentColor) root.style.setProperty('--accent', `#${accentColor}`);
-  const accent2Color = params.get('accent2_color');
-  if (accent2Color) root.style.setProperty('--accent2', `#${accent2Color}`);
-  const bgColor = params.get('bg_color');
-  if (bgColor) root.style.setProperty('--bg', `#${bgColor}`);
-  const mutedColor = params.get('muted_color');
-  if (mutedColor) root.style.setProperty('--muted', `#${mutedColor}`);
-  const subheadColor = params.get('subhead_color');
-  if (subheadColor) root.style.setProperty('--subhead-color', `#${subheadColor}`);
-
+  // --- Style Customization ---
+  setCssVar('bg_color', '--bg', true);
+  setCssVar('card_color', '--card', true);
+  setCssVar('accent_color', '--accent', true);
+  setCssVar('accent2_color', '--accent2', true);
+  setCssVar('navbar_bg_color', '--navbar-bg-color', true);
+  setCssVar('muted_color', '--muted', true);
+  setCssVar('subhead_color', '--subhead-color', true);
+  setCssVar('glass_color', '--glass', false); // Handles full values like 'rgba(...)'
+  setCssVar('max_width', '--max-width', false, 'px');
+  setCssVar('radius', '--radius', false, 'px');
 
 
   // Header
