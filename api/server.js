@@ -15,10 +15,7 @@ function findUserByToken(token) {
 // --- End Mock Database ---
 
 // --- Snippet Configuration ---
-// Adjust this path to wherever snippetConfig.js actually lives.
-// If you keep it in snippet-server/, this works:
-const snippetConfig = require(path.join(__dirname, '../snippet-server/snippetConfig'));
-// If you move it into api/, just do: require('./snippetConfig');
+const snippetConfig = require('./snippetConfig');
 // --- End Snippet Configuration ---
 
 function processProParams(queryParams, config) {
