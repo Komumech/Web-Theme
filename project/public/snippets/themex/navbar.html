@@ -13,6 +13,8 @@
             --logo-color: #ffffff;
             --link-color: #FFFFFF;
             --link-hover-color: #911bb5;
+            --logo-width: auto;
+            --logo-height: 32px;
         }
         body {
             margin: 0;
@@ -34,11 +36,19 @@
             box-sizing: border-box;
         }
         .brand .logo {
+            display: flex;
+            align-items: center;
             font-weight: 800;
             letter-spacing: 0.6px;
             color: var(--logo-color);
             text-decoration: none;
             font-size: 1.1rem;
+        }
+        .brand .logo img {
+            width: var(--logo-width);
+            height: var(--logo-height);
+            object-fit: contain;
+            display: block;
         }
         .main-nav {
             display: flex;
@@ -63,12 +73,8 @@
             text-decoration: none;
             background: transparent;
             color: var(--accent);
-            border: 1px solid rgba(0,184,148,0.2);
+            border: 1px solid var(--accent);
             transition: all 0.2s ease;
-        }
-        .header-cta .btn:hover {
-            background: rgba(0, 184, 148, 0.1);
-            border-color: rgba(0, 184, 148, 0.4);
         }
     </style>
 </head>
@@ -77,10 +83,11 @@
 <header class="site-header" id="navbar-root">
     <div class="header-inner">
         <div class="brand">
-            <a href="#" class="logo" id="brand-logo">ThemeX</a>
+            <a href="#" class="logo" id="brand-logo">
+                <span id="logo-text">ThemeX</span>
+            </a>
         </div>
-        <nav class="main-nav" id="main-nav-links">
-        </nav>
+        <nav class="main-nav" id="main-nav-links"></nav>
         <div class="header-cta">
             <a href="#" class="btn" id="header-cta">Get Started</a>
         </div>
@@ -92,35 +99,66 @@
         const params = new URLSearchParams(window.location.search);
         const root = document.documentElement;
 
-        // Set Accent Color
-        const accentColor = params.get('accent_color');
-        if (accentColor) root.style.setProperty('--accent', `#${accentColor}`);
+        /**
+         * 1. THE BRIDGE - STYLES
+         */
+        const styleBridge = {
+            'accent_color': '--accent',
+            'navbar_color': '--navbar-bg',
+            'logo_color':   '--logo-color',
+            'link_color':   '--link-color',
+            'hover_color':  '--link-hover-color',
+            'logo_w':       '--logo-width',
+            'logo_h':       '--logo-height'
+        };
 
-        // Set Brand
-        document.getElementById('brand-logo').textContent = params.get('brand_text') || 'ThemeX';
-        document.getElementById('brand-logo').href = params.get('brand_href') || '#';
+        Object.keys(styleBridge).forEach(key => {
+            const value = params.get(key);
+            if (value) {
+                const cssVar = styleBridge[key];
+                let finalValue = value;
+                // Hex check
+                if (/^[0-9A-Fa-f]{3,8}$/.test(value)) finalValue = `#${value}`;
+                // Pixel check for dimensions
+                if (['logo_w', 'logo_h'].includes(key) && !isNaN(value)) finalValue += 'px';
+                
+                root.style.setProperty(cssVar, finalValue);
+            }
+        });
 
-        // Set CTA
+        /**
+         * 2. LOGO LOGIC (Image vs Text)
+         */
+        const logoContainer = document.getElementById('brand-logo');
+        const logoImgUrl = params.get('logo_img');
+        
+        if (logoImgUrl) {
+            // Replace text with image
+            logoContainer.innerHTML = `<img src="${logoImgUrl}" alt="Logo">`;
+        } else {
+            // Use provided text or default
+            document.getElementById('logo-text').textContent = params.get('brand_text') || 'ThemeX';
+        }
+        logoContainer.href = params.get('brand_href') || '#';
+
+        /**
+         * 3. CONTENT & LINKS
+         */
         document.getElementById('header-cta').textContent = params.get('cta_text') || 'Get Started';
         document.getElementById('header-cta').href = params.get('cta_href') || '#';
 
-        // Set Nav Links
         const navContainer = document.getElementById('main-nav-links');
         let navHtml = '';
         for (let i = 1; i <= 5; i++) {
             const label = params.get(`nav_link${i}_label`);
             const href = params.get(`nav_link${i}_href`);
-            if (label) {
-                navHtml += `<a href="${href || '#'}">${label}</a>`;
-            }
+            if (label) navHtml += `<a href="${href || '#'}">${label}</a>`;
         }
-        if (navHtml) {
-            navContainer.innerHTML = navHtml;
-        } else {
-            navContainer.innerHTML = `<a href="#">Home</a><a href="#">About</a><a href="#">Contact</a>`;
-        }
+        navContainer.innerHTML = navHtml || `<a href="#">Home</a><a href="#">About</a><a href="#">Contact</a>`;
 
-        // Dynamic Resizing
+        /**
+         * 4. RESIZING
+         */
         function sendHeight() {
             const frameId = params.get('frame_id');
             if (frameId && window.parent) {
@@ -129,9 +167,9 @@
             }
         }
         sendHeight();
+        window.addEventListener('load', sendHeight);
         window.addEventListener('resize', sendHeight);
     });
 </script>
-
 </body>
 </html>
