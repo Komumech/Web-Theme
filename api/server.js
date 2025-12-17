@@ -1,12 +1,9 @@
-// snippet-server/server.js
-
 const he = require('he');
 const express = require('express');
-const fs = require('fs').promises; // Use the promise-based version of fs
+const fs = require('fs').promises;
 const path = require('path');
 
 // --- Mock Database ---
-// In a real app, this would connect to a real database.
 const users = {
   "abc123_free_token": { id: 1, name: "Free User", plan: "free" },
   "xyz789_pro_token": { id: 2, name: "Pro User", plan: "pro" },
@@ -18,17 +15,12 @@ function findUserByToken(token) {
 // --- End Mock Database ---
 
 // --- Snippet Configuration ---
-// Load the configuration from the dedicated config file.
-const snippetConfig = require('./snippetConfig');
+// Adjust this path to wherever snippetConfig.js actually lives.
+// If you keep it in snippet-server/, this works:
+const snippetConfig = require(path.join(__dirname, '../snippet-server/snippetConfig'));
+// If you move it into api/, just do: require('./snippetConfig');
 // --- End Snippet Configuration ---
 
-
-/**
- * Processes query parameters for 'pro' plan users to generate template data and dynamic styles.
- * @param {object} queryParams - The query parameters from the request.
- * @param {object} config - The snippet configuration for the current snippet.
- * @returns {{templateData: object, dynamicStyles: string}}
- */
 function processProParams(queryParams, config) {
   const templateData = { ...config.pro };
   let dynamicStyles = '';
@@ -45,13 +37,12 @@ function processProParams(queryParams, config) {
       } else if (key === 'HIGHLIGHTED') {
         templateData.HIGHLIGHT_CLASS = value === 'true' ? 'highlighted' : '';
       } else if (key.endsWith('_COLOR')) {
-        // Basic validation for hex color codes
         if (/^[0-9A-F]{3,6}$/i.test(value)) {
           const cssVar = `--${param.replace(/_/g, '-')}`;
           dynamicStyles += `${cssVar}: #${value};\n`;
         }
       } else {
-        templateData[key] = he.encode(value); // Sanitize all other text inputs
+        templateData[key] = he.encode(value);
       }
     }
   }
@@ -60,12 +51,10 @@ function processProParams(queryParams, config) {
 
 const app = express();
 
-// A single, dynamic endpoint for all snippets
 app.get('/:snippetName', async (req, res) => {
   const { snippetName } = req.params;
   const { token, ...queryParams } = req.query;
 
-  // Gracefully handle requests that don't provide a snippet name.
   if (!snippetName) {
     return res.status(400).send('Bad Request: Snippet name is required.');
   }
@@ -82,31 +71,29 @@ app.get('/:snippetName', async (req, res) => {
     ? processProParams(queryParams, config)
     : { templateData: { ...config.free }, dynamicStyles: '' };
 
-  // Use process.cwd() for a reliable path to the project root on Vercel.
   const templatePath = path.join(process.cwd(), 'project', 'public', 'snippets', 'web-theme', config.template);
 
   try {
     const html = await fs.readFile(templatePath, 'utf8');
-
     let renderedHtml = html;
+
     for (const key in templateData) {
       const regex = new RegExp(`{{${key}}}`, 'g');
       renderedHtml = renderedHtml.replace(regex, templateData[key]);
     }
-    // Remove any un-replaced placeholders
     renderedHtml = renderedHtml.replace(/\{\{[A-Z_]+\}\}/g, '');
 
-    if (dynamicStyles) {
+    if (dynamicStyles && renderedHtml.includes('</head>')) {
       const styleTag = `<style>:root { ${dynamicStyles} }</style>`;
       renderedHtml = renderedHtml.replace('</head>', `${styleTag}</head>`);
     }
+
     res.setHeader('Content-Type', 'text/html');
     res.send(renderedHtml);
   } catch (err) {
-    console.error(`Error rendering snippet '${snippetName}':`, err);
+    console.error(`Error rendering snippet '${snippetName}' at ${templatePath}:`, err);
     return res.status(500).send('Error rendering snippet.');
   }
 });
 
-// Vercel handles the server creation, so we just need to export the app.
 module.exports = app;
