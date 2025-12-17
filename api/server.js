@@ -15,6 +15,7 @@ function findUserByToken(token) {
 // --- End Mock Database ---
 
 // --- Snippet Configuration ---
+// Now that snippetConfig.js is in the same folder:
 const snippetConfig = require('./snippetConfig');
 // --- End Snippet Configuration ---
 
@@ -68,9 +69,15 @@ app.get('/:snippetName', async (req, res) => {
     ? processProParams(queryParams, config)
     : { templateData: { ...config.free }, dynamicStyles: '' };
 
-  const templatePath = path.join(process.cwd(), 'project', 'public', 'snippets', 'web-theme', config.template);
+  // Detect if rootDirectory is set to "project" in vercel.json
+  const baseDir = process.env.VERCEL_ROOT_DIRECTORY === 'project'
+    ? process.cwd()
+    : path.join(process.cwd(), 'project');
+
+  const templatePath = path.join(baseDir, 'public', 'snippets', 'web-theme', config.template);
 
   try {
+    console.log('Looking for template at:', templatePath);
     const html = await fs.readFile(templatePath, 'utf8');
     let renderedHtml = html;
 
