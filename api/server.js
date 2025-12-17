@@ -61,7 +61,7 @@ function processProParams(queryParams, config) {
 const app = express();
 
 // A single, dynamic endpoint for all snippets
-app.get('/render/:snippetName', async (req, res) => {
+app.get('/:snippetName', async (req, res) => {
   const { snippetName } = req.params;
   const { token, ...queryParams } = req.query;
 
