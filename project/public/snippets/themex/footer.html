@@ -8,11 +8,16 @@
     <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;600;700&display=swap" rel="stylesheet">
     <style>
         :root {
+            /* Default Variables - Can be overridden by URL Params */
             --accent: #00b894;
-            --muted: #9aa4b2;
+            --primary-color: #3b82f6;
             --bg-color: #071021;
-            --border-color: rgba(255, 255, 255, 0.05);
+            --text-color: #ffffff;
+            --muted: #9aa4b2;
+            --border-color: #334155;
+            --header-color: #ffffff;
         }
+
         body {
             margin: 0;
             font-family: 'Inter', sans-serif;
@@ -20,12 +25,15 @@
             color-scheme: dark;
             color: var(--muted);
         }
+
         .footer {
             background-color: var(--bg-color);
             padding: 50px 5vw;
             width: 100%;
             box-sizing: border-box;
+            color: var(--text-color);
         }
+
         .footer-content {
             display: flex;
             flex-wrap: wrap;
@@ -36,30 +44,41 @@
             max-width: 1200px;
             margin: 0 auto;
         }
+
         .footer-column { flex: 1; min-width: 200px; }
+
         .footer-column h4 {
             font-size: 1.1rem;
             font-weight: 700;
-            color: #fff;
+            /* Uses the dynamic header color */
+            color: var(--header-color); 
             margin-bottom: 20px;
         }
+
         .footer-column p, .footer-column a {
             font-size: 0.95rem;
             text-decoration: none;
             color: var(--muted);
             line-height: 1.6;
+            transition: color 0.2s ease;
         }
+
         .footer-column .nav-links { display: flex; flex-direction: column; gap: 10px; }
+
+        /* Uses the dynamic primary or accent color for hover states */
         .footer-column .nav-links a:hover { color: var(--accent); }
+
         .social-links { display: flex; gap: 18px; margin-top: 15px; }
-        .social-links a { font-size: 1.2rem; }
+        .social-links a { font-size: 1.2rem; color: var(--muted); }
         .social-links a:hover { color: var(--accent); }
+
         .footer-bottom {
             padding-top: 30px;
             text-align: center;
             font-size: 0.9rem;
             max-width: 1200px;
             margin: 0 auto;
+            color: var(--muted);
         }
     </style>
 </head>
@@ -90,19 +109,40 @@
         const params = new URLSearchParams(window.location.search);
         const root = document.documentElement;
 
-        // Colors
-        const accentColor = params.get('accent_color');
-        if (accentColor) root.style.setProperty('--accent', `#${accentColor}`);
-        const bgColor = params.get('bg_color');
-        if (bgColor) root.style.setProperty('--bg-color', `#${bgColor}`);
+        /**
+         * 1. DYNAMIC COLOR MAPPING
+         * Maps URL params (snake_case) to CSS variables (kebab-case)
+         */
+        const colorMap = {
+            'accent_color': '--accent',
+            'primary_color': '--primary-color',
+            'bg_color': '--bg-color',
+            'text_color': '--text-color',
+            'muted_color': '--muted',
+            'border_color': '--border-color',
+            'header_color': '--header-color'
+        };
 
-        // Content
+        Object.keys(colorMap).forEach(param => {
+            const value = params.get(param);
+            if (value) {
+                // Add # if it's a hex code and missing the prefix
+                const formattedValue = (value.length === 6 || value.length === 3) && !value.startsWith('#') 
+                    ? `#${value}` 
+                    : value;
+                root.style.setProperty(colorMap[param], formattedValue);
+            }
+        });
+
+        /**
+         * 2. CONTENT INJECTION
+         */
         const companyName = params.get("company_name") || "ThemeX Corp";
         document.getElementById("company-name").textContent = companyName;
         document.getElementById("company-description").textContent = params.get("description") || "Building the future of the web, one component at a time.";
         document.getElementById("copyright-text").innerHTML = params.get("copyright") || `&copy; ${new Date().getFullYear()} ${companyName}. All Systems Operational.`;
 
-        // Nav Links
+        // Nav Links (Supports up to 4 dynamic links)
         const navContainer = document.getElementById("nav-links-container");
         let navHtml = '';
         for (let i = 1; i <= 4; i++) {
@@ -110,9 +150,9 @@
                 navHtml += `<a href="${params.get(`link${i}_href`) || '#'}" target="_parent">${params.get(`link${i}_label`)}</a>`;
             }
         }
-        navContainer.innerHTML = navHtml || `<a href="#" target="_parent">Matrix</a><a href="#" target="_parent">Grid</a>`;
+        navContainer.innerHTML = navHtml || `<a href="#" target="_parent">Resources</a><a href="#" target="_parent">Contact</a>`;
 
-        // Social Links
+        // Social Links (Supports up to 4 dynamic icons)
         const socialContainer = document.getElementById("social-links-container");
         let socialHtml = '';
         for (let i = 1; i <= 4; i++) {
@@ -122,15 +162,26 @@
         }
         socialContainer.innerHTML = socialHtml || `<a href="#"><i class="fab fa-twitter"></i></a><a href="#"><i class="fab fa-github"></i></a>`;
 
-        // Resizing
+        /**
+         * 3. DYNAMIC RESIZING (postMessage)
+         */
         function sendHeight() {
             const frameId = params.get('frame_id');
             if (frameId && window.parent) {
-                window.parent.postMessage({ frameId: frameId, frameHeight: document.body.scrollHeight }, '*');
+                window.parent.postMessage({ 
+                    frameId: frameId, 
+                    frameHeight: document.body.scrollHeight 
+                }, '*');
             }
         }
+        
+        // Initial send and listen for window changes
         sendHeight();
         window.addEventListener('resize', sendHeight);
+        
+        // Optional: observe DOM changes to trigger resize (e.g., if images load late)
+        const observer = new MutationObserver(sendHeight);
+        observer.observe(document.body, { subtree: true, childList: true });
     });
 </script>
 
