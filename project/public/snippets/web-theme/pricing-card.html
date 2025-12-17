@@ -93,37 +93,59 @@
 </head>
 <body>
 
-<div class="pricing-card {{HIGHLIGHT_CLASS}}" id="pricing-card">
-    <div id="plan-name">Premium</div>
+<div class="pricing-card" id="pricing-card">
+    <div id="plan-name"></div>
     <div class="price-display">
-        <span id="price">800</span>
-        <small id="interval">Monthly</small>
+        <span id="price"></span>
+        <small id="interval"></small>
     </div>
     <ul class="feature-list" id="feature-list">
-        <!-- Features will be injected here by the server -->
-        first
     </ul>
-    <a id="cta-button" class="cta-button" href="{{CTA_HREF}}">new</a>
+    <a id="cta-button" class="cta-button" href="#"></a>
 </div>
 
 <script>
-    // Standard resizing logic - no changes needed here.
-    // This part communicates the iframe's height to the parent page.
-    (function() {
-        const card = document.getElementById('pricing-card');
+    document.addEventListener('DOMContentLoaded', function() {
         const params = new URLSearchParams(window.location.search);
+        const card = document.getElementById('pricing-card');
         const frameId = params.get("frame_id");
 
+        // --- 1. Customization via URL Params ---
+        const planName = params.get("plan_name") || "Pro Plan";
+        const price = params.get("price") || "$99";
+        const interval = params.get("interval") || "/mo";
+        const ctaText = params.get("cta_text") || "Choose Plan";
+        const ctaHref = params.get("cta_href") || "#";
+        const features = params.get("features") || "Unlimited Projects,Priority Support";
+        const isHighlighted = params.get("highlighted") === 'true';
+        const primaryColor = params.get("primary_color");
+        const accentColor = params.get("accent_color");
+
+        // --- 2. Apply Content ---
+        document.getElementById('plan-name').textContent = planName;
+        document.getElementById('price').textContent = price;
+        document.getElementById('interval').textContent = interval;
+        const ctaButton = document.getElementById('cta-button');
+        ctaButton.textContent = ctaText;
+        ctaButton.href = ctaHref;
+
+        const featureList = document.getElementById('feature-list');
+        featureList.innerHTML = features.split(',').map(f => `<li><i class="fas fa-check-circle"></i> ${f.trim()}</li>`).join('');
+
+        // --- 3. Apply Styling ---
+        if (isHighlighted) card.classList.add('highlighted');
+        if (primaryColor) document.documentElement.style.setProperty('--primary-color', '#' + primaryColor);
+        if (accentColor) document.documentElement.style.setProperty('--accent-color', '#' + accentColor);
+
+        // --- 4. Resizing Logic ---
         function sendHeight() {
             if (!frameId) return;
-            // The card uses offsetHeight because it has no margins.
-            const newHeight = card.offsetHeight; 
-
+            const newHeight = card.offsetHeight;
             window.parent.postMessage({ frameId: frameId, frameHeight: newHeight }, "*");
         }
         window.addEventListener('load', sendHeight);
         window.addEventListener('resize', sendHeight);
-    })();
+    });
 </script>
 
 </body>
