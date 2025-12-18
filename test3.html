@@ -11,6 +11,7 @@
             flex-direction: column;
             align-items: center;
             margin: 0;
+            padding-bottom: 50px;
             font-family: 'Inter', sans-serif;
         }
         h2 { margin-top: 3rem; color: #444; font-size: 1rem; text-transform: uppercase; letter-spacing: 1.5px; }
@@ -35,6 +36,7 @@
             display: flex;
             justify-content: center;
             gap: 15px;
+            width: 100%;
             box-shadow: 0 2px 10px rgba(0,0,0,0.05);
         }
         .test-btn {
@@ -55,6 +57,21 @@
             margin: 0 auto;
         }
         .test-btn:hover { background: #7a2a2a; }
+
+        /* DATA CAPTURE DISPLAY CARD */
+        .captured-data-card {
+            background: white;
+            padding: 20px;
+            border-radius: 12px;
+            border: 2px solid #bf16e1;
+            margin: 20px 0;
+            text-align: center;
+            min-width: 320px;
+            display: none; 
+            box-shadow: 0 10px 25px rgba(191, 22, 225, 0.1);
+        }
+        .captured-data-card h4 { margin: 0; color: #888; font-size: 0.7rem; text-transform: uppercase; }
+        .captured-data-card p { margin: 10px 0 0 0; font-size: 1.2rem; font-weight: bold; color: #bf16e1; }
     </style>
 </head>
 <body>
@@ -89,24 +106,21 @@
         data-accent_color="a43939"
         data-hero_title="The Ultimate Component"
         data-hero_sub="Now featuring the refined #f6c3c3 color palette."
-        data-f1_title="Titanium Case"
-        data-f1_text="Aerospace-grade durability for extreme conditions."
-        data-f2_title="Neural Engine"
-        data-f2_text="Advanced AI tracking for health and performance."
-        data-f3_title="72hr Battery"
-        data-f3_text="Go further with optimized power management."
-        data-f4_title="Waterproof"
-        data-f4_text="WR100 certified for deep sea diving."
-        data-img_side="https://store.storeimages.cdn-apple.com/1/as-images.apple.com/is/se-case-unselect-gallery-1-202509?wid=5120&hei=3280&fmt=p-jpg&qlt=80&.v=Rmt2NDRBcDRCNVhOcFJTSzZLRU92WlVTRWk4UllCemZya05RQUd4OC9lSkRKK1M5VWhPZzlPSGZkak9OazNSRlNuK09xL29WL08vZ1AwVG41NEZrbXdJV0xTM2p6S1ZoZUlKQTRLMjR1T0ltMmcrMk9qU0hGcW1QOFlDVk9HNGo"
+        data-f1_title="Titanium Case" data-f1_text="Aerospace-grade durability."
+        data-f2_title="Neural Engine" data-f2_text="Advanced AI tracking."
+        data-f3_title="72hr Battery" data-f3_text="Go further."
+        data-f4_title="Waterproof" data-f4_text="WR100 certified."
         data-img_main="https://media.wired.com/photos/68c8d0484b7ef13d056bf85c/4:3/w_1280%2Cc_limit/Watch%2520Ultra%25203%2520Apple%2520Watch%252011%2520Series%2520Source%2520Adrienne%2520So.png" 
     ></iframe>
 
-    <h2>Live Alerts (Width Testing)</h2>
+    <h2>Live Alerts</h2>
     <iframe id="alert-status-info" src="" scrolling="no" data-android_width="60%" data-width="300" data-base-url="https://komutheme2.vercel.app/project/public/snippets/themex/alert.html" data-frame-id="alert-status-info" data-type="info" data-message="I am 300px on PC, 60% on Android." data-accent_color="98eddf"></iframe>
     
-    <iframe id="alert-status-success" src="" scrolling="no" data-android_width="95%" data-width="50%" data-base-url="https://komutheme2.vercel.app/project/public/snippets/themex/alert.html" data-frame-id="alert-status-success" data-type="success" data-message="I am 50% on PC, 95% on Android." data-accent_color="9dfcc4"></iframe>
+    <iframe id="alert-status-success" src="" scrolling="no" data-android_width="95%" data-width="50%" data-base-url="https://komutheme2.vercel.app/project/public/snippets/themex/alert.html" data-frame-id="alert-status-success" data-type="success" data-message="Success: Action completed!" data-accent_color="9dfcc4"></iframe>
 
-    <iframe id="alert-status-error" src="" scrolling="no" data-android_width="42%" data-base-url="https://komutheme2.vercel.app/project/public/snippets/themex/alert.html" data-frame-id="alert-status-error" data-type="error" data-message="I am full width (default)." data-accent_color="fa4661"></iframe>
+    <iframe id="alert-status-warning" src="" scrolling="no" data-android_width="95%" data-width="50%" data-base-url="https://komutheme2.vercel.app/project/public/snippets/themex/alert.html" data-frame-id="alert-status-warning" data-type="warning" data-message="Warning: Please check your input." data-accent_color="f8bb86"></iframe>
+
+    <iframe id="alert-status-error" src="" scrolling="no" data-android_width="95%" data-width="50%" data-base-url="https://komutheme2.vercel.app/project/public/snippets/themex/alert.html" data-frame-id="alert-status-error" data-type="error" data-message="Error: System failure not detected." data-accent_color="fa4661"></iframe>
 
     <h2>Pricing Card</h2>
     <div style="display: flex; justify-content: center; width: 100%;">
@@ -125,6 +139,10 @@
     </div>
 
     <h2>Input & Buttons</h2>
+    <div id="data-result" class="captured-data-card">
+        <h4>System Variable Captured</h4>
+        <p id="captured-text">Waiting for data...</p>
+    </div>
     <iframe 
         id="themex-input-unique" 
         src="" 
@@ -143,7 +161,6 @@
             id="themex-animated-btn" 
             src="" 
             data-width="250" 
-            data-android_width="60%"
             data-base-url="https://komutheme2.vercel.app/project/public/snippets/themex/button.html" 
             data-frame-id="themex-animated-btn"
             data-text="Send Message"
@@ -159,7 +176,6 @@
             id="themex-outline-btn" 
             src="" 
             data-width="250" 
-            data-android_width="60%"
             data-base-url="https://komutheme2.vercel.app/project/public/snippets/themex/button.html" 
             data-frame-id="themex-outline-btn"
             data-text="Outline Style"
@@ -173,7 +189,6 @@
             id="themex-ghost-btn" 
             src="" 
             data-width="250" 
-            data-android_width="60%"
             data-base-url="https://komutheme2.vercel.app/project/public/snippets/themex/button.html" 
             data-frame-id="themex-ghost-btn"
             data-text="Ghost Style"
@@ -189,40 +204,54 @@
     <iframe id="themex-footer-1" src="" width="100%" data-base-url="https://komutheme2.vercel.app/project/public/snippets/themex/footer.html" data-frame-id="themex-footer-1" data-company_name="ThemeX" data-accent_color="a43939" data-bg_color="f6c3c3"></iframe>
 
     <script>
-        // 1. DYNAMIC RESIZER
+        let lastCapturedInput = "";
+
+        // 1. DYNAMIC RESIZER & DATA CAPTURE
         window.addEventListener("message", function(event) {
             if (event.data.frameHeight && event.data.frameId) {
                 const iframe = document.getElementById(event.data.frameId);
-                if (iframe) {
-                    iframe.style.height = event.data.frameHeight + "px";
-                }
+                if (iframe) iframe.style.height = event.data.frameHeight + "px";
+            }
+
+            if (event.data.action === 'input_submitted') {
+                lastCapturedInput = event.data.value;
+                const displayCard = document.getElementById('data-result');
+                const displayText = document.getElementById('captured-text');
+                displayText.textContent = lastCapturedInput;
+                displayCard.style.display = 'block';
+                testInjection('alert-status-info', 'Data Saved: ' + lastCapturedInput, 'bf16e1');
             }
         });
 
-        // 2. UPDATED URL CONSTRUCTOR (Aggressive Width Handling)
+        // 2. ROBUST URL CONSTRUCTOR (Sends both 'msg' and 'message')
         document.addEventListener('DOMContentLoaded', function() {
             document.querySelectorAll('iframe[data-base-url]').forEach(iframe => {
                 const baseUrl = iframe.getAttribute('data-base-url');
                 let params = [];
                 let widthFound = false;
                 
-                // Collect ALL data attributes
                 for (const attr of iframe.attributes) {
                     if (attr.name.startsWith('data-')) {
-                        const key = attr.name.substring(5).replace(/-/g, '_');
-                        if (key !== 'base_url') {
-                            params.push(`${key}=${encodeURIComponent(attr.value)}`);
-                            if (key === 'width') widthFound = true;
+                        let key = attr.name.substring(5).replace(/-/g, '_');
+                        if (key === 'base_url') continue;
+
+                        const value = encodeURIComponent(attr.value);
+
+                        // If the attribute is message, we send it twice to ensure compatibility
+                        if (key === 'message') {
+                            params.push(`msg=${value}`);
+                            params.push(`message=${value}`);
+                        } else {
+                            params.push(`${key}=${value}`);
                         }
+
+                        if (key === 'width') widthFound = true;
                     }
                 }
 
-                // If 'data-width' wasn't found, check the standard 'width' attribute
                 if (!widthFound) {
                     const standardWidth = iframe.getAttribute('width');
-                    if (standardWidth) {
-                        params.push(`width=${encodeURIComponent(standardWidth)}`);
-                    }
+                    if (standardWidth) params.push(`width=${encodeURIComponent(standardWidth)}`);
                 }
 
                 iframe.src = baseUrl + '?' + params.join('&');
@@ -234,7 +263,11 @@
             if (frame && frame.contentWindow) {
                 frame.contentWindow.postMessage({
                     type: 'THEMEX_UPDATE',
-                    config: { message: msg, accent_color: color }
+                    config: { 
+                        message: msg, 
+                        msg: msg, // Sending both keys for live updates
+                        accent_color: color 
+                    }
                 }, '*');
             }
         }
