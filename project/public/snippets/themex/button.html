@@ -8,8 +8,8 @@
     <link href="https://fonts.googleapis.com/css2?family=Inter:wght@700&display=swap" rel="stylesheet">
     <style>
         :root {
-            --accent: #00b894;
-            --accent2: #00d1a1;
+            --accent: #05e26c;
+            --accent2: #a3e205; /* Defaulting to same as accent for solid look */
             --primary-text-color: #042024;
             --radius: 10px;
         }
@@ -51,7 +51,6 @@
             transition: transform 0.2s ease;
         }
 
-        /* The Shake Keyframes */
         @keyframes icon-shake {
             0% { transform: rotate(0deg); }
             25% { transform: rotate(15deg); }
@@ -66,13 +65,14 @@
 
         /* BUTTON TYPES */
         .btn-primary {
+            /* Linear gradient using both variables */
             background: linear-gradient(90deg, var(--accent), var(--accent2));
             color: var(--primary-text-color);
-            box-shadow: 0 4px 15px rgba(0, 184, 148, 0.2);
+            box-shadow: 0 4px 15px rgba(0, 0, 0, 0.1);
         }
         .btn-primary:hover {
             transform: translateY(-2px);
-            box-shadow: 0 6px 20px rgba(0, 184, 148, 0.3);
+            box-shadow: 0 6px 20px rgba(0, 0, 0, 0.15);
         }
         .btn-ghost {
             background: transparent;
@@ -105,14 +105,19 @@
             const btnIcon = document.getElementById('btn-icon');
             const linkWrapper = document.getElementById('link-wrapper');
 
-            // 1. STYLE BRIDGE
+            // 1. STYLE BRIDGE (Fixed for Solid vs Gradient)
             const accent = params.get('accent_color');
             const accent2 = params.get('accent2_color');
             const textCol = params.get('primary_text_color');
             const radius = params.get('radius');
 
-            if (accent) root.style.setProperty('--accent', `#${accent}`);
-            if (accent2) root.style.setProperty('--accent2', `#${accent2}`);
+            if (accent) {
+                const hex1 = `#${accent}`;
+                root.style.setProperty('--accent', hex1);
+                // If accent2 is missing, use accent1 to make it a solid color
+                root.style.setProperty('--accent2', accent2 ? `#${accent2}` : hex1);
+            }
+            
             if (textCol) root.style.setProperty('--primary-text-color', `#${textCol}`);
             if (radius) root.style.setProperty('--radius', radius + (isNaN(radius) ? '' : 'px'));
 
@@ -127,7 +132,7 @@
             // 3. ICON & ANIMATION BRIDGE
             const iconName = params.get('icon');
             const iconPos = params.get('icon_pos') || 'left';
-            const shouldAnimate = params.get('animate') !== 'false'; // Default to true
+            const shouldAnimate = params.get('animate') !== 'false'; 
 
             if (iconName) {
                 btnIcon.className = `fas fa-${iconName}`;
@@ -140,6 +145,7 @@
             const frameId = params.get('frame_id');
             if (frameId && window.parent) {
                 const resizeObserver = new ResizeObserver(() => {
+                    // Using offsetHeight to capture padding/margins for the iframe height
                     const height = Math.ceil(document.body.offsetHeight);
                     window.parent.postMessage({ frameId, frameHeight: height }, '*');
                 });
