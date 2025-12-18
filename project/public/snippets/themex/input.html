@@ -26,7 +26,10 @@
             padding: 12px 15px;
             transition: border-color 0.3s, box-shadow 0.3s;
             box-sizing: border-box; /* Ensure padding is included in width */
-            max-width: 100%; /* Prevent overflow */
+            max-width: 80%; /* Prevent overflow */
+            margin: 0 auto;
+            justify-self: center;
+            outline: #00b894 solid 2px;
         }
         .input-wrapper:focus-within {
             border-color: rgba(0, 184, 148, 0.4);
@@ -83,8 +86,8 @@
         const accentColor = params.get('accent_color');
         if (accentColor) root.style.setProperty('--accent', `#${accentColor}`);
 
-        document.getElementById('input-field').placeholder = params.get('placeholder') || 'Enter command...';
-        document.getElementById('submit-button').textContent = params.get('submit_text') || 'Execute';
+        document.getElementById('input-field').placeholder = params.get('placeholder') || 'Enter text...';
+        document.getElementById('submit-button').textContent = params.get('submit_text') || 'Submit';
 
         const icon = params.get('icon');
         if (icon) {
