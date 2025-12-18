@@ -3,104 +3,42 @@
 <head>
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
-  <title>Stylish Input Component (Inline Button)</title>
-  
-  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0-beta3/css/all.min.css">
-  <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@400;600&display=swap" rel="stylesheet">
-  
   <style>
     :root {
-      /* Dynamic Bridge Variables */
       --primary-color: #bf16e1;
-      --primary-color-shadow: rgba(191, 22, 225, 0.6);
       --primary-color-dark: #800e97;
       --primary-color-light: #b99ff5;
     }
-
     body {
       display: flex;
       justify-content: center;
       align-items: center;
-      margin: 0; 
-      background: transparent; 
+      margin: 0; background: transparent; 
       font-family: 'Poppins', sans-serif;
-      box-sizing: border-box; 
-      overflow: hidden; /* Added for ResizeObserver stability */
-      padding: 10px 0;
+      overflow: hidden; padding: 10px 0;
     }
-
-    /* FORM STRUCTURE - Kept your original styling */
     .form-wrapper {
-      display: flex;
-      align-items: center;
-      width: 100%;
-      max-width: 600px;
-      margin: 0;
-      padding: 10px;
-      border-radius: 12px;
-      box-shadow: 0 4px 10px rgba(0, 0, 0, 0.1);
-      background-color: rgba(255, 255, 255, 0.05);
-      outline: var(--primary-color) 2px solid; 
+      display: flex; align-items: center; width: 100%;
+      max-width: 600px; padding: 10px; border-radius: 12px;
+      background-color: white; outline: var(--primary-color) 2px solid; 
     }
-
     .input-section {
-        display: flex;
-        align-items: center;
-        flex-grow: 1;
-        border: 2px solid rgba(255, 255, 255, 0.1);
-        border-radius: 10px;
-        padding: 5px 15px;
-        margin-right: 10px;
-        transition: all 0.3s ease;
+      display: flex; align-items: center; flex-grow: 1;
+      border: 1px solid #ddd; border-radius: 10px;
+      padding: 5px 15px; margin-right: 10px;
     }
-    
-    .input-section:focus-within {
-    }
-
     .input-field {
-      flex-grow: 1;
-      padding: 5px 0;
-      margin-left: 10px;
-      border: none;
-      background: transparent;
-      color: #504e4e; 
-      font-size: 1rem;
-      outline: none;
-      min-width: 100px;
+      flex-grow: 1; padding: 10px; border: none; outline: none; font-size: 1rem;
     }
-
-    .input-field::placeholder { color: #a0a0a0; transition: color 0.3s ease; }
-
-    .input-icon {
-      color: var(--primary-color); 
-      font-size: 1.1rem;
-      transition: color 0.3s ease;
-    }
-    .input-section:focus-within .input-icon {
-      color: var(--primary-color-light);
-    }
-
     .submit-button {
-      flex-shrink: 0;
-      padding: 12px 20px;
-      border: none;
-      border-radius: 10px;
-      background-color: var(--primary-color);
-      color: white;
-      font-size: 1rem;
-      font-weight: 600;
-      cursor: pointer;
-      transition: background-color 0.3s, transform 0.1s;
-      box-shadow: 0 4px 10px rgba(0, 0, 0, 0.2);
+      padding: 12px 20px; border: none; border-radius: 10px;
+      background-color: var(--primary-color); color: white;
+      font-weight: 600; cursor: pointer;
     }
-
-    .submit-button:hover { background-color: var(--primary-color-dark); }
-    .submit-button:active { transform: scale(0.98); }
-    
     @media (max-width: 450px) {
-        .form-wrapper { flex-direction: column; max-width: 90vw; }
-        .input-section { width: 100%; margin-right: 0; margin-bottom: 10px; }
-        .submit-button { width: 100%; padding: 10px 0; }
+        .form-wrapper { flex-direction: column; }
+        .input-section { width: 100%; margin-bottom: 10px; }
+        .submit-button { width: 100%; }
     }
   </style>
 </head>
@@ -108,8 +46,8 @@
 
 <form class="form-wrapper" id="input-form">
   <div class="input-section">
-    <i class="fas fa-user input-icon" id="input-icon"></i>
-    <input type="email" class="input-field" id="input-field" required>
+    <i id="input-icon"></i>
+    <input type="text" class="input-field" id="input-field" required>
   </div>
   <button type="submit" class="submit-button" id="submit-button"></button>
 </form>
@@ -118,32 +56,20 @@
   document.addEventListener('DOMContentLoaded', function() {
     const params = new URLSearchParams(window.location.search);
     const frameId = params.get("frame_id");
-    const root = document.documentElement;
-
-    // 1. BRIDGE STUFF: Dynamic Styling
-    const primaryColorHex = params.get("primary_color");
-    if (primaryColorHex) {
-      const hex = '#' + primaryColorHex;
-      root.style.setProperty('--primary-color', hex);
-      root.style.setProperty('--primary-color-dark', '#' + getDarkerColor(primaryColorHex, 20));
-      root.style.setProperty('--primary-color-light', '#' + getLighterColor(primaryColorHex, 20));
-      root.style.setProperty('--primary-color-shadow', 'rgba(' + hexToRgb(primaryColorHex) + ', 0.6)');
-    }
-
-    // 2. BRIDGE STUFF: Content Injection
     const inputField = document.getElementById("input-field");
     const submitButton = document.getElementById("submit-button");
-    const iconEl = document.getElementById("input-icon");
 
+    // Dynamic Content
     inputField.placeholder = params.get("placeholder") || "Enter text...";
     submitButton.textContent = params.get("submit_text") || "Submit";
 
-    const icon = params.get("icon");
-    if (icon) {
-      iconEl.className = `fas fa-${icon} input-icon`;
+    // Dynamic Styling
+    if (params.get("primary_color")) {
+      const hex = '#' + params.get("primary_color");
+      document.documentElement.style.setProperty('--primary-color', hex);
     }
 
-    // 3. BRIDGE STUFF: Submission Handler
+    // SUBMISSION BRIDGE: Sends data to the Parent
     const form = document.getElementById("input-form");
     form.addEventListener('submit', function(e) {
       e.preventDefault(); 
@@ -157,38 +83,17 @@
       form.reset();
     });
 
-    // 4. BRIDGE STUFF: Improved Dynamic Resizing
+    // Resize Observer
     if (frameId && window.parent) {
-      const resizeObserver = new ResizeObserver(entries => {
-        for (let entry of entries) {
-          const height = Math.ceil(document.body.offsetHeight);
-          window.parent.postMessage({ 
-            frameHeight: height + 10, // Buffer for the outline/shadow
-            frameId: frameId 
-          }, '*');
-        }
+      const resizeObserver = new ResizeObserver(() => {
+        window.parent.postMessage({ 
+          frameHeight: Math.ceil(document.body.offsetHeight) + 10, 
+          frameId: frameId 
+        }, '*');
       });
       resizeObserver.observe(document.body);
     }
-
-    // Utility functions
-    function hexToRgb(hex) {
-      const bigint = parseInt(hex, 16);
-      return `${(bigint >> 16) & 255}, ${(bigint >> 8) & 255}, ${bigint & 255}`;
-    }
-    function shadeColor(color, percent) {
-      let R = parseInt(color.substring(0, 2), 16);
-      let G = parseInt(color.substring(2, 4), 16);
-      let B = parseInt(color.substring(4, 6), 16);
-      R = Math.min(255, Math.max(0, parseInt(R * (100 + percent) / 100)));
-      G = Math.min(255, Math.max(0, parseInt(G * (100 + percent) / 100)));
-      B = Math.min(255, Math.max(0, parseInt(B * (100 + percent) / 100)));
-      return [R, G, B].map(x => x.toString(16).padStart(2, '0')).join('');
-    }
-    function getDarkerColor(hex, percent) { return shadeColor(hex, -percent); }
-    function getLighterColor(hex, percent) { return shadeColor(hex, percent); }
   });
 </script>
-
 </body>
 </html>

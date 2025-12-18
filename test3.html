@@ -102,7 +102,7 @@
     ></iframe>
 
     <h2>Live Alerts (Width Testing)</h2>
-    <iframe id="alert-status-info" src="" scrolling="no" data-android_width="60%" data-width="300" data-base-url="https://komutheme2.vercel.app/project/public/snippets/themex/alert.html" data-frame-id="alert-status-info" data-type="info" data-message="I am 400px on PC, 90% on Android." data-accent_color="98eddf"></iframe>
+    <iframe id="alert-status-info" src="" scrolling="no" data-android_width="60%" data-width="300" data-base-url="https://komutheme2.vercel.app/project/public/snippets/themex/alert.html" data-frame-id="alert-status-info" data-type="info" data-message="I am 300px on PC, 60% on Android." data-accent_color="98eddf"></iframe>
     
     <iframe id="alert-status-success" src="" scrolling="no" data-android_width="95%" data-width="50%" data-base-url="https://komutheme2.vercel.app/project/public/snippets/themex/alert.html" data-frame-id="alert-status-success" data-type="success" data-message="I am 50% on PC, 95% on Android." data-accent_color="9dfcc4"></iframe>
 
@@ -128,8 +128,8 @@
     <iframe 
         id="themex-input-unique" 
         src="" 
-        data-width="40" 
-        data-android_width="100"
+        data-width="100%" 
+        data-android_width="100%"
         data-base-url="https://komutheme2.vercel.app/project/public/snippets/themex/input.html" 
         data-frame-id="themex-input-unique"
         data-primary_color="bf16e1"
@@ -142,8 +142,8 @@
         <iframe 
             id="themex-animated-btn" 
             src="" 
-            width="150" 
-            data-android_width="90"
+            data-width="250" 
+            data-android_width="60%"
             data-base-url="https://komutheme2.vercel.app/project/public/snippets/themex/button.html" 
             data-frame-id="themex-animated-btn"
             data-text="Send Message"
@@ -154,11 +154,12 @@
             data-accent2_color="bf16e1"
             data-radius="12"
         ></iframe>
+
         <iframe 
             id="themex-outline-btn" 
             src="" 
-            width="40" 
-            android_width="100"
+            data-width="250" 
+            data-android_width="60%"
             data-base-url="https://komutheme2.vercel.app/project/public/snippets/themex/button.html" 
             data-frame-id="themex-outline-btn"
             data-text="Outline Style"
@@ -167,11 +168,12 @@
             data-accent_color="bf16e1"
             data-radius="9"
         ></iframe>
+
         <iframe 
             id="themex-ghost-btn" 
             src="" 
-            width="100" 
-            android_width="100"
+            data-width="250" 
+            data-android_width="60%"
             data-base-url="https://komutheme2.vercel.app/project/public/snippets/themex/button.html" 
             data-frame-id="themex-ghost-btn"
             data-text="Ghost Style"
@@ -187,7 +189,7 @@
     <iframe id="themex-footer-1" src="" width="100%" data-base-url="https://komutheme2.vercel.app/project/public/snippets/themex/footer.html" data-frame-id="themex-footer-1" data-company_name="ThemeX" data-accent_color="a43939" data-bg_color="f6c3c3"></iframe>
 
     <script>
-        // 1. IMPROVED DYNAMIC RESIZER
+        // 1. DYNAMIC RESIZER
         window.addEventListener("message", function(event) {
             if (event.data.frameHeight && event.data.frameId) {
                 const iframe = document.getElementById(event.data.frameId);
@@ -197,25 +199,30 @@
             }
         });
 
-        // 2. URL CONSTRUCTOR & DIMENSION HANDLER
+        // 2. UPDATED URL CONSTRUCTOR (Aggressive Width Handling)
         document.addEventListener('DOMContentLoaded', function() {
             document.querySelectorAll('iframe[data-base-url]').forEach(iframe => {
                 const baseUrl = iframe.getAttribute('data-base-url');
                 let params = [];
+                let widthFound = false;
                 
-                // Collect ALL data attributes automatically
+                // Collect ALL data attributes
                 for (const attr of iframe.attributes) {
                     if (attr.name.startsWith('data-')) {
                         const key = attr.name.substring(5).replace(/-/g, '_');
-                        if (key !== 'base_url') params.push(`${key}=${encodeURIComponent(attr.value)}`);
+                        if (key !== 'base_url') {
+                            params.push(`${key}=${encodeURIComponent(attr.value)}`);
+                            if (key === 'width') widthFound = true;
+                        }
                     }
                 }
 
-                // IMPORTANT: If client used standard 'width' attribute, pass it as 'width' param
-                const standardWidth = iframe.getAttribute('width');
-                const dataWidth = iframe.getAttribute('data-width');
-                if (standardWidth && !dataWidth) {
-                   params.push(`width=${encodeURIComponent(standardWidth)}`);
+                // If 'data-width' wasn't found, check the standard 'width' attribute
+                if (!widthFound) {
+                    const standardWidth = iframe.getAttribute('width');
+                    if (standardWidth) {
+                        params.push(`width=${encodeURIComponent(standardWidth)}`);
+                    }
                 }
 
                 iframe.src = baseUrl + '?' + params.join('&');
