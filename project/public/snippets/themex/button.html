@@ -3,15 +3,16 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>ThemeX Button — Animated Icon Bridge</title>
+    <title>ThemeX Button — Professional Bridge</title>
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0-beta3/css/all.min.css">
     <link href="https://fonts.googleapis.com/css2?family=Inter:wght@700&display=swap" rel="stylesheet">
     <style>
         :root {
             --accent: #05e26c;
-            --accent2: #a3e205; /* Defaulting to same as accent for solid look */
+            --accent2: #05e26c;
             --primary-text-color: #042024;
             --radius: 10px;
+            --comp-width: auto;
         }
         body {
             margin: 0;
@@ -28,6 +29,8 @@
             padding: 10px; 
             text-decoration: none;
             box-sizing: border-box;
+            width: var(--comp-width);
+            justify-content: center;
         }
         .btn {
             display: inline-flex;
@@ -43,47 +46,31 @@
             transition: all 0.2s cubic-bezier(0.4, 0, 0.2, 1);
             font-size: 1rem;
             white-space: nowrap;
+            width: 100%;
         }
 
-        /* ICON HOVER ANIMATION */
-        .btn i { 
-            font-size: 1.1rem; 
-            transition: transform 0.2s ease;
-        }
-
+        /* ICON ANIMATION */
+        .btn i { transition: transform 0.2s ease; }
         @keyframes icon-shake {
-            0% { transform: rotate(0deg); }
+            0%, 100% { transform: rotate(0deg); }
             25% { transform: rotate(15deg); }
             50% { transform: rotate(-15deg); }
             75% { transform: rotate(10deg); }
-            100% { transform: rotate(0deg); }
         }
-
-        .btn.animate-shake:hover i {
-            animation: icon-shake 0.4s ease-in-out;
-        }
+        .btn.animate-shake:hover i { animation: icon-shake 0.4s ease-in-out; }
 
         /* BUTTON TYPES */
         .btn-primary {
-            /* Linear gradient using both variables */
             background: linear-gradient(90deg, var(--accent), var(--accent2));
             color: var(--primary-text-color);
             box-shadow: 0 4px 15px rgba(0, 0, 0, 0.1);
         }
-        .btn-primary:hover {
-            transform: translateY(-2px);
-            box-shadow: 0 6px 20px rgba(0, 0, 0, 0.15);
-        }
-        .btn-ghost {
-            background: transparent;
-            color: #fff;
-            border: 1px solid rgba(255, 255, 255, 0.1);
-        }
-        .btn-outline {
-            background: transparent;
-            color: var(--accent);
-            border: 2px solid var(--accent);
-        }
+        .btn-primary:hover { transform: translateY(-2px); box-shadow: 0 6px 20px rgba(0, 0, 0, 0.15); }
+        
+        .btn-ghost { background: transparent; color: #fff; border: 1px solid rgba(255, 255, 255, 0.1); }
+        .btn-ghost:hover { background: rgba(255, 255, 255, 0.05); }
+
+        .btn-outline { background: transparent; color: var(--accent); border: 2px solid var(--accent); }
     </style>
 </head>
 <body>
@@ -100,56 +87,57 @@
             const params = new URLSearchParams(window.location.search);
             const root = document.documentElement;
             
-            const btnContainer = document.getElementById('dynamic-btn');
-            const btnText = document.getElementById('btn-text');
-            const btnIcon = document.getElementById('btn-icon');
-            const linkWrapper = document.getElementById('link-wrapper');
+            // 1. WIDTH BRIDGE
+            const desktopWidth = params.get('width') || 'auto';
+            const androidWidth = params.get('android_width') || '90%';
+            const isMobile = /Android|iPhone|iPad|iPod/i.test(navigator.userAgent);
+            
+            if (isMobile) {
+                root.style.setProperty('--comp-width', androidWidth.includes('%') ? androidWidth : androidWidth + 'px');
+            } else {
+                root.style.setProperty('--comp-width', desktopWidth === 'auto' ? 'auto' : desktopWidth + 'px');
+            }
 
-            // 1. STYLE BRIDGE (Fixed for Solid vs Gradient)
+            // 2. STYLE BRIDGE
             const accent = params.get('accent_color');
             const accent2 = params.get('accent2_color');
             const textCol = params.get('primary_text_color');
             const radius = params.get('radius');
 
             if (accent) {
-                const hex1 = `#${accent}`;
-                root.style.setProperty('--accent', hex1);
-                // If accent2 is missing, use accent1 to make it a solid color
-                root.style.setProperty('--accent2', accent2 ? `#${accent2}` : hex1);
+                root.style.setProperty('--accent', `#${accent}`);
+                root.style.setProperty('--accent2', accent2 ? `#${accent2}` : `#${accent}`);
             }
-            
             if (textCol) root.style.setProperty('--primary-text-color', `#${textCol}`);
             if (radius) root.style.setProperty('--radius', radius + (isNaN(radius) ? '' : 'px'));
 
-            // 2. CONTENT BRIDGE
-            btnText.textContent = params.get('text') || 'Click Me';
-            linkWrapper.href = params.get('href') || '#';
-            linkWrapper.target = '_parent';
+            // 3. CONTENT BRIDGE
+            document.getElementById('btn-text').textContent = params.get('text') || 'Click Me';
+            document.getElementById('link-wrapper').href = params.get('href') || '#';
+            document.getElementById('link-wrapper').target = '_parent';
             
             const type = params.get('type') || 'primary';
-            btnContainer.classList.add(`btn-${type}`);
+            document.getElementById('dynamic-btn').classList.add(`btn-${type}`);
 
-            // 3. ICON & ANIMATION BRIDGE
+            // 4. ICON & ANIMATION
             const iconName = params.get('icon');
             const iconPos = params.get('icon_pos') || 'left';
-            const shouldAnimate = params.get('animate') !== 'false'; 
+            const shouldAnimate = params.get('animate') !== 'false';
 
             if (iconName) {
-                btnIcon.className = `fas fa-${iconName}`;
-                btnIcon.style.display = 'inline-block';
-                if (iconPos === 'right') btnContainer.appendChild(btnIcon);
-                if (shouldAnimate) btnContainer.classList.add('animate-shake');
+                const iconEl = document.getElementById('btn-icon');
+                iconEl.className = `fas fa-${iconName}`;
+                iconEl.style.display = 'inline-block';
+                if (iconPos === 'right') document.getElementById('dynamic-btn').appendChild(iconEl);
+                if (shouldAnimate) document.getElementById('dynamic-btn').classList.add('animate-shake');
             }
 
-            // 4. DYNAMIC RESIZE OBSERVER
+            // 5. RESIZE OBSERVER
             const frameId = params.get('frame_id');
             if (frameId && window.parent) {
-                const resizeObserver = new ResizeObserver(() => {
-                    // Using offsetHeight to capture padding/margins for the iframe height
-                    const height = Math.ceil(document.body.offsetHeight);
-                    window.parent.postMessage({ frameId, frameHeight: height }, '*');
-                });
-                resizeObserver.observe(document.body);
+                new ResizeObserver(() => {
+                    window.parent.postMessage({ frameId, frameHeight: Math.ceil(document.body.offsetHeight) }, '*');
+                }).observe(document.body);
             }
         });
     </script>

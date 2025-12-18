@@ -8,23 +8,25 @@
     <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600&display=swap" rel="stylesheet">
     <style>
         :root {
-            /* Default fallback variables */
             --accent: #FF0000;
             --glass: rgba(255, 255, 255, 0.04);
             --muted: #000000;
             --radius: 12px;
             --bg-blur: 12px;
+            --comp-width: 400px;
         }
-
         body {
             margin: 0;
             padding: 10px;
             font-family: 'Inter', sans-serif;
             background-color: transparent;
             overflow: hidden;
+            display: flex;
+            justify-content: center;
         }
-
         .alert-container {
+            width: var(--comp-width);
+            max-width: 100%;
             position: relative;
             display: flex;
             align-items: center;
@@ -38,148 +40,72 @@
             background: var(--glass);
             border: 1px solid rgba(255, 255, 255, 0.1);
             color: var(--muted);
-            transition: all 0.3s cubic-bezier(0.4, 0, 0.2, 1);
+            animation: slideIn 0.4s ease-out forwards;
         }
-        
-        /* The accent bar on the left */
         .alert-container::before {
             content: "";
             position: absolute;
-            left: 0;
-            top: 20%;
-            height: 60%;
-            width: 4px;
+            left: 0; top: 20%; height: 60%; width: 4px;
             background: var(--accent);
             border-radius: 0 4px 4px 0;
         }
-
-        .alert-icon {
-            font-size: 1.25rem;
-            margin-right: 16px;
-            color: var(--accent);
-            display: flex;
-            align-items: center;
-            justify-content: center;
-        }
-        
-        .alert-content {
-            flex: 1;
-            font-weight: 500;
-        }
-
-        /* Smooth reveal animation */
-        @keyframes slideIn {
-            from { opacity: 0; transform: translateY(-5px); }
-            to { opacity: 1; transform: translateY(0); }
-        }
-
-        .alert-container {
-            animation: slideIn 0.4s ease-out forwards;
-        }
-
-        @media (max-width: 480px) {
-            .alert-container { padding: 12px 16px; font-size: 0.85rem; }
-        }
+        .alert-icon { font-size: 1.25rem; margin-right: 16px; color: var(--accent); display: flex; align-items: center; }
+        .alert-content { flex: 1; font-weight: 500; }
+        @keyframes slideIn { from { opacity: 0; transform: translateY(-5px); } to { opacity: 1; transform: translateY(0); } }
     </style>
 </head>
 <body>
 
 <div class="alert-container" id="alert-box">
-    <div class="alert-icon">
-        <i id="alert-icon" class="fas fa-info-circle"></i>
-    </div>
-    <div class="alert-content" id="alert-message">
-        Loading...
-    </div>
+    <div class="alert-icon"><i id="alert-icon" class="fas fa-info-circle"></i></div>
+    <div class="alert-content" id="alert-message">Loading...</div>
 </div>
 
 <script>
-    /**
-     * CORE FUNCTION: Updates the UI based on URL parameters
-     */
     const updateUI = () => {
         const params = new URLSearchParams(window.location.search);
         const root = document.documentElement;
 
-        // 1. STYLE BRIDGE (Maps URL Params to CSS Variables)
-        const styleBridge = {
-            'accent_color': '--accent',
-            'glass_color':  '--glass',
-            'muted_color':  '--muted',
-            'radius':       '--radius'
-        };
+        // 1. WIDTH BRIDGE
+        const desktopWidth = params.get('width') || '400';
+        const androidWidth = params.get('android_width') || '95%';
+        const isMobile = /Android|iPhone|iPad|iPod/i.test(navigator.userAgent);
+        
+        if (isMobile) {
+            root.style.setProperty('--comp-width', androidWidth.includes('%') ? androidWidth : androidWidth + 'px');
+        } else {
+            root.style.setProperty('--comp-width', desktopWidth.includes('%') ? desktopWidth : desktopWidth + 'px');
+        }
 
-        Object.keys(styleBridge).forEach(key => {
+        // 2. STYLE BRIDGE
+        const styleMap = { 'accent_color': '--accent', 'glass_color': '--glass', 'muted_color': '--muted', 'radius': '--radius' };
+        Object.keys(styleMap).forEach(key => {
             const val = params.get(key);
             if (val) {
-                let finalValue = val;
-                // Add # for hex codes if missing
-                if (/^[0-9A-Fa-f]{3,8}$/.test(val)) finalValue = `#${val}`;
-                // Add px for radius
-                if (key === 'radius' && !isNaN(val)) finalValue += 'px';
-                
-                root.style.setProperty(styleBridge[key], finalValue);
+                let final = val;
+                if (/^[0-9A-Fa-f]{3,8}$/.test(val)) final = `#${val}`;
+                if (key === 'radius' && !isNaN(val)) final += 'px';
+                root.style.setProperty(styleMap[key], final);
             }
         });
 
-        // 2. CONTENT LOGIC
+        // 3. CONTENT LOGIC
         const type = params.get("type") || "info";
-        const message = params.get("message") || "Default alert message.";
-        
-        document.getElementById("alert-message").textContent = decodeURIComponent(message);
-
-        const icons = {
-            success: "fas fa-check-circle",
-            error: "fas fa-exclamation-circle",
-            warning: "fas fa-triangle-exclamation",
-            info: "fas fa-circle-info"
-        };
-        document.getElementById("alert-icon").className = icons[type] || icons.info;
-
-        // Ensure parent reflects new height
-        sendHeight();
+        document.getElementById("alert-message").textContent = decodeURIComponent(params.get("message") || "Default message.");
+        const icons = { success: "check-circle", error: "exclamation-circle", warning: "triangle-exclamation", info: "circle-info" };
+        document.getElementById("alert-icon").className = `fas fa-${icons[type] || icons.info}`;
     };
 
-    /**
-     * LIVE LISTENER: Allows parent page to update values via JS
-     */
-    window.addEventListener('message', (event) => {
-        // Only accept specifically tagged updates
-        if (event.data.type === 'THEMEX_UPDATE') {
-            const currentUrl = new URL(window.location.href);
-            
-            // Apply new config values to the current URL state
-            Object.keys(event.data.config).forEach(key => {
-                currentUrl.searchParams.set(key, event.data.config[key]);
-            });
-
-            // Update URL without refreshing the page
-            window.history.replaceState(null, '', currentUrl.search);
-            
-            // Re-run the UI logic
-            updateUI();
-        }
-    });
-
-    /**
-     * RESIZING LOGIC
-     */
-    function sendHeight() {
-        const params = new URLSearchParams(window.location.search);
-        const frameId = params.get('frame_id');
-        if (frameId && window.parent) {
-            const height = document.body.scrollHeight;
-            window.parent.postMessage({ frameId, frameHeight: height }, '*');
-        }
+    // 4. RESIZE OBSERVER
+    const params = new URLSearchParams(window.location.search);
+    const frameId = params.get('frame_id');
+    if (frameId && window.parent) {
+        new ResizeObserver(() => {
+            window.parent.postMessage({ frameId, frameHeight: Math.ceil(document.body.offsetHeight) }, '*');
+        }).observe(document.body);
     }
 
-    // Initial load
     document.addEventListener('DOMContentLoaded', updateUI);
-    window.addEventListener('resize', sendHeight);
-    
-    // Safety timeout for external font rendering
-    setTimeout(sendHeight, 600);
 </script>
-
 </body>
 </html>
