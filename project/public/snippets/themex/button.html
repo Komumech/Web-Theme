@@ -3,13 +3,15 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>ThemeX Button</title>
+    <title>ThemeX Button — Animated Icon Bridge</title>
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0-beta3/css/all.min.css">
     <link href="https://fonts.googleapis.com/css2?family=Inter:wght@700&display=swap" rel="stylesheet">
     <style>
         :root {
             --accent: #00b894;
-            --accent2: #00d1a1; /* Default gradient end color */
-            --primary-text-color: #042024; /* Default text color for primary button */
+            --accent2: #00d1a1;
+            --primary-text-color: #042024;
+            --radius: 10px;
         }
         body {
             margin: 0;
@@ -19,110 +21,131 @@
             display: flex;
             align-items: center;
             justify-content: center;
+            overflow: hidden;
         }
         .link-wrapper {
-            display: block;
-            padding: 10px; /* Moved padding here */
+            display: inline-flex;
+            padding: 10px; 
             text-decoration: none;
-            width: 100%;
             box-sizing: border-box;
         }
         .btn {
             display: inline-flex;
             align-items: center;
-            gap: 10px;
-            padding: 12px 18px;
-            border-radius: 10px;
+            justify-content: center;
+            gap: 12px;
+            padding: 12px 24px;
+            border-radius: var(--radius);
             font-weight: 700;
             cursor: pointer;
             text-decoration: none;
             border: 1px solid transparent;
-            transition: all 0.2s ease;
+            transition: all 0.2s cubic-bezier(0.4, 0, 0.2, 1);
             font-size: 1rem;
+            white-space: nowrap;
         }
+
+        /* ICON HOVER ANIMATION */
+        .btn i { 
+            font-size: 1.1rem; 
+            transition: transform 0.2s ease;
+        }
+
+        /* The Shake Keyframes */
+        @keyframes icon-shake {
+            0% { transform: rotate(0deg); }
+            25% { transform: rotate(15deg); }
+            50% { transform: rotate(-15deg); }
+            75% { transform: rotate(10deg); }
+            100% { transform: rotate(0deg); }
+        }
+
+        .btn.animate-shake:hover i {
+            animation: icon-shake 0.4s ease-in-out;
+        }
+
+        /* BUTTON TYPES */
         .btn-primary {
             background: linear-gradient(90deg, var(--accent), var(--accent2));
             color: var(--primary-text-color);
-            box-shadow: 0 4px 20px rgba(0, 184, 148, 0.1);
+            box-shadow: 0 4px 15px rgba(0, 184, 148, 0.2);
         }
         .btn-primary:hover {
             transform: translateY(-2px);
-            box-shadow: 0 8px 30px rgba(0, 184, 148, 0.2);
+            box-shadow: 0 6px 20px rgba(0, 184, 148, 0.3);
         }
         .btn-ghost {
             background: transparent;
             color: #fff;
             border: 1px solid rgba(255, 255, 255, 0.1);
         }
-        .btn-ghost:hover {
-            background: rgba(255, 255, 255, 0.05);
-            border-color: rgba(255, 255, 255, 0.2);
-        }
         .btn-outline {
             background: transparent;
             color: var(--accent);
-            border: 1px solid rgba(0, 184, 148, 0.2);
-        }
-        .btn-outline:hover {
-            background: rgba(0, 184, 148, 0.1);
-            border-color: rgba(0, 184, 148, 0.4);
+            border: 2px solid var(--accent);
         }
     </style>
 </head>
 <body>
 
     <a href="#" id="link-wrapper" class="link-wrapper">
-        <span id="dynamic-btn">Button</span>
+        <div id="dynamic-btn" class="btn">
+            <i id="btn-icon" style="display: none;"></i>
+            <span id="btn-text">Button</span>
+        </div>
     </a>
 
     <script>
         document.addEventListener('DOMContentLoaded', function() {
             const params = new URLSearchParams(window.location.search);
-            const btn = document.getElementById('dynamic-btn');
+            const root = document.documentElement;
+            
+            const btnContainer = document.getElementById('dynamic-btn');
+            const btnText = document.getElementById('btn-text');
+            const btnIcon = document.getElementById('btn-icon');
             const linkWrapper = document.getElementById('link-wrapper');
 
-            // --- Customization ---
-            const text = params.get('text') || 'Click Me';
-            const type = params.get('type') || 'primary'; // primary, ghost, outline
-            const href = params.get('href') || '#';
-            const accentColor = params.get('accent_color');
-            const accent2Color = params.get('accent2_color');
-            const primaryTextColor = params.get('primary_text_color');
+            // 1. STYLE BRIDGE
+            const accent = params.get('accent_color');
+            const accent2 = params.get('accent2_color');
+            const textCol = params.get('primary_text_color');
+            const radius = params.get('radius');
 
-            // Set content and link
-            btn.textContent = text;
-            linkWrapper.href = href;
-            linkWrapper.target = '_parent'; // Ensure link opens in the main window
+            if (accent) root.style.setProperty('--accent', `#${accent}`);
+            if (accent2) root.style.setProperty('--accent2', `#${accent2}`);
+            if (textCol) root.style.setProperty('--primary-text-color', `#${textCol}`);
+            if (radius) root.style.setProperty('--radius', radius + (isNaN(radius) ? '' : 'px'));
 
-            // Set button style
-            btn.className = `btn btn-${type}`;
+            // 2. CONTENT BRIDGE
+            btnText.textContent = params.get('text') || 'Click Me';
+            linkWrapper.href = params.get('href') || '#';
+            linkWrapper.target = '_parent';
+            
+            const type = params.get('type') || 'primary';
+            btnContainer.classList.add(`btn-${type}`);
 
-            // Set accent color if provided
-            if (accentColor) {
-                document.documentElement.style.setProperty('--accent', `#${accentColor}`);
-            }
-            if (accent2Color) {
-                document.documentElement.style.setProperty('--accent2', `#${accent2Color}`);
-            }
-            if (primaryTextColor) {
-                document.documentElement.style.setProperty('--primary-text-color', `#${primaryTextColor}`);
-            }
+            // 3. ICON & ANIMATION BRIDGE
+            const iconName = params.get('icon');
+            const iconPos = params.get('icon_pos') || 'left';
+            const shouldAnimate = params.get('animate') !== 'false'; // Default to true
 
-            // --- Dynamic Resizing ---
-            function sendHeight() {
-                const frameId = params.get('frame_id');
-                if (frameId && window.parent) {
-                    // Use offsetHeight for a single inline element
-                    const height = document.body.offsetHeight;
-                    window.parent.postMessage({ frameId: frameId, frameHeight: height }, '*');
-                }
+            if (iconName) {
+                btnIcon.className = `fas fa-${iconName}`;
+                btnIcon.style.display = 'inline-block';
+                if (iconPos === 'right') btnContainer.appendChild(btnIcon);
+                if (shouldAnimate) btnContainer.classList.add('animate-shake');
             }
 
-            // Send height on load and resize
-            sendHeight();
-            window.addEventListener('resize', sendHeight);
+            // 4. DYNAMIC RESIZE OBSERVER
+            const frameId = params.get('frame_id');
+            if (frameId && window.parent) {
+                const resizeObserver = new ResizeObserver(() => {
+                    const height = Math.ceil(document.body.offsetHeight);
+                    window.parent.postMessage({ frameId, frameHeight: height }, '*');
+                });
+                resizeObserver.observe(document.body);
+            }
         });
     </script>
-
 </body>
 </html>
