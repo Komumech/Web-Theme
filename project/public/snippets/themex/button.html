@@ -28,8 +28,9 @@
             display: inline-flex;
             padding: 10px; 
             text-decoration: none;
-            box-sizing: border-box;
+            box-sizing: border-box; /* Prevents padding from expanding width */
             width: var(--comp-width);
+            max-width: 100%;
             justify-content: center;
         }
         .btn {
@@ -47,6 +48,7 @@
             font-size: 1rem;
             white-space: nowrap;
             width: 100%;
+            box-sizing: border-box;
         }
 
         /* ICON ANIMATION */
@@ -67,8 +69,8 @@
         }
         .btn-primary:hover { transform: translateY(-2px); box-shadow: 0 6px 20px rgba(0, 0, 0, 0.15); }
         
-        .btn-ghost { background: transparent; color: #fff; border: 1px solid rgba(255, 255, 255, 0.1); }
-        .btn-ghost:hover { background: rgba(255, 255, 255, 0.05); }
+        .btn-ghost { background: transparent; color: inherit; border: 1px solid rgba(0, 0, 0, 0.1); }
+        .btn-ghost:hover { background: rgba(0, 0, 0, 0.05); }
 
         .btn-outline { background: transparent; color: var(--accent); border: 2px solid var(--accent); }
     </style>
@@ -87,16 +89,25 @@
             const params = new URLSearchParams(window.location.search);
             const root = document.documentElement;
             
-            // 1. WIDTH BRIDGE
-            const desktopWidth = params.get('width') || 'auto';
-            const androidWidth = params.get('android_width') || '90%';
+            // 1. IMPROVED WIDTH BRIDGE
+            const desktopWidth = params.get('width');
+            const androidWidth = params.get('android_width');
             const isMobile = /Android|iPhone|iPad|iPod/i.test(navigator.userAgent);
             
-            if (isMobile) {
-                root.style.setProperty('--comp-width', androidWidth.includes('%') ? androidWidth : androidWidth + 'px');
-            } else {
-                root.style.setProperty('--comp-width', desktopWidth === 'auto' ? 'auto' : desktopWidth + 'px');
+            let finalWidth = 'auto';
+
+            if (isMobile && androidWidth) {
+                // Smart Unit Logic: Numbers <= 100 are %, > 100 are px
+                if (!isNaN(androidWidth)) {
+                    finalWidth = (parseInt(androidWidth) <= 100) ? androidWidth + '%' : androidWidth + 'px';
+                } else {
+                    finalWidth = androidWidth;
+                }
+            } else if (desktopWidth && desktopWidth !== 'auto') {
+                finalWidth = isNaN(desktopWidth) ? desktopWidth + 'px' : desktopWidth;
             }
+
+            root.style.setProperty('--comp-width', finalWidth);
 
             // 2. STYLE BRIDGE
             const accent = params.get('accent_color');
