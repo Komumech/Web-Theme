@@ -1,0 +1,117 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>ThemeX Card</title>
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;600;700&display=swap" rel="stylesheet">
+    <style>
+        :root {
+            --card-bg: #1f2937;
+            --text-color: #f3f4f6;
+            --muted-color: #9ca3af;
+            --accent-color: #00b894;
+            --border-radius: 12px;
+        }
+        body { margin: 0; font-family: 'Inter', sans-serif; color-scheme: dark; overflow: hidden; }
+        
+        .card {
+            background: var(--card-bg);
+            border-radius: var(--border-radius);
+            overflow: hidden;
+            border: 1px solid rgba(255,255,255,0.05);
+            display: flex;
+            flex-direction: column;
+            max-width: 400px;
+            margin: 0 auto;
+        }
+        .card-image {
+            width: 100%;
+            height: 200px;
+            object-fit: cover;
+            background: #374151;
+            display: block;
+        }
+        .card-content { padding: 24px; }
+        .card-title {
+            margin: 0 0 8px 0;
+            font-size: 1.25rem;
+            font-weight: 700;
+            color: var(--text-color);
+        }
+        .card-text {
+            margin: 0 0 20px 0;
+            font-size: 0.95rem;
+            color: var(--muted-color);
+            line-height: 1.5;
+        }
+        .card-btn {
+            display: inline-block;
+            padding: 10px 20px;
+            background: var(--accent-color);
+            color: #ffffff;
+            text-decoration: none;
+            border-radius: 8px;
+            font-weight: 600;
+            font-size: 0.9rem;
+            transition: opacity 0.2s;
+            text-align: center;
+        }
+        .card-btn:hover { opacity: 0.9; }
+    </style>
+</head>
+<body>
+    <div class="card" id="card-root">
+        <img src="" alt="Card Image" class="card-image" id="card-img">
+        <div class="card-content">
+            <h3 class="card-title" id="card-title"></h3>
+            <p class="card-text" id="card-desc"></p>
+            <a href="#" class="card-btn" id="card-cta"></a>
+        </div>
+    </div>
+
+    <script>
+        document.addEventListener('DOMContentLoaded', () => {
+            const params = new URLSearchParams(window.location.search);
+            const root = document.documentElement;
+
+            // Style Bridge
+            const styles = { 'bg_color': '--card-bg', 'text_color': '--text-color', 'accent_color': '--accent-color', 'radius': '--border-radius' };
+            Object.keys(styles).forEach(key => {
+                let val = params.get(key);
+                if (val) {
+                    if (key === 'radius' && !isNaN(val)) val += 'px';
+                    else if (/^[0-9A-Fa-f]{3,8}$/.test(val)) val = '#' + val;
+                    root.style.setProperty(styles[key], val);
+                }
+            });
+
+            // Content
+            document.getElementById('card-title').textContent = params.get('title') || 'Card Title';
+            document.getElementById('card-desc').textContent = params.get('description') || 'This is a sample description for the card component. It supports dynamic text content.';
+            
+            const img = document.getElementById('card-img');
+            const imgUrl = params.get('image');
+            if (imgUrl) img.src = imgUrl; else img.style.display = 'none';
+
+            const cta = document.getElementById('card-cta');
+            const ctaText = params.get('cta_text');
+            if (ctaText) {
+                cta.textContent = ctaText;
+                cta.href = params.get('cta_href') || '#';
+            } else {
+                cta.style.display = 'none';
+            }
+
+            // Resize Logic
+            function sendHeight() {
+                if (params.get('frame_id') && window.parent) {
+                    window.parent.postMessage({ frameId: params.get('frame_id'), frameHeight: document.body.scrollHeight }, '*');
+                }
+            }
+            window.addEventListener('load', sendHeight);
+            window.addEventListener('resize', sendHeight);
+        });
+    </script>
+</body>
+</html>
