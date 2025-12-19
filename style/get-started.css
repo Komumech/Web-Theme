@@ -56,3 +56,23 @@
     50% { background-position: 100% 50%; }
     100% { background-position: 0% 50%; }
 }
+
+@media (max-width: 768px) {
+    .btns{
+        gap: 1rem;
+    }
+    .get-txt{
+        font-size: 1.5rem;;
+    }
+}
+@media (max-width: 568px){
+    .btns{
+        display: grid;
+        grid-template-columns: 100%;
+        align-items: center;
+        justify-content: center;
+    }
+    .btn1, .btn2{
+        justify-self: center;
+    }
+}

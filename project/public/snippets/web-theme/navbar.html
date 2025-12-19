@@ -8,6 +8,7 @@
       align-items: flex-start;
       height: auto;
       margin: 0;
+      background-color: #1f5afe;
       overflow: hidden; /* Prevent internal scrollbars */
       box-sizing: border-box; /* Include padding/border in height measurement */
     } 
@@ -21,14 +22,14 @@
       display: flex;
       justify-content: space-between;
       align-items: center;
-      padding: 15px;
+      padding: 20px;
       /* Add your default navbar styles here */
     }
     
     /* Example for responsive layout on smaller screens (for height change demonstration) */
     @media (max-width: 600px) {
         .navbar {
-            flex-direction: column;
+            flex-direction: row;
             align-items: flex-start;
             gap: 10px;
         }
