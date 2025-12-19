@@ -1,0 +1,152 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>ThemeX Accordion</title>
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600&display=swap" rel="stylesheet">
+    <style>
+        :root {
+            --primary-color: #a43939;
+            --bg-color: #ffffff;
+            --text-color: #333333;
+            --border-radius: 8px;
+            --border-color: rgba(0,0,0,0.08);
+        }
+
+        body {
+            font-family: 'Inter', sans-serif;
+            margin: 0;
+            padding: 2px; /* Prevent outline clipping */
+            background-color: transparent;
+            overflow: hidden;
+            box-sizing: border-box;
+        }
+
+        .accordion {
+            display: flex;
+            flex-direction: column;
+            gap: 12px;
+        }
+
+        .accordion-item {
+            background-color: var(--bg-color);
+            border: 1px solid var(--border-color);
+            border-radius: var(--border-radius);
+            overflow: hidden;
+            transition: box-shadow 0.3s ease, border-color 0.3s ease;
+        }
+
+        .accordion-item:hover {
+            border-color: var(--primary-color);
+            box-shadow: 0 4px 12px rgba(0,0,0,0.05);
+        }
+
+        .accordion-header {
+            padding: 16px 20px;
+            cursor: pointer;
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            font-weight: 600;
+            font-size: 0.95rem;
+            color: var(--text-color);
+            background: transparent;
+            user-select: none;
+            transition: color 0.2s;
+        }
+
+        .accordion-header.active {
+            color: var(--primary-color);
+        }
+
+        .chevron {
+            border: solid currentColor;
+            border-width: 0 2px 2px 0;
+            display: inline-block;
+            padding: 3px;
+            transform: rotate(45deg);
+            transition: transform 0.3s;
+            margin-right: 5px;
+        }
+        
+        .accordion-header.active .chevron {
+            transform: rotate(-135deg);
+        }
+
+        .accordion-content {
+            max-height: 0;
+            overflow: hidden;
+            transition: max-height 0.3s cubic-bezier(0.4, 0, 0.2, 1);
+            background-color: var(--bg-color);
+        }
+
+        .accordion-content div {
+            padding: 0 20px 20px 20px;
+            color: #666;
+            line-height: 1.6;
+            font-size: 0.9rem;
+        }
+    </style>
+</head>
+<body>
+
+    <div class="accordion" id="accordionContainer"></div>
+
+    <script>
+        const container = document.getElementById('accordionContainer');
+        let config = {};
+
+        function getParams() {
+            const params = new URLSearchParams(window.location.search);
+            const cfg = {};
+            for (const [key, value] of params.entries()) { cfg[key] = value; }
+            return cfg;
+        }
+
+        function applyStyles(cfg) {
+            const root = document.documentElement;
+            if (cfg.accent_color) root.style.setProperty('--primary-color', '#' + cfg.accent_color.replace('#', ''));
+            if (cfg.bg_color) root.style.setProperty('--bg-color', '#' + cfg.bg_color.replace('#', ''));
+            if (cfg.text_color) root.style.setProperty('--text-color', '#' + cfg.text_color.replace('#', ''));
+            if (cfg.radius) root.style.setProperty('--border-radius', cfg.radius + 'px');
+        }
+
+        function sendHeight() {
+            const height = document.body.scrollHeight;
+            const frameId = config.frame_id || config.frameId;
+            if (frameId) { window.parent.postMessage({ frameId: frameId, frameHeight: height }, '*'); }
+        }
+
+        function render(cfg) {
+            container.innerHTML = '';
+            for (let i = 1; i <= 10; i++) {
+                const header = cfg[`header_${i}`] || cfg[`title_${i}`];
+                const content = cfg[`content_${i}`] || cfg[`text_${i}`];
+                if (header && content) {
+                    const item = document.createElement('div');
+                    item.className = 'accordion-item';
+                    item.innerHTML = `<div class="accordion-header"><span>${header}</span><i class="chevron"></i></div><div class="accordion-content"><div>${content}</div></div>`;
+                    
+                    const hdr = item.querySelector('.accordion-header');
+                    const cnt = item.querySelector('.accordion-content');
+                    hdr.addEventListener('click', () => {
+                        const isActive = hdr.classList.contains('active');
+                        document.querySelectorAll('.accordion-header').forEach(h => { h.classList.remove('active'); h.nextElementSibling.style.maxHeight = null; });
+                        if (!isActive) { hdr.classList.add('active'); cnt.style.maxHeight = cnt.scrollHeight + "px"; }
+                        setTimeout(sendHeight, 350);
+                    });
+                    container.appendChild(item);
+                }
+            }
+            setTimeout(sendHeight, 100);
+        }
+
+        window.addEventListener('DOMContentLoaded', () => { config = getParams(); applyStyles(config); render(config); });
+        window.addEventListener('message', (e) => { if (e.data.type === 'THEMEX_UPDATE' && e.data.config) { config = { ...config, ...e.data.config }; applyStyles(config); render(config); } });
+        new ResizeObserver(() => sendHeight()).observe(document.body);
+    </script>
+</body>
+</html>
