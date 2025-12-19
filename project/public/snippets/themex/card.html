@@ -100,6 +100,7 @@
             if (ctaText) {
                 cta.innerHTML = ctaText;
                 cta.href = params.get('cta_href') || '#';
+                cta.target = '_blank';
             } else {
                 cta.style.display = 'none';
             }
