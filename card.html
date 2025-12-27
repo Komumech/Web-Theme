@@ -1,0 +1,168 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Dawn Card</title>
+    <style>
+        @import url('https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500&family=Playfair+Display:ital,wght@0,500;0,700;1,500&display=swap');
+
+        :root {
+            --bg-color: #ffffff;
+            --text-color: #1a1a1a;
+            --accent-color: #7c3aed;
+            --surface-color: #f3f4f6;
+            --font-head: 'Playfair Display', serif;
+            --font-body: 'Inter', sans-serif;
+        }
+
+        body {
+            margin: 0;
+            padding: 10px; /* Padding for shadow */
+            font-family: var(--font-body);
+            background-color: transparent;
+            overflow: hidden;
+            box-sizing: border-box;
+        }
+
+        .card {
+            background: var(--bg-color);
+            border-radius: 16px;
+            padding: 2rem;
+            box-shadow: 0 4px 20px rgba(0, 0, 0, 0.06);
+            transition: transform 0.3s, box-shadow 0.3s;
+            display: flex;
+            flex-direction: column;
+            justify-content: space-between;
+            min-height: 250px;
+            position: relative;
+            overflow: hidden;
+            border: 1px solid rgba(0,0,0,0.03);
+        }
+
+        .card:hover {
+            transform: translateY(-5px);
+            box-shadow: 0 15px 30px rgba(0, 0, 0, 0.1);
+        }
+
+        .card h3 {
+            font-family: var(--font-head);
+            font-size: 1.8rem;
+            margin: 0 0 1rem 0;
+            color: var(--text-color);
+        }
+
+        .card p {
+            color: #666;
+            line-height: 1.6;
+            font-size: 1rem;
+            margin-bottom: 2rem;
+        }
+
+        .card-tag {
+            position: absolute;
+            top: 1.5rem;
+            right: 1.5rem;
+            padding: 0.4rem 0.8rem;
+            background: var(--surface-color);
+            color: #555;
+            border-radius: 20px;
+            font-size: 0.75rem;
+            font-weight: 600;
+            text-transform: uppercase;
+            letter-spacing: 0.05em;
+        }
+
+        .card-icon {
+            font-size: 2rem;
+            color: var(--accent-color);
+            align-self: flex-end;
+        }
+
+        /* Highlight Mode (Inverted) */
+        .card.highlight {
+            background: var(--text-color);
+        }
+        .card.highlight h3 { color: white; }
+        .card.highlight p { color: #aaa; }
+        .card.highlight .card-tag { background: rgba(255,255,255,0.15); color: white; }
+        .card.highlight .card-icon { color: var(--accent-color); }
+
+        @media (max-width: 400px) {
+            .card { padding: 1.5rem; min-height: auto; }
+            .card h3 { font-size: 1.5rem; }
+        }
+    </style>
+</head>
+<body>
+
+    <div class="card" id="main-card">
+        <div class="card-tag" id="card-tag">Tag</div>
+        <div>
+            <h3 id="card-title">Card Title</h3>
+            <p id="card-desc">This is a description of the card content. It is fully customizable via parameters.</p>
+        </div>
+        <div class="card-icon" id="card-icon">→</div>
+    </div>
+
+    <script>
+        function getParam(name) {
+            return new URLSearchParams(window.location.search).get(name);
+        }
+
+        window.addEventListener('load', () => {
+            // 1. Customization
+            const title = getParam('title');
+            const desc = getParam('description');
+            const tag = getParam('tag_text');
+            const icon = getParam('icon'); // e.g. "→", "⚡", "↗"
+            
+            const accent = getParam('accent_color');
+            const bg = getParam('bg_color');
+            const highlight = getParam('highlight'); // "true" or "false"
+
+            if (title) document.getElementById('card-title').textContent = title;
+            if (desc) document.getElementById('card-desc').textContent = desc;
+            
+            if (tag) {
+                document.getElementById('card-tag').textContent = tag;
+            } else {
+                document.getElementById('card-tag').style.display = 'none';
+            }
+
+            if (icon) document.getElementById('card-icon').innerHTML = icon;
+
+            if (accent) document.documentElement.style.setProperty('--accent-color', '#' + accent);
+            if (bg) document.documentElement.style.setProperty('--bg-color', '#' + bg);
+
+            if (highlight === 'true') {
+                document.getElementById('main-card').classList.add('highlight');
+            }
+
+            // 2. Resizing
+            const sendHeight = () => {
+                const frameId = getParam('frame_id');
+                if (frameId) {
+                    window.parent.postMessage({
+                        frameId: frameId,
+                        frameHeight: document.body.scrollHeight
+                    }, '*');
+                }
+            };
+
+            sendHeight();
+            new ResizeObserver(sendHeight).observe(document.body);
+        });
+
+        // Live Updates
+        window.addEventListener('message', (event) => {
+            if (event.data.type === 'THEMEX_UPDATE' && event.data.config) {
+                const config = event.data.config;
+                if (config.title) document.getElementById('card-title').textContent = config.title;
+                if (config.accent_color) document.documentElement.style.setProperty('--accent-color', '#' + config.accent_color);
+                if (config.highlight) document.getElementById('main-card').classList.toggle('highlight', config.highlight === 'true');
+            }
+        });
+    </script>
+</body>
+</html>

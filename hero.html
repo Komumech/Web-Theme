@@ -1,0 +1,208 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Dawn Hero</title>
+    <style>
+        @import url('https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500&family=Playfair+Display:ital,wght@0,500;0,700;1,500&display=swap');
+
+        :root {
+            --bg-color: #ffffff;
+            --text-color: #1a1a1a;
+            --accent-primary: #7c3aed;
+            --accent-secondary: #059669;
+            --accent-tertiary: #db2777;
+            --font-head: 'Playfair Display', serif;
+            --font-body: 'Inter', sans-serif;
+        }
+
+        body {
+            margin: 0;
+            padding: 0;
+            font-family: var(--font-body);
+            background-color: var(--bg-color);
+            color: var(--text-color);
+            overflow: hidden; /* Prevent scrollbars in iframe */
+        }
+
+        .hero {
+            position: relative;
+            padding: 4rem 1.5rem;
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            justify-content: center;
+            text-align: center;
+            background: radial-gradient(circle at 50% 50%, rgba(124, 58, 237, 0.03) 0%, transparent 70%);
+            min-height: 400px;
+        }
+
+        .hero-content {
+            max-width: 800px;
+            z-index: 2;
+            animation: fadeUp 1s ease-out forwards;
+        }
+
+        @keyframes fadeUp {
+            from { opacity: 0; transform: translateY(20px); }
+            to { opacity: 1; transform: translateY(0); }
+        }
+
+        h1 {
+            font-family: var(--font-head);
+            font-size: 3.5rem;
+            line-height: 1.1;
+            margin: 0 0 1.5rem 0;
+            color: var(--text-color);
+        }
+
+        .hero p {
+            font-size: 1.1rem;
+            color: #666;
+            line-height: 1.6;
+            margin-bottom: 2.5rem;
+            max-width: 600px;
+            margin-left: auto;
+            margin-right: auto;
+        }
+
+        .cta-btn {
+            background: var(--accent-primary);
+            color: white;
+            padding: 1rem 2rem;
+            border-radius: 50px;
+            text-decoration: none;
+            font-size: 1rem;
+            font-weight: 500;
+            transition: transform 0.2s, box-shadow 0.2s;
+            display: inline-block;
+        }
+        .cta-btn:hover {
+            transform: translateY(-2px);
+            box-shadow: 0 10px 20px -5px rgba(0,0,0,0.2);
+        }
+
+        /* Floating Elements */
+        .floater {
+            position: absolute;
+            background: rgba(255, 255, 255, 0.85);
+            backdrop-filter: blur(8px);
+            padding: 0.6rem 1rem;
+            border-radius: 12px;
+            box-shadow: 0 8px 32px rgba(0, 0, 0, 0.08);
+            border: 1px solid rgba(255, 255, 255, 0.6);
+            font-size: 0.85rem;
+            font-weight: 600;
+            display: flex;
+            align-items: center;
+            gap: 8px;
+            z-index: 1;
+            animation: float 6s ease-in-out infinite;
+        }
+
+        .floater span { width: 8px; height: 8px; border-radius: 50%; }
+        .f-1 { top: 10%; left: 10%; animation-delay: 0s; }
+        .f-1 span { background: var(--accent-primary); }
+        .f-2 { top: 20%; right: 10%; animation-delay: 2s; }
+        .f-2 span { background: var(--accent-secondary); }
+        .f-3 { bottom: 15%; left: 15%; animation-delay: 1s; }
+        .f-3 span { background: var(--accent-tertiary); }
+
+        @keyframes float {
+            0%, 100% { transform: translateY(0); }
+            50% { transform: translateY(-15px); }
+        }
+
+        /* Mobile Responsiveness */
+        @media (max-width: 600px) {
+            .hero { padding: 3rem 1rem; }
+            h1 { font-size: 2.5rem; }
+            .hero p { font-size: 1rem; }
+            /* Reposition floaters on mobile to avoid overlapping text */
+            .f-1 { top: 5%; left: 5%; transform: scale(0.8); }
+            .f-2 { top: 8%; right: 5%; transform: scale(0.8); }
+            .f-3 { bottom: 5%; left: auto; right: 20%; transform: scale(0.8); }
+        }
+    </style>
+</head>
+<body>
+
+    <section class="hero">
+        <div class="floater f-1" id="f1-el"><span></span> <span id="f1-text">Strategy</span></div>
+        <div class="floater f-2" id="f2-el"><span></span> <span id="f2-text">Design</span></div>
+        <div class="floater f-3" id="f3-el"><span></span> <span id="f3-text">Growth</span></div>
+
+        <div class="hero-content">
+            <h1 id="hero-title">We build <i>digital</i> experiences.</h1>
+            <p id="hero-sub">A new perspective on digital product design. We help forward-thinking companies build modern software.</p>
+            <a href="#" id="cta-btn" class="cta-btn">Get in touch</a>
+        </div>
+    </section>
+
+    <script>
+        function getParam(name) {
+            return new URLSearchParams(window.location.search).get(name);
+        }
+
+        window.addEventListener('load', () => {
+            // 1. Customization
+            const title = getParam('hero_title');
+            const sub = getParam('hero_sub');
+            const ctaText = getParam('cta_text');
+            const ctaHref = getParam('cta_href');
+            
+            const f1 = getParam('floater1_text');
+            const f2 = getParam('floater2_text');
+            const f3 = getParam('floater3_text');
+
+            const accent = getParam('accent_primary');
+            const accent2 = getParam('accent_secondary');
+            const accent3 = getParam('accent_tertiary');
+            const bg = getParam('bg_color');
+
+            if (title) document.getElementById('hero-title').innerHTML = title; // innerHTML allows <i> tags
+            if (sub) document.getElementById('hero-sub').textContent = sub;
+            if (ctaText) document.getElementById('cta-btn').textContent = ctaText;
+            if (ctaHref) document.getElementById('cta-btn').href = ctaHref;
+
+            if (f1) document.getElementById('f1-text').textContent = f1;
+            if (f2) document.getElementById('f2-text').textContent = f2;
+            if (f3) document.getElementById('f3-text').textContent = f3;
+
+            if (accent) document.documentElement.style.setProperty('--accent-primary', '#' + accent);
+            if (accent2) document.documentElement.style.setProperty('--accent-secondary', '#' + accent2);
+            if (accent3) document.documentElement.style.setProperty('--accent-tertiary', '#' + accent3);
+            if (bg) document.documentElement.style.setProperty('--bg-color', '#' + bg);
+
+            // 2. Resizing
+            const sendHeight = () => {
+                const frameId = getParam('frame_id');
+                if (frameId) {
+                    window.parent.postMessage({
+                        frameId: frameId,
+                        frameHeight: document.body.scrollHeight
+                    }, '*');
+                }
+            };
+
+            // Initial resize
+            sendHeight();
+            // Observe changes
+            new ResizeObserver(sendHeight).observe(document.body);
+        });
+
+        // Listen for live updates (ThemeX style)
+        window.addEventListener('message', (event) => {
+            if (event.data.type === 'THEMEX_UPDATE' && event.data.config) {
+                const config = event.data.config;
+                if (config.hero_title) document.getElementById('hero-title').innerHTML = config.hero_title;
+                if (config.accent_primary) document.documentElement.style.setProperty('--accent-primary', '#' + config.accent_primary);
+                // Trigger resize after update
+                const frameId = getParam('frame_id');
+                if(frameId) window.parent.postMessage({ frameId: frameId, frameHeight: document.body.scrollHeight }, '*');
+            }
+        });
+    </script>
+</body>
+</html>

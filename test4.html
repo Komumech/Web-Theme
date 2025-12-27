@@ -1,0 +1,213 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Dawn Theme - Test Suite</title>
+    <style>
+        @import url('https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500&family=Playfair+Display:ital,wght@0,500;0,700;1,500&display=swap');
+
+        body {
+            background-color: #f3f4f6;
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            margin: 0;
+            padding-bottom: 50px;
+            font-family: 'Inter', sans-serif;
+            color: #1a1a1a;
+        }
+        
+        h1 { font-family: 'Playfair Display', serif; margin-top: 2rem; }
+        h2 { margin-top: 3rem; color: #666; font-size: 0.9rem; text-transform: uppercase; letter-spacing: 1.5px; font-weight: 600; }
+        
+        iframe {
+            border: none;
+            box-shadow: none;
+            margin-bottom: 1rem;
+            overflow: hidden;
+            width: 100%; 
+            transition: height 0.3s ease;
+        }
+
+        .controls {
+            position: sticky;
+            top: 0;
+            z-index: 100;
+            background: rgba(255,255,255,0.9);
+            backdrop-filter: blur(10px);
+            padding: 15px;
+            border-bottom: 1px solid #e5e7eb;
+            display: flex;
+            justify-content: center;
+            gap: 15px;
+            width: 100%;
+            box-shadow: 0 4px 6px -1px rgba(0, 0, 0, 0.05);
+        }
+
+        .btn {
+            padding: 8px 16px;
+            background: #1a1a1a;
+            color: white;
+            border: none;
+            border-radius: 6px;
+            cursor: pointer;
+            font-weight: 500;
+            font-family: 'Inter', sans-serif;
+            transition: transform 0.1s;
+        }
+        .btn:active { transform: scale(0.98); }
+        .btn-outline { background: transparent; border: 1px solid #1a1a1a; color: #1a1a1a; }
+
+        .grid-container {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(350px, 1fr));
+            gap: 2rem;
+            width: 90vw;
+            max-width: 1200px;
+            margin: 0 auto;
+        }
+    </style>
+</head>
+<body>
+
+    <div class="controls">
+        <button class="btn" onclick="updateHero()">Update Hero Text</button>
+        <button class="btn btn-outline" onclick="toggleCardHighlight()">Toggle Card Highlight</button>
+        <button class="btn" onclick="changeThemeColor()">Change Theme Color</button>
+    </div>
+
+    <h1>Dawn Theme Snippets</h1>
+
+    <h2>Hero Section</h2>
+    <iframe
+        id="dawn-hero"
+        src=""
+        scrolling="no"
+        data-base-url="project/public/snippets/dawn/hero.html"
+        data-frame-id="dawn-hero"
+        data-hero_title="We build <i>digital</i> experiences."
+        data-hero_sub="A new perspective on digital product design."
+        data-cta_text="Get Started"
+        data-floater1_text="Strategy"
+        data-floater2_text="Design"
+        data-floater3_text="Growth"
+        data-accent_primary="7c3aed"
+    ></iframe>
+
+    <h2>Card Components</h2>
+    <div class="grid-container">
+        <iframe
+            id="dawn-card-1"
+            src=""
+            scrolling="no"
+            data-base-url="project/public/snippets/dawn/card.html"
+            data-frame-id="dawn-card-1"
+            data-title="Product Design"
+            data-description="Crafting intuitive and beautiful interfaces that users love."
+            data-tag_text="Core"
+            data-icon="→"
+            data-accent_color="7c3aed"
+        ></iframe>
+
+        <iframe
+            id="dawn-card-2"
+            src=""
+            scrolling="no"
+            data-base-url="project/public/snippets/dawn/card.html"
+            data-frame-id="dawn-card-2"
+            data-title="Development"
+            data-description="Robust and scalable engineering solutions."
+            data-tag_text="Featured"
+            data-icon="⚡"
+            data-accent_color="059669"
+            data-highlight="true"
+        ></iframe>
+
+        <iframe
+            id="dawn-card-3"
+            src=""
+            scrolling="no"
+            data-base-url="project/public/snippets/dawn/card.html"
+            data-frame-id="dawn-card-3"
+            data-title="Marketing"
+            data-description="Data-driven strategies to grow your audience."
+            data-tag_text="Growth"
+            data-icon="↗"
+            data-accent_color="db2777"
+        ></iframe>
+    </div>
+
+    <h2>About Team</h2>
+    <iframe
+        id="dawn-team"
+        src=""
+        scrolling="no"
+        data-base-url="project/public/snippets/dawn/about-team.html"
+        data-frame-id="dawn-team"
+        data-label="About us"
+        data-description="Haymarket HQ help owners of small to medium sized businesses to increase their sales without the headaches of hiring additional staff or jumping on the tools themselves."
+        data-founder="Brad Chan - Founder"
+    ></iframe>
+
+    <script>
+        // 1. DYNAMIC RESIZER
+        window.addEventListener("message", function(event) {
+            if (event.data.frameHeight && event.data.frameId) {
+                const iframe = document.getElementById(event.data.frameId);
+                if (iframe) iframe.style.height = event.data.frameHeight + "px";
+            }
+        });
+
+        // 2. URL CONSTRUCTOR
+        document.addEventListener('DOMContentLoaded', function() {
+            document.querySelectorAll('iframe[data-base-url]').forEach(iframe => {
+                const baseUrl = iframe.getAttribute('data-base-url');
+                let params = [];
+                
+                for (const attr of iframe.attributes) {
+                    if (attr.name.startsWith('data-')) {
+                        let key = attr.name.substring(5).replace(/-/g, '_');
+                        if (key === 'base_url') continue;
+                        const value = encodeURIComponent(attr.value);
+                        params.push(`${key}=${value}`);
+                    }
+                }
+                iframe.src = baseUrl + '?' + params.join('&');
+            });
+        });
+
+        // 3. LIVE UPDATES
+        function sendMessage(frameId, config) {
+            const frame = document.getElementById(frameId);
+            if (frame && frame.contentWindow) {
+                frame.contentWindow.postMessage({
+                    type: 'THEMEX_UPDATE',
+                    config: config
+                }, '*');
+            }
+        }
+
+        function updateHero() {
+            sendMessage('dawn-hero', {
+                hero_title: "Future of <i>Web Design</i> is here.",
+                accent_primary: "2563eb" // Blue
+            });
+        }
+
+        let isHighlighted = true;
+        function toggleCardHighlight() {
+            isHighlighted = !isHighlighted;
+            sendMessage('dawn-card-2', {
+                highlight: isHighlighted.toString()
+            });
+        }
+
+        function changeThemeColor() {
+            const randomColor = Math.floor(Math.random()*16777215).toString(16);
+            sendMessage('dawn-card-1', { accent_color: randomColor });
+            sendMessage('dawn-card-3', { accent_color: randomColor });
+        }
+    </script>
+</body>
+</html>

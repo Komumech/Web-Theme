@@ -1,0 +1,342 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Dawn Theme Snippet</title>
+    <style>
+        @import url('https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500&family=Playfair+Display:ital,wght@0,500;0,700;1,500&display=swap');
+
+        :root {
+            --bg-color: #ffffff;
+            --text-color: #1a1a1a;
+            --accent-primary: #7c3aed; /* Violet */
+            --accent-secondary: #059669; /* Green */
+            --accent-tertiary: #db2777; /* Pink */
+            --surface-color: #f3f4f6;
+            --font-head: 'Playfair Display', serif;
+            --font-body: 'Inter', sans-serif;
+        }
+
+        body {
+            margin: 0;
+            padding: 0;
+            font-family: var(--font-body);
+            background-color: var(--bg-color);
+            color: var(--text-color);
+            overflow-x: hidden;
+            opacity: 0;
+            transition: opacity 0.4s ease-in;
+        }
+        
+        body.loaded { opacity: 1; }
+
+        /* Nav */
+        nav {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            padding: 1.5rem 3rem;
+            border-bottom: 1px solid rgba(0,0,0,0.05);
+        }
+
+        .logo {
+            font-family: var(--font-head);
+            font-weight: 700;
+            font-size: 1.8rem;
+            letter-spacing: -0.02em;
+        }
+
+        .nav-links { display: flex; gap: 2.5rem; }
+        .nav-links a {
+            text-decoration: none;
+            color: #555;
+            font-size: 0.9rem;
+            text-transform: uppercase;
+            letter-spacing: 0.05em;
+            font-weight: 500;
+            transition: color 0.2s;
+        }
+        .nav-links a:hover { color: var(--accent-primary); }
+
+        .cta-btn {
+            background: var(--text-color);
+            color: white;
+            padding: 0.8rem 1.5rem;
+            border-radius: 50px;
+            text-decoration: none;
+            font-size: 0.9rem;
+            transition: transform 0.2s, background 0.2s;
+        }
+        .cta-btn:hover {
+            transform: translateY(-2px);
+            background: var(--accent-primary);
+        }
+
+        /* Hero */
+        .hero {
+            position: relative;
+            padding: 6rem 2rem;
+            min-height: 70vh;
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            justify-content: center;
+            text-align: center;
+            background: radial-gradient(circle at 50% 50%, rgba(124, 58, 237, 0.03) 0%, transparent 70%);
+        }
+
+        .hero-content {
+            max-width: 800px;
+            z-index: 2;
+            animation: fadeUp 1s ease-out forwards;
+        }
+
+        @keyframes fadeUp {
+            from { opacity: 0; transform: translateY(20px); }
+            to { opacity: 1; transform: translateY(0); }
+        }
+
+        h1 {
+            font-family: var(--font-head);
+            font-size: 4.5rem;
+            line-height: 1.1;
+            margin: 0 0 1.5rem 0;
+            color: var(--text-color);
+        }
+        
+        h1 i { font-style: italic; color: var(--accent-primary); }
+
+        .hero p {
+            font-size: 1.25rem;
+            color: #666;
+            line-height: 1.6;
+            margin-bottom: 2.5rem;
+            max-width: 600px;
+            margin-left: auto;
+            margin-right: auto;
+        }
+
+        /* Floating Elements - Glassmorphism */
+        .floater {
+            position: absolute;
+            background: rgba(255, 255, 255, 0.8);
+            backdrop-filter: blur(10px);
+            padding: 0.8rem 1.2rem;
+            border-radius: 12px;
+            box-shadow: 0 8px 32px rgba(0, 0, 0, 0.05);
+            border: 1px solid rgba(255, 255, 255, 0.5);
+            font-size: 0.9rem;
+            font-weight: 600;
+            display: flex;
+            align-items: center;
+            gap: 8px;
+            z-index: 1;
+            animation: float 6s ease-in-out infinite;
+        }
+
+        .floater span {
+            width: 8px; height: 8px; border-radius: 50%;
+        }
+
+        .f-1 { top: 15%; left: 15%; animation-delay: 0s; }
+        .f-1 span { background: var(--accent-primary); }
+        
+        .f-2 { top: 25%; right: 18%; animation-delay: 2s; }
+        .f-2 span { background: var(--accent-secondary); }
+        
+        .f-3 { bottom: 20%; left: 20%; animation-delay: 1s; }
+        .f-3 span { background: var(--accent-tertiary); }
+
+        @keyframes float {
+            0%, 100% { transform: translateY(0); }
+            50% { transform: translateY(-20px); }
+        }
+
+        /* Slider */
+        .slider-section {
+            padding: 5rem 3rem;
+            background: var(--surface-color);
+        }
+
+        .slider-header {
+            margin-bottom: 3rem;
+            border-bottom: 1px solid #ddd;
+            padding-bottom: 1rem;
+            display: flex;
+            justify-content: space-between;
+            align-items: baseline;
+        }
+
+        .slider-header h2 {
+            font-family: var(--font-head);
+            font-size: 2.5rem;
+            margin: 0;
+        }
+
+        .cards-container {
+            display: flex;
+            gap: 2rem;
+            overflow-x: auto;
+            padding: 1rem 0 3rem 0;
+            scrollbar-width: none;
+        }
+        .cards-container::-webkit-scrollbar { display: none; }
+
+        .card {
+            flex: 0 0 350px;
+            background: white;
+            border-radius: 16px;
+            padding: 2.5rem;
+            box-shadow: 0 4px 6px -1px rgba(0, 0, 0, 0.05);
+            transition: transform 0.3s, box-shadow 0.3s;
+            display: flex;
+            flex-direction: column;
+            justify-content: space-between;
+            min-height: 400px;
+            position: relative;
+            overflow: hidden;
+        }
+
+        .card:hover {
+            transform: translateY(-10px);
+            box-shadow: 0 20px 25px -5px rgba(0, 0, 0, 0.1);
+        }
+
+        .card h3 {
+            font-family: var(--font-head);
+            font-size: 2rem;
+            margin: 0 0 1rem 0;
+        }
+
+        .card p {
+            color: #666;
+            line-height: 1.6;
+        }
+
+        .card-tag {
+            position: absolute;
+            top: 1.5rem;
+            right: 1.5rem;
+            padding: 0.4rem 0.8rem;
+            background: var(--surface-color);
+            border-radius: 20px;
+            font-size: 0.75rem;
+            font-weight: 600;
+            text-transform: uppercase;
+        }
+
+        .card.highlight {
+            background: var(--text-color);
+            color: white;
+        }
+        .card.highlight p { color: #aaa; }
+        .card.highlight .card-tag { background: rgba(255,255,255,0.1); color: white; }
+
+    </style>
+</head>
+<body>
+
+    <nav>
+        <div class="logo">Dawn.</div>
+        <div class="nav-links">
+            <a href="#">Work</a>
+            <a href="#">Studio</a>
+            <a href="#">Journal</a>
+        </div>
+        <a href="#" class="cta-btn">Start Project</a>
+    </nav>
+
+    <section class="hero">
+        <div class="floater f-1"><span></span> Strategy</div>
+        <div class="floater f-2"><span></span> Design</div>
+        <div class="floater f-3"><span></span> Growth</div>
+
+        <div class="hero-content">
+            <h1 id="hero-title">We build <i>digital</i> experiences that matter.</h1>
+            <p id="hero-sub">A new perspective on digital product design. We help forward-thinking companies build modern software.</p>
+            <a href="#" class="cta-btn" style="background: var(--accent-primary);">Get in touch</a>
+        </div>
+    </section>
+
+    <section class="slider-section">
+        <div class="slider-header">
+            <h2>Our Expertise</h2>
+            <div style="font-family: var(--font-body); color: #888;">01 — 04</div>
+        </div>
+
+        <div class="cards-container">
+            <div class="card">
+                <div class="card-tag">Core</div>
+                <div>
+                    <h3>Product Design</h3>
+                    <p>Crafting intuitive and beautiful interfaces that users love. We focus on clarity and purpose.</p>
+                </div>
+                <div style="font-size: 2rem;">→</div>
+            </div>
+
+            <div class="card highlight">
+                <div class="card-tag">Featured</div>
+                <div>
+                    <h3>Development</h3>
+                    <p>Robust and scalable engineering solutions. From frontend to backend, we have you covered.</p>
+                </div>
+                <div style="font-size: 2rem; color: var(--accent-secondary);">⚡</div>
+            </div>
+
+            <div class="card">
+                <div class="card-tag">Growth</div>
+                <div>
+                    <h3>Marketing</h3>
+                    <p>Data-driven strategies to grow your audience and convert visitors into loyal customers.</p>
+                </div>
+                <div style="font-size: 2rem;">↗</div>
+            </div>
+            
+            <div class="card">
+                <div class="card-tag">Strategy</div>
+                <div>
+                    <h3>Consulting</h3>
+                    <p>Expert advice to guide your digital transformation journey.</p>
+                </div>
+                <div style="font-size: 2rem;">+</div>
+            </div>
+        </div>
+    </section>
+
+    <script>
+        function getParam(name) {
+            return new URLSearchParams(window.location.search).get(name);
+        }
+
+        window.addEventListener('load', () => {
+            // 1. Apply Theme Customizations
+            const accent = getParam('accent_color');
+            const bg = getParam('bg_color');
+            const title = getParam('hero_title');
+            const sub = getParam('hero_sub');
+
+            if (accent) document.documentElement.style.setProperty('--accent-primary', '#' + accent);
+            if (bg) document.documentElement.style.setProperty('--bg-color', '#' + bg);
+            if (title) document.getElementById('hero-title').textContent = title;
+            if (sub) document.getElementById('hero-sub').textContent = sub;
+
+            document.body.classList.add('loaded');
+
+            // 2. Dynamic Resizing for Parent Iframe
+            const sendHeight = () => {
+                const frameId = getParam('frame_id');
+                if (frameId) {
+                    window.parent.postMessage({
+                        frameId: frameId,
+                        frameHeight: document.body.scrollHeight
+                    }, '*');
+                }
+            };
+
+            sendHeight();
+            new ResizeObserver(sendHeight).observe(document.body);
+        });
+    </script>
+</body>
+</html>
