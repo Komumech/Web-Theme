@@ -1,0 +1,32 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Dawn Alert</title>
+    <style>
+        @import url('https://fonts.googleapis.com/css2?family=Inter:wght@400;500&display=swap');
+        :root { --accent: #7c3aed; --bg: #f3f4f6; }
+        body { margin: 0; padding: 10px; font-family: 'Inter', sans-serif; overflow: hidden; }
+        .alert { display: flex; align-items: center; padding: 1rem; background: white; border-left: 4px solid var(--accent); box-shadow: 0 4px 15px rgba(0,0,0,0.05); border-radius: 4px; }
+        .icon { margin-right: 1rem; color: var(--accent); font-size: 1.2rem; }
+        .content { color: #333; font-size: 0.95rem; }
+    </style>
+</head>
+<body>
+    <div class="alert" id="alert-box">
+        <div class="icon" id="icon">●</div>
+        <div class="content" id="message">Alert message</div>
+    </div>
+    <script>
+        const params = new URLSearchParams(window.location.search);
+        if(params.get('message')) document.getElementById('message').textContent = params.get('message');
+        if(params.get('accent_color')) document.documentElement.style.setProperty('--accent', '#'+params.get('accent_color'));
+        
+        const sendHeight = () => {
+            if(params.get('frame_id')) window.parent.postMessage({frameId: params.get('frame_id'), frameHeight: document.body.scrollHeight}, '*');
+        }
+        window.addEventListener('load', sendHeight);
+    </script>
+</body>
+</html>

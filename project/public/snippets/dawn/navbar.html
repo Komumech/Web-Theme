@@ -1,0 +1,56 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Dawn Navbar</title>
+    <style>
+        @import url('https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500&family=Playfair+Display:ital,wght@0,500;0,700;1,500&display=swap');
+        :root {
+            --bg-color: #ffffff;
+            --text-color: #1a1a1a;
+            --accent-color: #7c3aed;
+            --font-head: 'Playfair Display', serif;
+            --font-body: 'Inter', sans-serif;
+        }
+        body { margin: 0; font-family: var(--font-body); background: var(--bg-color); color: var(--text-color); overflow: hidden; }
+        nav { display: flex; justify-content: space-between; align-items: center; padding: 1.5rem 2rem; border-bottom: 1px solid rgba(0,0,0,0.05); }
+        .logo { font-family: var(--font-head); font-weight: 700; font-size: 1.5rem; text-decoration: none; color: var(--text-color); }
+        .nav-links { display: flex; gap: 2rem; }
+        .nav-links a { text-decoration: none; color: #555; font-size: 0.9rem; text-transform: uppercase; letter-spacing: 0.05em; font-weight: 500; transition: color 0.2s; }
+        .nav-links a:hover { color: var(--accent-color); }
+        .cta-btn { background: var(--text-color); color: white; padding: 0.6rem 1.2rem; border-radius: 50px; text-decoration: none; font-size: 0.85rem; transition: transform 0.2s, background 0.2s; }
+        .cta-btn:hover { transform: translateY(-1px); background: var(--accent-color); }
+        @media (max-width: 600px) { .nav-links { display: none; } }
+    </style>
+</head>
+<body>
+    <nav id="navbar">
+        <a href="#" class="logo" id="brand">Dawn.</a>
+        <div class="nav-links" id="links"></div>
+        <a href="#" class="cta-btn" id="cta">Get Started</a>
+    </nav>
+    <script>
+        const params = new URLSearchParams(window.location.search);
+        if(params.get('brand')) document.getElementById('brand').textContent = params.get('brand');
+        if(params.get('cta_text')) document.getElementById('cta').textContent = params.get('cta_text');
+        if(params.get('accent_color')) document.documentElement.style.setProperty('--accent-color', '#'+params.get('accent_color'));
+        
+        const linksContainer = document.getElementById('links');
+        for(let i=1; i<=4; i++) {
+            if(params.get(`link${i}_label`)) {
+                const a = document.createElement('a');
+                a.href = params.get(`link${i}_href`) || '#';
+                a.textContent = params.get(`link${i}_label`);
+                linksContainer.appendChild(a);
+            }
+        }
+        
+        const sendHeight = () => {
+            if(params.get('frame_id')) window.parent.postMessage({frameId: params.get('frame_id'), frameHeight: document.body.scrollHeight}, '*');
+        }
+        window.addEventListener('load', sendHeight);
+        window.addEventListener('resize', sendHeight);
+    </script>
+</body>
+</html>

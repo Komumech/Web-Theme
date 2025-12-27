@@ -1,0 +1,59 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Dawn Footer</title>
+    <style>
+        @import url('https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500&family=Playfair+Display:ital,wght@0,500;0,700;1,500&display=swap');
+        :root { --bg-color: #f9fafb; --text-color: #1a1a1a; --accent-color: #7c3aed; --font-head: 'Playfair Display', serif; --font-body: 'Inter', sans-serif; }
+        body { margin: 0; font-family: var(--font-body); background: var(--bg-color); color: var(--text-color); padding: 3rem 2rem; overflow: hidden; }
+        .footer-content { display: flex; flex-wrap: wrap; justify-content: space-between; gap: 2rem; max-width: 1000px; margin: 0 auto; }
+        .col { flex: 1; min-width: 200px; }
+        h4 { font-family: var(--font-head); font-size: 1.2rem; margin-bottom: 1rem; }
+        p, a { font-size: 0.9rem; color: #666; line-height: 1.6; text-decoration: none; display: block; margin-bottom: 0.5rem; }
+        a:hover { color: var(--accent-color); }
+        .copyright { text-align: center; margin-top: 3rem; font-size: 0.8rem; color: #888; border-top: 1px solid #e5e7eb; padding-top: 1.5rem; }
+    </style>
+</head>
+<body>
+    <div class="footer-content">
+        <div class="col">
+            <h4 id="company">Dawn.</h4>
+            <p id="desc">Elegant digital solutions.</p>
+        </div>
+        <div class="col">
+            <h4>Links</h4>
+            <div id="links"></div>
+        </div>
+        <div class="col">
+            <h4>Social</h4>
+            <div id="social"></div>
+        </div>
+    </div>
+    <div class="copyright" id="copy">&copy; 2025 Dawn Theme.</div>
+    <script>
+        const params = new URLSearchParams(window.location.search);
+        if(params.get('company_name')) document.getElementById('company').textContent = params.get('company_name');
+        if(params.get('description')) document.getElementById('desc').textContent = params.get('description');
+        if(params.get('copyright')) document.getElementById('copy').innerHTML = params.get('copyright');
+        if(params.get('accent_color')) document.documentElement.style.setProperty('--accent-color', '#'+params.get('accent_color'));
+        
+        const linksDiv = document.getElementById('links');
+        for(let i=1; i<=4; i++) {
+            if(params.get(`link${i}_label`)) {
+                const a = document.createElement('a');
+                a.href = params.get(`link${i}_href`) || '#';
+                a.textContent = params.get(`link${i}_label`);
+                linksDiv.appendChild(a);
+            }
+        }
+        
+        const sendHeight = () => {
+            if(params.get('frame_id')) window.parent.postMessage({frameId: params.get('frame_id'), frameHeight: document.body.scrollHeight}, '*');
+        }
+        window.addEventListener('load', sendHeight);
+        window.addEventListener('resize', sendHeight);
+    </script>
+</body>
+</html>

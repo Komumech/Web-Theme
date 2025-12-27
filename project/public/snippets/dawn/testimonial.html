@@ -1,0 +1,36 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Dawn Testimonial</title>
+    <style>
+        @import url('https://fonts.googleapis.com/css2?family=Inter:wght@400;500&family=Playfair+Display:ital,wght@1,500&display=swap');
+        :root { --accent: #7c3aed; }
+        body { margin: 0; padding: 20px; font-family: 'Inter', sans-serif; overflow: hidden; text-align: center; }
+        .quote { font-family: 'Playfair Display', serif; font-style: italic; font-size: 1.5rem; color: #1a1a1a; margin-bottom: 1.5rem; line-height: 1.4; }
+        .author { font-weight: 600; font-size: 0.9rem; color: #333; }
+        .role { font-size: 0.85rem; color: #666; margin-top: 4px; }
+        .avatar { width: 60px; height: 60px; border-radius: 50%; margin: 0 auto 1rem; object-fit: cover; display: block; }
+    </style>
+</head>
+<body>
+    <img id="avatar" class="avatar" src="" alt="Avatar">
+    <div class="quote" id="quote">"Quote"</div>
+    <div class="author" id="author">Author</div>
+    <div class="role" id="role">Role</div>
+    <script>
+        const params = new URLSearchParams(window.location.search);
+        if(params.get('quote')) document.getElementById('quote').textContent = '"' + params.get('quote') + '"';
+        if(params.get('author')) document.getElementById('author').textContent = params.get('author');
+        if(params.get('role')) document.getElementById('role').textContent = params.get('role');
+        if(params.get('avatar')) document.getElementById('avatar').src = params.get('avatar');
+        else document.getElementById('avatar').style.display = 'none';
+        
+        const sendHeight = () => {
+            if(params.get('frame_id')) window.parent.postMessage({frameId: params.get('frame_id'), frameHeight: document.body.scrollHeight}, '*');
+        }
+        window.addEventListener('load', sendHeight);
+    </script>
+</body>
+</html>

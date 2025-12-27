@@ -1,0 +1,51 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Dawn Pricing</title>
+    <style>
+        @import url('https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500&family=Playfair+Display:wght@700&display=swap');
+        :root { --accent: #7c3aed; --bg: #fff; }
+        body { margin: 0; padding: 20px; font-family: 'Inter', sans-serif; overflow: hidden; }
+        .card { background: var(--bg); padding: 2rem; border-radius: 16px; box-shadow: 0 10px 30px rgba(0,0,0,0.05); border: 1px solid rgba(0,0,0,0.05); text-align: center; }
+        .plan { font-size: 0.9rem; text-transform: uppercase; letter-spacing: 1px; color: #666; margin-bottom: 1rem; font-weight: 500; }
+        .price { font-family: 'Playfair Display', serif; font-size: 3rem; color: #1a1a1a; margin-bottom: 2rem; }
+        .features { list-style: none; padding: 0; margin: 0 0 2rem 0; text-align: left; }
+        .features li { padding: 8px 0; color: #555; font-size: 0.95rem; border-bottom: 1px solid #f5f5f5; }
+        .btn { display: block; width: 100%; padding: 12px; background: var(--accent); color: white; text-decoration: none; border-radius: 8px; font-weight: 500; transition: opacity 0.2s; box-sizing: border-box; }
+        .btn:hover { opacity: 0.9; }
+        .highlight { border: 2px solid var(--accent); }
+    </style>
+</head>
+<body>
+    <div class="card" id="card">
+        <div class="plan" id="plan">Basic</div>
+        <div class="price" id="price">$0</div>
+        <ul class="features" id="features"></ul>
+        <a href="#" class="btn" id="btn">Choose Plan</a>
+    </div>
+    <script>
+        const params = new URLSearchParams(window.location.search);
+        if(params.get('plan_name')) document.getElementById('plan').textContent = params.get('plan_name');
+        if(params.get('price')) document.getElementById('price').textContent = params.get('price');
+        if(params.get('cta_text')) document.getElementById('btn').textContent = params.get('cta_text');
+        if(params.get('accent_color')) document.documentElement.style.setProperty('--accent', '#'+params.get('accent_color'));
+        if(params.get('highlighted') === 'true') document.getElementById('card').classList.add('highlight');
+        
+        if(params.get('features')) {
+            const ul = document.getElementById('features');
+            params.get('features').split(',').forEach(f => {
+                const li = document.createElement('li');
+                li.textContent = f.trim();
+                ul.appendChild(li);
+            });
+        }
+        
+        const sendHeight = () => {
+            if(params.get('frame_id')) window.parent.postMessage({frameId: params.get('frame_id'), frameHeight: document.body.scrollHeight}, '*');
+        }
+        window.addEventListener('load', sendHeight);
+    </script>
+</body>
+</html>

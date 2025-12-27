@@ -1,0 +1,57 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Dawn Accordion</title>
+    <style>
+        @import url('https://fonts.googleapis.com/css2?family=Inter:wght@300;400&family=Playfair+Display:wght@500&display=swap');
+        :root { --accent: #7c3aed; }
+        body { margin: 0; padding: 10px; font-family: 'Inter', sans-serif; overflow: hidden; }
+        .item { border-bottom: 1px solid #eee; }
+        .header { padding: 15px 0; cursor: pointer; font-family: 'Playfair Display', serif; font-size: 1.1rem; display: flex; justify-content: space-between; }
+        .content { max-height: 0; overflow: hidden; transition: max-height 0.3s ease; color: #666; font-size: 0.95rem; line-height: 1.6; }
+        .header.active { color: var(--accent); }
+        .icon { transition: transform 0.3s; }
+        .header.active .icon { transform: rotate(45deg); }
+    </style>
+</head>
+<body>
+    <div id="container"></div>
+    <script>
+        const params = new URLSearchParams(window.location.search);
+        if(params.get('accent_color')) document.documentElement.style.setProperty('--accent', '#'+params.get('accent_color'));
+        
+        const container = document.getElementById('container');
+        for(let i=1; i<=5; i++) {
+            if(params.get(`header_${i}`)) {
+                const item = document.createElement('div');
+                item.className = 'item';
+                item.innerHTML = `
+                    <div class="header"><span>${params.get(`header_${i}`)}</span><span class="icon">+</span></div>
+                    <div class="content"><div style="padding-bottom: 15px;">${params.get(`content_${i}`)}</div></div>
+                `;
+                container.appendChild(item);
+                
+                const header = item.querySelector('.header');
+                const content = item.querySelector('.content');
+                header.addEventListener('click', () => {
+                    const isOpen = header.classList.contains('active');
+                    document.querySelectorAll('.header').forEach(h => h.classList.remove('active'));
+                    document.querySelectorAll('.content').forEach(c => c.style.maxHeight = null);
+                    if(!isOpen) {
+                        header.classList.add('active');
+                        content.style.maxHeight = content.scrollHeight + "px";
+                    }
+                    setTimeout(sendHeight, 350);
+                });
+            }
+        }
+        
+        const sendHeight = () => {
+            if(params.get('frame_id')) window.parent.postMessage({frameId: params.get('frame_id'), frameHeight: document.body.scrollHeight}, '*');
+        }
+        window.addEventListener('load', sendHeight);
+    </script>
+</body>
+</html>
