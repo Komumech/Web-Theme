@@ -1,0 +1,147 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Dawn Footer</title>
+    <style>
+        @import url('https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500&family=Playfair+Display:ital,wght@0,400;0,600;1,400&display=swap');
+        :root { 
+            --bg-color: #ffffff; 
+            --text-color: #1a1a1a; 
+            --accent-color: #7c3aed; 
+            --muted-color: #6b7280;
+            --font-head: 'Playfair Display', serif; 
+            --font-body: 'Inter', sans-serif; 
+        }
+        body { 
+            margin: 0; 
+            font-family: var(--font-body); 
+            background: var(--bg-color); 
+            color: var(--text-color); 
+            padding: 4rem 2rem 2rem; 
+            overflow: hidden; 
+            border-top: 1px solid rgba(0,0,0,0.04);
+        }
+        .footer-content { 
+            display: grid; 
+            grid-template-columns: 1.5fr 1fr 1fr; 
+            gap: 4rem; 
+            max-width: 1100px; 
+            margin: 0 auto 4rem; 
+        }
+        .col { min-width: 0; }
+        
+        /* Brand Column */
+        h4#company { 
+            font-family: var(--font-head); 
+            font-size: 2rem; 
+            margin: 0 0 1rem; 
+            font-weight: 600; 
+            letter-spacing: -0.02em;
+        }
+        p#desc { 
+            font-size: 1rem; 
+            color: var(--muted-color); 
+            line-height: 1.6; 
+            max-width: 320px; 
+        }
+
+        /* Headings for Links */
+        .col h5 { 
+            font-size: 0.75rem; 
+            text-transform: uppercase; 
+            letter-spacing: 0.1em; 
+            color: var(--muted-color); 
+            margin: 0 0 1.5rem 0; 
+            font-weight: 600; 
+        }
+
+        /* Links */
+        a { 
+            font-size: 0.95rem; 
+            color: var(--text-color); 
+            text-decoration: none; 
+            display: block; 
+            margin-bottom: 0.8rem; 
+            transition: all 0.2s ease; 
+            width: fit-content;
+        }
+        a:hover { 
+            color: var(--accent-color); 
+            transform: translateX(4px); 
+        }
+
+        .copyright { 
+            text-align: center; 
+            font-size: 0.85rem; 
+            color: var(--muted-color); 
+            border-top: 1px solid rgba(0,0,0,0.06); 
+            padding-top: 2rem; 
+            max-width: 1100px;
+            margin: 0 auto;
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+        }
+
+        @media (max-width: 768px) {
+            .footer-content { grid-template-columns: 1fr; gap: 2.5rem; margin-bottom: 3rem; }
+            .copyright { flex-direction: column; gap: 1rem; }
+        }
+    </style>
+</head>
+<body>
+    <div class="footer-content">
+        <div class="col">
+            <h4 id="company">Dawn.</h4>
+            <p id="desc">Elegant digital solutions.</p>
+        </div>
+        <div class="col">
+            <h5>Explore</h5>
+            <div id="links"></div>
+        </div>
+        <div class="col">
+            <h5>Connect</h5>
+            <div id="social"></div>
+        </div>
+    </div>
+    <div class="copyright">
+        <span id="copy">&copy; 2025 Dawn Theme.</span>
+        <span style="opacity: 0.6;">Designed with care.</span>
+    </div>
+    <script>
+        const params = new URLSearchParams(window.location.search);
+        if(params.get('company_name')) document.getElementById('company').textContent = params.get('company_name');
+        if(params.get('description')) document.getElementById('desc').textContent = params.get('description');
+        if(params.get('copyright')) document.getElementById('copy').innerHTML = params.get('copyright');
+        if(params.get('accent_color')) document.documentElement.style.setProperty('--accent-color', '#'+params.get('accent_color'));
+        
+        const linksDiv = document.getElementById('links');
+        for(let i=1; i<=4; i++) {
+            if(params.get(`link${i}_label`)) {
+                const a = document.createElement('a');
+                a.href = params.get(`link${i}_href`) || '#';
+                a.textContent = params.get(`link${i}_label`);
+                linksDiv.appendChild(a);
+            }
+        }
+
+        const socialDiv = document.getElementById('social');
+        for(let i=1; i<=4; i++) {
+            if(params.get(`social${i}_label`)) {
+                const a = document.createElement('a');
+                a.href = params.get(`social${i}_href`) || '#';
+                a.textContent = params.get(`social${i}_label`);
+                socialDiv.appendChild(a);
+            }
+        }
+        
+        const sendHeight = () => {
+            if(params.get('frame_id')) window.parent.postMessage({frameId: params.get('frame_id'), frameHeight: document.body.scrollHeight}, '*');
+        }
+        window.addEventListener('load', sendHeight);
+        window.addEventListener('resize', sendHeight);
+    </script>
+</body>
+</html>
