@@ -1,0 +1,124 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>MindMarket Hero</title>
+    <style>
+        @import url('https://fonts.googleapis.com/css2?family=DM+Sans:wght@400;700&display=swap');
+
+        :root {
+            --bg-color: #82cf66;
+            --text-color: #1a1a1a;
+            --font-main: 'DM Sans', sans-serif;
+        }
+
+        body {
+            margin: 0;
+            padding: 0;
+            font-family: var(--font-main);
+            background-color: var(--bg-color);
+            color: var(--text-color);
+            overflow: hidden;
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            min-height: 600px;
+            position: relative;
+        }
+
+        .hero-content {
+            text-align: center;
+            padding-top: 6rem;
+            z-index: 2;
+            width: 100%;
+        }
+
+        h1 {
+            font-size: 6rem;
+            line-height: 0.9;
+            margin: 0;
+            letter-spacing: -0.03em;
+            color: #222;
+            opacity: 0;
+            animation: slideUp 0.8s cubic-bezier(0.2, 0.8, 0.2, 1) forwards;
+        }
+
+        .subtitle {
+            font-size: 1.25rem;
+            margin-top: 1.5rem;
+            max-width: 600px;
+            margin-left: auto;
+            margin-right: auto;
+            line-height: 1.5;
+            opacity: 0;
+            animation: slideUp 0.8s cubic-bezier(0.2, 0.8, 0.2, 1) 0.2s forwards;
+        }
+
+        .illustration-container {
+            margin-top: 2rem;
+            width: 100%;
+            display: flex;
+            justify-content: center;
+            position: relative;
+        }
+
+        .illustration {
+            max-width: 800px;
+            width: 90%;
+            height: auto;
+            filter: drop-shadow(0 10px 20px rgba(0,0,0,0.1));
+            animation: float 6s ease-in-out infinite;
+        }
+
+        /* Decorative elements to mimic the image style if no image is present */
+        .deco-shape {
+            position: absolute;
+            background: #f4d03f;
+            border-radius: 50%;
+            z-index: 1;
+        }
+
+        @keyframes slideUp {
+            from { opacity: 0; transform: translateY(40px); }
+            to { opacity: 1; transform: translateY(0); }
+        }
+
+        @keyframes float {
+            0%, 100% { transform: translateY(0); }
+            50% { transform: translateY(-20px); }
+        }
+
+        @media (max-width: 768px) {
+            h1 { font-size: 3.5rem; }
+            .hero-content { padding-top: 4rem; }
+            .subtitle { font-size: 1.1rem; padding: 0 1rem; }
+        }
+    </style>
+</head>
+<body>
+
+    <div class="hero-content">
+        <h1 id="hero-title">Real human<br>insights</h1>
+        <p id="hero-subtitle" class="subtitle">We help you understand your customers better through data-driven empathy and real-world interactions.</p>
+    </div>
+
+    <div class="illustration-container">
+        <!-- Using a placeholder that matches the vibe of diverse people -->
+        <img src="https://komuhost.vercel.app/img14.png" class="illustration" alt="Team Illustration">
+    </div>
+
+    <script>
+        const params = new URLSearchParams(window.location.search);
+        if(params.get('title')) document.getElementById('hero-title').innerHTML = params.get('title');
+        if(params.get('subtitle')) document.getElementById('hero-subtitle').textContent = params.get('subtitle');
+        if(params.get('bg_color')) document.body.style.backgroundColor = '#' + params.get('bg_color');
+
+        const sendHeight = () => {
+            if(params.get('frame_id')) window.parent.postMessage({frameId: params.get('frame_id'), frameHeight: document.body.scrollHeight}, '*');
+        }
+        window.addEventListener('load', sendHeight);
+        window.addEventListener('resize', sendHeight);
+    </script>
+</body>
+</html>

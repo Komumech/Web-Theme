@@ -1,0 +1,66 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>MindMarket Theme Test</title>
+    <style>
+        body {
+            margin: 0;
+            padding: 0;
+            background-color: #82cf66; /* Matching the hero bg for seamless look */
+            font-family: sans-serif;
+        }
+        
+        .theme-wrapper {
+            position: relative;
+            width: 100%;
+            max-width: 1400px;
+            margin: 0 auto;
+        }
+
+        iframe {
+            width: 100%;
+            border: none;
+            overflow: hidden;
+            display: block;
+        }
+
+        #nav-frame {
+            position: absolute;
+            top: 0;
+            left: 0;
+            width: 100%;
+            z-index: 10;
+            height: 100px; /* Initial height */
+        }
+    </style>
+</head>
+<body>
+
+    <div class="theme-wrapper">
+        <!-- Navbar floats on top -->
+        <iframe 
+            id="nav-frame"
+            src="project/public/snippets/mindmarket/navbar.html?frame_id=nav-frame"
+            scrolling="no"
+        ></iframe>
+
+        <!-- Hero Section -->
+        <iframe 
+            id="hero-frame"
+            src="project/public/snippets/mindmarket/hero.html?frame_id=hero-frame"
+            scrolling="no"
+        ></iframe>
+    </div>
+
+    <script>
+        window.addEventListener("message", function(event) {
+            if (event.data.frameHeight && event.data.frameId) {
+                const iframe = document.getElementById(event.data.frameId);
+                if (iframe) iframe.style.height = event.data.frameHeight + "px";
+            }
+        });
+    </script>
+</body>
+</html>
