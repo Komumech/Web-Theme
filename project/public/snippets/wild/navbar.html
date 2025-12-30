@@ -112,15 +112,30 @@
         }
 
         .mobile-menu {
-            display: none;
+            display: flex;
             flex-direction: column;
             background: var(--pill-bg);
-            margin-top: 1rem;
             border-radius: 24px;
-            padding: 1.5rem;
             box-shadow: 0 10px 40px rgba(0,0,0,0.08);
+            overflow: hidden;
+            
+            /* Hidden State */
+            max-height: 0;
+            opacity: 0;
+            margin-top: 0;
+            padding: 0 1.5rem;
+            transform: translateY(-20px);
+            visibility: hidden;
+            transition: all 0.5s cubic-bezier(0.19, 1, 0.22, 1);
         }
-        .mobile-menu.active { display: flex; }
+        .mobile-menu.active { 
+            max-height: 500px;
+            opacity: 1;
+            margin-top: 1rem;
+            padding: 1.5rem;
+            transform: translateY(0);
+            visibility: visible;
+        }
         .mobile-menu a {
             text-decoration: none; color: var(--text-color); font-weight: 500; font-size: 1.1rem; padding: 0.8rem 0; border-bottom: 1px solid rgba(0,0,0,0.05);
         }
