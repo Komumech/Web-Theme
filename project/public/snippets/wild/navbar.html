@@ -221,9 +221,17 @@
         }
         
         const hamburger = document.querySelector('.hamburger');
-        hamburger.addEventListener('click', () => {
+        hamburger.addEventListener('click', (e) => {
+            e.stopPropagation();
             menuContainer.classList.toggle('active');
             sendHeight();
+        });
+
+        document.addEventListener('click', (e) => {
+            if (menuContainer.classList.contains('active') && !menuContainer.contains(e.target)) {
+                menuContainer.classList.remove('active');
+                sendHeight();
+            }
         });
 
         // Dynamic Resizing
