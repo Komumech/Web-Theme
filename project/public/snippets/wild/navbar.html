@@ -11,8 +11,8 @@
             --bg-color: transparent;
             --pill-bg: #ffffff;
             --text-color: #1a1a1a;
-            --accent-green: #82cf66;
-            --accent-blue: #2d7ff9;
+            --green: #82cf66;
+            --blue: #2d7ff9;
             --font-main: 'DM Sans', sans-serif;
         }
 
@@ -52,7 +52,7 @@
             align-items: center;
             gap: 8px;
         }
-        .logo-icon { color: var(--accent-green); font-size: 1.5rem; }
+        .logo-icon { color: var(--green); font-size: 1.5rem; }
 
         .nav-links {
             display: flex;
@@ -64,12 +64,12 @@
             font-weight: 500;
             font-size: 1rem;
         }
-        .nav-links a:hover { color: var(--accent-green); }
+        .nav-links a:hover { color: var(--green); }
 
         .hamburger {
             width: 45px;
             height: 45px;
-            background: #95d970; /* Lighter green for button */
+            background: var(--green); /* Lighter green for button */
             border-radius: 50%;
             display: flex;
             flex-direction: column;
@@ -99,7 +99,7 @@
         .face-icon {
             width: 45px;
             height: 45px;
-            background: var(--accent-blue);
+            background: var(--blue);
             border-radius: 50%;
             display: flex;
             justify-content: center;
@@ -156,11 +156,11 @@
         if(params.get('text_color')) {
             document.documentElement.style.setProperty('--text-color', '#' + params.get('text_color'));
         }
-        if(params.get('accent_green')) {
-            document.documentElement.style.setProperty('--accent-green', '#' + params.get('accent_green'));
+        if(params.get('green')) {
+            document.documentElement.style.setProperty('--green', '#' + params.get('green'));
         }
-        if(params.get('accent_blue')) {
-            document.documentElement.style.setProperty('--accent-blue', '#' + params.get('accent_blue'));
+        if(params.get('blue')) {
+            document.documentElement.style.setProperty('--blue', '#' + params.get('blue'));
         }
 
         const linksContainer = document.querySelector('.nav-links');
