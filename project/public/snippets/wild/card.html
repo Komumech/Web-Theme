@@ -26,20 +26,21 @@
             background: var(--bg-color);
             border-radius: 32px;
             padding: 2.5rem;
-            box-shadow: 0 10px 30px rgba(0,0,0,0.05);
+            box-shadow: 0 10px 30px rgba(0,0,0,0.03), 0 1px 3px rgba(0,0,0,0.05);
             display: flex;
             flex-direction: column;
             align-items: flex-start;
             transition: transform 0.3s ease;
             height: 100%;
+            border: 1px solid rgba(0,0,0,0.03);
         }
 
-        .card:hover { transform: translateY(-8px); }
+        .card:hover { transform: translateY(-8px); box-shadow: 0 20px 40px rgba(0,0,0,0.08); }
 
         .icon {
             font-size: 3rem;
             margin-bottom: 1.5rem;
-            background: #f4f4f4;
+            background: linear-gradient(135deg, #f4f4f4 0%, #e0e0e0 100%);
             width: 80px;
             height: 80px;
             border-radius: 50%;
