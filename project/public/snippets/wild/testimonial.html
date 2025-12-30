@@ -1,0 +1,49 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Wild Testimonial</title>
+    <style>
+        @import url('https://fonts.googleapis.com/css2?family=DM+Sans:wght@400;700&display=swap');
+        :root { --accent: #f4d03f; }
+        body { margin: 0; padding: 20px; font-family: 'DM Sans', sans-serif; overflow: hidden; text-align: center; }
+        .container {
+            background: #fff;
+            border-radius: 32px;
+            padding: 3rem 2rem;
+            box-shadow: 0 10px 40px rgba(0,0,0,0.05);
+            position: relative;
+            max-width: 800px;
+            margin: 0 auto;
+        }
+        .quote { font-size: 1.5rem; color: #1a1a1a; margin-bottom: 2rem; line-height: 1.4; font-weight: 700; }
+        .author-block { display: flex; align-items: center; justify-content: center; gap: 1rem; }
+        .avatar { width: 60px; height: 60px; border-radius: 50%; object-fit: cover; border: 3px solid var(--accent); }
+        .info { text-align: left; }
+        .author { font-weight: 700; font-size: 1rem; color: #1a1a1a; }
+        .role { font-size: 0.9rem; color: #666; }
+        
+        @media (max-width: 600px) { .quote { font-size: 1.2rem; } .container { padding: 2rem 1.5rem; } }
+    </style>
+</head>
+<body>
+    <div class="container">
+        <div class="quote" id="quote">"Quote"</div>
+        <div class="author-block">
+            <img id="avatar" class="avatar" src="" alt="Avatar">
+            <div class="info"><div class="author" id="author">Author</div><div class="role" id="role">Role</div></div>
+        </div>
+    </div>
+    <script>
+        const params = new URLSearchParams(window.location.search);
+        if(params.get('quote')) document.getElementById('quote').textContent = '"' + params.get('quote') + '"';
+        if(params.get('author')) document.getElementById('author').textContent = params.get('author');
+        if(params.get('role')) document.getElementById('role').textContent = params.get('role');
+        if(params.get('avatar')) document.getElementById('avatar').src = params.get('avatar');
+        if(params.get('accent_color')) document.documentElement.style.setProperty('--accent', '#'+params.get('accent_color'));
+        const sendHeight = () => { if(params.get('frame_id')) window.parent.postMessage({frameId: params.get('frame_id'), frameHeight: document.body.scrollHeight}, '*'); }
+        window.addEventListener('load', sendHeight);
+    </script>
+</body>
+</html>

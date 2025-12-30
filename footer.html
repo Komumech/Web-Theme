@@ -3,209 +3,58 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Dawn Footer</title>
+    <title>Wild Footer</title>
     <style>
-        @import url('https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500&family=Playfair+Display:ital,wght@0,400;0,600;1,400&display=swap');
-        :root { 
-            --bg-color: #111111; 
-            --text-color: #ffffff; 
-            --accent-color: #7c3aed; 
-            --muted-color: #888888;
-            --border-color: rgba(255,255,255,0.1);
-            --font-head: 'Playfair Display', serif; 
-            --font-body: 'Inter', sans-serif; 
-        }
-        body { 
-            margin: 0; 
-            font-family: var(--font-body); 
-            background: var(--bg-color); 
-            color: var(--text-color); 
-            padding: 5rem 3rem 2rem; 
-            overflow: hidden; 
-        }
-
-        /* Top CTA Section */
-        .footer-cta {
-            margin-bottom: 4rem;
-            padding-bottom: 4rem;
-            border-bottom: 1px solid var(--border-color);
-            display: flex;
-            justify-content: space-between;
-            align-items: flex-end;
-            flex-wrap: wrap;
-            gap: 2rem;
-        }
-        .footer-cta h2 {
-            font-family: var(--font-head);
-            font-size: 3.5rem;
-            margin: 0;
-            line-height: 1.1;
-            max-width: 600px;
-        }
-        .footer-cta .btn {
-            background: var(--text-color);
-            color: var(--bg-color);
-            padding: 1rem 2rem;
-            border-radius: 50px;
-            text-decoration: none;
-            font-weight: 500;
-            transition: transform 0.2s, background 0.2s;
-        }
-        .footer-cta .btn:hover {
-            transform: translateY(-2px);
-            background: var(--accent-color);
-            color: white;
-        }
-
-        .footer-content { 
-            display: grid; 
-            grid-template-columns: 2fr 1fr 1fr 1.5fr; 
-            gap: 3rem; 
-            margin-bottom: 4rem; 
-        }
-        .col { min-width: 0; }
-        
-        /* Brand Column */
-        h4#company { 
-            font-family: var(--font-head); 
-            font-size: 1.8rem; 
-            margin: 0 0 1rem; 
-            font-weight: 400; 
-            letter-spacing: -0.02em;
-        }
-        p#desc { 
-            font-size: 0.95rem; 
-            color: var(--muted-color); 
-            line-height: 1.6; 
-            max-width: 280px; 
-        }
-
-        /* Headings for Links */
-        .col h5 { 
-            font-size: 0.9rem; 
-            color: var(--text-color); 
-            margin: 0 0 1.5rem 0; 
-            font-weight: 500; 
-        }
-
-        /* Links */
-        a { 
-            font-size: 0.9rem; 
-            color: var(--muted-color); 
-            text-decoration: none; 
-            display: block; 
-            margin-bottom: 0.8rem; 
-            transition: all 0.2s ease; 
-            width: fit-content;
-        }
-        a:hover { 
-            color: var(--accent-color); 
-            transform: translateX(4px); 
-        }
-
-        /* Newsletter Input */
-        .newsletter-input {
-            display: flex;
-            border-bottom: 1px solid var(--muted-color);
-            padding-bottom: 0.5rem;
-            margin-top: 1rem;
-        }
-        .newsletter-input input {
-            background: transparent;
-            border: none;
-            color: white;
-            flex: 1;
-            outline: none;
-            font-family: var(--font-body);
-        }
-        .newsletter-input button {
-            background: none;
-            border: none;
-            color: var(--accent-color);
-            cursor: pointer;
-            font-size: 1.2rem;
-        }
-
-        .copyright { 
-            font-size: 0.8rem; 
-            color: var(--muted-color); 
-            border-top: 1px solid var(--border-color); 
-            padding-top: 2rem; 
-            display: flex;
-            justify-content: space-between;
-            align-items: center;
-        }
-
-        @media (max-width: 768px) {
-            body { padding: 3rem 1.5rem 2rem; }
-            .footer-cta h2 { font-size: 2.5rem; }
-            .footer-content { grid-template-columns: 1fr; gap: 2.5rem; }
-            .copyright { flex-direction: column; gap: 1rem; }
-        }
+        @import url('https://fonts.googleapis.com/css2?family=DM+Sans:wght@400;700&display=swap');
+        :root { --bg: #1a1a1a; --text: #ffffff; --accent: #82cf66; }
+        body { margin: 0; padding: 4rem 2rem; font-family: 'DM Sans', sans-serif; background: var(--bg); color: var(--text); overflow: hidden; }
+        .footer-container { max-width: 1200px; margin: 0 auto; display: grid; grid-template-columns: 1.5fr 1fr 1fr 1.5fr; gap: 3rem; }
+        h3 { font-size: 1.5rem; margin: 0 0 1rem 0; font-weight: 700; display: flex; align-items: center; gap: 10px; }
+        .logo-dot { width: 12px; height: 12px; background: var(--accent); border-radius: 50%; display: inline-block; }
+        p { color: #888; line-height: 1.6; font-size: 0.95rem; }
+        h4 { font-size: 1rem; margin: 0 0 1.5rem 0; color: #fff; }
+        a { display: block; color: #888; text-decoration: none; margin-bottom: 0.8rem; transition: color 0.2s; }
+        a:hover { color: var(--accent); }
+        .newsletter input { width: 100%; padding: 12px 16px; border-radius: 12px; border: 1px solid #333; background: #222; color: white; font-family: inherit; margin-bottom: 10px; box-sizing: border-box; }
+        .newsletter button { width: 100%; padding: 12px; border-radius: 12px; background: var(--accent); color: #1a1a1a; border: none; font-weight: 700; cursor: pointer; }
+        .copyright { margin-top: 4rem; padding-top: 2rem; border-top: 1px solid #333; text-align: center; color: #666; font-size: 0.9rem; }
+        @media (max-width: 768px) { .footer-container { grid-template-columns: 1fr; gap: 2rem; } }
     </style>
 </head>
 <body>
-    <div class="footer-cta">
-        <h2>Let's build something meaningful together.</h2>
-        <a href="#" class="btn">Start a Project</a>
-    </div>
-
-    <div class="footer-content">
-        <div class="col">
-            <h4 id="company">Dawn.</h4>
-            <p id="desc">Elegant digital solutions.</p>
+    <div class="footer-container">
+        <div>
+            <h3 id="brand"><span class="logo-dot"></span> Wild.</h3>
+            <p id="desc">Creating digital experiences that are bold, playful, and human-centered.</p>
         </div>
-        <div class="col">
-            <h5>Explore</h5>
-            <div id="links"></div>
+        <div>
+            <h4>Company</h4>
+            <a href="#">About</a>
+            <a href="#">Careers</a>
+            <a href="#">Blog</a>
         </div>
-        <div class="col">
-            <h5>Connect</h5>
-            <div id="social"></div>
+        <div>
+            <h4>Resources</h4>
+            <a href="#">Documentation</a>
+            <a href="#">Help Center</a>
+            <a href="#">Partners</a>
         </div>
-        <div class="col">
-            <h5>Newsletter</h5>
-            <p style="font-size: 0.9rem; color: var(--muted-color); margin-bottom: 1rem;">Latest updates in your inbox.</p>
-            <div class="newsletter-input">
-                <input type="email" placeholder="Email address">
-                <button>→</button>
-            </div>
+        <div class="newsletter">
+            <h4>Stay in the loop</h4>
+            <input type="email" placeholder="Email address">
+            <button>Subscribe</button>
         </div>
     </div>
-    <div class="copyright">
-        <span id="copy">&copy; 2025 Dawn Theme.</span>
-        <span>Designed with care.</span>
-    </div>
+    <div class="copyright" id="copy">© 2025 Wild Theme. All rights reserved.</div>
     <script>
         const params = new URLSearchParams(window.location.search);
-        if(params.get('company_name')) document.getElementById('company').textContent = params.get('company_name');
+        if(params.get('brand')) document.getElementById('brand').innerHTML = `<span class="logo-dot"></span> ${params.get('brand')}`;
         if(params.get('description')) document.getElementById('desc').textContent = params.get('description');
-        if(params.get('copyright')) document.getElementById('copy').innerHTML = params.get('copyright');
-        if(params.get('accent_color')) document.documentElement.style.setProperty('--accent-color', '#'+params.get('accent_color'));
+        if(params.get('copyright')) document.getElementById('copy').textContent = params.get('copyright');
+        if(params.get('bg_color')) document.body.style.backgroundColor = '#' + params.get('bg_color');
+        if(params.get('accent_color')) document.documentElement.style.setProperty('--accent', '#'+params.get('accent_color'));
         
-        const linksDiv = document.getElementById('links');
-        for(let i=1; i<=4; i++) {
-            if(params.get(`link${i}_label`)) {
-                const a = document.createElement('a');
-                a.href = params.get(`link${i}_href`) || '#';
-                a.textContent = params.get(`link${i}_label`);
-                linksDiv.appendChild(a);
-            }
-        }
-
-        const socialDiv = document.getElementById('social');
-        for(let i=1; i<=4; i++) {
-            if(params.get(`social${i}_label`)) {
-                const a = document.createElement('a');
-                a.href = params.get(`social${i}_href`) || '#';
-                a.textContent = params.get(`social${i}_label`);
-                socialDiv.appendChild(a);
-            }
-        }
-        
-        const sendHeight = () => {
-            if(params.get('frame_id')) window.parent.postMessage({frameId: params.get('frame_id'), frameHeight: document.body.scrollHeight}, '*');
-        }
+        const sendHeight = () => { if(params.get('frame_id')) window.parent.postMessage({frameId: params.get('frame_id'), frameHeight: document.body.scrollHeight}, '*'); }
         window.addEventListener('load', sendHeight);
         window.addEventListener('resize', sendHeight);
     </script>

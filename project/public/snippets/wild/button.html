@@ -1,0 +1,44 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Wild Button</title>
+    <style>
+        @import url('https://fonts.googleapis.com/css2?family=DM+Sans:wght@700&display=swap');
+        :root { --accent: #82cf66; --text: #1a1a1a; }
+        body { margin: 0; padding: 10px; font-family: 'DM Sans', sans-serif; display: flex; justify-content: center; overflow: hidden; }
+        .btn { 
+            background: var(--accent); 
+            color: var(--text); 
+            padding: 14px 32px; 
+            border-radius: 50px; 
+            text-decoration: none; 
+            font-weight: 700; 
+            font-size: 1rem;
+            transition: transform 0.2s, box-shadow 0.2s; 
+            border: none; 
+            cursor: pointer; 
+            display: inline-block; 
+            box-shadow: 0 4px 15px rgba(0,0,0,0.1);
+        }
+        .btn:hover { transform: translateY(-3px); box-shadow: 0 8px 20px rgba(0,0,0,0.15); }
+        .btn.outline { background: transparent; border: 2px solid var(--accent); color: var(--text); box-shadow: none; }
+        .btn.outline:hover { background: var(--accent); }
+    </style>
+</head>
+<body>
+    <a href="#" class="btn" id="btn">Button</a>
+    <script>
+        const params = new URLSearchParams(window.location.search);
+        const btn = document.getElementById('btn');
+        if(params.get('text')) btn.textContent = params.get('text');
+        if(params.get('href')) btn.href = params.get('href');
+        if(params.get('type') === 'outline') btn.classList.add('outline');
+        if(params.get('accent_color')) document.documentElement.style.setProperty('--accent', '#'+params.get('accent_color'));
+        
+        const sendHeight = () => { if(params.get('frame_id')) window.parent.postMessage({frameId: params.get('frame_id'), frameHeight: document.body.scrollHeight}, '*'); }
+        window.addEventListener('load', sendHeight);
+    </script>
+</body>
+</html>

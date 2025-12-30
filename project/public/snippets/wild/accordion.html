@@ -1,0 +1,72 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Wild Accordion</title>
+    <style>
+        @import url('https://fonts.googleapis.com/css2?family=DM+Sans:wght@500;700&display=swap');
+        :root { --accent: #82cf66; }
+        body { margin: 0; padding: 10px; font-family: 'DM Sans', sans-serif; overflow: hidden; }
+        .item { 
+            background: #fff;
+            border-radius: 20px;
+            margin-bottom: 1rem;
+            box-shadow: 0 4px 15px rgba(0,0,0,0.03);
+            overflow: hidden;
+            border: 1px solid #f0f0f0;
+        }
+        .header { 
+            padding: 1.2rem 1.5rem; 
+            cursor: pointer; 
+            font-weight: 700; 
+            font-size: 1.1rem; 
+            display: flex; 
+            justify-content: space-between; 
+            align-items: center;
+            background: #fff;
+            transition: background 0.2s;
+        }
+        .header:hover { background: #fafafa; }
+        .content { max-height: 0; overflow: hidden; transition: max-height 0.3s ease; color: #555; font-size: 1rem; line-height: 1.6; }
+        .content-inner { padding: 0 1.5rem 1.5rem 1.5rem; }
+        .header.active { color: var(--accent); }
+        .icon { 
+            width: 24px; height: 24px; 
+            background: #f4f4f4; 
+            border-radius: 50%; 
+            display: flex; align-items: center; justify-content: center;
+            font-size: 1.2rem; line-height: 1;
+            transition: transform 0.3s, background 0.3s;
+        }
+        .header.active .icon { transform: rotate(45deg); background: var(--accent); color: white; }
+    </style>
+</head>
+<body>
+    <div id="container"></div>
+    <script>
+        const params = new URLSearchParams(window.location.search);
+        if(params.get('accent_color')) document.documentElement.style.setProperty('--accent', '#'+params.get('accent_color'));
+        
+        const container = document.getElementById('container');
+        for(let i=1; i<=5; i++) {
+            if(params.get(`header_${i}`)) {
+                const item = document.createElement('div');
+                item.className = 'item';
+                item.innerHTML = `<div class="header"><span>${params.get(`header_${i}`)}</span><span class="icon">+</span></div><div class="content"><div class="content-inner">${params.get(`content_${i}`)}</div></div>`;
+                container.appendChild(item);
+                const header = item.querySelector('.header');
+                const content = item.querySelector('.content');
+                header.addEventListener('click', () => {
+                    const isOpen = header.classList.contains('active');
+                    if(isOpen) { header.classList.remove('active'); content.style.maxHeight = null; }
+                    else { header.classList.add('active'); content.style.maxHeight = content.scrollHeight + "px"; }
+                    setTimeout(sendHeight, 350);
+                });
+            }
+        }
+        const sendHeight = () => { if(params.get('frame_id')) window.parent.postMessage({frameId: params.get('frame_id'), frameHeight: document.body.scrollHeight}, '*'); }
+        window.addEventListener('load', sendHeight);
+    </script>
+</body>
+</html>
