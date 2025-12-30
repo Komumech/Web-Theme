@@ -150,6 +150,18 @@
         if(params.get('bg_color')) {
             document.documentElement.style.setProperty('--bg-color', '#' + params.get('bg_color'));
         }
+        if(params.get('pill_bg')) {
+            document.documentElement.style.setProperty('--pill-bg', '#' + params.get('pill_bg'));
+        }
+        if(params.get('text_color')) {
+            document.documentElement.style.setProperty('--text-color', '#' + params.get('text_color'));
+        }
+        if(params.get('accent_green')) {
+            document.documentElement.style.setProperty('--accent-green', '#' + params.get('accent_green'));
+        }
+        if(params.get('accent_blue')) {
+            document.documentElement.style.setProperty('--accent-blue', '#' + params.get('accent_blue'));
+        }
 
         const linksContainer = document.querySelector('.nav-links');
         if(params.get('link1_text')) {
