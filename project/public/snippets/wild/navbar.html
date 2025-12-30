@@ -110,6 +110,22 @@
         @media (max-width: 900px) {
             .nav-links { display: none; }
         }
+
+        .mobile-menu {
+            display: none;
+            flex-direction: column;
+            background: var(--pill-bg);
+            margin-top: 1rem;
+            border-radius: 24px;
+            padding: 1.5rem;
+            box-shadow: 0 10px 40px rgba(0,0,0,0.08);
+        }
+        .mobile-menu.active { display: flex; }
+        .mobile-menu a {
+            text-decoration: none; color: var(--text-color); font-weight: 500; font-size: 1.1rem; padding: 0.8rem 0; border-bottom: 1px solid rgba(0,0,0,0.05);
+        }
+        .mobile-menu a:last-child { border-bottom: none; }
+        .mobile-menu a:hover { color: var(--green); }
     </style>
 </head>
 <body>
@@ -125,7 +141,7 @@
                 <a href="#">Network</a>
             </div>
             <div class="hamburger">
-                <span></span><span></span>
+                <span></span><span></span><span></span>
             </div>
         </div>
 
@@ -134,6 +150,8 @@
             <div class="face-icon">😄</div>
         </a>
     </nav>
+
+    <div id="mobile-menu" class="mobile-menu"></div>
 
     <script>
         const params = new URLSearchParams(window.location.search);
@@ -176,8 +194,25 @@
             }
         }
 
+        // Mobile Menu Logic
+        const menuContainer = document.getElementById('mobile-menu');
+        for(let i=1; i<=6; i++) {
+            if(params.get(`menu_link${i}_text`)) {
+                const a = document.createElement('a');
+                a.href = params.get(`menu_link${i}_href`) || '#';
+                a.textContent = params.get(`menu_link${i}_text`);
+                menuContainer.appendChild(a);
+            }
+        }
+        
+        const hamburger = document.querySelector('.hamburger');
+        hamburger.addEventListener('click', () => {
+            menuContainer.classList.toggle('active');
+            sendHeight();
+        });
+
         // Dynamic Resizing
-        const sendHeight = () => {
+        function sendHeight() {
             if(params.get('frame_id')) window.parent.postMessage({frameId: params.get('frame_id'), frameHeight: document.body.scrollHeight}, '*');
         }
         window.addEventListener('load', sendHeight);
