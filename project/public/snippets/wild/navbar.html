@@ -137,6 +137,29 @@
 
     <script>
         const params = new URLSearchParams(window.location.search);
+        
+        // Customization Logic
+        if(params.get('brand')) {
+            document.querySelector('.logo').innerHTML = `<span class="logo-icon">●</span> ${params.get('brand')}`;
+        }
+        
+        if(params.get('cta_text')) {
+            document.querySelector('.nav-pill-cta').innerHTML = `${params.get('cta_text')} <div class="face-icon">😄</div>`;
+        }
+
+        const linksContainer = document.querySelector('.nav-links');
+        if(params.get('link1_text')) {
+            linksContainer.innerHTML = ''; 
+            for(let i=1; i<=5; i++) {
+                if(params.get(`link${i}_text`)) {
+                    const a = document.createElement('a');
+                    a.href = params.get(`link${i}_href`) || '#';
+                    a.textContent = params.get(`link${i}_text`);
+                    linksContainer.appendChild(a);
+                }
+            }
+        }
+
         // Dynamic Resizing
         const sendHeight = () => {
             if(params.get('frame_id')) window.parent.postMessage({frameId: params.get('frame_id'), frameHeight: document.body.scrollHeight}, '*');

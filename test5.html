@@ -42,19 +42,47 @@
         <!-- Navbar floats on top -->
         <iframe 
             id="nav-frame"
-            src="project/public/snippets/mindmarket/navbar.html?frame_id=nav-frame"
+            src=""
+            data-base-url="project/public/snippets/wild/navbar.html"
+            data-frame-id="nav-frame"
+            data-brand="MindMarket"
+            data-link1-text="Services" data-link1-href="#"
+            data-link2-text="Methodology" data-link2-href="#"
+            data-link3-text="Sectors" data-link3-href="#"
+            data-cta-text="Get a quote"
             scrolling="no"
         ></iframe>
 
         <!-- Hero Section -->
         <iframe 
             id="hero-frame"
-            src="project/public/snippets/mindmarket/hero.html?frame_id=hero-frame"
+            src=""
+            data-base-url="project/public/snippets/wild/hero.html"
+            data-frame-id="hero-frame"
+            data-title="Real human<br>insights"
+            data-subtitle="We help you understand your customers better through data-driven empathy and real-world interactions."
             scrolling="no"
         ></iframe>
     </div>
 
     <script>
+        // 1. URL Construction Logic
+        document.addEventListener('DOMContentLoaded', function() {
+            document.querySelectorAll('iframe[data-base-url]').forEach(iframe => {
+                const baseUrl = iframe.getAttribute('data-base-url');
+                let params = [];
+                for (const attr of iframe.attributes) {
+                    if (attr.name.startsWith('data-')) {
+                        let key = attr.name.substring(5).replace(/-/g, '_');
+                        if (key === 'base_url') continue;
+                        params.push(`${key}=${encodeURIComponent(attr.value)}`);
+                    }
+                }
+                iframe.src = baseUrl + '?' + params.join('&');
+            });
+        });
+
+        // 2. Dynamic Resizing
         window.addEventListener("message", function(event) {
             if (event.data.frameHeight && event.data.frameId) {
                 const iframe = document.getElementById(event.data.frameId);
