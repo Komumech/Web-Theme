@@ -35,9 +35,10 @@
         }
 
         h1 {
-            font-size: 6rem;
+            font-size: 7.5rem;
             line-height: 0.9;
             margin: 0;
+            font-weight: 600;
             letter-spacing: -0.03em;
             color: #222;
             opacity: 0;
@@ -79,6 +80,33 @@
             z-index: 1;
         }
 
+        .floaters-container {
+            position: absolute;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            pointer-events: none;
+            z-index: 1;
+        }
+
+        .floater {
+            position: absolute;
+            background: #ffffff;
+            padding: 0.8rem 1.5rem;
+            border-radius: 50px;
+            font-weight: 700;
+            font-size: 0.9rem;
+            box-shadow: 0 10px 25px rgba(0,0,0,0.1);
+            animation: floatElement 6s ease-in-out infinite;
+            display: none;
+            white-space: nowrap;
+        }
+
+        .f1 { top: 15%; left: 10%; animation-delay: 0s; transform: rotate(-5deg); }
+        .f2 { top: 40%; right: 8%; animation-delay: 2s; transform: rotate(5deg); }
+        .f3 { bottom: 25%; left: 15%; animation-delay: 1s; transform: rotate(-3deg); }
+
         @keyframes slideUp {
             from { opacity: 0; transform: translateY(40px); }
             to { opacity: 1; transform: translateY(0); }
@@ -89,6 +117,11 @@
             50% { transform: translateY(-20px); }
         }
 
+        @keyframes floatElement {
+            0%, 100% { transform: translateY(0) rotate(0deg); }
+            50% { transform: translateY(-15px) rotate(2deg); }
+        }
+
         @media (max-width: 768px) {
             h1 { font-size: 3.5rem; }
             .hero-content { padding-top: 4rem; }
@@ -97,6 +130,12 @@
     </style>
 </head>
 <body>
+
+    <div class="floaters-container">
+        <div class="floater f1" id="f1"></div>
+        <div class="floater f2" id="f2"></div>
+        <div class="floater f3" id="f3"></div>
+    </div>
 
     <div class="hero-content">
         <h1 id="hero-title">Real human<br>insights</h1>
@@ -113,6 +152,17 @@
         if(params.get('title')) document.getElementById('hero-title').innerHTML = params.get('title');
         if(params.get('subtitle')) document.getElementById('hero-subtitle').textContent = params.get('subtitle');
         if(params.get('bg_color')) document.body.style.backgroundColor = '#' + params.get('bg_color');
+
+        // Floaters Logic
+        for(let i=1; i<=3; i++) {
+            if(params.get(`floater${i}_text`)) {
+                const el = document.getElementById(`f${i}`);
+                el.textContent = params.get(`floater${i}_text`);
+                el.style.display = 'block';
+                if(params.get(`floater${i}_bg`)) el.style.backgroundColor = '#' + params.get(`floater${i}_bg`);
+                if(params.get(`floater${i}_color`)) el.style.color = '#' + params.get(`floater${i}_color`);
+            }
+        }
 
         const sendHeight = () => {
             if(params.get('frame_id')) window.parent.postMessage({frameId: params.get('frame_id'), frameHeight: document.body.scrollHeight}, '*');

@@ -146,6 +146,10 @@
         if(params.get('cta_text')) {
             document.querySelector('.nav-pill-cta').innerHTML = `${params.get('cta_text')} <div class="face-icon">😄</div>`;
         }
+        
+        if(params.get('bg_color')) {
+            document.documentElement.style.setProperty('--bg-color', '#' + params.get('bg_color'));
+        }
 
         const linksContainer = document.querySelector('.nav-links');
         if(params.get('link1_text')) {
