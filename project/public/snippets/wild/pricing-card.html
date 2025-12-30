@@ -1,0 +1,94 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Wild Pricing</title>
+    <style>
+        @import url('https://fonts.googleapis.com/css2?family=DM+Sans:wght@400;500;700&display=swap');
+
+        :root {
+            --bg-color: #ffffff;
+            --header-bg: #f4d03f;
+            --text-color: #1a1a1a;
+            --font-main: 'DM Sans', sans-serif;
+        }
+
+        body {
+            margin: 0;
+            padding: 20px;
+            font-family: var(--font-main);
+            overflow: hidden;
+        }
+
+        .pricing-card {
+            background: var(--bg-color);
+            border-radius: 32px;
+            overflow: hidden;
+            box-shadow: 0 10px 40px rgba(0,0,0,0.08);
+            text-align: center;
+            height: 100%;
+            display: flex;
+            flex-direction: column;
+        }
+
+        .header {
+            background: var(--header-bg);
+            padding: 2.5rem 1.5rem;
+        }
+
+        .plan { font-size: 1.1rem; font-weight: 700; text-transform: uppercase; letter-spacing: 1px; opacity: 0.8; display: block; margin-bottom: 0.5rem; }
+        .price { font-size: 3.5rem; font-weight: 700; color: var(--text-color); line-height: 1; }
+        .period { font-size: 1rem; font-weight: 500; opacity: 0.7; }
+
+        .body { padding: 2rem; flex: 1; display: flex; flex-direction: column; }
+        
+        .features { list-style: none; padding: 0; margin: 0 0 2rem 0; text-align: left; flex: 1; }
+        .features li { padding: 0.8rem 0; border-bottom: 1px solid #eee; color: #555; font-weight: 500; }
+        .features li:last-child { border-bottom: none; }
+        .features li::before { content: '✓'; color: var(--text-color); font-weight: bold; margin-right: 10px; }
+
+        .btn {
+            display: block;
+            width: 100%;
+            padding: 1rem;
+            background: var(--text-color);
+            color: white;
+            text-decoration: none;
+            border-radius: 16px;
+            font-weight: 700;
+            transition: transform 0.2s;
+        }
+        .btn:hover { transform: scale(1.02); }
+    </style>
+</head>
+<body>
+    <div class="pricing-card">
+        <div class="header">
+            <span class="plan" id="plan">Standard</span>
+            <div class="price" id="price">$29</div>
+            <span class="period">/month</span>
+        </div>
+        <div class="body">
+            <ul class="features" id="features"></ul>
+            <a href="#" class="btn" id="btn">Choose Plan</a>
+        </div>
+    </div>
+
+    <script>
+        const params = new URLSearchParams(window.location.search);
+        if(params.get('plan')) document.getElementById('plan').textContent = params.get('plan');
+        if(params.get('price')) document.getElementById('price').textContent = params.get('price');
+        if(params.get('btn_text')) document.getElementById('btn').textContent = params.get('btn_text');
+        if(params.get('header_bg')) document.documentElement.style.setProperty('--header-bg', '#' + params.get('header_bg'));
+
+        if(params.get('features')) {
+            const ul = document.getElementById('features');
+            params.get('features').split(',').forEach(f => { const li = document.createElement('li'); li.textContent = f.trim(); ul.appendChild(li); });
+        }
+
+        const sendHeight = () => { if(params.get('frame_id')) window.parent.postMessage({frameId: params.get('frame_id'), frameHeight: document.body.scrollHeight}, '*'); }
+        window.addEventListener('load', sendHeight);
+    </script>
+</body>
+</html>

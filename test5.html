@@ -33,6 +33,13 @@
             z-index: 10;
             height: 100px; /* Initial height */
         }
+
+        .grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(300px, 1fr));
+            gap: 2rem;
+            padding: 2rem;
+        }
     </style>
 </head>
 <body>
@@ -75,6 +82,46 @@
             data-bg_color="33bd98"
             scrolling="no"
         ></iframe>
+
+        <!-- Surprise Stats Section -->
+        <iframe
+            id="stats-frame"
+            src=""
+            data-base-url="https://komutheme2.vercel.app/project/public/snippets/wild/stats.html"
+            data-frame-id="stats-frame"
+            data-stat1_val="10k+" data-stat1_label="Users"
+            data-stat2_val="95%" data-stat2_label="Satisfaction"
+            data-stat3_val="24/7" data-stat3_label="Support"
+            data-stat4_val="#1" data-stat4_label="Product"
+            scrolling="no"
+        ></iframe>
+
+        <!-- Cards Grid -->
+        <div class="grid">
+            <iframe
+                id="card-1"
+                src=""
+                data-base-url="https://komutheme2.vercel.app/project/public/snippets/wild/card.html"
+                data-frame-id="card-1"
+                data-title="Strategy"
+                data-description="We build comprehensive strategies that align with your business goals."
+                data-icon="🎯"
+                data-btn_text="Explore"
+                scrolling="no"
+            ></iframe>
+
+            <iframe
+                id="pricing-1"
+                src=""
+                data-base-url="https://komutheme2.vercel.app/project/public/snippets/wild/pricing-card.html"
+                data-frame-id="pricing-1"
+                data-plan="Pro Team"
+                data-price="$49"
+                data-features="Unlimited Projects, Priority Support, 5 Team Members, Analytics Dashboard"
+                data-header_bg="82cf66"
+                scrolling="no"
+            ></iframe>
+        </div>
     </div>
 
     <script>

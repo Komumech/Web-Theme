@@ -1,0 +1,84 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Wild Stats</title>
+    <style>
+        @import url('https://fonts.googleapis.com/css2?family=DM+Sans:wght@400;700&display=swap');
+
+        body {
+            margin: 0;
+            padding: 2rem;
+            font-family: 'DM Sans', sans-serif;
+            overflow: hidden;
+            background: transparent;
+        }
+
+        .stats-container {
+            display: flex;
+            justify-content: center;
+            gap: 2rem;
+            flex-wrap: wrap;
+        }
+
+        .stat-bubble {
+            background: white;
+            border-radius: 50%;
+            width: 180px;
+            height: 180px;
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            justify-content: center;
+            box-shadow: 0 10px 30px rgba(0,0,0,0.08);
+            animation: float 4s ease-in-out infinite;
+            text-align: center;
+            padding: 1rem;
+            box-sizing: border-box;
+        }
+
+        .stat-bubble:nth-child(2) { animation-delay: 1s; background: #f4d03f; }
+        .stat-bubble:nth-child(3) { animation-delay: 2s; background: #82cf66; }
+        .stat-bubble:nth-child(4) { animation-delay: 0.5s; background: #2d7ff9; color: white; }
+
+        .number { font-size: 2.5rem; font-weight: 700; line-height: 1; margin-bottom: 0.5rem; }
+        .label { font-size: 1rem; font-weight: 500; opacity: 0.8; }
+
+        @keyframes float {
+            0%, 100% { transform: translateY(0); }
+            50% { transform: translateY(-10px); }
+        }
+
+        @media (max-width: 600px) {
+            .stat-bubble { width: 140px; height: 140px; }
+            .number { font-size: 2rem; }
+        }
+    </style>
+</head>
+<body>
+    <div class="stats-container" id="container">
+        <!-- Populated by JS -->
+    </div>
+
+    <script>
+        const params = new URLSearchParams(window.location.search);
+        const container = document.getElementById('container');
+
+        for(let i=1; i<=4; i++) {
+            if(params.get(`stat${i}_val`)) {
+                const bubble = document.createElement('div');
+                bubble.className = 'stat-bubble';
+                bubble.innerHTML = `
+                    <div class="number">${params.get(`stat${i}_val`)}</div>
+                    <div class="label">${params.get(`stat${i}_label`)}</div>
+                `;
+                container.appendChild(bubble);
+            }
+        }
+
+        const sendHeight = () => { if(params.get('frame_id')) window.parent.postMessage({frameId: params.get('frame_id'), frameHeight: document.body.scrollHeight}, '*'); }
+        window.addEventListener('load', sendHeight);
+    </script>
+</body>
+</html>
