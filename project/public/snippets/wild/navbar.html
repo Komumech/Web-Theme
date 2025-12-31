@@ -149,21 +149,21 @@
 <body>
     <nav>
         <div class="nav-pill-main">
-            <a href="#" class="logo">
+            <a href="#" class="logo" target="_top">
                 <span class="logo-icon">●</span> MindMarket
             </a>
             <div class="nav-links">
-                <a href="#">Services</a>
-                <a href="#">Methodology ▾</a>
-                <a href="#">Industry Sectors ▾</a>
-                <a href="#">Network</a>
+                <a href="#" target="_top">Services</a>
+                <a href="#" target="_top">Methodology ▾</a>
+                <a href="#" target="_top">Industry Sectors ▾</a>
+                <a href="#" target="_top">Network</a>
             </div>
             <div class="hamburger">
                 <span></span><span></span><span></span>
             </div>
         </div>
 
-        <a href="#" class="nav-pill-cta">
+        <a href="#" class="nav-pill-cta" target="_top">
             Get a quote
             <div class="face-icon">😄</div>
         </a>
@@ -210,6 +210,7 @@
                     const a = document.createElement('a');
                     a.href = params.get(`link${i}_href`) || '#';
                     a.textContent = params.get(`link${i}_text`);
+                    a.target = "_top";
                     linksContainer.appendChild(a);
                 }
             }
@@ -222,6 +223,7 @@
                 const a = document.createElement('a');
                 a.href = params.get(`menu_link${i}_href`) || '#';
                 a.textContent = params.get(`menu_link${i}_text`);
+                a.target = "_top";
                 menuContainer.appendChild(a);
             }
         }
@@ -231,6 +233,7 @@
             const a = document.createElement('a');
             a.href = params.get('cta_href') || '#';
             a.innerHTML = params.get('cta_text');
+            a.target = "_top";
             a.style.color = 'var(--green)';
             menuContainer.appendChild(a);
         }

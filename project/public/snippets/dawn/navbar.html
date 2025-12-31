@@ -26,9 +26,9 @@
 </head>
 <body>
     <nav id="navbar">
-        <a href="#" class="logo" id="brand">Dawn.</a>
+        <a href="#" class="logo" id="brand" target="_top">Dawn.</a>
         <div class="nav-links" id="links"></div>
-        <a href="#" class="cta-btn" id="cta">Get Started</a>
+        <a href="#" class="cta-btn" id="cta" target="_top">Get Started</a>
     </nav>
     <script>
         const params = new URLSearchParams(window.location.search);
@@ -43,6 +43,7 @@
                 const a = document.createElement('a');
                 a.href = params.get(`link${i}_href`) || '#';
                 a.textContent = params.get(`link${i}_label`);
+                a.target = "_top";
                 linksContainer.appendChild(a);
             }
         }

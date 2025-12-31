@@ -125,10 +125,10 @@
 </head>
 <body>
     <nav>
-        <a href="#" class="brand" id="brand">Brand</a>
+        <a href="#" class="brand" id="brand" target="_top">Brand</a>
         <div class="nav-links" id="desktop-links"></div>
         <div class="hamburger" id="hamburger"><span></span><span></span><span></span></div>
-        <a href="#" class="cta" id="cta">Get Started</a>
+        <a href="#" class="cta" id="cta" target="_top">Get Started</a>
     </nav>
     <div class="mobile-menu" id="mobile-menu"></div>
 
@@ -158,12 +158,14 @@
                 const aDesktop = document.createElement('a');
                 aDesktop.href = href;
                 aDesktop.textContent = text;
+                aDesktop.target = "_top";
                 desktopLinks.appendChild(aDesktop);
 
                 // Mobile
                 const aMobile = document.createElement('a');
                 aMobile.href = href;
                 aMobile.textContent = text;
+                aMobile.target = "_top";
                 mobileMenu.appendChild(aMobile);
             }
         }
@@ -173,6 +175,7 @@
              const aMobileCta = document.createElement('a');
              aMobileCta.href = params.get('cta_href') || '#';
              aMobileCta.textContent = params.get('cta_text');
+             aMobileCta.target = "_top";
              aMobileCta.style.color = 'var(--accent-color)';
              mobileMenu.appendChild(aMobileCta);
         }
