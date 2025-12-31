@@ -69,6 +69,11 @@
             if(params.get(`stat${i}_val`)) {
                 const bubble = document.createElement('div');
                 bubble.className = 'stat-bubble';
+                
+                // Custom Colors
+                if(params.get(`stat${i}_bg`)) bubble.style.background = '#' + params.get(`stat${i}_bg`);
+                if(params.get(`stat${i}_color`)) bubble.style.color = '#' + params.get(`stat${i}_color`);
+
                 bubble.innerHTML = `
                     <div class="number">${params.get(`stat${i}_val`)}</div>
                     <div class="label">${params.get(`stat${i}_label`)}</div>
