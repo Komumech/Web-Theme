@@ -111,6 +111,7 @@
 
         @media (max-width: 900px) {
             .nav-links { display: none; }
+            .nav-pill-cta { display: none; }
         }
 
         .mobile-menu {
@@ -220,6 +221,15 @@
                 a.textContent = params.get(`menu_link${i}_text`);
                 menuContainer.appendChild(a);
             }
+        }
+
+        // Add CTA to mobile menu
+        if(params.get('cta_text')) {
+            const a = document.createElement('a');
+            a.href = '#';
+            a.innerHTML = params.get('cta_text');
+            a.style.color = 'var(--green)';
+            menuContainer.appendChild(a);
         }
         
         const hamburger = document.querySelector('.hamburger');
