@@ -56,6 +56,19 @@
         
         const sendHeight = () => { if(params.get('frame_id')) window.parent.postMessage({frameId: params.get('frame_id'), frameHeight: document.body.scrollHeight}, '*'); }
         window.addEventListener('load', sendHeight);
+
+                // Input Collection Logic
+        const inputEl = document.getElementById('input');
+        const submitBtn = document.getElementById('btn');
+
+        const submitInput = () => {
+            const val = inputEl.value;
+            // Send to parent with action 'input_submitted'
+            if(params.get('frame_id')) window.parent.postMessage({ action: 'input_submitted', value: val, frameId: params.get('frame_id') }, '*');
+        };
+
+        submitBtn.addEventListener('click', submitInput);
+        inputEl.addEventListener('keypress', (e) => { if(e.key === 'Enter') submitInput(); });
     </script>
 </body>
 </html>

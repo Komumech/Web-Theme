@@ -318,6 +318,10 @@
                 const iframe = document.getElementById(event.data.frameId);
                 if (iframe) iframe.style.height = event.data.frameHeight + "px";
             }
+
+            if (event.data.action === 'input_submitted') {
+                alert(`Input Collected from ${event.data.frameId}:\n${event.data.value}`);
+            }
         });
 
         // 2. URL CONSTRUCTOR
