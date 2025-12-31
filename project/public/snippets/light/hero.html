@@ -78,6 +78,10 @@
         if(params.get('title')) document.getElementById('title').innerHTML = params.get('title');
         if(params.get('subtitle')) document.getElementById('subtitle').textContent = params.get('subtitle');
         if(params.get('cta_text')) document.getElementById('cta').textContent = params.get('cta_text');
+        if(params.get('cta_href')) {
+            document.getElementById('cta').href = params.get('cta_href');
+            document.getElementById('cta').target = "_top";
+        }
         if(params.get('accent_color')) document.documentElement.style.setProperty('--accent-color', '#' + params.get('accent_color'));
 
         const sendHeight = () => { if(params.get('frame_id')) window.parent.postMessage({frameId: params.get('frame_id'), frameHeight: document.body.scrollHeight}, '*'); }

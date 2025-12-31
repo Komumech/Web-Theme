@@ -67,6 +67,10 @@
         if(params.get('plan')) document.getElementById('plan').textContent = params.get('plan');
         if(params.get('price')) document.getElementById('price').innerHTML = params.get('price') + '<span>/mo</span>';
         if(params.get('cta_text')) document.getElementById('btn').textContent = params.get('cta_text');
+        if(params.get('cta_href')) {
+            document.getElementById('btn').href = params.get('cta_href');
+            document.getElementById('btn').target = "_top";
+        }
 
         if(params.get('features')) {
             const ul = document.getElementById('features');

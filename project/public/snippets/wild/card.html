@@ -79,6 +79,10 @@
         if(params.get('description')) document.getElementById('desc').textContent = params.get('description');
         if(params.get('icon')) document.getElementById('icon').textContent = params.get('icon');
         if(params.get('btn_text')) document.getElementById('btn').textContent = params.get('btn_text');
+        if(params.get('btn_href')) {
+            document.getElementById('btn').href = params.get('btn_href');
+            document.getElementById('btn').target = "_top";
+        }
         if(params.get('accent_color')) document.documentElement.style.setProperty('--accent-color', '#' + params.get('accent_color'));
         if(params.get('btn_bg')) document.documentElement.style.setProperty('--btn-bg', '#' + params.get('btn_bg'));
         if(params.get('btn_color')) document.documentElement.style.setProperty('--btn-text', '#' + params.get('btn_color'));

@@ -143,6 +143,10 @@
         // Content
         if(params.get('title')) document.getElementById('title').innerHTML = params.get('title');
         if(params.get('cta_text')) document.getElementById('cta').textContent = params.get('cta_text');
+        if(params.get('cta_href')) {
+            document.getElementById('cta').href = params.get('cta_href');
+            document.getElementById('cta').target = "_top";
+        }
         
         // Image
         if(params.get('image')) {

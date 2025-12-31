@@ -31,6 +31,10 @@
         const params = new URLSearchParams(window.location.search);
         const btn = document.getElementById('btn');
         if(params.get('text')) btn.textContent = params.get('text');
+        if(params.get('href')) {
+            btn.href = params.get('href');
+            btn.target = "_top";
+        }
         if(params.get('type') === 'outline') btn.classList.add('outline');
         if(params.get('accent_color') && params.get('type') !== 'outline') {
             btn.style.background = '#' + params.get('accent_color');

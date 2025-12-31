@@ -167,7 +167,10 @@
             if (title) document.getElementById('hero-title').innerHTML = title; // innerHTML allows <i> tags
             if (sub) document.getElementById('hero-sub').textContent = sub;
             if (ctaText) document.getElementById('cta-btn').textContent = ctaText;
-            if (ctaHref) document.getElementById('cta-btn').href = ctaHref;
+            if (ctaHref) {
+                document.getElementById('cta-btn').href = ctaHref;
+                document.getElementById('cta-btn').target = "_top";
+            }
 
             if (f1) document.getElementById('f1-text').textContent = f1;
             if (f2) document.getElementById('f2-text').textContent = f2;

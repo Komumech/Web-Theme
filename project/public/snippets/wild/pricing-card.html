@@ -80,6 +80,10 @@
         if(params.get('plan')) document.getElementById('plan').textContent = params.get('plan');
         if(params.get('price')) document.getElementById('price').textContent = params.get('price');
         if(params.get('btn_text')) document.getElementById('btn').textContent = params.get('btn_text');
+        if(params.get('btn_href')) {
+            document.getElementById('btn').href = params.get('btn_href');
+            document.getElementById('btn').target = "_top";
+        }
         if(params.get('header_bg')) document.documentElement.style.setProperty('--header-bg', '#' + params.get('header_bg'));
         if(params.get('accent_color')) document.documentElement.style.setProperty('--accent-color', '#' + params.get('accent_color'));
         if(params.get('btn_bg')) document.documentElement.style.setProperty('--btn-bg', '#' + params.get('btn_bg'));

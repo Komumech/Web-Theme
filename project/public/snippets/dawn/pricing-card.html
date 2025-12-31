@@ -30,6 +30,10 @@
         if(params.get('plan_name')) document.getElementById('plan').textContent = params.get('plan_name');
         if(params.get('price')) document.getElementById('price').textContent = params.get('price');
         if(params.get('cta_text')) document.getElementById('btn').textContent = params.get('cta_text');
+        if(params.get('cta_href')) {
+            document.getElementById('btn').href = params.get('cta_href');
+            document.getElementById('btn').target = "_top";
+        }
         if(params.get('accent_color')) document.documentElement.style.setProperty('--accent', '#'+params.get('accent_color'));
         if(params.get('highlighted') === 'true') document.getElementById('card').classList.add('highlight');
         
