@@ -24,10 +24,20 @@
             align-items: center;
         }
 
+        .badge {
+            background: rgba(0,0,0,0.05);
+            padding: 0.5rem 1rem;
+            border-radius: 50px;
+            font-weight: 700;
+            font-size: 0.9rem;
+            margin-bottom: 1.5rem;
+            color: #666;
+        }
+
         h1 {
-            font-size: 4rem;
-            line-height: 1.1;
-            margin: 0 0 1.5rem 0;
+            font-size: 5rem;
+            line-height: 1;
+            margin: 0 0 2rem 0;
             color: var(--text-color);
             font-weight: 800;
             letter-spacing: -0.03em;
@@ -48,7 +58,7 @@
             padding: 1rem 2.5rem;
             border-radius: 50px;
             text-decoration: none;
-            font-weight: 700;
+            font-weight: 800;
             font-size: 1.1rem;
             transition: transform 0.2s;
             display: inline-block;
@@ -57,12 +67,14 @@
     </style>
 </head>
 <body>
+    <div class="badge" id="badge">New Feature</div>
     <h1 id="title">The Future of Finance</h1>
     <p id="subtitle">Simple, transparent, and secure. Join millions who are already managing their money better.</p>
     <a href="#" class="btn" id="cta">Get Started</a>
 
     <script>
         const params = new URLSearchParams(window.location.search);
+        if(params.get('badge')) document.getElementById('badge').textContent = params.get('badge');
         if(params.get('title')) document.getElementById('title').innerHTML = params.get('title');
         if(params.get('subtitle')) document.getElementById('subtitle').textContent = params.get('subtitle');
         if(params.get('cta_text')) document.getElementById('cta').textContent = params.get('cta_text');

@@ -5,60 +5,167 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Light Card</title>
     <style>
-        @import url('https://fonts.googleapis.com/css2?family=Outfit:wght@400;600;700&display=swap');
+        @import url('https://fonts.googleapis.com/css2?family=Outfit:wght@400;700;800&display=swap');
 
         body {
             margin: 0;
-            padding: 20px;
+            padding: 2rem;
             font-family: 'Outfit', sans-serif;
             overflow: hidden;
+            box-sizing: border-box;
         }
 
         .card {
-            background: #fff;
-            border-radius: 24px;
-            padding: 2rem;
-            box-shadow: 0 10px 30px rgba(0,0,0,0.03);
-            transition: transform 0.3s;
-            height: 100%;
-            box-sizing: border-box;
+            background-color: var(--bg-color, #4ade80);
+            color: var(--text-color, #1a1a1a);
+            border-radius: 48px;
+            padding: 3rem 2rem;
+            position: relative;
+            min-height: 400px;
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            justify-content: center;
+            text-align: center;
+            box-shadow: 0 20px 40px rgba(0,0,0,0.05);
+            transition: transform 0.3s ease;
         }
-        .card:hover { transform: translateY(-5px); box-shadow: 0 15px 40px rgba(0,0,0,0.06); }
+        .card:hover { transform: translateY(-5px); }
 
-        .icon {
-            font-size: 2.5rem;
-            margin-bottom: 1rem;
-            display: inline-block;
-            background: #fdf8f5;
-            width: 60px; height: 60px;
-            border-radius: 50%;
-            display: flex; align-items: center; justify-content: center;
+        /* Hexagon Image */
+        .hex-img {
+            width: 200px;
+            height: 200px;
+            background-size: cover;
+            background-position: center;
+            clip-path: polygon(50% 0%, 100% 25%, 100% 75%, 50% 100%, 0% 75%, 0% 25%);
+            position: absolute;
+            top: 50%;
+            transform: translateY(-50%);
+            z-index: 2;
+            filter: drop-shadow(0 20px 30px rgba(0,0,0,0.15));
+            display: none;
         }
+        .hex-left { left: -40px; display: block; }
+        .hex-right { right: -40px; display: block; }
 
-        h3 { margin: 0 0 0.5rem 0; font-size: 1.4rem; color: #1a1a1a; }
-        p { color: #666; line-height: 1.6; margin: 0 0 1.5rem 0; }
-
-        .link {
-            color: #1a1a1a;
-            text-decoration: none;
+        /* Badges */
+        .badges {
+            position: absolute;
+            top: 2rem;
+            right: 2rem;
+            display: flex;
+            gap: 0.5rem;
+            z-index: 1;
+        }
+        .badge {
+            background: rgba(0,0,0,0.1);
+            padding: 0.6rem 1.2rem;
+            border-radius: 8px;
+            font-size: 0.8rem;
             font-weight: 700;
-            border-bottom: 2px solid #ffc233;
+            text-transform: uppercase;
+            letter-spacing: 0.05em;
+            backdrop-filter: blur(5px);
+        }
+
+        /* Steps */
+        .steps {
+            display: flex;
+            gap: 1.5rem;
+            margin-bottom: 2.5rem;
+        }
+        .step {
+            width: 80px;
+            height: 80px;
+            background: rgba(0,0,0,0.1);
+            clip-path: polygon(50% 0%, 100% 25%, 100% 75%, 50% 100%, 0% 75%, 0% 25%);
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-size: 2rem;
+            font-weight: 800;
+        }
+
+        h3 {
+            font-size: 2.5rem;
+            line-height: 1.1;
+            margin: 0 0 2.5rem 0;
+            font-weight: 800;
+            max-width: 80%;
+            letter-spacing: -0.03em;
+        }
+
+        .cta {
+            background: rgba(0,0,0,0.05);
+            color: inherit;
+            padding: 1rem 3rem;
+            border-radius: 50px;
+            text-decoration: none;
+            font-weight: 800;
+            font-size: 1.2rem;
+            transition: background 0.2s;
+            display: inline-block;
+        }
+        .cta:hover { background: rgba(0,0,0,0.1); }
+
+        @media (max-width: 600px) {
+            .hex-img { width: 120px; height: 120px; top: auto; bottom: -30px; left: 50%; transform: translateX(-50%); }
+            .card { padding-bottom: 5rem; }
+            h3 { font-size: 1.8rem; }
         }
     </style>
 </head>
 <body>
-    <div class="card">
-        <div class="icon" id="icon">✨</div>
-        <h3 id="title">Feature Title</h3>
-        <p id="desc">Description of the feature goes here. Keep it concise and engaging.</p>
-        <a href="#" class="link" id="link">Learn more</a>
+    <div class="card" id="card">
+        <div class="badges" id="badges"></div>
+        <div class="steps" id="steps"></div>
+        <div class="hex-img" id="hex-img"></div>
+        
+        <h3 id="title">Gamers activate offer at their favorite merchant.</h3>
+        <a href="#" class="cta" id="cta">Activate</a>
     </div>
 
     <script>
         const params = new URLSearchParams(window.location.search);
-        if(params.get('title')) document.getElementById('title').textContent = params.get('title');
-        if(params.get('description')) document.getElementById('desc').textContent = params.get('description');
-        if(params.get('icon')) document.getElementById('icon').textContent = params.get('icon');
+        
+        // Colors
+        if(params.get('bg_color')) document.documentElement.style.setProperty('--bg-color', '#' + params.get('bg_color'));
+        if(params.get('text_color')) document.documentElement.style.setProperty('--text-color', '#' + params.get('text_color'));
+        
+        // Content
+        if(params.get('title')) document.getElementById('title').innerHTML = params.get('title');
+        if(params.get('cta_text')) document.getElementById('cta').textContent = params.get('cta_text');
+        
+        // Image
+        if(params.get('image')) {
+            const img = document.getElementById('hex-img');
+            img.style.backgroundImage = `url('${params.get('image')}')`;
+            const pos = params.get('image_pos') || 'left';
+            img.classList.add(pos === 'right' ? 'hex-right' : 'hex-left');
+        }
+
+        // Badges
+        if(params.get('badges')) {
+            const container = document.getElementById('badges');
+            params.get('badges').split(',').forEach(b => {
+                const span = document.createElement('div');
+                span.className = 'badge';
+                span.textContent = b.trim();
+                container.appendChild(span);
+            });
+        }
+
+        // Steps
+        if(params.get('steps')) {
+            const container = document.getElementById('steps');
+            params.get('steps').split(',').forEach(s => {
+                const div = document.createElement('div');
+                div.className = 'step';
+                div.textContent = s.trim();
+                container.appendChild(div);
+            });
+        }
         
         const sendHeight = () => { if(params.get('frame_id')) window.parent.postMessage({frameId: params.get('frame_id'), frameHeight: document.body.scrollHeight}, '*'); }
         window.addEventListener('load', sendHeight);
