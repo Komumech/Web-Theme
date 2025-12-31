@@ -1,0 +1,310 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Light Theme - Test Suite</title>
+    <style>
+        @import url('https://fonts.googleapis.com/css2?family=Outfit:wght@300;400;500;700&display=swap');
+
+        body {
+            background-color: #f8f9fa;
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            margin: 0;
+            padding-bottom: 50px;
+            font-family: 'Outfit', sans-serif;
+            color: #1a1a1a;
+        }
+        
+        h1 { margin-top: 2rem; font-weight: 700; }
+        h2 { margin-top: 3rem; color: #666; font-size: 0.9rem; text-transform: uppercase; letter-spacing: 1.5px; font-weight: 600; }
+        
+        iframe {
+            border: none;
+            box-shadow: none;
+            margin-bottom: 1rem;
+            overflow: hidden;
+            width: 100%; 
+            transition: height 0.3s ease;
+        }
+
+        .controls {
+            position: sticky;
+            top: 0;
+            z-index: 100;
+            background: rgba(255,255,255,0.9);
+            backdrop-filter: blur(10px);
+            padding: 15px;
+            border-bottom: 1px solid #e5e7eb;
+            display: flex;
+            justify-content: center;
+            gap: 15px;
+            width: 100%;
+            box-shadow: 0 4px 6px -1px rgba(0, 0, 0, 0.05);
+        }
+
+        .btn {
+            padding: 8px 16px;
+            background: #1a1a1a;
+            color: white;
+            border: none;
+            border-radius: 50px;
+            cursor: pointer;
+            font-weight: 500;
+            font-family: 'Outfit', sans-serif;
+            transition: transform 0.1s;
+        }
+        .btn:active { transform: scale(0.98); }
+        .btn-outline { background: transparent; border: 1px solid #1a1a1a; color: #1a1a1a; }
+
+        .grid-container {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(300px, 1fr));
+            gap: 2rem;
+            width: 90vw;
+            max-width: 1200px;
+            margin: 0 auto;
+        }
+    </style>
+</head>
+<body>
+
+    <div class="controls">
+        <button class="btn" onclick="window.location.reload()">Reload All</button>
+    </div>
+
+    <h1>Light Theme Snippets</h1>
+
+    <h2>Navbar</h2>
+    <iframe
+        id="light-navbar"
+        src=""
+        scrolling="no"
+        data-base-url="https://komutheme2.vercel.app/project/public/snippets/light/navbar.html"
+        data-frame-id="light-navbar"
+        data-brand="Light."
+        data-cta_text="Get Started"
+        data-accent_color="ffc233"
+    ></iframe>
+
+    <h2>Hero Section</h2>
+    <iframe
+        id="light-hero"
+        src=""
+        scrolling="no"
+        data-base-url="https://komutheme2.vercel.app/project/public/snippets/light/hero.html"
+        data-frame-id="light-hero"
+        data-title="The Future of Finance"
+        data-subtitle="Simple, transparent, and secure. Join millions who are already managing their money better."
+        data-cta_text="Get Started"
+        data-accent_color="ffc233"
+    ></iframe>
+
+    <h2>Features (Colorful Steps)</h2>
+    <iframe
+        id="light-features"
+        src=""
+        scrolling="no"
+        data-base-url="https://komutheme2.vercel.app/project/public/snippets/light/features.html"
+        data-frame-id="light-features"
+        data-title1="Connect" data-desc1="Gamers connect their Visa / Mastercard cards." data-color1="ff6b6b" data-icon1="M12 2L2 7l10 5 10-5-10-5zM2 17l10 5 10-5M2 12l10 5 10-5"
+        data-title2="Activate" data-desc2="Activate offers at participating merchants." data-color2="ffc233" data-icon2="M12 22s8-4 8-10V5l-8-3-8 3v7c0 6 8 10 8 10z"
+        data-title3="Spend" data-desc3="Pay using connected cards in-store or online." data-color3="4ecdc4" data-icon3="M21 4H3c-1.1 0-2 .9-2 2v12c0 1.1.9 2 2 2h18c1.1 0 2-.9 2-2V6c0-1.1-.9-2-2-2zm0 14H3V8h18v10z"
+        data-title4="Reward" data-desc4="Earn in-game currency for each transaction." data-color4="1a1a1a" data-icon4="M12 17.27L18.18 21l-1.64-7.03L22 9.24l-7.19-.61L12 2 9.19 8.63 2 9.24l5.46 4.73L5.82 21z"
+    ></iframe>
+
+    <h2>Card Components</h2>
+    <div class="grid-container">
+        <iframe
+            id="light-card-1"
+            src=""
+            scrolling="no"
+            data-base-url="https://komutheme2.vercel.app/project/public/snippets/light/card.html"
+            data-frame-id="light-card-1"
+            data-title="Feature One"
+            data-description="Description for feature one goes here."
+            data-icon="✨"
+        ></iframe>
+
+        <iframe
+            id="light-card-2"
+            src=""
+            scrolling="no"
+            data-base-url="https://komutheme2.vercel.app/project/public/snippets/light/card.html"
+            data-frame-id="light-card-2"
+            data-title="Feature Two"
+            data-description="Description for feature two goes here."
+            data-icon="🚀"
+        ></iframe>
+    </div>
+
+    <h2>Pricing</h2>
+    <div class="grid-container">
+        <iframe
+            id="light-pricing-1"
+            src=""
+            scrolling="no"
+            data-base-url="https://komutheme2.vercel.app/project/public/snippets/light/pricing-card.html"
+            data-frame-id="light-pricing-1"
+            data-plan="Basic"
+            data-price="$0"
+            data-features="Feature A, Feature B, Feature C"
+            data-cta_text="Start Free"
+            data-accent_color="ffc233"
+        ></iframe>
+
+        <iframe
+            id="light-pricing-2"
+            src=""
+            scrolling="no"
+            data-base-url="https://komutheme2.vercel.app/project/public/snippets/light/pricing-card.html"
+            data-frame-id="light-pricing-2"
+            data-plan="Pro"
+            data-price="$29"
+            data-features="Everything in Basic, Feature D, Feature E"
+            data-cta_text="Get Pro"
+            data-accent_color="ffc233"
+        ></iframe>
+    </div>
+
+    <h2>About Team</h2>
+    <iframe
+        id="light-team"
+        src=""
+        scrolling="no"
+        data-base-url="https://komutheme2.vercel.app/project/public/snippets/light/about-team.html"
+        data-frame-id="light-team"
+        data-label="Our Team"
+        data-description="Meet the people behind the magic."
+    ></iframe>
+
+    <h2>Image Section</h2>
+    <iframe
+        id="light-image"
+        src=""
+        scrolling="no"
+        data-base-url="https://komutheme2.vercel.app/project/public/snippets/light/image-section.html"
+        data-frame-id="light-image"
+        data-bg_image="https://images.unsplash.com/photo-1497215728101-856f4ea42174?auto=format&fit=crop&w=1600&q=80"
+        data-heading="Office Life"
+        data-subheading="Where ideas come to life."
+        data-height="400px"
+    ></iframe>
+
+    <h2>Alerts</h2>
+    <iframe
+        id="light-alert-info"
+        src=""
+        scrolling="no"
+        data-base-url="https://komutheme2.vercel.app/project/public/snippets/light/alert.html"
+        data-frame-id="light-alert-info"
+        data-message="This is an informational alert."
+        data-type="info"
+        data-accent_color="ffc233"
+    ></iframe>
+    <iframe
+        id="light-alert-success"
+        src=""
+        scrolling="no"
+        data-base-url="https://komutheme2.vercel.app/project/public/snippets/light/alert.html"
+        data-frame-id="light-alert-success"
+        data-message="Action completed successfully."
+        data-type="success"
+        data-accent_color="4ecdc4"
+    ></iframe>
+
+    <h2>Inputs & Buttons</h2>
+    <div class="grid-container">
+        <iframe
+            id="light-input"
+            src=""
+            scrolling="no"
+            data-base-url="https://komutheme2.vercel.app/project/public/snippets/light/input.html"
+            data-frame-id="light-input"
+            data-placeholder="Enter your email..."
+            data-submit_text="Join"
+            data-accent_color="ffc233"
+        ></iframe>
+        
+        <iframe
+            id="light-btn"
+            src=""
+            scrolling="no"
+            data-base-url="https://komutheme2.vercel.app/project/public/snippets/light/button.html"
+            data-frame-id="light-btn"
+            data-text="Click Me"
+            data-accent_color="ffc233"
+        ></iframe>
+    </div>
+
+    <h2>Accordion</h2>
+    <iframe
+        id="light-accordion"
+        src=""
+        scrolling="no"
+        data-base-url="https://komutheme2.vercel.app/project/public/snippets/light/accordion.html"
+        data-frame-id="light-accordion"
+        data-header_1="Question One?"
+        data-content_1="Answer to question one."
+        data-header_2="Question Two?"
+        data-content_2="Answer to question two."
+    ></iframe>
+
+    <h2>Testimonial</h2>
+    <iframe
+        id="light-testimonial"
+        src=""
+        scrolling="no"
+        data-base-url="https://komutheme2.vercel.app/project/public/snippets/light/testimonial.html"
+        data-frame-id="light-testimonial"
+        data-quote="This theme is incredibly clean and easy to use."
+        data-author="Jane Doe"
+        data-role="Designer"
+    ></iframe>
+
+    <h2>Footer</h2>
+    <iframe
+        id="light-footer"
+        src=""
+        scrolling="no"
+        data-base-url="https://komutheme2.vercel.app/project/public/snippets/light/footer.html"
+        data-frame-id="light-footer"
+        data-brand="Light."
+        data-description="Clean design for modern web."
+        data-copyright="© 2025 Light Theme."
+        data-link1_label="Privacy" data-link1_href="#"
+        data-link2_label="Terms" data-link2_href="#"
+        data-link3_label="Contact" data-link3_href="#"
+    ></iframe>
+
+    <script>
+        // 1. DYNAMIC RESIZER
+        window.addEventListener("message", function(event) {
+            if (event.data.frameHeight && event.data.frameId) {
+                const iframe = document.getElementById(event.data.frameId);
+                if (iframe) iframe.style.height = event.data.frameHeight + "px";
+            }
+        });
+
+        // 2. URL CONSTRUCTOR
+        document.addEventListener('DOMContentLoaded', function() {
+            document.querySelectorAll('iframe[data-base-url]').forEach(iframe => {
+                const baseUrl = iframe.getAttribute('data-base-url');
+                let params = [];
+                
+                for (const attr of iframe.attributes) {
+                    if (attr.name.startsWith('data-')) {
+                        let key = attr.name.substring(5).replace(/-/g, '_');
+                        if (key === 'base_url') continue;
+                        const value = encodeURIComponent(attr.value);
+                        params.push(`${key}=${value}`);
+                    }
+                }
+                iframe.src = baseUrl + '?' + params.join('&');
+            });
+        });
+    </script>
+</body>
+</html>
