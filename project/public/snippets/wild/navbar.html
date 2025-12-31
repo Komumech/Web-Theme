@@ -182,6 +182,9 @@
         if(params.get('cta_text')) {
             document.querySelector('.nav-pill-cta').innerHTML = `${params.get('cta_text')} <div class="face-icon">😄</div>`;
         }
+        if(params.get('cta_href')) {
+            document.querySelector('.nav-pill-cta').href = params.get('cta_href');
+        }
         
         if(params.get('bg_color')) {
             document.documentElement.style.setProperty('--bg-color', '#' + params.get('bg_color'));
@@ -226,7 +229,7 @@
         // Add CTA to mobile menu
         if(params.get('cta_text')) {
             const a = document.createElement('a');
-            a.href = '#';
+            a.href = params.get('cta_href') || '#';
             a.innerHTML = params.get('cta_text');
             a.style.color = 'var(--green)';
             menuContainer.appendChild(a);

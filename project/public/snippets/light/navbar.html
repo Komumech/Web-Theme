@@ -143,6 +143,7 @@
         // Content
         if(params.get('brand')) document.getElementById('brand').textContent = params.get('brand');
         if(params.get('cta_text')) document.getElementById('cta').textContent = params.get('cta_text');
+        if(params.get('cta_href')) document.getElementById('cta').href = params.get('cta_href');
         
         // Links
         const desktopLinks = document.getElementById('desktop-links');
@@ -170,7 +171,7 @@
         // Add CTA to mobile menu
         if(params.get('cta_text')) {
              const aMobileCta = document.createElement('a');
-             aMobileCta.href = '#';
+             aMobileCta.href = params.get('cta_href') || '#';
              aMobileCta.textContent = params.get('cta_text');
              aMobileCta.style.color = 'var(--accent-color)';
              mobileMenu.appendChild(aMobileCta);

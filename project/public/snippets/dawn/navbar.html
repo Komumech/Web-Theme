@@ -34,6 +34,7 @@
         const params = new URLSearchParams(window.location.search);
         if(params.get('brand')) document.getElementById('brand').textContent = params.get('brand');
         if(params.get('cta_text')) document.getElementById('cta').textContent = params.get('cta_text');
+        if(params.get('cta_href')) document.getElementById('cta').href = params.get('cta_href');
         if(params.get('accent_color')) document.documentElement.style.setProperty('--accent-color', '#'+params.get('accent_color'));
         
         const linksContainer = document.getElementById('links');
