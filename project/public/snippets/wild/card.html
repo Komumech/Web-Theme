@@ -54,8 +54,8 @@
 
         .btn {
             text-decoration: none;
-            background: var(--text-color);
-            color: #fff;
+            background: var(--btn-bg, var(--text-color));
+            color: var(--btn-text, #fff);
             padding: 0.8rem 1.5rem;
             border-radius: 50px;
             font-weight: 700;
@@ -80,6 +80,8 @@
         if(params.get('icon')) document.getElementById('icon').textContent = params.get('icon');
         if(params.get('btn_text')) document.getElementById('btn').textContent = params.get('btn_text');
         if(params.get('accent_color')) document.documentElement.style.setProperty('--accent-color', '#' + params.get('accent_color'));
+        if(params.get('btn_bg')) document.documentElement.style.setProperty('--btn-bg', '#' + params.get('btn_bg'));
+        if(params.get('btn_color')) document.documentElement.style.setProperty('--btn-text', '#' + params.get('btn_color'));
 
         const sendHeight = () => { if(params.get('frame_id')) window.parent.postMessage({frameId: params.get('frame_id'), frameHeight: document.body.scrollHeight}, '*'); }
         window.addEventListener('load', sendHeight);

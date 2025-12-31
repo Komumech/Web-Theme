@@ -11,6 +11,7 @@
             --bg-color: #ffffff;
             --header-bg: #f4d03f;
             --text-color: #1a1a1a;
+            --accent-color: #82cf66;
             --font-main: 'DM Sans', sans-serif;
         }
 
@@ -51,14 +52,14 @@
         .btn {
             display: block;
             padding: 1rem;
-            background: var(--text-color);
-            color: white;
+            background: var(--btn-bg, var(--text-color));
+            color: var(--btn-text, white);
             text-decoration: none;
             border-radius: 16px;
             font-weight: 700;
-            transition: transform 0.2s;
+            transition: transform 0.2s, background 0.2s, color 0.2s;
         }
-        .btn:hover { transform: scale(1.02); }
+        .btn:hover { transform: scale(1.02); background: var(--accent-color); color: var(--text-color); }
     </style>
 </head>
 <body>
@@ -80,6 +81,9 @@
         if(params.get('price')) document.getElementById('price').textContent = params.get('price');
         if(params.get('btn_text')) document.getElementById('btn').textContent = params.get('btn_text');
         if(params.get('header_bg')) document.documentElement.style.setProperty('--header-bg', '#' + params.get('header_bg'));
+        if(params.get('accent_color')) document.documentElement.style.setProperty('--accent-color', '#' + params.get('accent_color'));
+        if(params.get('btn_bg')) document.documentElement.style.setProperty('--btn-bg', '#' + params.get('btn_bg'));
+        if(params.get('btn_color')) document.documentElement.style.setProperty('--btn-text', '#' + params.get('btn_color'));
 
         if(params.get('features')) {
             const ul = document.getElementById('features');
