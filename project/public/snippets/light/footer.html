@@ -5,49 +5,222 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Light Footer</title>
     <style>
-        @import url('https://fonts.googleapis.com/css2?family=Outfit:wght@400;700;800&display=swap');
-        body { margin: 0; padding: 4rem 3rem; font-family: 'Outfit', sans-serif; overflow: hidden; background: #1a1a1a; color: #fff; border-radius: 48px 48px 0 0; }
+        @import url('https://fonts.googleapis.com/css2?family=Outfit:wght@400;500;700;800&display=swap');
         
-        .footer-content { display: flex; justify-content: space-between; flex-wrap: wrap; gap: 2rem; margin-bottom: 3rem; }
-        .brand { font-size: 2rem; font-weight: 800; color: #fff; margin-bottom: 1rem; display: block; letter-spacing: -0.02em; }
-        .desc { color: #888; max-width: 300px; line-height: 1.6; }
+        :root {
+            --bg-color: #1a1a1a;
+            --text-color: #ffffff;
+            --accent-color: #ffc233;
+            --secondary-accent: #4ecdc4;
+        }
+
+        body { 
+            margin: 0; 
+            padding: 4rem 2rem; 
+            font-family: 'Outfit', sans-serif; 
+            overflow: hidden; 
+            background: var(--bg-color); 
+            color: var(--text-color); 
+            border-radius: 48px 48px 0 0; 
+        }
         
-        .links { display: flex; gap: 2rem; }
-        .links a { color: #fff; text-decoration: none; font-weight: 700; }
+        .container {
+            max-width: 1200px;
+            margin: 0 auto;
+        }
+
+        .top-grid {
+            display: grid;
+            grid-template-columns: 1.5fr 1fr 1fr 1fr;
+            gap: 3rem;
+            margin-bottom: 4rem;
+        }
+
+        .brand-col {
+            display: flex;
+            flex-direction: column;
+            gap: 1.5rem;
+        }
+
+        .brand { 
+            font-size: 2.5rem; 
+            font-weight: 800; 
+            color: var(--text-color); 
+            text-decoration: none; 
+            letter-spacing: -0.03em;
+            display: flex;
+            align-items: center;
+            gap: 10px;
+        }
         
-        .copyright { border-top: 1px solid #333; padding-top: 2rem; text-align: center; color: #666; font-size: 0.9rem; }
+        .brand span { color: var(--accent-color); }
+
+        .desc { 
+            color: rgba(255,255,255,0.6); 
+            line-height: 1.6; 
+            max-width: 300px; 
+        }
+
+        .newsletter {
+            background: rgba(255,255,255,0.05);
+            padding: 0.5rem;
+            border-radius: 50px;
+            display: flex;
+            border: 1px solid rgba(255,255,255,0.1);
+            margin-top: 1rem;
+        }
+
+        .newsletter input {
+            background: transparent;
+            border: none;
+            color: #fff;
+            padding: 0.8rem 1.5rem;
+            flex: 1;
+            outline: none;
+            font-family: inherit;
+        }
+
+        .newsletter button {
+            background: var(--accent-color);
+            color: #1a1a1a;
+            border: none;
+            padding: 0.8rem 1.5rem;
+            border-radius: 50px;
+            font-weight: 700;
+            cursor: pointer;
+            transition: transform 0.2s;
+        }
+        .newsletter button:hover { transform: scale(1.05); }
+
+        .link-col h4 {
+            font-size: 1.1rem;
+            font-weight: 700;
+            margin: 0 0 1.5rem 0;
+            color: var(--text-color);
+        }
+
+        .link-col a {
+            display: block;
+            color: rgba(255,255,255,0.6);
+            text-decoration: none;
+            margin-bottom: 0.8rem;
+            transition: color 0.2s, transform 0.2s;
+        }
+        .link-col a:hover { color: var(--secondary-accent); transform: translateX(5px); }
+
+        .bottom-bar {
+            border-top: 1px solid rgba(255,255,255,0.1);
+            padding-top: 2rem;
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            flex-wrap: wrap;
+            gap: 1rem;
+        }
+
+        .copyright { color: rgba(255,255,255,0.4); font-size: 0.9rem; }
+
+        .socials { display: flex; gap: 1rem; }
+        .social-icon {
+            width: 40px; height: 40px;
+            background: rgba(255,255,255,0.05);
+            border-radius: 50%;
+            display: flex; align-items: center; justify-content: center;
+            color: #fff;
+            text-decoration: none;
+            transition: background 0.2s, transform 0.2s;
+        }
+        .social-icon:hover { background: var(--secondary-accent); color: #1a1a1a; transform: translateY(-3px); }
+
+        @media (max-width: 900px) {
+            .top-grid { grid-template-columns: 1fr 1fr; }
+            .brand-col { grid-column: span 2; }
+        }
+        @media (max-width: 600px) {
+            .top-grid { grid-template-columns: 1fr; }
+            .brand-col { grid-column: span 1; }
+            .bottom-bar { flex-direction: column; text-align: center; }
+        }
     </style>
 </head>
 <body>
-    <div class="footer-content">
-        <div>
-            <span class="brand" id="brand">Brand.</span>
-            <p class="desc" id="desc">Creating beautiful digital experiences.</p>
+    <div class="container">
+        <div class="top-grid">
+            <div class="brand-col">
+                <a href="#" class="brand" id="brand">Brand<span>.</span></a>
+                <p class="desc" id="desc">Creating beautiful digital experiences for everyone.</p>
+                <div class="newsletter">
+                    <input type="email" placeholder="Enter your email...">
+                    <button id="sub-btn">Join</button>
+                </div>
+            </div>
+            
+            <div class="link-col" id="col1">
+                <h4 id="col1-title">Product</h4>
+                <!-- Links injected here -->
+            </div>
+            
+            <div class="link-col" id="col2">
+                <h4 id="col2-title">Company</h4>
+                <!-- Links injected here -->
+            </div>
+            
+            <div class="link-col" id="col3">
+                <h4 id="col3-title">Resources</h4>
+                <!-- Links injected here -->
+            </div>
         </div>
-        <div class="links" id="links">
-            <!-- Links populated by JS -->
+
+        <div class="bottom-bar">
+            <div class="copyright" id="copy">© 2025 Brand. All rights reserved.</div>
+            <div class="socials">
+                <a href="#" class="social-icon">𝕏</a>
+                <a href="#" class="social-icon">in</a>
+                <a href="#" class="social-icon">Ig</a>
+            </div>
         </div>
     </div>
-    <div class="copyright" id="copy">© 2025 Brand. All rights reserved.</div>
 
     <script>
         const params = new URLSearchParams(window.location.search);
-        if(params.get('brand')) document.getElementById('brand').textContent = params.get('brand');
+        
+        // Colors
+        if(params.get('bg_color')) document.documentElement.style.setProperty('--bg-color', '#' + params.get('bg_color'));
+        if(params.get('text_color')) document.documentElement.style.setProperty('--text-color', '#' + params.get('text_color'));
+        if(params.get('accent_color')) document.documentElement.style.setProperty('--accent-color', '#' + params.get('accent_color'));
+        if(params.get('secondary_accent')) document.documentElement.style.setProperty('--secondary-accent', '#' + params.get('secondary_accent'));
+
+        // Content
+        if(params.get('brand')) document.getElementById('brand').innerHTML = params.get('brand');
         if(params.get('description')) document.getElementById('desc').textContent = params.get('description');
         if(params.get('copyright')) document.getElementById('copy').textContent = params.get('copyright');
-        
-        const linksContainer = document.getElementById('links');
-        for(let i=1; i<=3; i++) {
-            if(params.get(`link${i}_label`)) {
-                const a = document.createElement('a');
-                a.href = params.get(`link${i}_href`) || '#';
-                a.textContent = params.get(`link${i}_label`);
-                linksContainer.appendChild(a);
+        if(params.get('sub_text')) document.getElementById('sub-btn').textContent = params.get('sub_text');
+
+        // Column Titles
+        if(params.get('col1_title')) document.getElementById('col1-title').textContent = params.get('col1_title');
+        if(params.get('col2_title')) document.getElementById('col2-title').textContent = params.get('col2_title');
+        if(params.get('col3_title')) document.getElementById('col3-title').textContent = params.get('col3_title');
+
+        // Helper to add links
+        function addLinks(colId, prefix) {
+            const container = document.getElementById(colId);
+            for(let i=1; i<=5; i++) {
+                if(params.get(`${prefix}_link${i}`)) {
+                    const a = document.createElement('a');
+                    a.href = params.get(`${prefix}_url${i}`) || '#';
+                    a.textContent = params.get(`${prefix}_link${i}`);
+                    container.appendChild(a);
+                }
             }
         }
+        
+        addLinks('col1', 'col1');
+        addLinks('col2', 'col2');
+        addLinks('col3', 'col3');
 
         const sendHeight = () => { if(params.get('frame_id')) window.parent.postMessage({frameId: params.get('frame_id'), frameHeight: document.body.scrollHeight}, '*'); }
         window.addEventListener('load', sendHeight);
+        window.addEventListener('resize', sendHeight);
     </script>
 </body>
 </html>
