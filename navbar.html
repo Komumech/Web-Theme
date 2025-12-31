@@ -1,0 +1,98 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Light Navbar</title>
+    <style>
+        @import url('https://fonts.googleapis.com/css2?family=Inter:wght@700;800&display=swap');
+
+        :root {
+            --bg-color: transparent;
+            --text-color: #1a1a1a;
+            --accent-color: #ffc233;
+            --font-main: 'Inter', sans-serif;
+        }
+
+        body {
+            margin: 0;
+            padding: 1.5rem 3rem;
+            font-family: var(--font-main);
+            background-color: var(--bg-color);
+            overflow: hidden;
+        }
+
+        nav {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+        }
+
+        .logo {
+            font-weight: 800;
+            font-size: 2rem;
+            color: var(--text-color);
+            text-decoration: none;
+            letter-spacing: -0.05em;
+            text-transform: uppercase;
+        }
+
+        .nav-actions {
+            display: flex;
+            gap: 1rem;
+            align-items: center;
+        }
+
+        .nav-link {
+            text-decoration: none;
+            color: #1a1a1a;
+            background: #e5e5e5;
+            padding: 0.8rem 1.2rem;
+            border-radius: 4px;
+            font-weight: 600;
+            font-size: 0.85rem;
+            text-transform: uppercase;
+            letter-spacing: 0.02em;
+            transition: background 0.2s;
+        }
+        .nav-link:hover { background: #d4d4d4; }
+
+        .cta-btn {
+            background: var(--accent-color);
+            color: #1a1a1a;
+            padding: 0.8rem 1.5rem;
+            border-radius: 50px;
+            text-decoration: none;
+            font-weight: 700;
+            font-size: 0.85rem;
+            text-transform: uppercase;
+            box-shadow: 0 4px 10px rgba(0,0,0,0.1);
+            transition: transform 0.2s;
+        }
+        .cta-btn:hover { transform: translateY(-2px); }
+
+        @media (max-width: 768px) { .nav-link { display: none; } }
+    </style>
+</head>
+<body>
+    <nav>
+        <a href="#" class="logo">TESORO</a>
+        <div class="nav-actions">
+            <a href="#" class="nav-link">Merchants</a>
+            <a href="#" class="nav-link">Game Studios</a>
+            <a href="#" class="nav-link">Gamers</a>
+            <a href="#" class="cta-btn">Join the Waitlist</a>
+        </div>
+    </nav>
+    <script>
+        const params = new URLSearchParams(window.location.search);
+        if(params.get('brand')) document.querySelector('.logo').textContent = params.get('brand');
+        if(params.get('cta_text')) document.querySelector('.cta-btn').textContent = params.get('cta_text');
+        if(params.get('accent_color')) document.documentElement.style.setProperty('--accent-color', '#' + params.get('accent_color'));
+
+        const sendHeight = () => { if(params.get('frame_id')) window.parent.postMessage({frameId: params.get('frame_id'), frameHeight: document.body.scrollHeight}, '*'); }
+        window.addEventListener('load', sendHeight);
+        window.addEventListener('resize', sendHeight);
+    </script>
+</body>
+</html>
