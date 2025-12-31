@@ -1,0 +1,53 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Light Footer</title>
+    <style>
+        @import url('https://fonts.googleapis.com/css2?family=Outfit:wght@400;700&display=swap');
+        body { margin: 0; padding: 3rem 2rem; font-family: 'Outfit', sans-serif; overflow: hidden; background: #fff; border-radius: 32px 32px 0 0; }
+        
+        .footer-content { display: flex; justify-content: space-between; flex-wrap: wrap; gap: 2rem; margin-bottom: 3rem; }
+        .brand { font-size: 1.5rem; font-weight: 700; color: #1a1a1a; margin-bottom: 1rem; display: block; }
+        .desc { color: #666; max-width: 300px; line-height: 1.6; }
+        
+        .links { display: flex; gap: 2rem; }
+        .links a { color: #1a1a1a; text-decoration: none; font-weight: 600; }
+        
+        .copyright { border-top: 1px solid #eee; padding-top: 2rem; text-align: center; color: #888; font-size: 0.9rem; }
+    </style>
+</head>
+<body>
+    <div class="footer-content">
+        <div>
+            <span class="brand" id="brand">Brand.</span>
+            <p class="desc" id="desc">Creating beautiful digital experiences.</p>
+        </div>
+        <div class="links" id="links">
+            <!-- Links populated by JS -->
+        </div>
+    </div>
+    <div class="copyright" id="copy">© 2025 Brand. All rights reserved.</div>
+
+    <script>
+        const params = new URLSearchParams(window.location.search);
+        if(params.get('brand')) document.getElementById('brand').textContent = params.get('brand');
+        if(params.get('description')) document.getElementById('desc').textContent = params.get('description');
+        if(params.get('copyright')) document.getElementById('copy').textContent = params.get('copyright');
+        
+        const linksContainer = document.getElementById('links');
+        for(let i=1; i<=3; i++) {
+            if(params.get(`link${i}_label`)) {
+                const a = document.createElement('a');
+                a.href = params.get(`link${i}_href`) || '#';
+                a.textContent = params.get(`link${i}_label`);
+                linksContainer.appendChild(a);
+            }
+        }
+
+        const sendHeight = () => { if(params.get('frame_id')) window.parent.postMessage({frameId: params.get('frame_id'), frameHeight: document.body.scrollHeight}, '*'); }
+        window.addEventListener('load', sendHeight);
+    </script>
+</body>
+</html>

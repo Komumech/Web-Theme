@@ -1,0 +1,43 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Light Button</title>
+    <style>
+        @import url('https://fonts.googleapis.com/css2?family=Outfit:wght@700&display=swap');
+        body { margin: 0; padding: 10px; font-family: 'Outfit', sans-serif; overflow: hidden; display: flex; justify-content: center; }
+        
+        .btn {
+            background: #1a1a1a;
+            color: #fff;
+            padding: 1rem 2.5rem;
+            border-radius: 50px;
+            text-decoration: none;
+            font-weight: 700;
+            font-size: 1rem;
+            border: none;
+            cursor: pointer;
+            transition: transform 0.2s, background 0.2s;
+        }
+        .btn:hover { transform: scale(1.05); }
+        .btn.outline { background: transparent; border: 2px solid #1a1a1a; color: #1a1a1a; }
+    </style>
+</head>
+<body>
+    <a href="#" class="btn" id="btn">Click Me</a>
+
+    <script>
+        const params = new URLSearchParams(window.location.search);
+        const btn = document.getElementById('btn');
+        if(params.get('text')) btn.textContent = params.get('text');
+        if(params.get('type') === 'outline') btn.classList.add('outline');
+        if(params.get('accent_color') && params.get('type') !== 'outline') {
+            btn.style.background = '#' + params.get('accent_color');
+            btn.style.color = '#1a1a1a';
+        }
+        const sendHeight = () => { if(params.get('frame_id')) window.parent.postMessage({frameId: params.get('frame_id'), frameHeight: document.body.scrollHeight}, '*'); }
+        window.addEventListener('load', sendHeight);
+    </script>
+</body>
+</html>

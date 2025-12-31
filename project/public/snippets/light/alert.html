@@ -1,0 +1,47 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Light Alert</title>
+    <style>
+        @import url('https://fonts.googleapis.com/css2?family=Outfit:wght@500&display=swap');
+        body { margin: 0; padding: 10px; font-family: 'Outfit', sans-serif; overflow: hidden; }
+        
+        .alert {
+            padding: 1rem 1.5rem;
+            border-radius: 16px;
+            background: #fff;
+            border-left: 6px solid #ffc233;
+            box-shadow: 0 4px 15px rgba(0,0,0,0.05);
+            display: flex;
+            align-items: center;
+            gap: 1rem;
+        }
+        .icon { font-size: 1.2rem; }
+        .message { color: #1a1a1a; font-weight: 500; }
+    </style>
+</head>
+<body>
+    <div class="alert" id="alert">
+        <div class="icon" id="icon">ℹ️</div>
+        <div class="message" id="msg">This is an alert message.</div>
+    </div>
+
+    <script>
+        const params = new URLSearchParams(window.location.search);
+        const alert = document.getElementById('alert');
+        
+        if(params.get('message')) document.getElementById('msg').textContent = params.get('message');
+        if(params.get('accent_color')) alert.style.borderLeftColor = '#' + params.get('accent_color');
+        
+        const type = params.get('type') || 'info';
+        if(type === 'success') document.getElementById('icon').textContent = '✅';
+        if(type === 'error') document.getElementById('icon').textContent = '⚠️';
+        if(type === 'warning') document.getElementById('icon').textContent = '✋';
+
+        const sendHeight = () => { if(params.get('frame_id')) window.parent.postMessage({frameId: params.get('frame_id'), frameHeight: document.body.scrollHeight}, '*'); }
+        window.addEventListener('load', sendHeight);
+    </script>
+</body>
+</html>

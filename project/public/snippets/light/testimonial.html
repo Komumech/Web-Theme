@@ -1,0 +1,44 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Light Testimonial</title>
+    <style>
+        @import url('https://fonts.googleapis.com/css2?family=Outfit:wght@400;700&display=swap');
+        body { margin: 0; padding: 2rem; font-family: 'Outfit', sans-serif; overflow: hidden; text-align: center; }
+        
+        .quote { font-size: 1.5rem; font-weight: 700; color: #1a1a1a; margin-bottom: 2rem; line-height: 1.4; }
+        .author-block { display: flex; align-items: center; justify-content: center; gap: 1rem; }
+        .avatar { width: 50px; height: 50px; border-radius: 50%; object-fit: cover; background: #eee; }
+        .info { text-align: left; }
+        .name { font-weight: 700; color: #1a1a1a; display: block; }
+        .role { font-size: 0.9rem; color: #666; }
+    </style>
+</head>
+<body>
+    <div class="quote" id="quote">"This is the best service I've ever used."</div>
+    <div class="author-block">
+        <img src="" class="avatar" id="avatar" style="display:none;">
+        <div class="info">
+            <span class="name" id="author">John Doe</span>
+            <span class="role" id="role">CEO</span>
+        </div>
+    </div>
+
+    <script>
+        const params = new URLSearchParams(window.location.search);
+        if(params.get('quote')) document.getElementById('quote').textContent = '"' + params.get('quote') + '"';
+        if(params.get('author')) document.getElementById('author').textContent = params.get('author');
+        if(params.get('role')) document.getElementById('role').textContent = params.get('role');
+        if(params.get('avatar')) {
+            const img = document.getElementById('avatar');
+            img.src = params.get('avatar');
+            img.style.display = 'block';
+        }
+
+        const sendHeight = () => { if(params.get('frame_id')) window.parent.postMessage({frameId: params.get('frame_id'), frameHeight: document.body.scrollHeight}, '*'); }
+        window.addEventListener('load', sendHeight);
+    </script>
+</body>
+</html>

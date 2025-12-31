@@ -1,0 +1,51 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Light Team</title>
+    <style>
+        @import url('https://fonts.googleapis.com/css2?family=Outfit:wght@400;700&display=swap');
+        body { margin: 0; padding: 2rem; font-family: 'Outfit', sans-serif; overflow: hidden; text-align: center; }
+        
+        h2 { font-size: 2rem; margin-bottom: 1rem; color: #1a1a1a; }
+        p { color: #666; max-width: 600px; margin: 0 auto 3rem auto; line-height: 1.6; }
+        
+        .grid { display: grid; grid-template-columns: repeat(auto-fit, minmax(150px, 1fr)); gap: 2rem; max-width: 800px; margin: 0 auto; }
+        .member { display: flex; flex-direction: column; align-items: center; }
+        .avatar { width: 100px; height: 100px; border-radius: 50%; background: #eee; margin-bottom: 1rem; object-fit: cover; }
+        .name { font-weight: 700; color: #1a1a1a; }
+        .role { font-size: 0.9rem; color: #888; }
+    </style>
+</head>
+<body>
+    <h2 id="label">Our Team</h2>
+    <p id="desc">We are a group of passionate individuals working together.</p>
+    
+    <div class="grid">
+        <div class="member">
+            <img src="https://images.unsplash.com/photo-1534528741775-53994a69daeb?auto=format&fit=crop&w=200&q=80" class="avatar">
+            <span class="name">Sarah</span>
+            <span class="role">Design</span>
+        </div>
+        <div class="member">
+            <img src="https://images.unsplash.com/photo-1506794778202-cad84cf45f1d?auto=format&fit=crop&w=200&q=80" class="avatar">
+            <span class="name">Mike</span>
+            <span class="role">Dev</span>
+        </div>
+        <div class="member">
+            <img src="https://images.unsplash.com/photo-1494790108377-be9c29b29330?auto=format&fit=crop&w=200&q=80" class="avatar">
+            <span class="name">Emily</span>
+            <span class="role">Product</span>
+        </div>
+    </div>
+
+    <script>
+        const params = new URLSearchParams(window.location.search);
+        if(params.get('label')) document.getElementById('label').textContent = params.get('label');
+        if(params.get('description')) document.getElementById('desc').textContent = params.get('description');
+        const sendHeight = () => { if(params.get('frame_id')) window.parent.postMessage({frameId: params.get('frame_id'), frameHeight: document.body.scrollHeight}, '*'); }
+        window.addEventListener('load', sendHeight);
+    </script>
+</body>
+</html>

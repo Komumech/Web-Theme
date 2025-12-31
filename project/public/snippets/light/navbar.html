@@ -5,20 +5,20 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Light Navbar</title>
     <style>
-        @import url('https://fonts.googleapis.com/css2?family=Inter:wght@700;800&display=swap');
+        @import url('https://fonts.googleapis.com/css2?family=Outfit:wght@500;700&display=swap');
 
         :root {
-            --bg-color: transparent;
+            --bg-color: #ffffff;
             --text-color: #1a1a1a;
             --accent-color: #ffc233;
-            --font-main: 'Inter', sans-serif;
+            --font-main: 'Outfit', sans-serif;
         }
 
         body {
             margin: 0;
-            padding: 1.5rem 3rem;
+            padding: 1rem 2rem;
             font-family: var(--font-main);
-            background-color: var(--bg-color);
+            background-color: transparent;
             overflow: hidden;
         }
 
@@ -26,73 +26,45 @@
             display: flex;
             justify-content: space-between;
             align-items: center;
+            background: var(--bg-color);
+            padding: 1rem 2rem;
+            border-radius: 16px;
+            box-shadow: 0 4px 20px rgba(0,0,0,0.03);
         }
 
-        .logo {
-            font-weight: 800;
-            font-size: 2rem;
+        .brand {
+            font-size: 1.5rem;
+            font-weight: 700;
             color: var(--text-color);
             text-decoration: none;
-            letter-spacing: -0.05em;
-            text-transform: uppercase;
+            letter-spacing: -0.02em;
         }
 
-        .nav-actions {
-            display: flex;
-            gap: 1rem;
-            align-items: center;
-        }
-
-        .nav-link {
-            text-decoration: none;
-            color: #1a1a1a;
-            background: #e5e5e5;
-            padding: 0.8rem 1.2rem;
-            border-radius: 4px;
-            font-weight: 600;
-            font-size: 0.85rem;
-            text-transform: uppercase;
-            letter-spacing: 0.02em;
-            transition: background 0.2s;
-        }
-        .nav-link:hover { background: #d4d4d4; }
-
-        .cta-btn {
+        .cta {
             background: var(--accent-color);
-            color: #1a1a1a;
-            padding: 0.8rem 1.5rem;
+            color: var(--text-color);
+            padding: 0.8rem 1.8rem;
             border-radius: 50px;
             text-decoration: none;
             font-weight: 700;
-            font-size: 0.85rem;
-            text-transform: uppercase;
-            box-shadow: 0 4px 10px rgba(0,0,0,0.1);
-            transition: transform 0.2s;
+            transition: opacity 0.2s;
         }
-        .cta-btn:hover { transform: translateY(-2px); }
-
-        @media (max-width: 768px) { .nav-link { display: none; } }
+        .cta:hover { opacity: 0.9; }
     </style>
 </head>
 <body>
     <nav>
-        <a href="#" class="logo">TESORO</a>
-        <div class="nav-actions">
-            <a href="#" class="nav-link">Merchants</a>
-            <a href="#" class="nav-link">Game Studios</a>
-            <a href="#" class="nav-link">Gamers</a>
-            <a href="#" class="cta-btn">Join the Waitlist</a>
-        </div>
+        <a href="#" class="brand" id="brand">Brand</a>
+        <a href="#" class="cta" id="cta">Get Started</a>
     </nav>
     <script>
         const params = new URLSearchParams(window.location.search);
-        if(params.get('brand')) document.querySelector('.logo').textContent = params.get('brand');
-        if(params.get('cta_text')) document.querySelector('.cta-btn').textContent = params.get('cta_text');
+        if(params.get('brand')) document.getElementById('brand').textContent = params.get('brand');
+        if(params.get('cta_text')) document.getElementById('cta').textContent = params.get('cta_text');
         if(params.get('accent_color')) document.documentElement.style.setProperty('--accent-color', '#' + params.get('accent_color'));
-
+        
         const sendHeight = () => { if(params.get('frame_id')) window.parent.postMessage({frameId: params.get('frame_id'), frameHeight: document.body.scrollHeight}, '*'); }
         window.addEventListener('load', sendHeight);
-        window.addEventListener('resize', sendHeight);
     </script>
 </body>
 </html>

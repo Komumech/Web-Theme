@@ -1,0 +1,76 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Light Hero</title>
+    <style>
+        @import url('https://fonts.googleapis.com/css2?family=Outfit:wght@400;700;800&display=swap');
+
+        :root {
+            --accent-color: #ffc233;
+            --text-color: #1a1a1a;
+        }
+
+        body {
+            margin: 0;
+            padding: 4rem 2rem;
+            font-family: 'Outfit', sans-serif;
+            background: transparent;
+            text-align: center;
+            overflow: hidden;
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+        }
+
+        h1 {
+            font-size: 4rem;
+            line-height: 1.1;
+            margin: 0 0 1.5rem 0;
+            color: var(--text-color);
+            font-weight: 800;
+            letter-spacing: -0.03em;
+            max-width: 900px;
+        }
+
+        p {
+            font-size: 1.25rem;
+            color: #666;
+            margin: 0 0 2.5rem 0;
+            max-width: 600px;
+            line-height: 1.6;
+        }
+
+        .btn {
+            background: var(--accent-color);
+            color: var(--text-color);
+            padding: 1rem 2.5rem;
+            border-radius: 50px;
+            text-decoration: none;
+            font-weight: 700;
+            font-size: 1.1rem;
+            transition: transform 0.2s;
+            display: inline-block;
+        }
+        .btn:hover { transform: scale(1.05); }
+    </style>
+</head>
+<body>
+    <h1 id="title">The Future of Finance</h1>
+    <p id="subtitle">Simple, transparent, and secure. Join millions who are already managing their money better.</p>
+    <a href="#" class="btn" id="cta">Get Started</a>
+
+    <script>
+        const params = new URLSearchParams(window.location.search);
+        if(params.get('title')) document.getElementById('title').innerHTML = params.get('title');
+        if(params.get('subtitle')) document.getElementById('subtitle').textContent = params.get('subtitle');
+        if(params.get('cta_text')) document.getElementById('cta').textContent = params.get('cta_text');
+        if(params.get('accent_color')) document.documentElement.style.setProperty('--accent-color', '#' + params.get('accent_color'));
+
+        const sendHeight = () => { if(params.get('frame_id')) window.parent.postMessage({frameId: params.get('frame_id'), frameHeight: document.body.scrollHeight}, '*'); }
+        window.addEventListener('load', sendHeight);
+        window.addEventListener('resize', sendHeight);
+    </script>
+</body>
+</html>

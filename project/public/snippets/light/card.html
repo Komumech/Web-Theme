@@ -1,0 +1,67 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Light Card</title>
+    <style>
+        @import url('https://fonts.googleapis.com/css2?family=Outfit:wght@400;600;700&display=swap');
+
+        body {
+            margin: 0;
+            padding: 20px;
+            font-family: 'Outfit', sans-serif;
+            overflow: hidden;
+        }
+
+        .card {
+            background: #fff;
+            border-radius: 24px;
+            padding: 2rem;
+            box-shadow: 0 10px 30px rgba(0,0,0,0.03);
+            transition: transform 0.3s;
+            height: 100%;
+            box-sizing: border-box;
+        }
+        .card:hover { transform: translateY(-5px); box-shadow: 0 15px 40px rgba(0,0,0,0.06); }
+
+        .icon {
+            font-size: 2.5rem;
+            margin-bottom: 1rem;
+            display: inline-block;
+            background: #fdf8f5;
+            width: 60px; height: 60px;
+            border-radius: 50%;
+            display: flex; align-items: center; justify-content: center;
+        }
+
+        h3 { margin: 0 0 0.5rem 0; font-size: 1.4rem; color: #1a1a1a; }
+        p { color: #666; line-height: 1.6; margin: 0 0 1.5rem 0; }
+
+        .link {
+            color: #1a1a1a;
+            text-decoration: none;
+            font-weight: 700;
+            border-bottom: 2px solid #ffc233;
+        }
+    </style>
+</head>
+<body>
+    <div class="card">
+        <div class="icon" id="icon">✨</div>
+        <h3 id="title">Feature Title</h3>
+        <p id="desc">Description of the feature goes here. Keep it concise and engaging.</p>
+        <a href="#" class="link" id="link">Learn more</a>
+    </div>
+
+    <script>
+        const params = new URLSearchParams(window.location.search);
+        if(params.get('title')) document.getElementById('title').textContent = params.get('title');
+        if(params.get('description')) document.getElementById('desc').textContent = params.get('description');
+        if(params.get('icon')) document.getElementById('icon').textContent = params.get('icon');
+        
+        const sendHeight = () => { if(params.get('frame_id')) window.parent.postMessage({frameId: params.get('frame_id'), frameHeight: document.body.scrollHeight}, '*'); }
+        window.addEventListener('load', sendHeight);
+    </script>
+</body>
+</html>

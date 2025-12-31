@@ -1,0 +1,56 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Light Accordion</title>
+    <style>
+        @import url('https://fonts.googleapis.com/css2?family=Outfit:wght@500;700&display=swap');
+        body { margin: 0; padding: 20px; font-family: 'Outfit', sans-serif; overflow: hidden; }
+        
+        details {
+            background: #fff;
+            border-radius: 16px;
+            margin-bottom: 1rem;
+            box-shadow: 0 4px 10px rgba(0,0,0,0.03);
+            overflow: hidden;
+        }
+        summary {
+            padding: 1.2rem;
+            font-weight: 700;
+            cursor: pointer;
+            list-style: none;
+            position: relative;
+            color: #1a1a1a;
+        }
+        summary::-webkit-details-marker { display: none; }
+        summary::after { content: '+'; position: absolute; right: 1.5rem; font-size: 1.5rem; font-weight: 400; }
+        details[open] summary::after { content: '-'; }
+        
+        .content { padding: 0 1.2rem 1.2rem 1.2rem; color: #666; line-height: 1.6; }
+    </style>
+</head>
+<body>
+    <div id="container"></div>
+
+    <script>
+        const params = new URLSearchParams(window.location.search);
+        const container = document.getElementById('container');
+        
+        for(let i=1; i<=5; i++) {
+            if(params.get(`header_${i}`)) {
+                const details = document.createElement('details');
+                details.innerHTML = `
+                    <summary>${params.get(`header_${i}`)}</summary>
+                    <div class="content">${params.get(`content_${i}`)}</div>
+                `;
+                details.addEventListener('toggle', sendHeight);
+                container.appendChild(details);
+            }
+        }
+
+        function sendHeight() { if(params.get('frame_id')) window.parent.postMessage({frameId: params.get('frame_id'), frameHeight: document.body.scrollHeight}, '*'); }
+        window.addEventListener('load', sendHeight);
+    </script>
+</body>
+</html>

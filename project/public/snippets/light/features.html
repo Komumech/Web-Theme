@@ -5,27 +5,21 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Light Features</title>
     <style>
-        @import url('https://fonts.googleapis.com/css2?family=Inter:wght@400;600;700&display=swap');
-
-        :root {
-            --bg-color: #fdf8f5;
-            --text-color: #1a1a1a;
-            --font-main: 'Inter', sans-serif;
-        }
+        @import url('https://fonts.googleapis.com/css2?family=Outfit:wght@400;600;700&display=swap');
 
         body {
             margin: 0;
             padding: 2rem;
-            font-family: var(--font-main);
-            background-color: var(--bg-color);
+            font-family: 'Outfit', sans-serif;
+            background: transparent;
             overflow: hidden;
         }
 
         .grid {
             display: grid;
-            grid-template-columns: repeat(4, 1fr);
-            gap: 2rem;
-            max-width: 1400px;
+            grid-template-columns: repeat(auto-fit, minmax(240px, 1fr));
+            gap: 2.5rem;
+            max-width: 1200px;
             margin: 0 auto;
         }
 
@@ -36,103 +30,49 @@
             text-align: center;
         }
 
-        .icon-box {
+        .icon-card {
             width: 100%;
             aspect-ratio: 1;
-            border-radius: 30px;
+            border-radius: 32px;
             display: flex;
             align-items: center;
             justify-content: center;
             margin-bottom: 1.5rem;
-            transition: transform 0.3s ease;
+            transition: transform 0.3s ease, box-shadow 0.3s ease;
             box-shadow: 0 10px 30px rgba(0,0,0,0.05);
         }
+        .icon-card:hover { transform: translateY(-8px); box-shadow: 0 20px 40px rgba(0,0,0,0.08); }
+        
+        .icon-card svg { width: 64px; height: 64px; fill: #1a1a1a; }
 
-        .feature-item:hover .icon-box {
-            transform: translateY(-10px);
-        }
-
-        .icon-box svg {
-            width: 80px;
-            height: 80px;
-            fill: #1a1a1a;
-        }
-
-        h3 {
-            font-size: 1.5rem;
-            font-weight: 700;
-            margin: 0 0 0.8rem 0;
-            color: var(--text-color);
-        }
-
-        p {
-            font-size: 1rem;
-            line-height: 1.5;
-            color: #555;
-            margin: 0;
-            max-width: 280px;
-        }
-
-        /* Default Colors */
-        .c1 { background-color: #ff6b4e; }
-        .c2 { background-color: #ffc233; }
-        .c3 { background-color: #4ade80; }
-        .c4 { background-color: #00c4b4; }
-
-        @media (max-width: 1024px) {
-            .grid { grid-template-columns: repeat(2, 1fr); gap: 3rem 2rem; }
-        }
-        @media (max-width: 600px) {
-            .grid { grid-template-columns: 1fr; }
-            .icon-box { width: 80%; }
-        }
+        h3 { font-size: 1.6rem; margin: 0 0 0.8rem 0; color: #1a1a1a; font-weight: 700; letter-spacing: -0.02em; }
+        p { color: #666; line-height: 1.6; margin: 0; font-size: 1.05rem; max-width: 300px; }
     </style>
 </head>
 <body>
-    <div class="grid">
-        <!-- Item 1 -->
-        <div class="feature-item">
-            <div class="icon-box c1" id="box1">
-                <svg viewBox="0 0 24 24"><path id="icon1" d="M12 2L4 7v10l8 5 8-5V7l-8-5zm0 2.2L18.4 8 12 11.8 5.6 8 12 4.2zM5.6 10L12 13.8 18.4 10v8.8L12 22.6 5.6 18.8V10z"/></svg>
-            </div>
-            <h3 id="t1">Connect</h3>
-            <p id="d1">Gamers connect their Visa / Mastercard cards to Tesoro.</p>
-        </div>
-        <!-- Item 2 -->
-        <div class="feature-item">
-            <div class="icon-box c2" id="box2">
-                <svg viewBox="0 0 24 24"><path id="icon2" d="M17 7H7c-2.76 0-5 2.24-5 5s2.24 5 5 5h10c2.76 0 5-2.24 5-5s-2.24-5-5-5zm0 8c-1.66 0-3-1.34-3-3s1.34-3 3-3 3 1.34 3 3-1.34 3-3 3z"/></svg>
-            </div>
-            <h3 id="t2">Activate</h3>
-            <p id="d2">Activate offers at participating merchants to earn in-game currency.</p>
-        </div>
-        <!-- Item 3 -->
-        <div class="feature-item">
-            <div class="icon-box c3" id="box3">
-                <svg viewBox="0 0 24 24"><path id="icon3" d="M20 4H4c-1.11 0-1.99.89-1.99 2L2 18c0 1.11.89 2 2 2h16c1.11 0 2-.89 2-2V6c0-1.11-.89-2-2-2zm0 14H4v-6h16v6zm0-10H4V6h16v2z"/></svg>
-            </div>
-            <h3 id="t3">Spend</h3>
-            <p id="d3">Pay using connected cards in-store, in app, or online.</p>
-        </div>
-        <!-- Item 4 -->
-        <div class="feature-item">
-            <div class="icon-box c4" id="box4">
-                <svg viewBox="0 0 24 24"><path id="icon4" d="M12 17.27L18.18 21l-1.64-7.03L22 9.24l-7.19-.61L12 2 9.19 8.63 2 9.24l5.46 4.73L5.82 21z"/></svg>
-            </div>
-            <h3 id="t4">Reward</h3>
-            <p id="d4">Tesoro rewards gamers with in-game currency for each transaction.</p>
-        </div>
-    </div>
+    <div class="grid" id="grid"></div>
 
     <script>
         const params = new URLSearchParams(window.location.search);
+        const grid = document.getElementById('grid');
+
         for(let i=1; i<=4; i++) {
-            if(params.get(`title${i}`)) document.getElementById(`t${i}`).textContent = params.get(`title${i}`);
-            if(params.get(`desc${i}`)) document.getElementById(`d${i}`).textContent = params.get(`desc${i}`);
-            if(params.get(`color${i}`)) document.getElementById(`box${i}`).style.backgroundColor = '#' + params.get(`color${i}`);
-            if(params.get(`icon${i}`)) document.getElementById(`icon${i}`).setAttribute('d', params.get(`icon${i}`));
+            if(params.get(`title${i}`)) {
+                const div = document.createElement('div');
+                div.className = 'feature-item';
+                const color = params.get(`color${i}`) || 'eee';
+                const iconPath = params.get(`icon${i}`) || '';
+                
+                div.innerHTML = `
+                    <div class="icon-card" style="background-color: #${color}">
+                        <svg viewBox="0 0 24 24"><path d="${iconPath}"/></svg>
+                    </div>
+                    <h3>${params.get(`title${i}`)}</h3>
+                    <p>${params.get(`desc${i}`)}</p>
+                `;
+                grid.appendChild(div);
+            }
         }
-        if(params.get('bg_color')) document.documentElement.style.setProperty('--bg-color', '#' + params.get('bg_color'));
 
         const sendHeight = () => { if(params.get('frame_id')) window.parent.postMessage({frameId: params.get('frame_id'), frameHeight: document.body.scrollHeight}, '*'); }
         window.addEventListener('load', sendHeight);
