@@ -1,0 +1,82 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Light Theme Test</title>
+    <style>
+        body {
+            margin: 0;
+            padding: 0;
+            background-color: #fdf8f5;
+            font-family: sans-serif;
+        }
+        
+        .theme-wrapper {
+            width: 100%;
+            max-width: 1400px;
+            margin: 0 auto;
+        }
+
+        iframe {
+            width: 100%;
+            border: none;
+            overflow: hidden;
+            display: block;
+        }
+    </style>
+</head>
+<body>
+
+    <div class="theme-wrapper">
+        <!-- Navbar -->
+        <iframe 
+            id="nav-frame"
+            src=""
+            data-base-url="project/public/snippets/light/navbar.html"
+            data-frame-id="nav-frame"
+            data-brand="TESORO"
+            data-cta_text="Join the Waitlist"
+            data-accent_color="ffc233"
+            scrolling="no"
+        ></iframe>
+
+        <!-- Features Section -->
+        <iframe 
+            id="features-frame"
+            src=""
+            data-base-url="project/public/snippets/light/features.html"
+            data-frame-id="features-frame"
+            data-title1="Connect" data-desc1="Gamers connect their Visa / Mastercard cards to Tesoro." data-color1="ff6b4e" data-icon1="M12 2L4 7v10l8 5 8-5V7l-8-5zm0 2.2L18.4 8 12 11.8 5.6 8 12 4.2zM5.6 10L12 13.8 18.4 10v8.8L12 22.6 5.6 18.8V10z"
+            data-title2="Activate" data-desc2="Activate offers at participating merchants to earn in-game currency." data-color2="ffc233" data-icon2="M17 7H7c-2.76 0-5 2.24-5 5s2.24 5 5 5h10c2.76 0 5-2.24 5-5s-2.24-5-5-5zm0 8c-1.66 0-3-1.34-3-3s1.34-3 3-3 3 1.34 3 3-1.34 3-3 3z"
+            data-title3="Spend" data-desc3="Pay using connected cards in-store, in app, or online." data-color3="4ade80" data-icon3="M20 4H4c-1.11 0-1.99.89-1.99 2L2 18c0 1.11.89 2 2 2h16c1.11 0 2-.89 2-2V6c0-1.11-.89-2-2-2zm0 14H4v-6h16v6zm0-10H4V6h16v2z"
+            data-title4="Reward" data-desc4="Tesoro rewards gamers with in-game currency for each transaction." data-color4="00c4b4" data-icon4="M12 17.27L18.18 21l-1.64-7.03L22 9.24l-7.19-.61L12 2 9.19 8.63 2 9.24l5.46 4.73L5.82 21z"
+            scrolling="no"
+        ></iframe>
+    </div>
+
+    <script>
+        document.addEventListener('DOMContentLoaded', function() {
+            document.querySelectorAll('iframe[data-base-url]').forEach(iframe => {
+                const baseUrl = iframe.getAttribute('data-base-url');
+                let params = [];
+                for (const attr of iframe.attributes) {
+                    if (attr.name.startsWith('data-')) {
+                        let key = attr.name.substring(5).replace(/-/g, '_');
+                        if (key === 'base_url') continue;
+                        params.push(`${key}=${encodeURIComponent(attr.value)}`);
+                    }
+                }
+                iframe.src = baseUrl + '?' + params.join('&');
+            });
+        });
+
+        window.addEventListener("message", function(event) {
+            if (event.data.frameHeight && event.data.frameId) {
+                const iframe = document.getElementById(event.data.frameId);
+                if (iframe) iframe.style.height = event.data.frameHeight + "px";
+            }
+        });
+    </script>
+</body>
+</html>
