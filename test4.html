@@ -67,6 +67,32 @@
             max-width: 1200px;
             margin: 0 auto;
         }
+
+        .input-log {
+            position: fixed;
+            bottom: 20px;
+            right: 20px;
+            z-index: 1000;
+            display: flex;
+            flex-direction: column;
+            gap: 10px;
+            max-width: 300px;
+            pointer-events: none;
+        }
+        .log-entry {
+            background: #1a1a1a;
+            color: #fff;
+            padding: 12px 16px;
+            border-radius: 8px;
+            box-shadow: 0 4px 12px rgba(0,0,0,0.15);
+            font-size: 0.9rem;
+            animation: slideIn 0.3s ease-out;
+            pointer-events: auto;
+        }
+        @keyframes slideIn {
+            from { transform: translateX(100%); opacity: 0; }
+            to { transform: translateX(0); opacity: 1; }
+        }
     </style>
 </head>
 <body>
@@ -78,6 +104,7 @@
     </div>
 
     <h1>Dawn Theme Snippets</h1>
+    <div id="input-log" class="input-log"></div>
 
     <h2>Navbar</h2>
     <iframe
@@ -320,7 +347,12 @@
             }
 
             if (event.data.action === 'input_submitted') {
-                alert(`Input Collected from ${event.data.frameId}:\n${event.data.value}`);
+                const log = document.getElementById('input-log');
+                const entry = document.createElement('div');
+                entry.className = 'log-entry';
+                entry.innerHTML = `<strong>${event.data.frameId}:</strong><br>${event.data.value}`;
+                log.appendChild(entry);
+                setTimeout(() => entry.remove(), 5000);
             }
         });
 
