@@ -236,15 +236,20 @@
         hamburger.addEventListener('click', (e) => {
             e.stopPropagation();
             menuContainer.classList.toggle('active');
-            sendHeight();
+            animateHeight();
         });
 
         document.addEventListener('click', (e) => {
             if (menuContainer.classList.contains('active') && !menuContainer.contains(e.target)) {
                 menuContainer.classList.remove('active');
-                sendHeight();
+                animateHeight();
             }
         });
+
+        function animateHeight() {
+            const interval = setInterval(sendHeight, 20);
+            setTimeout(() => { clearInterval(interval); sendHeight(); }, 550);
+        }
 
         // Dynamic Resizing
         function sendHeight() {
