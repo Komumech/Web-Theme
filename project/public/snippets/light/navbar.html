@@ -86,9 +86,7 @@
         .cta:hover { transform: scale(1.05); }
 
         .mobile-menu {
-            position: absolute;
-            top: 100%;
-            left: 0;
+            position: relative;
             width: 100%;
             background: var(--bg-color);
             border-radius: 24px;
@@ -198,6 +196,9 @@
         window.addEventListener('load', sendHeight);
         window.addEventListener('resize', sendHeight);
         menu.addEventListener('transitionend', sendHeight);
+
+        // Ensure iframe resizes smoothly during menu animation
+        new ResizeObserver(sendHeight).observe(document.body);
     </script>
 </body>
 </html>
