@@ -15,44 +15,56 @@
             display: flex;
             justify-content: space-between;
             align-items: center;
-            gap: 15px;
             max-width: 1400px;
             margin: 0 auto;
+            position: relative;
         }
 
         /* Glassmorphism Pill Styles */
         .pace-pill {
-            background: var(--pill-bg, rgba(255, 255, 255, 0.15));
+            background: var(--pill-bg, #FFF0E6);
             backdrop-filter: blur(12px);
             -webkit-backdrop-filter: blur(12px);
-            border: 1px solid rgba(255, 255, 255, 0.3);
+            border: 1px solid rgba(255, 255, 255, 0.5);
             border-radius: var(--pill-radius, 50px);
             display: flex;
             align-items: center;
             justify-content: center;
-            color: var(--text-color, #ffffff);
+            color: var(--text-color, #1a1a1a);
+            transition: background 0.2s, transform 0.2s;
         }
 
-        .pace-logo-pill {
+        /* Left Group: Logo + Hamburger */
+        .pace-left-group {
+            position: relative;
+            z-index: 20;
+        }
+
+        .pace-menu-pill {
             padding: 8px 24px;
-            font-weight: 600;
-            letter-spacing: 1px;
-            text-transform: uppercase;
-            height: 48px;
+            gap: 16px;
+            cursor: pointer;
+            height: 54px;
             box-sizing: border-box;
         }
-        
+        .pace-menu-pill:hover {
+            background: var(--pill-hover-bg, #ffe4d1);
+        }
+
         .pace-logo-text {
             display: flex;
             align-items: center;
             gap: 8px;
+            font-weight: 600;
+            letter-spacing: 1px;
+            text-transform: uppercase;
         }
         
         .pace-logo-circle {
             border: 1px solid currentColor;
             border-radius: 50%;
-            width: 28px;
-            height: 28px;
+            width: 26px;
+            height: 26px;
             display: flex;
             align-items: center;
             justify-content: center;
@@ -60,61 +72,77 @@
             font-weight: 400;
         }
 
-        .pace-nav-links {
-            padding: 0 30px;
-            height: 48px;
-            gap: 30px;
-            font-size: 15px;
-            font-weight: 500;
-        }
-        
-        .pace-nav-links a {
-            color: var(--text-color, #ffffff);
-            text-decoration: none;
-            transition: opacity 0.2s;
-        }
-        
-        .pace-nav-links a:hover {
-            opacity: 0.8;
+        .pace-sep {
+            width: 1px;
+            height: 24px;
+            background: currentColor;
+            opacity: 0.2;
         }
 
-        .pace-actions {
+        .pace-hamburger {
             display: flex;
-            gap: 12px;
             align-items: center;
         }
 
-        .pace-btn {
-            padding: 0 24px;
-            height: 48px;
-            border-radius: var(--pill-radius, 50px);
+        /* Desktop Links Dropdown */
+        .pace-desktop-links {
+            position: absolute;
+            top: calc(100% + 10px);
+            left: 0;
+            background: rgba(255, 255, 255, 0.95);
+            backdrop-filter: blur(12px);
+            -webkit-backdrop-filter: blur(12px);
+            padding: 8px;
+            border-radius: 20px;
+            box-shadow: 0 10px 40px rgba(0,0,0,0.1);
+            display: flex;
+            flex-direction: column;
+            min-width: 220px;
+            opacity: 0;
+            visibility: hidden;
+            transform: translateY(-10px);
+            transition: all 0.3s cubic-bezier(0.16, 1, 0.3, 1);
+            pointer-events: none;
+            border: 1px solid rgba(0,0,0,0.05);
+        }
+
+        @media (min-width: 992px) {
+            .pace-left-group:hover .pace-desktop-links {
+                opacity: 1;
+                visibility: visible;
+                transform: translateY(0);
+                pointer-events: auto;
+            }
+        }
+
+        .pace-desktop-link {
+            padding: 12px 20px;
+            text-decoration: none;
+            color: var(--text-color, #1a1a1a);
+            font-weight: 500;
+            border-radius: 12px;
+            transition: background 0.2s;
+            display: block;
+        }
+        .pace-desktop-link:hover {
+            background: rgba(0,0,0,0.05);
+        }
+
+        /* Right CTA */
+        .pace-cta-pill {
+            padding: 0 28px;
+            height: 54px;
             text-decoration: none;
             font-weight: 600;
             display: inline-flex;
             align-items: center;
             gap: 8px;
-            transition: transform 0.2s;
             white-space: nowrap;
             box-sizing: border-box;
         }
-        
-        .pace-btn:hover {
+        .pace-cta-pill:hover {
             transform: translateY(-2px);
         }
-
-        .pace-btn-secondary {
-            background: var(--btn-secondary-bg, rgba(255, 255, 255, 0.25));
-            color: var(--btn-secondary-text, #ffffff);
-            border: 1px solid rgba(255, 255, 255, 0.1);
-        }
-
-        .pace-btn-primary {
-            background: var(--btn-primary-bg, #FFDBC2);
-            color: var(--btn-primary-text, #1a1a1a);
-            border: none;
-        }
-
-        .pace-mobile-menu { display: none; color: var(--text-color, #ffffff); }
 
         /* Mobile Menu Dropdown */
         .pace-mobile-dropdown {
@@ -153,28 +181,34 @@
         }
 
         @media (max-width: 991px) {
-            .pace-nav-links, .pace-btn-secondary { display: none; }
-            .pace-nav { justify-content: space-between; }
-            .pace-mobile-menu {
-                display: flex; width: 48px; height: 48px; align-items: center; justify-content: center; cursor: pointer;
-            }
+            .pace-desktop-links { display: none; }
         }
     </style>
 </head>
 <body>
     <nav class="pace-nav">
-        <div class="pace-pill pace-logo-pill">
-            <div class="pace-logo-text" id="brand">PACE <span class="pace-logo-circle">HR</span></div>
-        </div>
-        <div class="pace-pill pace-nav-links" id="nav-links"></div>
-        <div class="pace-actions">
-            <a href="#" class="pace-btn pace-btn-secondary" id="secondary-btn" target="_top">Engagement survey</a>
-            <a href="#" class="pace-btn pace-btn-primary" id="cta-btn" target="_top">Book a call</a>
-            <div class="pace-mobile-menu">
-                <svg width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><line x1="3" y1="12" x2="21" y2="12"></line><line x1="3" y1="6" x2="21" y2="6"></line><line x1="3" y1="18" x2="21" y2="18"></line></svg>
+        <!-- Left Group: Brand + Menu Trigger -->
+        <div class="pace-left-group" id="left-group">
+            <div class="pace-pill pace-menu-pill" id="menu-trigger">
+                <div class="pace-logo-text" id="brand">PACE <span class="pace-logo-circle">HR</span></div>
+                <div class="pace-sep"></div>
+                <div class="pace-hamburger">
+                    <svg width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><line x1="3" y1="12" x2="21" y2="12"></line><line x1="3" y1="6" x2="21" y2="6"></line><line x1="3" y1="18" x2="21" y2="18"></line></svg>
+                </div>
             </div>
+            <!-- Desktop Hover Menu -->
+            <div class="pace-desktop-links" id="desktop-links"></div>
+        </div>
+
+        <!-- Right Group: CTA -->
+        <div class="pace-right-group">
+            <a href="#" class="pace-pill pace-cta-pill" id="cta-btn" target="_top">
+                <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><rect x="3" y="4" width="18" height="18" rx="2" ry="2"></rect><line x1="16" y1="2" x2="16" y2="6"></line><line x1="8" y1="2" x2="8" y2="6"></line><line x1="3" y1="10" x2="21" y2="10"></line><path d="M10 16l4 0"></path><path d="M12 14l0 4"></path></svg>
+                <span id="cta-text">Book a call</span>
+            </a>
         </div>
     </nav>
+
     <div class="pace-mobile-dropdown" id="mobile-menu"></div>
 
     <script>
@@ -182,32 +216,29 @@
         
         // Content
         if(params.get('brand')) document.getElementById('brand').innerHTML = params.get('brand');
-        if(params.get('cta_text')) document.getElementById('cta-btn').textContent = params.get('cta_text');
+        if(params.get('cta_text')) document.getElementById('cta-text').textContent = params.get('cta_text');
         if(params.get('cta_href')) document.getElementById('cta-btn').href = params.get('cta_href');
-        if(params.get('secondary_text')) document.getElementById('secondary-btn').textContent = params.get('secondary_text');
-        if(params.get('secondary_href')) document.getElementById('secondary-btn').href = params.get('secondary_href');
 
         // Colors & Design
         if(params.get('text_color')) document.documentElement.style.setProperty('--text-color', '#' + params.get('text_color'));
         if(params.get('pill_bg')) document.documentElement.style.setProperty('--pill-bg', '#' + params.get('pill_bg'));
-        if(params.get('btn_primary_bg')) document.documentElement.style.setProperty('--btn-primary-bg', '#' + params.get('btn_primary_bg'));
-        if(params.get('btn_primary_text')) document.documentElement.style.setProperty('--btn-primary-text', '#' + params.get('btn_primary_text'));
-        if(params.get('btn_secondary_bg')) document.documentElement.style.setProperty('--btn-secondary-bg', '#' + params.get('btn_secondary_bg'));
-        if(params.get('btn_secondary_text')) document.documentElement.style.setProperty('--btn-secondary-text', '#' + params.get('btn_secondary_text'));
         if(params.get('pill_radius')) document.documentElement.style.setProperty('--pill-radius', params.get('pill_radius'));
 
         // Links
-        const navContainer = document.getElementById('nav-links');
+        const desktopLinks = document.getElementById('desktop-links');
         const mobileMenu = document.getElementById('mobile-menu');
         for(let i=1; i<=6; i++) {
             if(params.get(`link${i}_text`)) {
                 const text = params.get(`link${i}_text`);
                 const href = params.get(`link${i}_href`) || '#';
                 
+                // Desktop
                 const a = document.createElement('a');
+                a.className = 'pace-desktop-link';
                 a.href = href; a.textContent = text; a.target = "_top";
-                navContainer.appendChild(a);
+                desktopLinks.appendChild(a);
 
+                // Mobile
                 const m = document.createElement('a');
                 m.className = 'pace-mobile-link';
                 m.href = href; m.textContent = text; m.target = "_top";
@@ -215,12 +246,20 @@
             }
         }
 
-        // Mobile Toggle
-        const mobileBtn = document.querySelector('.pace-mobile-menu');
-        mobileBtn.addEventListener('click', () => {
-            mobileMenu.classList.toggle('active');
-            animateHeight();
+        // Mobile Toggle (Click)
+        const menuTrigger = document.getElementById('menu-trigger');
+        menuTrigger.addEventListener('click', () => {
+            // Only toggle mobile menu if screen is small
+            if (window.innerWidth <= 991) {
+                mobileMenu.classList.toggle('active');
+                animateHeight();
+            }
         });
+
+        // Desktop Hover Animation Trigger
+        const leftGroup = document.getElementById('left-group');
+        leftGroup.addEventListener('mouseenter', animateHeight);
+        leftGroup.addEventListener('mouseleave', animateHeight);
 
         function animateHeight() {
             const interval = setInterval(sendHeight, 10);
