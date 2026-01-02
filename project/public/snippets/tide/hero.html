@@ -1,0 +1,386 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Tide Hero</title>
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600&family=Playfair+Display:wght@400;500&display=swap" rel="stylesheet">
+    <style>
+        body { margin: 0; padding: 0; overflow: hidden; }
+        /* Scoped styles for the hero snippet to prevent conflicts */
+        .pace-hero-wrapper {
+            font-family: 'Inter', sans-serif;
+            /* Gradient Background */
+            background: linear-gradient(135deg, var(--gradient-start, #ff6b4a) 0%, var(--gradient-end, #ff4757) 100%);
+            color: var(--text-color, #ffffff);
+            position: relative;
+            overflow: hidden;
+            min-height: 100vh;
+            display: flex;
+            flex-direction: column;
+            box-sizing: border-box;
+        }
+
+        /* Halftone pattern overlay */
+        .pace-hero-wrapper::before {
+            content: "";
+            position: absolute;
+            top: 0;
+            left: 0;
+            right: 0;
+            bottom: 0;
+            /* Creates the dot pattern */
+            background-image: radial-gradient(rgba(255, 255, 255, 0.15) 2px, transparent 2px);
+            background-size: 24px 24px;
+            pointer-events: none;
+            z-index: 1;
+        }
+
+        .pace-container {
+            max-width: 1400px;
+            margin: 0 auto;
+            width: 100%;
+            padding: 20px;
+            position: relative;
+            z-index: 2;
+            box-sizing: border-box;
+        }
+
+        /* Navigation Bar */
+        .pace-nav {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            padding: 10px 0;
+            gap: 15px;
+        }
+
+        /* Glassmorphism Pill Styles */
+        .pace-pill {
+            background: rgba(255, 255, 255, 0.15);
+            backdrop-filter: blur(12px);
+            -webkit-backdrop-filter: blur(12px);
+            border: 1px solid rgba(255, 255, 255, 0.3);
+            border-radius: var(--pill-radius, 50px);
+            display: flex;
+            align-items: center;
+            justify-content: center;
+        }
+
+        .pace-logo-pill {
+            padding: 8px 24px;
+            font-weight: 600;
+            letter-spacing: 1px;
+            text-transform: uppercase;
+            height: 48px;
+            box-sizing: border-box;
+        }
+        
+        .pace-logo-text {
+            display: flex;
+            align-items: center;
+            gap: 8px;
+        }
+        
+        .pace-logo-circle {
+            border: 1px solid white;
+            border-radius: 50%;
+            width: 28px;
+            height: 28px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-size: 11px;
+            font-weight: 400;
+        }
+
+        .pace-nav-links {
+            padding: 0 30px;
+            height: 48px;
+            gap: 30px;
+            font-size: 15px;
+            font-weight: 500;
+        }
+        
+        .pace-nav-links a {
+            color: var(--text-color, #ffffff);
+            text-decoration: none;
+            transition: opacity 0.2s;
+        }
+        
+        .pace-nav-links a:hover {
+            opacity: 0.8;
+        }
+
+        .pace-actions {
+            display: flex;
+            gap: 12px;
+            align-items: center;
+        }
+
+        .pace-btn {
+            padding: 0 24px;
+            height: 48px;
+            border-radius: var(--pill-radius, 50px);
+            text-decoration: none;
+            font-weight: 600;
+            display: inline-flex;
+            align-items: center;
+            gap: 8px;
+            transition: transform 0.2s;
+            white-space: nowrap;
+            box-sizing: border-box;
+        }
+        
+        .pace-btn:hover {
+            transform: translateY(-2px);
+        }
+
+        .pace-btn-secondary {
+            background: var(--btn-secondary-bg, rgba(255, 255, 255, 0.25));
+            color: var(--btn-secondary-text, #ffffff);
+            border: 1px solid rgba(255, 255, 255, 0.1);
+        }
+
+        .pace-btn-primary {
+            background: var(--btn-primary-bg, #FFDBC2);
+            color: var(--btn-primary-text, #1a1a1a);
+            border: none;
+        }
+
+        /* Hero Content Layout */
+        .pace-hero-content {
+            display: grid;
+            grid-template-columns: 1fr;
+            gap: 40px;
+            margin-top: 60px;
+            align-items: start;
+        }
+
+        .pace-headline {
+            font-family: 'Playfair Display', serif;
+            font-size: 3.5rem;
+            line-height: 1.05;
+            font-weight: 400;
+            margin: 0;
+        }
+
+        .pace-sub-col {
+            max-width: 600px;
+        }
+
+        .pace-sub-title {
+            font-weight: 700;
+            font-size: 1.25rem;
+            margin-bottom: 20px;
+            line-height: 1.4;
+        }
+
+        .pace-description {
+            font-size: 1.125rem;
+            line-height: 1.6;
+            opacity: 0.95;
+            margin-bottom: 35px;
+        }
+
+        .pace-reviews {
+            margin-top: 40px;
+            display: flex;
+            align-items: center;
+            gap: 15px;
+        }
+        
+        .pace-wreath-svg {
+            width: 50px;
+            height: 50px;
+            fill: none;
+            stroke: var(--text-color, #ffffff);
+            stroke-width: 1.5;
+        }
+
+        /* Responsive Breakpoints */
+        @media (min-width: 992px) {
+            .pace-hero-content {
+                grid-template-columns: 1.1fr 0.9fr;
+                margin-top: 120px;
+            }
+            .pace-headline {
+                font-size: 6rem; /* Large desktop font size */
+            }
+        }
+
+        @media (max-width: 991px) {
+            .pace-nav-links, .pace-btn-secondary {
+                display: none; /* Hide desktop nav items on mobile */
+            }
+            .pace-nav {
+                justify-content: space-between;
+            }
+            /* Mobile Menu Icon Placeholder */
+            .pace-mobile-menu {
+                display: flex;
+                width: 48px;
+                height: 48px;
+                align-items: center;
+                justify-content: center;
+                cursor: pointer;
+            }
+        }
+    </style>
+</head>
+<body>
+    <div class="pace-hero-wrapper">
+        <div class="pace-container">
+            <!-- Header / Navigation -->
+            <nav class="pace-nav">
+                <!-- Logo -->
+                <div class="pace-pill pace-logo-pill">
+                    <div class="pace-logo-text" id="brand">
+                        PACE <span class="pace-logo-circle">HR</span>
+                    </div>
+                </div>
+
+                <!-- Desktop Links -->
+                <div class="pace-pill pace-nav-links" id="nav-links">
+                    <a href="#" target="_top">Home</a>
+                    <a href="#" target="_top">Team</a>
+                    <a href="#" target="_top">Solutions</a>
+                    <a href="#" target="_top">Press</a>
+                    <a href="#" target="_top">Thoughts</a>
+                    <a href="#" target="_top">Contact</a>
+                </div>
+
+                <!-- Actions -->
+                <div class="pace-actions">
+                    <a href="#" class="pace-btn pace-btn-secondary" id="secondary-btn" target="_top">Engagement survey</a>
+                    <a href="#" class="pace-btn pace-btn-primary" id="cta-btn" target="_top">
+                        <!-- Calendar Icon -->
+                        <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><rect x="3" y="4" width="18" height="18" rx="2" ry="2"></rect><line x1="16" y1="2" x2="16" y2="6"></line><line x1="8" y1="2" x2="8" y2="6"></line><line x1="3" y1="10" x2="21" y2="10"></line><path d="M10 16l4 0"></path><path d="M12 14l0 4"></path></svg>
+                        Book a call
+                    </a>
+                    
+                    <!-- Mobile Hamburger (Visible only on small screens) -->
+                    <div class="pace-mobile-menu" style="display: none;">
+                        <svg width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><line x1="3" y1="12" x2="21" y2="12"></line><line x1="3" y1="6" x2="21" y2="6"></line><line x1="3" y1="18" x2="21" y2="18"></line></svg>
+                    </div>
+                </div>
+            </nav>
+
+            <!-- Main Hero Content -->
+            <div class="pace-hero-content">
+                <!-- Left Column: Headline -->
+                <h1 class="pace-headline" id="headline">
+                    Dependable HR<br>
+                    Partner that<br>
+                    helps you thrive.
+                </h1>
+
+                <!-- Right Column: Details -->
+                <div class="pace-sub-col">
+                    <div class="pace-sub-title" id="subtitle">
+                        No call centres, no copy-paste policies, bespoke by default.
+                    </div>
+                    <p class="pace-description" id="description">
+                        We are a team of experienced HR Consultants who care deeply about what we do. Whether it is a policy, a project or a tricky conversation - we take pride in our advice and our delivery, as no two businesses are the same.
+                    </p>
+                    
+                    <a href="#" class="pace-btn pace-btn-primary" id="cta-btn-2" style="height: 56px; padding: 0 32px; font-size: 1.1rem;" target="_top">
+                        <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><rect x="3" y="4" width="18" height="18" rx="2" ry="2"></rect><line x1="16" y1="2" x2="16" y2="6"></line><line x1="8" y1="2" x2="8" y2="6"></line><line x1="3" y1="10" x2="21" y2="10"></line><path d="M10 16l4 0"></path><path d="M12 14l0 4"></path></svg>
+                        Book a call
+                    </a>
+
+                    <!-- Reviews Section -->
+                    <div class="pace-reviews">
+                        <!-- Simplified Laurel Wreath SVG -->
+                        <svg class="pace-wreath-svg" viewBox="0 0 64 64">
+                            <path d="M12 48 C 8 36, 16 16, 32 8" stroke-linecap="round" />
+                            <path d="M52 48 C 56 36, 48 16, 32 8" stroke-linecap="round" />
+                            <!-- Leaves Left -->
+                            <path d="M12 48 L 8 42 M 14 44 L 10 36 M 18 40 L 14 30" stroke-linecap="round"/>
+                            <!-- Leaves Right -->
+                            <path d="M52 48 L 56 42 M 50 44 L 54 36 M 46 40 L 50 30" stroke-linecap="round"/>
+                        </svg>
+                        
+                        <div style="display: flex; flex-direction: column; gap: 2px;">
+                            <div style="color: #fff; letter-spacing: 2px; font-size: 12px;">★★★★★</div>
+                            <div style="font-size: 0.85rem; font-weight: 500;">Rated 4.9 stars</div>
+                            <a href="#" style="color: white; font-size: 0.85rem; text-decoration: underline;" target="_top">Google reviews</a>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <script>
+        const params = new URLSearchParams(window.location.search);
+
+        // Content
+        if(params.get('brand')) document.getElementById('brand').innerHTML = params.get('brand');
+        if(params.get('headline')) document.getElementById('headline').innerHTML = params.get('headline');
+        if(params.get('subtitle')) document.getElementById('subtitle').textContent = params.get('subtitle');
+        if(params.get('description')) document.getElementById('description').textContent = params.get('description');
+
+        // Buttons
+        if(params.get('cta_text')) {
+            const text = params.get('cta_text');
+            // Update both top and bottom CTAs
+            document.getElementById('cta-btn').textContent = text;
+            document.getElementById('cta-btn-2').textContent = text;
+        }
+        if(params.get('cta_href')) {
+            const href = params.get('cta_href');
+            document.getElementById('cta-btn').href = href;
+            document.getElementById('cta-btn-2').href = href;
+        }
+
+        if(params.get('secondary_text')) document.getElementById('secondary-btn').textContent = params.get('secondary_text');
+        if(params.get('secondary_href')) document.getElementById('secondary-btn').href = params.get('secondary_href');
+
+        // Reviews
+        if(params.get('rating_text')) document.getElementById('rating-text').textContent = params.get('rating_text');
+        if(params.get('reviews_text')) document.getElementById('reviews-link').textContent = params.get('reviews_text');
+
+        // Colors
+        if(params.get('gradient_start')) document.documentElement.style.setProperty('--gradient-start', '#' + params.get('gradient_start'));
+        if(params.get('gradient_end')) document.documentElement.style.setProperty('--gradient-end', '#' + params.get('gradient_end'));
+        if(params.get('text_color')) document.documentElement.style.setProperty('--text-color', '#' + params.get('text_color'));
+        if(params.get('btn_primary_bg')) document.documentElement.style.setProperty('--btn-primary-bg', '#' + params.get('btn_primary_bg'));
+        if(params.get('btn_primary_text')) document.documentElement.style.setProperty('--btn-primary-text', '#' + params.get('btn_primary_text'));
+        if(params.get('btn_secondary_bg')) document.documentElement.style.setProperty('--btn-secondary-bg', '#' + params.get('btn_secondary_bg'));
+        if(params.get('btn_secondary_text')) document.documentElement.style.setProperty('--btn-secondary-text', '#' + params.get('btn_secondary_text'));
+
+        // Design
+        if(params.get('pill_radius')) document.documentElement.style.setProperty('--pill-radius', params.get('pill_radius'));
+
+        // Nav Links
+        const navContainer = document.getElementById('nav-links');
+        if(params.get('link1_text')) {
+            navContainer.innerHTML = '';
+            for(let i=1; i<=6; i++) {
+                if(params.get(`link${i}_text`)) {
+                    const a = document.createElement('a');
+                    a.href = params.get(`link${i}_href`) || '#';
+                    a.textContent = params.get(`link${i}_text`);
+                    a.target = "_top";
+                    navContainer.appendChild(a);
+                }
+            }
+        }
+
+        // Resizing
+        const sendHeight = () => {
+            if(params.get('frame_id')) {
+                window.parent.postMessage({
+                    frameId: params.get('frame_id'),
+                    frameHeight: document.body.scrollHeight
+                }, '*');
+            }
+        }
+        window.addEventListener('load', sendHeight);
+        window.addEventListener('resize', sendHeight);
+    </script>
+</body>
+</html>
