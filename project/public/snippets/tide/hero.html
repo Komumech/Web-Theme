@@ -21,6 +21,8 @@
             display: flex;
             flex-direction: column;
             box-sizing: border-box;
+            --mouse-x: 50%;
+            --mouse-y: 50%;
         }
 
         /* Halftone pattern overlay */
@@ -34,6 +36,21 @@
             /* Creates the dot pattern */
             background-image: radial-gradient(rgba(255, 255, 255, 0.15) 2px, transparent 2px);
             background-size: 24px 24px;
+            pointer-events: none;
+            z-index: 1;
+        }
+
+        /* Interactive Hover Effect (Colored Dots) */
+        .pace-hero-wrapper::after {
+            content: "";
+            position: absolute;
+            inset: 0;
+            /* Colored dots that appear on hover */
+            background-image: radial-gradient(var(--dot-hover-color, #ffd700) 2px, transparent 2px);
+            background-size: 24px 24px;
+            /* Mask to reveal them around the mouse */
+            mask-image: radial-gradient(600px circle at var(--mouse-x) var(--mouse-y), black 0%, transparent 40%);
+            -webkit-mask-image: radial-gradient(600px circle at var(--mouse-x) var(--mouse-y), black 0%, transparent 40%);
             pointer-events: none;
             z-index: 1;
         }
@@ -228,6 +245,49 @@
                 cursor: pointer;
             }
         }
+
+        /* Mobile Menu Dropdown */
+        .pace-mobile-dropdown {
+            position: absolute;
+            top: 80px;
+            left: 20px;
+            right: 20px;
+            background: rgba(255, 255, 255, 0.95);
+            backdrop-filter: blur(15px);
+            -webkit-backdrop-filter: blur(15px);
+            border-radius: 24px;
+            padding: 20px;
+            display: flex;
+            flex-direction: column;
+            gap: 10px;
+            transform: translateY(-20px);
+            opacity: 0;
+            visibility: hidden;
+            transition: all 0.3s cubic-bezier(0.16, 1, 0.3, 1);
+            z-index: 100;
+            box-shadow: 0 10px 40px rgba(0,0,0,0.2);
+        }
+
+        .pace-mobile-dropdown.active {
+            transform: translateY(0);
+            opacity: 1;
+            visibility: visible;
+        }
+
+        .pace-mobile-link {
+            font-size: 1.1rem;
+            font-weight: 600;
+            color: #1a1a1a;
+            text-decoration: none;
+            padding: 12px;
+            border-radius: 12px;
+            transition: background 0.2s;
+            display: block;
+        }
+
+        .pace-mobile-link:hover {
+            background: rgba(0,0,0,0.05);
+        }
     </style>
 </head>
 <body>
@@ -263,10 +323,13 @@
                     
                     <!-- Mobile Hamburger (Visible only on small screens) -->
                     <div class="pace-mobile-menu" style="display: none;">
-                        <svg width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><line x1="3" y1="12" x2="21" y2="12"></line><line x1="3" y1="6" x2="21" y2="6"></line><line x1="3" y1="18" x2="21" y2="18"></line></svg>
+                        <svg width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" id="hamburger-icon"><line x1="3" y1="12" x2="21" y2="12"></line><line x1="3" y1="6" x2="21" y2="6"></line><line x1="3" y1="18" x2="21" y2="18"></line></svg>
                     </div>
                 </div>
             </nav>
+
+            <!-- Mobile Menu Container -->
+            <div class="pace-mobile-dropdown" id="mobile-menu"></div>
 
             <!-- Main Hero Content -->
             <div class="pace-hero-content">
@@ -353,22 +416,52 @@
         if(params.get('btn_secondary_text')) document.documentElement.style.setProperty('--btn-secondary-text', '#' + params.get('btn_secondary_text'));
 
         // Design
+        if(params.get('dot_hover_color')) document.documentElement.style.setProperty('--dot-hover-color', '#' + params.get('dot_hover_color'));
         if(params.get('pill_radius')) document.documentElement.style.setProperty('--pill-radius', params.get('pill_radius'));
 
         // Nav Links
         const navContainer = document.getElementById('nav-links');
+        const mobileMenu = document.getElementById('mobile-menu');
+        
         if(params.get('link1_text')) {
             navContainer.innerHTML = '';
+            mobileMenu.innerHTML = '';
             for(let i=1; i<=6; i++) {
                 if(params.get(`link${i}_text`)) {
+                    // Desktop Link
                     const a = document.createElement('a');
                     a.href = params.get(`link${i}_href`) || '#';
                     a.textContent = params.get(`link${i}_text`);
                     a.target = "_top";
                     navContainer.appendChild(a);
+
+                    // Mobile Link
+                    const mLink = document.createElement('a');
+                    mLink.className = 'pace-mobile-link';
+                    mLink.href = params.get(`link${i}_href`) || '#';
+                    mLink.textContent = params.get(`link${i}_text`);
+                    mLink.target = "_top";
+                    mobileMenu.appendChild(mLink);
                 }
             }
         }
+
+        // Mobile Menu Toggle
+        const mobileBtn = document.querySelector('.pace-mobile-menu');
+        mobileBtn.addEventListener('click', (e) => {
+            e.stopPropagation();
+            mobileMenu.classList.toggle('active');
+        });
+        document.addEventListener('click', (e) => {
+            if(!mobileMenu.contains(e.target) && !mobileBtn.contains(e.target)) mobileMenu.classList.remove('active');
+        });
+
+        // Mouse Tracking for Background Effect
+        document.addEventListener('mousemove', (e) => {
+            const wrapper = document.querySelector('.pace-hero-wrapper');
+            wrapper.style.setProperty('--mouse-x', e.clientX + 'px');
+            wrapper.style.setProperty('--mouse-y', e.clientY + 'px');
+        });
 
         // Resizing
         const sendHeight = () => {

@@ -1,0 +1,108 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Tide Stats</title>
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600&display=swap" rel="stylesheet">
+    <style>
+        body { margin: 0; padding: 0; overflow: hidden; font-family: 'Inter', sans-serif; }
+        
+        .stats-wrapper {
+            background: var(--bg-color, #e85be3); /* Default pink/purple from image context */
+            color: var(--text-color, #ffffff);
+            padding: 3rem 1rem;
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            justify-content: center;
+            text-align: center;
+            box-sizing: border-box;
+        }
+
+        .stats-row {
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            flex-wrap: wrap;
+            gap: 1.5rem;
+            font-size: 1.5rem;
+            font-weight: 500;
+            line-height: 1.4;
+            max-width: 1200px;
+        }
+
+        .stat-item {
+            display: inline-block;
+        }
+
+        .separator {
+            color: var(--accent-color, #ffffff);
+            font-size: 1.2rem;
+            opacity: 0.8;
+            display: flex;
+            align-items: center;
+        }
+
+        .footer-text {
+            margin-top: 1.5rem;
+            font-size: 0.95rem;
+            opacity: 0.9;
+            font-weight: 400;
+        }
+
+        @media (max-width: 768px) {
+            .stats-row { flex-direction: column; gap: 1rem; }
+            .separator { display: none; }
+            .stats-wrapper { padding: 2rem 1rem; }
+            .stat-item { font-size: 1.25rem; }
+        }
+    </style>
+</head>
+<body>
+    <div class="stats-wrapper">
+        <div class="stats-row" id="stats-container">
+            <!-- Populated by JS -->
+        </div>
+        <div class="footer-text" id="footer-text"></div>
+    </div>
+
+    <script>
+        const params = new URLSearchParams(window.location.search);
+        const container = document.getElementById('stats-container');
+
+        // Colors
+        if(params.get('bg_color')) document.documentElement.style.setProperty('--bg-color', '#' + params.get('bg_color'));
+        if(params.get('text_color')) document.documentElement.style.setProperty('--text-color', '#' + params.get('text_color'));
+        if(params.get('accent_color')) document.documentElement.style.setProperty('--accent-color', '#' + params.get('accent_color'));
+
+        // Stats
+        const stats = [];
+        if(params.get('stat1')) stats.push(params.get('stat1'));
+        if(params.get('stat2')) stats.push(params.get('stat2'));
+        if(params.get('stat3')) stats.push(params.get('stat3'));
+
+        container.innerHTML = stats.map((stat, index) => {
+            const sep = index < stats.length - 1 ? '<div class="separator">✦</div>' : '';
+            return `<div class="stat-item">${stat}</div>${sep}`;
+        }).join('');
+
+        // Footer
+        if(params.get('footer_text')) document.getElementById('footer-text').textContent = params.get('footer_text');
+
+        // Resizing
+        const sendHeight = () => {
+            if(params.get('frame_id')) {
+                window.parent.postMessage({
+                    frameId: params.get('frame_id'),
+                    frameHeight: document.body.scrollHeight
+                }, '*');
+            }
+        }
+        window.addEventListener('load', sendHeight);
+        window.addEventListener('resize', sendHeight);
+    </script>
+</body>
+</html>
