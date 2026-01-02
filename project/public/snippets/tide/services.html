@@ -11,6 +11,10 @@
         :root{
             --bg-color: #fdf6f0;
             --text-color: #1a1a1a;
+            --card-bg: transparent;
+            --card-border: #f7f5f4;
+            --icon-box-bg: #ffffff;
+            --icon-color: var(--text-color);
         }
         body { margin: 0; padding: 4rem 2rem; font-family: 'Inter', sans-serif; background: var(--bg-color, #fdf6f0); color: var(--text-color, #1a1a1a); overflow: hidden; }
         
@@ -43,8 +47,8 @@
         }
 
         .card {
-            background: transparent;
-            outline: #f7f5f4 2px solid;
+            background: var(--card-bg);
+            outline: var(--card-border) 2px solid;
             border-radius: 24px;
             padding: 3rem 2rem;
             text-align: center;
@@ -60,7 +64,7 @@
         .icon-box {
             width: 45px;
             height: 45px;
-            background: #fff;
+            background: var(--icon-box-bg);
             border-radius: 11px;
             display: flex;
             align-items: center;
@@ -68,7 +72,7 @@
             margin: 0 auto 1.5rem auto;
             font-size: 1.5rem;
             box-shadow: 0 4px 6px rgba(0,0,0,0.05);
-            color: var(--text-color);
+            color: var(--icon-color);
         }
 
         .icon-box svg {
@@ -111,6 +115,10 @@
         
         if(params.get('bg_color')) document.documentElement.style.setProperty('--bg-color', '#' + params.get('bg_color'));
         if(params.get('text_color')) document.documentElement.style.setProperty('--text-color', '#' + params.get('text_color'));
+        if(params.get('card_bg')) document.documentElement.style.setProperty('--card-bg', '#' + params.get('card_bg'));
+        if(params.get('card_border')) document.documentElement.style.setProperty('--card-border', '#' + params.get('card_border'));
+        if(params.get('icon_box_bg')) document.documentElement.style.setProperty('--icon-box-bg', '#' + params.get('icon_box_bg'));
+        if(params.get('icon_color')) document.documentElement.style.setProperty('--icon-color', '#' + params.get('icon_color'));
         if(params.get('title')) document.getElementById('title').innerHTML = params.get('title');
         if(params.get('description')) document.getElementById('desc').textContent = params.get('description');
 
