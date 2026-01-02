@@ -219,8 +219,13 @@
         const mobileBtn = document.querySelector('.pace-mobile-menu');
         mobileBtn.addEventListener('click', () => {
             mobileMenu.classList.toggle('active');
-            sendHeight();
+            animateHeight();
         });
+
+        function animateHeight() {
+            const interval = setInterval(sendHeight, 10);
+            setTimeout(() => { clearInterval(interval); sendHeight(); }, 500);
+        }
 
         const sendHeight = () => {
             if(params.get('frame_id')) window.parent.postMessage({frameId: params.get('frame_id'), frameHeight: document.body.scrollHeight}, '*');
