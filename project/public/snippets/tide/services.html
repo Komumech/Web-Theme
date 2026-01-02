@@ -1,0 +1,124 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Tide Services</title>
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500&family=Playfair+Display:wght@400;500&display=swap" rel="stylesheet">
+    <style>
+        body { margin: 0; padding: 4rem 2rem; font-family: 'Inter', sans-serif; background: var(--bg-color, #fdf6f0); color: var(--text-color, #1a1a1a); overflow: hidden; }
+        
+        .container {
+            max-width: 1200px;
+            margin: 0 auto;
+            text-align: center;
+        }
+
+        h2 {
+            font-family: 'Playfair Display', serif;
+            font-size: 3.5rem;
+            font-weight: 400;
+            margin: 0 0 1.5rem 0;
+            line-height: 1.1;
+        }
+
+        .description {
+            max-width: 700px;
+            margin: 0 auto 4rem auto;
+            font-size: 1.1rem;
+            line-height: 1.6;
+            opacity: 0.8;
+        }
+
+        .grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(300px, 1fr));
+            gap: 2rem;
+        }
+
+        .card {
+            background: rgba(255,255,255,0.5);
+            border-radius: 24px;
+            padding: 3rem 2rem;
+            text-align: center;
+            transition: transform 0.3s ease, box-shadow 0.3s ease;
+            border: 1px solid rgba(0,0,0,0.03);
+        }
+        .card:hover {
+            transform: translateY(-5px);
+            box-shadow: 0 10px 30px rgba(0,0,0,0.05);
+            background: rgba(255,255,255,0.8);
+        }
+
+        .icon-box {
+            width: 60px;
+            height: 60px;
+            background: #fff;
+            border-radius: 16px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            margin: 0 auto 1.5rem auto;
+            font-size: 1.5rem;
+            box-shadow: 0 4px 12px rgba(0,0,0,0.05);
+        }
+
+        h3 {
+            font-size: 1.25rem;
+            font-weight: 600;
+            margin: 0 0 1rem 0;
+        }
+
+        p {
+            font-size: 0.95rem;
+            line-height: 1.6;
+            opacity: 0.7;
+            margin: 0;
+        }
+
+        @media (max-width: 768px) {
+            h2 { font-size: 2.5rem; }
+            .card { padding: 2rem; }
+        }
+    </style>
+</head>
+<body>
+    <div class="container">
+        <h2 id="title">How we help</h2>
+        <p class="description" id="desc">Our support is grounded, commercial and shaped around the realities of running a business.</p>
+        
+        <div class="grid" id="grid">
+            <!-- Cards populated by JS -->
+        </div>
+    </div>
+
+    <script>
+        const params = new URLSearchParams(window.location.search);
+        
+        if(params.get('bg_color')) document.documentElement.style.setProperty('--bg-color', '#' + params.get('bg_color'));
+        if(params.get('text_color')) document.documentElement.style.setProperty('--text-color', '#' + params.get('text_color'));
+        if(params.get('title')) document.getElementById('title').innerHTML = params.get('title');
+        if(params.get('description')) document.getElementById('desc').textContent = params.get('description');
+
+        const grid = document.getElementById('grid');
+        for(let i=1; i<=3; i++) {
+            if(params.get(`card${i}_title`)) {
+                const div = document.createElement('div');
+                div.className = 'card';
+                div.innerHTML = `
+                    <div class="icon-box">${params.get(`card${i}_icon`) || '✨'}</div>
+                    <h3>${params.get(`card${i}_title`)}</h3>
+                    <p>${params.get(`card${i}_desc`)}</p>
+                `;
+                grid.appendChild(div);
+            }
+        }
+
+        const sendHeight = () => { if(params.get('frame_id')) window.parent.postMessage({frameId: params.get('frame_id'), frameHeight: document.body.scrollHeight}, '*'); }
+        window.addEventListener('load', sendHeight);
+        window.addEventListener('resize', sendHeight);
+    </script>
+</body>
+</html>

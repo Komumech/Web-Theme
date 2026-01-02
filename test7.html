@@ -15,6 +15,14 @@
         .preview-container {
             width: 100%;
             min-height: 100vh;
+            position: relative;
+        }
+
+        #tide-navbar {
+            position: absolute;
+            top: 0;
+            left: 0;
+            z-index: 10;
         }
 
         iframe {
@@ -51,13 +59,34 @@
 
     <div class="preview-container">
         <iframe 
+            id="tide-navbar"
+            src=""
+            data-base-url="https://komutheme2.vercel.app/project/public/snippets/tide/navbar.html"
+            data-frame-id="tide-navbar"
+            data-brand="NEXUS"
+            data-link1_text="Platform" data-link1_href="#"
+            data-link2_text="Solutions" data-link2_href="#"
+            data-link3_text="Enterprise" data-link3_href="#"
+            data-link4_text="Pricing" data-link4_href="#"
+            data-cta_text="Start Trial"
+            data-cta_href="https://komutheme2.vercel.app"
+            data-secondary_text="Watch Demo"
+            data-secondary_href="#"
+            data-text_color="e2e8f0"
+            data-btn_primary_bg="38bdf8"
+            data-btn_primary_text="0f172a"
+            data-btn_secondary_bg="334155"
+            data-btn_secondary_text="ffffff"
+            data-pill_radius="12px"
+        ></iframe>
+
+        <iframe 
             id="tide-hero"
             src=""
             data-base-url="https://komutheme2.vercel.app/project/public/snippets/tide/hero.html"
             data-frame-id="tide-hero"
             
             /* Content Customization */
-            data-brand="NEXUS"
             data-headline="Future of<br>Digital<br>Workspaces."
             data-subtitle="Seamlessly connect your team with tools that adapt to your workflow, not the other way around."
             data-description="Experience the next generation of collaboration. Nexus brings together messaging, project management, and automation in one fluid interface."
@@ -65,27 +94,14 @@
             /* Button Customization */
             data-cta_text="Start Trial"
             data-cta_href="https://komutheme2.vercel.app"
-            data-secondary_text="Watch Demo"
-            data-secondary_href="#"
             
             /* Color Customization (Midnight Theme) */
             data-gradient_start="0f172a"
             data-gradient_end="1e293b"
             data-text_color="e2e8f0"
-            data-btn_primary_bg="38bdf8"
-            data-btn_primary_text="0f172a"
-            data-btn_secondary_bg="334155"
-            data-btn_secondary_text="ffffff"
             
             /* Design Customization */
             data-dot_hover_color="38bdf8"
-            data-pill_radius="12px"
-            
-            /* Nav Links */
-            data-link1_text="Platform" data-link1_href="#"
-            data-link2_text="Solutions" data-link2_href="#"
-            data-link3_text="Enterprise" data-link3_href="#"
-            data-link4_text="Pricing" data-link4_href="#"
         ></iframe>
 
         <iframe 
@@ -98,6 +114,20 @@
             data-stat3="36% of clients are referrals"
             data-footer_text="Numbers from our 2024 client impact report"
             data-bg_color="e85be3"
+        ></iframe>
+
+        <iframe 
+            id="tide-services"
+            src=""
+            data-base-url="https://komutheme2.vercel.app/project/public/snippets/tide/services.html"
+            data-frame-id="tide-services"
+            data-title="How we help"
+            data-description="Our support is grounded, commercial and shaped around the realities of running a business."
+            data-card1_icon="🌅" data-card1_title="Peace of mind" data-card1_desc="When you need a sense check, a second opinion or just to know if you are within the remit of the law."
+            data-card2_icon="🛠️" data-card2_title="Outsource" data-card2_desc="If you are at the tipping point of feeling overwhelmed with your internal HR, and you just need to focus on growth."
+            data-card3_icon="📂" data-card3_title="Projects" data-card3_desc="There are always peaks and troughs throughout a full business year. We support you during those peaks."
+            data-bg_color="fdf6f0"
+            data-text_color="1a1a1a"
         ></iframe>
     </div>
 

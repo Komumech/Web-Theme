@@ -1,0 +1,233 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Tide Navbar</title>
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600&display=swap" rel="stylesheet">
+    <style>
+        body { margin: 0; padding: 10px 20px; font-family: 'Inter', sans-serif; overflow: hidden; background: transparent; }
+        
+        /* Navigation Bar */
+        .pace-nav {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            gap: 15px;
+            max-width: 1400px;
+            margin: 0 auto;
+        }
+
+        /* Glassmorphism Pill Styles */
+        .pace-pill {
+            background: var(--pill-bg, rgba(255, 255, 255, 0.15));
+            backdrop-filter: blur(12px);
+            -webkit-backdrop-filter: blur(12px);
+            border: 1px solid rgba(255, 255, 255, 0.3);
+            border-radius: var(--pill-radius, 50px);
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            color: var(--text-color, #ffffff);
+        }
+
+        .pace-logo-pill {
+            padding: 8px 24px;
+            font-weight: 600;
+            letter-spacing: 1px;
+            text-transform: uppercase;
+            height: 48px;
+            box-sizing: border-box;
+        }
+        
+        .pace-logo-text {
+            display: flex;
+            align-items: center;
+            gap: 8px;
+        }
+        
+        .pace-logo-circle {
+            border: 1px solid currentColor;
+            border-radius: 50%;
+            width: 28px;
+            height: 28px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-size: 11px;
+            font-weight: 400;
+        }
+
+        .pace-nav-links {
+            padding: 0 30px;
+            height: 48px;
+            gap: 30px;
+            font-size: 15px;
+            font-weight: 500;
+        }
+        
+        .pace-nav-links a {
+            color: var(--text-color, #ffffff);
+            text-decoration: none;
+            transition: opacity 0.2s;
+        }
+        
+        .pace-nav-links a:hover {
+            opacity: 0.8;
+        }
+
+        .pace-actions {
+            display: flex;
+            gap: 12px;
+            align-items: center;
+        }
+
+        .pace-btn {
+            padding: 0 24px;
+            height: 48px;
+            border-radius: var(--pill-radius, 50px);
+            text-decoration: none;
+            font-weight: 600;
+            display: inline-flex;
+            align-items: center;
+            gap: 8px;
+            transition: transform 0.2s;
+            white-space: nowrap;
+            box-sizing: border-box;
+        }
+        
+        .pace-btn:hover {
+            transform: translateY(-2px);
+        }
+
+        .pace-btn-secondary {
+            background: var(--btn-secondary-bg, rgba(255, 255, 255, 0.25));
+            color: var(--btn-secondary-text, #ffffff);
+            border: 1px solid rgba(255, 255, 255, 0.1);
+        }
+
+        .pace-btn-primary {
+            background: var(--btn-primary-bg, #FFDBC2);
+            color: var(--btn-primary-text, #1a1a1a);
+            border: none;
+        }
+
+        .pace-mobile-menu { display: none; color: var(--text-color, #ffffff); }
+
+        /* Mobile Menu Dropdown */
+        .pace-mobile-dropdown {
+            background: rgba(255, 255, 255, 0.95);
+            backdrop-filter: blur(15px);
+            -webkit-backdrop-filter: blur(15px);
+            border-radius: 24px;
+            padding: 0;
+            display: flex;
+            flex-direction: column;
+            margin-top: 10px;
+            overflow: hidden;
+            max-height: 0;
+            transition: max-height 0.4s cubic-bezier(0.16, 1, 0.3, 1), padding 0.4s;
+            box-shadow: 0 10px 40px rgba(0,0,0,0.1);
+        }
+
+        .pace-mobile-dropdown.active {
+            max-height: 500px;
+            padding: 20px;
+        }
+
+        .pace-mobile-link {
+            font-size: 1.1rem;
+            font-weight: 600;
+            color: #1a1a1a;
+            text-decoration: none;
+            padding: 12px;
+            border-radius: 12px;
+            transition: background 0.2s;
+            display: block;
+        }
+
+        .pace-mobile-link:hover {
+            background: rgba(0,0,0,0.05);
+        }
+
+        @media (max-width: 991px) {
+            .pace-nav-links, .pace-btn-secondary { display: none; }
+            .pace-nav { justify-content: space-between; }
+            .pace-mobile-menu {
+                display: flex; width: 48px; height: 48px; align-items: center; justify-content: center; cursor: pointer;
+            }
+        }
+    </style>
+</head>
+<body>
+    <nav class="pace-nav">
+        <div class="pace-pill pace-logo-pill">
+            <div class="pace-logo-text" id="brand">PACE <span class="pace-logo-circle">HR</span></div>
+        </div>
+        <div class="pace-pill pace-nav-links" id="nav-links"></div>
+        <div class="pace-actions">
+            <a href="#" class="pace-btn pace-btn-secondary" id="secondary-btn" target="_top">Engagement survey</a>
+            <a href="#" class="pace-btn pace-btn-primary" id="cta-btn" target="_top">Book a call</a>
+            <div class="pace-mobile-menu">
+                <svg width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><line x1="3" y1="12" x2="21" y2="12"></line><line x1="3" y1="6" x2="21" y2="6"></line><line x1="3" y1="18" x2="21" y2="18"></line></svg>
+            </div>
+        </div>
+    </nav>
+    <div class="pace-mobile-dropdown" id="mobile-menu"></div>
+
+    <script>
+        const params = new URLSearchParams(window.location.search);
+        
+        // Content
+        if(params.get('brand')) document.getElementById('brand').innerHTML = params.get('brand');
+        if(params.get('cta_text')) document.getElementById('cta-btn').textContent = params.get('cta_text');
+        if(params.get('cta_href')) document.getElementById('cta-btn').href = params.get('cta_href');
+        if(params.get('secondary_text')) document.getElementById('secondary-btn').textContent = params.get('secondary_text');
+        if(params.get('secondary_href')) document.getElementById('secondary-btn').href = params.get('secondary_href');
+
+        // Colors & Design
+        if(params.get('text_color')) document.documentElement.style.setProperty('--text-color', '#' + params.get('text_color'));
+        if(params.get('pill_bg')) document.documentElement.style.setProperty('--pill-bg', '#' + params.get('pill_bg'));
+        if(params.get('btn_primary_bg')) document.documentElement.style.setProperty('--btn-primary-bg', '#' + params.get('btn_primary_bg'));
+        if(params.get('btn_primary_text')) document.documentElement.style.setProperty('--btn-primary-text', '#' + params.get('btn_primary_text'));
+        if(params.get('btn_secondary_bg')) document.documentElement.style.setProperty('--btn-secondary-bg', '#' + params.get('btn_secondary_bg'));
+        if(params.get('btn_secondary_text')) document.documentElement.style.setProperty('--btn-secondary-text', '#' + params.get('btn_secondary_text'));
+        if(params.get('pill_radius')) document.documentElement.style.setProperty('--pill-radius', params.get('pill_radius'));
+
+        // Links
+        const navContainer = document.getElementById('nav-links');
+        const mobileMenu = document.getElementById('mobile-menu');
+        for(let i=1; i<=6; i++) {
+            if(params.get(`link${i}_text`)) {
+                const text = params.get(`link${i}_text`);
+                const href = params.get(`link${i}_href`) || '#';
+                
+                const a = document.createElement('a');
+                a.href = href; a.textContent = text; a.target = "_top";
+                navContainer.appendChild(a);
+
+                const m = document.createElement('a');
+                m.className = 'pace-mobile-link';
+                m.href = href; m.textContent = text; m.target = "_top";
+                mobileMenu.appendChild(m);
+            }
+        }
+
+        // Mobile Toggle
+        const mobileBtn = document.querySelector('.pace-mobile-menu');
+        mobileBtn.addEventListener('click', () => {
+            mobileMenu.classList.toggle('active');
+            sendHeight();
+        });
+
+        const sendHeight = () => {
+            if(params.get('frame_id')) window.parent.postMessage({frameId: params.get('frame_id'), frameHeight: document.body.scrollHeight}, '*');
+        }
+        window.addEventListener('load', sendHeight);
+        window.addEventListener('resize', sendHeight);
+        mobileMenu.addEventListener('transitionend', sendHeight);
+    </script>
+</body>
+</html>
