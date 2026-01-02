@@ -104,15 +104,17 @@
 
     <script>
         document.addEventListener('DOMContentLoaded', function() {
-            const iframe = document.getElementById('tide-hero');
-            const baseUrl = iframe.getAttribute('data-base-url');
-            let params = [];
-            for (const attr of iframe.attributes) {
-                if (attr.name.startsWith('data-') && attr.name !== 'data-base-url' && attr.name !== 'data-frame-id') {
-                    params.push(`${attr.name.substring(5)}=${encodeURIComponent(attr.value)}`);
+            const iframes = document.querySelectorAll('iframe[data-base-url]');
+            iframes.forEach(iframe => {
+                const baseUrl = iframe.getAttribute('data-base-url');
+                let params = [];
+                for (const attr of iframe.attributes) {
+                    if (attr.name.startsWith('data-') && attr.name !== 'data-base-url' && attr.name !== 'data-frame-id') {
+                        params.push(`${attr.name.substring(5)}=${encodeURIComponent(attr.value)}`);
+                    }
                 }
-            }
-            iframe.src = baseUrl + '?' + params.join('&') + '&frame_id=tide-hero';
+                iframe.src = baseUrl + '?' + params.join('&') + '&frame_id=' + iframe.id;
+            });
         });
     </script>
 </body>
