@@ -114,7 +114,29 @@
             stroke: var(--text-color, #ffffff);
             stroke-width: 1.5;
         }
+        .pace-btn-primary {
+            background: var(--btn-primary-bg, #FFDBC2);
+            color: var(--btn-primary-text, #1a1a1a);
+            border: none;
+        }
 
+                .pace-btn {
+            padding: 0 24px;
+            height: 48px;
+            border-radius: var(--pill-radius, 50px);
+            text-decoration: none;
+            font-weight: 600;
+            display: inline-flex;
+            align-items: center;
+            gap: 8px;
+            transition: transform 0.2s;
+            white-space: nowrap;
+            box-sizing: border-box;
+        }
+        
+        .pace-btn:hover {
+            transform: translateY(-2px);
+        }
         /* Responsive Breakpoints */
         @media (min-width: 992px) {
             .pace-hero-content {
