@@ -8,7 +8,7 @@
     <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
     <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600&family=Playfair+Display:wght@400;500&display=swap" rel="stylesheet">
     <style>
-        body { margin: 0; padding: 0; height: 100vh; }
+        body { margin: 0; padding: 0; overflow: hidden; }
         /* Scoped styles for the hero snippet to prevent conflicts */
         .pace-hero-wrapper {
             font-family: 'Inter', sans-serif;
@@ -17,7 +17,7 @@
             color: var(--text-color, #ffffff);
             position: relative;
             overflow: hidden;
-            min-height: 100vh;
+            min-height: 700px;
             display: flex;
             flex-direction: column;
             box-sizing: border-box;
@@ -324,6 +324,7 @@
                     </a>
                     
                     <!-- Mobile Hamburger (Visible only on small screens) -->
+                    <div class="pace-mobile-menu" style="display: none;">
                     <div class="pace-mobile-menu">
                         <svg width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" id="hamburger-icon"><line x1="3" y1="12" x2="21" y2="12"></line><line x1="3" y1="6" x2="21" y2="6"></line><line x1="3" y1="18" x2="21" y2="18"></line></svg>
                     </div>

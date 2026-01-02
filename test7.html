@@ -102,6 +102,13 @@
     </div>
 
     <script>
+        window.addEventListener("message", function(event) {
+            if (event.data.frameHeight && event.data.frameId) {
+                const iframe = document.getElementById(event.data.frameId);
+                if (iframe) iframe.style.height = event.data.frameHeight + "px";
+            }
+        });
+
         document.addEventListener('DOMContentLoaded', function() {
             const iframes = document.querySelectorAll('iframe[data-base-url]');
             iframes.forEach(iframe => {
