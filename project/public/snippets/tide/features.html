@@ -23,6 +23,12 @@
             box-shadow: 0 10px 30px rgba(0,0,0,0.05);
             overflow: hidden;
             box-sizing: border-box;
+            transition: transform 0.4s cubic-bezier(0.25, 0.8, 0.25, 1), box-shadow 0.4s ease;
+        }
+
+        .card:hover {
+            transform: translateY(-5px);
+            box-shadow: 0 20px 40px rgba(0,0,0,0.08);
         }
 
         .content-wrap {
@@ -36,12 +42,16 @@
             line-height: 1.1;
             margin: 0 0 2rem 0;
             font-weight: 400;
+            opacity: 0;
+            animation: fadeUp 0.8s ease-out forwards 0.2s;
         }
 
         .steps {
             display: flex;
             gap: 1rem;
             margin-bottom: 2rem;
+            opacity: 0;
+            animation: fadeUp 0.8s ease-out forwards;
         }
         .step {
             width: 60px;
@@ -54,19 +64,36 @@
             font-size: 1.5rem;
             font-family: 'Playfair Display', serif;
             box-shadow: 0 4px 10px rgba(0,0,0,0.05);
+            transition: all 0.3s cubic-bezier(0.175, 0.885, 0.32, 1.275);
+            cursor: default;
+        }
+
+        .step:hover {
+            transform: translateY(-5px) scale(1.1);
+            background: var(--text-color, #1a1a1a);
+            color: var(--bg-color, #f3ebe8);
+            box-shadow: 0 10px 20px rgba(0,0,0,0.1);
         }
 
         .cta {
             background: #1a1a1a;
             color: #fff;
             padding: 1rem 2.5rem;
-            border-radius: 8px;
+            border-radius: 50px;
             text-decoration: none;
             font-weight: 500;
-            transition: transform 0.2s;
+            transition: all 0.3s ease;
             display: inline-block;
+            opacity: 0;
+            animation: fadeUp 0.8s ease-out forwards 0.4s;
+            border: 1px solid transparent;
         }
-        .cta:hover { transform: translateY(-2px); }
+        .cta:hover { 
+            transform: translateY(-2px); 
+            background: transparent;
+            color: #1a1a1a;
+            border-color: #1a1a1a;
+        }
 
         .image-side {
             position: absolute;
@@ -78,6 +105,16 @@
             background-position: center;
             border-top-left-radius: 200px;
             border-bottom-left-radius: 200px;
+            transition: transform 0.6s ease;
+        }
+
+        .card:hover .image-side {
+            transform: scale(1.05);
+        }
+
+        @keyframes fadeUp {
+            from { opacity: 0; transform: translateY(20px); }
+            to { opacity: 1; transform: translateY(0); }
         }
 
         @media (max-width: 768px) {
@@ -94,6 +131,8 @@
                 border-radius: 0 0 50% 50% / 0 0 20px 20px;
                 position: absolute;
                 left: 0;
+                border-top-left-radius: 0;
+                border-bottom-left-radius: 0;
             }
             .content-wrap {
                 margin-top: 220px; /* Space for image */
