@@ -31,7 +31,7 @@
         }
         .faq-title {
             font-family: 'Playfair Display', serif;
-            font-size: 3rem;
+            font-size: clamp(2rem, 5vw, 3rem);
             color: var(--faq-text);
             margin: 0 0 1rem 0;
         }
@@ -51,7 +51,7 @@
             box-shadow: 0 10px 30px rgba(0,0,0,0.05);
         }
         summary {
-            padding: 1.5rem;
+            padding: 1.5rem 1.25rem;
             font-weight: 600;
             cursor: pointer;
             list-style: none;
@@ -61,6 +61,7 @@
             display: flex;
             justify-content: space-between;
             align-items: center;
+            user-select: none;
         }
         summary::-webkit-details-marker { display: none; }
         summary::after {
@@ -74,10 +75,13 @@
             transform: rotate(45deg);
         }
         .content {
-            padding: 0 1.5rem 1.5rem 1.5rem;
+            padding: 0 1.25rem 1.5rem 1.25rem;
             color: var(--faq-text);
             opacity: 0.8;
             line-height: 1.6;
+        }
+        @media (max-width: 600px) {
+            .faq-section { padding: 3rem 1rem; }
         }
     </style>
 </head>
