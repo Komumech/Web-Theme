@@ -1,0 +1,85 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Tide Testimonial</title>
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600&family=Playfair+Display:ital,wght@0,400;0,600;1,400&display=swap" rel="stylesheet">
+    <style>
+        :root {
+            --bg-color: #fdf6f0;
+            --text-color: #1a1a1a;
+            --accent-color: #d946ef;
+        }
+        body { margin: 0; padding: 2rem; font-family: 'Inter', sans-serif; overflow: hidden; text-align: center; background: transparent; }
+        
+        .card {
+            background: var(--bg-color);
+            color: var(--text-color);
+            padding: 4rem 2rem;
+            border-radius: 24px;
+            box-shadow: 0 10px 30px rgba(0,0,0,0.03);
+            max-width: 900px;
+            margin: 0 auto;
+            position: relative;
+        }
+
+        .quote-icon {
+            font-size: 4rem;
+            line-height: 1;
+            color: var(--accent-color);
+            opacity: 0.3;
+            font-family: 'Playfair Display', serif;
+            margin-bottom: 1rem;
+        }
+
+        .quote { 
+            font-family: 'Playfair Display', serif;
+            font-size: 2.2rem; 
+            font-weight: 400; 
+            font-style: italic;
+            margin-bottom: 2.5rem; 
+            line-height: 1.3; 
+        }
+        
+        .author-block { display: flex; flex-direction: column; align-items: center; gap: 0.5rem; }
+        .avatar { width: 64px; height: 64px; border-radius: 50%; object-fit: cover; background: #eee; margin-bottom: 0.5rem; }
+        .name { font-weight: 600; font-size: 1.1rem; letter-spacing: 0.5px; text-transform: uppercase; }
+        .role { font-size: 0.95rem; opacity: 0.6; font-family: 'Playfair Display', serif; font-style: italic; }
+    </style>
+</head>
+<body>
+    <div class="card">
+        <div class="quote-icon">“</div>
+        <div class="quote" id="quote">This is the best service I've ever used.</div>
+        <div class="author-block">
+            <img src="" class="avatar" id="avatar" style="display:none;">
+            <div class="info">
+                <span class="name" id="author">John Doe</span>
+                <span class="role" id="role">CEO</span>
+            </div>
+        </div>
+    </div>
+
+    <script>
+        const params = new URLSearchParams(window.location.search);
+        if(params.get('bg_color')) document.documentElement.style.setProperty('--bg-color', '#' + params.get('bg_color'));
+        if(params.get('text_color')) document.documentElement.style.setProperty('--text-color', '#' + params.get('text_color'));
+        if(params.get('accent_color')) document.documentElement.style.setProperty('--accent-color', '#' + params.get('accent_color'));
+        if(params.get('quote')) document.getElementById('quote').textContent = params.get('quote');
+        if(params.get('author')) document.getElementById('author').textContent = params.get('author');
+        if(params.get('role')) document.getElementById('role').textContent = params.get('role');
+        if(params.get('avatar')) {
+            const img = document.getElementById('avatar');
+            img.src = params.get('avatar');
+            img.style.display = 'block';
+        }
+
+        const sendHeight = () => { if(params.get('frame_id')) window.parent.postMessage({frameId: params.get('frame_id'), frameHeight: document.body.scrollHeight}, '*'); }
+        window.addEventListener('load', sendHeight);
+        window.addEventListener('resize', sendHeight);
+    </script>
+</body>
+</html>
