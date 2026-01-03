@@ -1,0 +1,220 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Tide About Team</title>
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600&family=Playfair+Display:wght@400;500&display=swap" rel="stylesheet">
+<style>
+    :root {
+        --at-bg-color: #f3ebe8;
+        --at-heading-color: #1a1a1a;
+        --at-text-color: #555555;
+        --at-btn-bg: #ffffff;
+        --at-btn-text: #000000;
+        --at-btn-border: #e5e5e5;
+        --at-layer1-start: #d946ef;
+        --at-layer1-end: #a855f7;
+        --at-layer2-start: #fb923c;
+        --at-layer2-end: #ea580c;
+        --at-main-img: url('https://images.unsplash.com/photo-1522071820081-009f0129c71c?ixlib=rb-1.2.1&auto=format&fit=crop&w=800&q=80');
+    }
+
+    body {
+        margin: 0;
+        padding: 0;
+        font-family: 'Inter', sans-serif;
+        overflow: hidden;
+    }
+
+    .about-team-section {
+        background-color: var(--at-bg-color);
+        padding: 4rem 2rem;
+        display: flex;
+        justify-content: center;
+        min-height: 100vh;
+        box-sizing: border-box;
+    }
+
+    .about-team-container {
+        display: grid;
+        grid-template-columns: 1fr 1fr;
+        gap: 5rem;
+        max-width: 1200px;
+        width: 100%;
+        align-items: center;
+    }
+
+    .img-container {
+        position: relative;
+        width: 100%;
+        padding-bottom: 65%; /* Aspect Ratio */
+    }
+
+    .img-layer {
+        position: absolute;
+        top: 0;
+        left: 0;
+        width: 100%;
+        height: 100%;
+        border-radius: 20px;
+        transition: transform 0.3s ease;
+    }
+
+    .layer-purple {
+        background: linear-gradient(135deg, var(--at-layer1-start) 0%, var(--at-layer1-end) 100%);
+        transform: rotate(-3deg) scale(0.98) translateX(-12px);
+        z-index: 1;
+    }
+
+    .layer-orange {
+        background: linear-gradient(135deg, var(--at-layer2-start) 0%, var(--at-layer2-end) 100%);
+        transform: rotate(3deg) scale(0.98) translateX(12px);
+        z-index: 1;
+    }
+
+    .main-image {
+        background-image: var(--at-main-img);
+        background-size: cover;
+        background-position: center;
+        z-index: 2;
+        box-shadow: 0 10px 30px rgba(0,0,0,0.1);
+    }
+
+    /* Hover effect for layers */
+    .img-container:hover .layer-purple {
+        transform: rotate(-5deg) scale(0.98) translateX(-18px);
+    }
+    .img-container:hover .layer-orange {
+        transform: rotate(5deg) scale(0.98) translateX(18px);
+    }
+
+    .content-container {
+        display: flex;
+        flex-direction: column;
+        justify-content: center;
+    }
+
+    .heading {
+        font-family: 'Playfair Display', serif;
+        font-size: 4.5rem;
+        font-weight: 400;
+        color: var(--at-heading-color);
+        margin: 0 0 1.5rem 0;
+        line-height: 1;
+    }
+
+    .description {
+        font-size: 1.125rem;
+        line-height: 1.6;
+        color: var(--at-text-color);
+        margin: 0 0 2rem 0;
+        max-width: 500px;
+    }
+
+    .btn-meet {
+        background-color: var(--at-btn-bg);
+        color: var(--at-btn-text);
+        border: 1px solid var(--at-btn-border);
+        padding: 1rem 2rem;
+        font-size: 1.1rem;
+        font-weight: 600;
+        border-radius: 8px;
+        cursor: pointer;
+        width: fit-content;
+        box-shadow: 0 4px 6px rgba(0,0,0,0.05);
+        transition: all 0.3s ease;
+        text-decoration: none;
+        display: inline-block;
+    }
+
+    .btn-meet:hover {
+        box-shadow: 0 8px 15px rgba(0,0,0,0.1);
+        transform: translateY(-2px);
+    }
+
+    @media (max-width: 900px) {
+        .about-team-section {
+            padding: 3rem 1.5rem;
+        }
+        .about-team-container {
+            grid-template-columns: 1fr;
+            gap: 3rem;
+        }
+        .heading {
+            font-size: 3rem;
+        }
+        .img-container {
+            max-width: 600px;
+            margin: 0 auto;
+        }
+        .content-container {
+            align-items: center;
+            text-align: center;
+        }
+    }
+</style>
+</head>
+<body>
+<div class="about-team-section">
+    <div class="about-team-container">
+        <div class="img-container">
+            <div class="img-layer layer-purple"></div>
+            <div class="img-layer layer-orange"></div>
+            <div class="img-layer main-image" id="main-img"></div>
+        </div>
+        <div class="content-container">
+            <h2 class="heading" id="heading">Your bespoke HR Team</h2>
+            <p class="description" id="desc">We are a team who care deeply about the quality of what we do, putting the Human back into Human Resources.</p>
+            <a href="#" class="btn-meet" id="btn" target="_top">Meet the team</a>
+        </div>
+    </div>
+</div>
+
+<script>
+    const params = new URLSearchParams(window.location.search);
+
+    // Text Content
+    if(params.get('heading')) document.getElementById('heading').innerHTML = params.get('heading');
+    if(params.get('description')) document.getElementById('desc').textContent = params.get('description');
+    if(params.get('btn_text')) document.getElementById('btn').textContent = params.get('btn_text');
+    if(params.get('btn_link')) document.getElementById('btn').href = params.get('btn_link');
+
+    // Colors
+    if(params.get('bg_color')) document.documentElement.style.setProperty('--at-bg-color', '#' + params.get('bg_color'));
+    if(params.get('heading_color')) document.documentElement.style.setProperty('--at-heading-color', '#' + params.get('heading_color'));
+    if(params.get('text_color')) document.documentElement.style.setProperty('--at-text-color', '#' + params.get('text_color'));
+    
+    // Button Styles
+    if(params.get('btn_bg')) document.documentElement.style.setProperty('--at-btn-bg', '#' + params.get('btn_bg'));
+    if(params.get('btn_text_color')) document.documentElement.style.setProperty('--at-btn-text', '#' + params.get('btn_text_color'));
+    if(params.get('btn_border')) document.documentElement.style.setProperty('--at-btn-border', '#' + params.get('btn_border'));
+
+    // Gradients
+    if(params.get('gradient1_start')) document.documentElement.style.setProperty('--at-layer1-start', '#' + params.get('gradient1_start'));
+    if(params.get('gradient1_end')) document.documentElement.style.setProperty('--at-layer1-end', '#' + params.get('gradient1_end'));
+    if(params.get('gradient2_start')) document.documentElement.style.setProperty('--at-layer2-start', '#' + params.get('gradient2_start'));
+    if(params.get('gradient2_end')) document.documentElement.style.setProperty('--at-layer2-end', '#' + params.get('gradient2_end'));
+
+    // Image
+    if(params.get('image')) document.documentElement.style.setProperty('--at-main-img', `url('${params.get('image')}')`);
+
+    // Height Resizing for Iframe
+    const sendHeight = () => {
+        if(params.get('frame_id')) {
+            window.parent.postMessage({
+                frameId: params.get('frame_id'),
+                frameHeight: document.body.scrollHeight
+            }, '*');
+        }
+    }
+    window.addEventListener('load', sendHeight);
+    window.addEventListener('resize', sendHeight);
+    
+    // Observe changes for dynamic resizing
+    new ResizeObserver(sendHeight).observe(document.body);
+</script>
+</body>
+</html>
