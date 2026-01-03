@@ -1,0 +1,179 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Tide Pricing</title>
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600&family=Playfair+Display:wght@400;500&display=swap" rel="stylesheet">
+    <style>
+        :root {
+            --pr-bg: #f3ebe8;
+            --pr-text: #1a1a1a;
+            --pr-card-bg: #ffffff;
+            --pr-accent: #d946ef;
+        }
+        body { margin: 0; padding: 0; font-family: 'Inter', sans-serif; overflow: hidden; }
+        .pricing-section {
+            background-color: var(--pr-bg);
+            padding: 4rem 2rem;
+            min-height: 100vh;
+            box-sizing: border-box;
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+        }
+        .pricing-header {
+            text-align: center;
+            margin-bottom: 3rem;
+        }
+        .pricing-title {
+            font-family: 'Playfair Display', serif;
+            font-size: 3rem;
+            color: var(--pr-text);
+            margin: 0 0 1rem 0;
+        }
+        .pricing-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(300px, 1fr));
+            gap: 2rem;
+            max-width: 1200px;
+            width: 100%;
+        }
+        .pricing-card {
+            background: var(--pr-card-bg);
+            padding: 2.5rem;
+            border-radius: 24px;
+            display: flex;
+            flex-direction: column;
+            position: relative;
+            transition: transform 0.3s ease;
+            border: 1px solid rgba(0,0,0,0.05);
+        }
+        .pricing-card:hover {
+            transform: translateY(-5px);
+            box-shadow: 0 20px 40px rgba(0,0,0,0.05);
+        }
+        .plan-name {
+            font-size: 1.25rem;
+            font-weight: 600;
+            margin-bottom: 1rem;
+            color: var(--pr-text);
+        }
+        .plan-price {
+            font-family: 'Playfair Display', serif;
+            font-size: 3.5rem;
+            color: var(--pr-text);
+            margin-bottom: 2rem;
+            line-height: 1;
+        }
+        .plan-price span {
+            font-size: 1rem;
+            font-family: 'Inter', sans-serif;
+            opacity: 0.6;
+        }
+        .features-list {
+            list-style: none;
+            padding: 0;
+            margin: 0 0 2rem 0;
+            flex-grow: 1;
+        }
+        .features-list li {
+            margin-bottom: 1rem;
+            display: flex;
+            align-items: center;
+            gap: 10px;
+            color: var(--pr-text);
+            opacity: 0.8;
+        }
+        .check-icon {
+            color: var(--pr-accent);
+            width: 20px;
+            height: 20px;
+        }
+        .plan-btn {
+            display: block;
+            text-align: center;
+            padding: 1rem;
+            border-radius: 50px;
+            text-decoration: none;
+            font-weight: 600;
+            transition: all 0.2s;
+            border: 1px solid var(--pr-text);
+            color: var(--pr-text);
+        }
+        .plan-btn:hover {
+            background: var(--pr-text);
+            color: var(--pr-card-bg);
+        }
+        .popular-tag {
+            position: absolute;
+            top: -12px;
+            right: 24px;
+            background: var(--pr-accent);
+            color: white;
+            padding: 4px 12px;
+            border-radius: 20px;
+            font-size: 0.8rem;
+            font-weight: 600;
+        }
+    </style>
+</head>
+<body>
+    <div class="pricing-section">
+        <div class="pricing-header">
+            <h2 class="pricing-title" id="title">Simple Pricing</h2>
+            <p id="subtitle" style="opacity: 0.7;">Choose the plan that fits your needs.</p>
+        </div>
+        <div class="pricing-grid" id="grid">
+            <!-- Cards injected via JS -->
+        </div>
+    </div>
+    <script>
+        const params = new URLSearchParams(window.location.search);
+        
+        if(params.get('title')) document.getElementById('title').textContent = params.get('title');
+        if(params.get('subtitle')) document.getElementById('subtitle').textContent = params.get('subtitle');
+        
+        // Colors
+        if(params.get('bg_color')) document.documentElement.style.setProperty('--pr-bg', '#' + params.get('bg_color'));
+        if(params.get('text_color')) document.documentElement.style.setProperty('--pr-text', '#' + params.get('text_color'));
+        if(params.get('card_bg')) document.documentElement.style.setProperty('--pr-card-bg', '#' + params.get('card_bg'));
+        if(params.get('accent_color')) document.documentElement.style.setProperty('--pr-accent', '#' + params.get('accent_color'));
+
+        const grid = document.getElementById('grid');
+        const checkSvg = `<svg class="check-icon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><polyline points="20 6 9 17 4 12"></polyline></svg>`;
+
+        for(let i=1; i<=3; i++) {
+            if(params.get(`plan${i}_name`)) {
+                const features = params.get(`plan${i}_features`).split(',').map(f => `<li>${checkSvg}${f.trim()}</li>`).join('');
+                const isPopular = params.get(`plan${i}_popular`) === 'true';
+                
+                const div = document.createElement('div');
+                div.className = 'pricing-card';
+                div.innerHTML = `
+                    ${isPopular ? '<div class="popular-tag">Most Popular</div>' : ''}
+                    <div class="plan-name">${params.get(`plan${i}_name`)}</div>
+                    <div class="plan-price">${params.get(`plan${i}_price`)}<span>/mo</span></div>
+                    <ul class="features-list">${features}</ul>
+                    <a href="${params.get(`plan${i}_link`) || '#'}" class="plan-btn" target="_top">${params.get(`plan${i}_btn`) || 'Get Started'}</a>
+                `;
+                grid.appendChild(div);
+            }
+        }
+
+        const sendHeight = () => {
+            if(params.get('frame_id')) {
+                window.parent.postMessage({
+                    frameId: params.get('frame_id'),
+                    frameHeight: document.body.scrollHeight
+                }, '*');
+            }
+        }
+        window.addEventListener('load', sendHeight);
+        window.addEventListener('resize', sendHeight);
+        new ResizeObserver(sendHeight).observe(document.body);
+    </script>
+</body>
+</html>

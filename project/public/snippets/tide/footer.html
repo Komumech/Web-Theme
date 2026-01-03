@@ -1,0 +1,134 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Tide Footer</title>
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600&family=Playfair+Display:wght@400;500&display=swap" rel="stylesheet">
+    <style>
+        :root {
+            --ft-bg: #1a1a1a;
+            --ft-text: #ffffff;
+            --ft-accent: #d946ef;
+        }
+        body { margin: 0; padding: 0; font-family: 'Inter', sans-serif; overflow: hidden; }
+        .footer-section {
+            background-color: var(--ft-bg);
+            color: var(--ft-text);
+            padding: 4rem 2rem 2rem 2rem;
+            box-sizing: border-box;
+        }
+        .footer-container {
+            max-width: 1200px;
+            margin: 0 auto;
+            display: grid;
+            grid-template-columns: 1.5fr 1fr 1fr 1fr;
+            gap: 3rem;
+        }
+        .brand-col h3 {
+            font-family: 'Playfair Display', serif;
+            font-size: 2rem;
+            margin: 0 0 1rem 0;
+        }
+        .brand-col p {
+            opacity: 0.7;
+            line-height: 1.6;
+            max-width: 300px;
+        }
+        .link-col h4 {
+            font-size: 1.1rem;
+            margin: 0 0 1.5rem 0;
+            font-weight: 600;
+        }
+        .link-col ul {
+            list-style: none;
+            padding: 0;
+            margin: 0;
+        }
+        .link-col li {
+            margin-bottom: 0.8rem;
+        }
+        .link-col a {
+            color: var(--ft-text);
+            text-decoration: none;
+            opacity: 0.7;
+            transition: opacity 0.2s;
+        }
+        .link-col a:hover {
+            opacity: 1;
+        }
+        .copyright {
+            margin-top: 4rem;
+            padding-top: 2rem;
+            border-top: 1px solid rgba(255,255,255,0.1);
+            text-align: center;
+            opacity: 0.5;
+            font-size: 0.9rem;
+        }
+        @media (max-width: 768px) {
+            .footer-container {
+                grid-template-columns: 1fr;
+                gap: 2rem;
+            }
+        }
+    </style>
+</head>
+<body>
+    <div class="footer-section">
+        <div class="footer-container">
+            <div class="brand-col">
+                <h3 id="brand">Tide</h3>
+                <p id="tagline">Putting the Human back into Human Resources.</p>
+            </div>
+            <div class="link-col" id="col1"></div>
+            <div class="link-col" id="col2"></div>
+            <div class="link-col" id="col3"></div>
+        </div>
+        <div class="copyright" id="copy">© 2024 Tide Theme. All rights reserved.</div>
+    </div>
+    <script>
+        const params = new URLSearchParams(window.location.search);
+        
+        if(params.get('brand')) document.getElementById('brand').textContent = params.get('brand');
+        if(params.get('tagline')) document.getElementById('tagline').textContent = params.get('tagline');
+        if(params.get('copyright')) document.getElementById('copy').textContent = params.get('copyright');
+        
+        if(params.get('bg_color')) document.documentElement.style.setProperty('--ft-bg', '#' + params.get('bg_color'));
+        if(params.get('text_color')) document.documentElement.style.setProperty('--ft-text', '#' + params.get('text_color'));
+
+        // Helper to populate columns
+        function populateCol(colId, title, links) {
+            const col = document.getElementById(colId);
+            if(!title && !links) return;
+            
+            let html = `<h4>${title || 'Links'}</h4><ul>`;
+            if(links) {
+                links.split(',').forEach(link => {
+                    const [text, href] = link.split('|');
+                    html += `<li><a href="${href || '#'}" target="_top">${text}</a></li>`;
+                });
+            }
+            html += '</ul>';
+            col.innerHTML = html;
+        }
+
+        populateCol('col1', params.get('col1_title'), params.get('col1_links'));
+        populateCol('col2', params.get('col2_title'), params.get('col2_links'));
+        populateCol('col3', params.get('col3_title'), params.get('col3_links'));
+
+        const sendHeight = () => {
+            if(params.get('frame_id')) {
+                window.parent.postMessage({
+                    frameId: params.get('frame_id'),
+                    frameHeight: document.body.scrollHeight
+                }, '*');
+            }
+        }
+        window.addEventListener('load', sendHeight);
+        window.addEventListener('resize', sendHeight);
+        new ResizeObserver(sendHeight).observe(document.body);
+    </script>
+</body>
+</html>

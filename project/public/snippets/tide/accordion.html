@@ -1,0 +1,126 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Tide FAQ</title>
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600&family=Playfair+Display:wght@400;500&display=swap" rel="stylesheet">
+    <style>
+        :root {
+            --faq-bg: #fdf6f0;
+            --faq-text: #1a1a1a;
+            --faq-accent: #ea580c;
+            --faq-item-bg: #ffffff;
+        }
+        body { margin: 0; padding: 0; font-family: 'Inter', sans-serif; overflow: hidden; }
+        .faq-section {
+            background-color: var(--faq-bg);
+            padding: 4rem 2rem;
+            min-height: 100vh;
+            box-sizing: border-box;
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+        }
+        .faq-header {
+            text-align: center;
+            max-width: 800px;
+            margin-bottom: 3rem;
+        }
+        .faq-title {
+            font-family: 'Playfair Display', serif;
+            font-size: 3rem;
+            color: var(--faq-text);
+            margin: 0 0 1rem 0;
+        }
+        .faq-container {
+            max-width: 800px;
+            width: 100%;
+        }
+        details {
+            background: var(--faq-item-bg);
+            margin-bottom: 1rem;
+            border-radius: 12px;
+            overflow: hidden;
+            border: 1px solid rgba(0,0,0,0.05);
+            transition: all 0.3s ease;
+        }
+        details[open] {
+            box-shadow: 0 10px 30px rgba(0,0,0,0.05);
+        }
+        summary {
+            padding: 1.5rem;
+            font-weight: 600;
+            cursor: pointer;
+            list-style: none;
+            position: relative;
+            color: var(--faq-text);
+            font-size: 1.1rem;
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+        }
+        summary::-webkit-details-marker { display: none; }
+        summary::after {
+            content: '+';
+            font-size: 1.5rem;
+            font-weight: 400;
+            color: var(--faq-accent);
+            transition: transform 0.2s;
+        }
+        details[open] summary::after {
+            transform: rotate(45deg);
+        }
+        .content {
+            padding: 0 1.5rem 1.5rem 1.5rem;
+            color: var(--faq-text);
+            opacity: 0.8;
+            line-height: 1.6;
+        }
+    </style>
+</head>
+<body>
+    <div class="faq-section">
+        <div class="faq-header">
+            <h2 class="faq-title" id="title">Frequently Asked Questions</h2>
+        </div>
+        <div class="faq-container" id="container"></div>
+    </div>
+    <script>
+        const params = new URLSearchParams(window.location.search);
+        
+        if(params.get('title')) document.getElementById('title').textContent = params.get('title');
+        if(params.get('bg_color')) document.documentElement.style.setProperty('--faq-bg', '#' + params.get('bg_color'));
+        if(params.get('text_color')) document.documentElement.style.setProperty('--faq-text', '#' + params.get('text_color'));
+        if(params.get('accent_color')) document.documentElement.style.setProperty('--faq-accent', '#' + params.get('accent_color'));
+        if(params.get('item_bg')) document.documentElement.style.setProperty('--faq-item-bg', '#' + params.get('item_bg'));
+
+        const container = document.getElementById('container');
+        for(let i=1; i<=6; i++) {
+            if(params.get(`q${i}`)) {
+                const details = document.createElement('details');
+                details.innerHTML = `
+                    <summary>${params.get(`q${i}`)}</summary>
+                    <div class="content">${params.get(`a${i}`)}</div>
+                `;
+                details.addEventListener('toggle', sendHeight);
+                container.appendChild(details);
+            }
+        }
+
+        function sendHeight() {
+            if(params.get('frame_id')) {
+                window.parent.postMessage({
+                    frameId: params.get('frame_id'),
+                    frameHeight: document.body.scrollHeight
+                }, '*');
+            }
+        }
+        window.addEventListener('load', sendHeight);
+        window.addEventListener('resize', sendHeight);
+        new ResizeObserver(sendHeight).observe(document.body);
+    </script>
+</body>
+</html>
