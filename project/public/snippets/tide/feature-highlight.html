@@ -1,0 +1,125 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Tide Feature Highlight</title>
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500&family=Playfair+Display:wght@400;600&display=swap" rel="stylesheet">
+    <style>
+        body { margin: 0; padding: 1rem; font-family: 'Inter', sans-serif; overflow: hidden; box-sizing: border-box; display: flex; align-items: center; min-height: 100vh; }
+
+        .card {
+            background-color: var(--bg-color, #f3ebe8);
+            color: var(--text-color, #1a1a1a);
+            border-radius: 24px;
+            padding: 4rem 3rem;
+            position: relative;
+            min-height: 450px;
+            width: 100%;
+            display: flex;
+            flex-direction: column;
+            align-items: flex-start;
+            justify-content: center;
+            box-shadow: 0 10px 30px rgba(0,0,0,0.05);
+            overflow: hidden;
+            box-sizing: border-box;
+        }
+
+        .content-wrap {
+            max-width: 60%;
+            z-index: 2;
+        }
+
+        h3 {
+            font-family: 'Playfair Display', serif;
+            font-size: clamp(2rem, 5vw, 3.5rem);
+            line-height: 1.1;
+            margin: 0 0 2rem 0;
+            font-weight: 400;
+        }
+
+        .steps {
+            display: flex;
+            gap: 1rem;
+            margin-bottom: 2rem;
+        }
+        .step {
+            width: 60px;
+            height: 60px;
+            background: #fff;
+            border-radius: 50%;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-size: 1.5rem;
+            font-family: 'Playfair Display', serif;
+            box-shadow: 0 4px 10px rgba(0,0,0,0.05);
+        }
+
+        .cta {
+            background: #1a1a1a;
+            color: #fff;
+            padding: 1rem 2.5rem;
+            border-radius: 8px;
+            text-decoration: none;
+            font-weight: 500;
+            transition: transform 0.2s;
+            display: inline-block;
+        }
+        .cta:hover { transform: translateY(-2px); }
+
+        .image-side {
+            position: absolute;
+            right: 0;
+            top: 0;
+            bottom: 0;
+            width: 35%;
+            background-size: cover;
+            background-position: center;
+            border-top-left-radius: 200px;
+            border-bottom-left-radius: 200px;
+        }
+
+        @media (max-width: 768px) {
+            .card { 
+                padding: 2.5rem 1.5rem; 
+                justify-content: flex-end;
+            }
+            .content-wrap { max-width: 100%; }
+            .image-side { 
+                display: block; 
+                width: 100%;
+                height: 250px;
+                top: 0;
+                border-radius: 0 0 50% 50% / 0 0 20px 20px;
+                position: absolute;
+                left: 0;
+            }
+            .content-wrap {
+                margin-top: 220px; /* Space for image */
+            }
+        }
+    </style>
+</head>
+<body>
+    <div class="card" id="card">
+        <div class="content-wrap">
+            <div class="steps" id="steps"></div>
+            <h3 id="title">Feature Highlight</h3>
+            <a href="#" class="cta" id="cta">Learn More</a>
+        </div>
+        <div class="image-side" id="img"></div>
+    </div>
+
+    <script>
+        const params = new URLSearchParams(window.location.search);
+        if(params.get('bg_color')) document.documentElement.style.setProperty('--bg-color', '#' + params.get('bg_color'));
+        if(params.get('title')) document.getElementById('title').innerHTML = params.get('title');
+        if(params.get('cta_text')) document.getElementById('cta').textContent = params.get('cta_text');
+        if(params.get('image')) document.getElementById('img').style.backgroundImage = `url('${params.get('image')}')`;
+        if(params.get('steps')) params.get('steps').split(',').forEach(s => { const d = document.createElement('div'); d.className='step'; d.textContent=s.trim(); document.getElementById('steps').appendChild(d); });
+        const sendHeight = () => { if(params.get('frame_id')) window.parent.postMessage({frameId: params.get('frame_id'), frameHeight: document.body.scrollHeight}, '*'); }
+        window.addEventListener('load', sendHeight);
+    </script>
+</body>
+</html>

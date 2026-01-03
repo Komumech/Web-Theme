@@ -13,7 +13,7 @@
             --text-color: #1a1a1a;
             --accent-color: #d946ef;
         }
-        body { margin: 0; padding: 2rem; font-family: 'Inter', sans-serif; overflow: hidden; text-align: center; background: transparent; }
+        body { margin: 0; padding: 1rem; font-family: 'Inter', sans-serif; overflow: hidden; text-align: center; background: transparent; display: flex; align-items: center; justify-content: center; min-height: 100vh; box-sizing: border-box; }
         
         .card {
             background: var(--bg-color);
@@ -24,6 +24,21 @@
             max-width: 900px;
             margin: 0 auto;
             position: relative;
+            overflow: hidden;
+        }
+
+        /* Decorative Element */
+        .card::before {
+            content: '';
+            position: absolute;
+            top: -50px;
+            left: -50px;
+            width: 150px;
+            height: 150px;
+            background: var(--accent-color);
+            opacity: 0.05;
+            border-radius: 50%;
+            pointer-events: none;
         }
 
         .quote-icon {
@@ -37,7 +52,7 @@
 
         .quote { 
             font-family: 'Playfair Display', serif;
-            font-size: 2.2rem; 
+            font-size: clamp(1.5rem, 4vw, 2.5rem); 
             font-weight: 400; 
             font-style: italic;
             margin-bottom: 2.5rem; 
@@ -48,6 +63,12 @@
         .avatar { width: 64px; height: 64px; border-radius: 50%; object-fit: cover; background: #eee; margin-bottom: 0.5rem; }
         .name { font-weight: 600; font-size: 1.1rem; letter-spacing: 0.5px; text-transform: uppercase; }
         .role { font-size: 0.95rem; opacity: 0.6; font-family: 'Playfair Display', serif; font-style: italic; }
+
+        @media (max-width: 600px) {
+            .card {
+                padding: 3rem 1.5rem;
+            }
+        }
     </style>
 </head>
 <body>

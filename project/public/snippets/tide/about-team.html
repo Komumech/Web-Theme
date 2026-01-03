@@ -27,6 +27,7 @@
         padding: 0;
         font-family: 'Inter', sans-serif;
         overflow: hidden;
+        background-color: var(--at-bg-color);
     }
 
     .about-team-section {
@@ -36,6 +37,7 @@
         justify-content: center;
         min-height: 100vh;
         box-sizing: border-box;
+        align-items: center;
     }
 
     .about-team-container {
@@ -54,8 +56,8 @@
     display: flex;
     justify-content: center; /* Centers horizontally */
     align-items: center;     /* Centers vertically */
-    /* Adjust height as needed, for example: */
-    height: 300px; /* Example height for the container */
+    padding-bottom: 70%; /* Responsive Aspect Ratio */
+    margin-bottom: 0;
 }
     .img-layer {
         position: absolute;
@@ -105,7 +107,7 @@
 
     .heading {
         font-family: 'Playfair Display', serif;
-        font-size: 3rem;
+        font-size: clamp(2.5rem, 5vw, 4.5rem);
         font-weight: 100;
         color: var(--at-heading-color);
         margin: 0 0 1.5rem 0;
@@ -144,17 +146,19 @@
     @media (max-width: 900px) {
         .about-team-section {
             padding: 3rem 1.5rem;
+            height: auto;
+            min-height: auto;
         }
         .about-team-container {
             grid-template-columns: 1fr;
             gap: 3rem;
         }
-        .heading {
-            font-size: 3rem;
-        }
         .img-container {
-            max-width: 600px;
+            max-width: 100%;
+            width: 100%;
             margin: 0 auto;
+            padding-bottom: 80%;
+            margin-bottom: 1rem;
         }
         .content-container {
             align-items: center;

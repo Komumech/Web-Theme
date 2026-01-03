@@ -33,6 +33,9 @@
             min-width: 0;
             color: #1a1a1a;
         }
+        input:focus {
+            /* Focus styles handled by browser or custom if needed */
+        }
         button {
             background: #1a1a1a;
             color: #fff;
@@ -45,6 +48,12 @@
             font-size: 0.95rem;
         }
         button:hover { opacity: 0.9; transform: translateY(-1px); }
+
+        @media (max-width: 400px) {
+            .wrapper { flex-direction: column; padding: 10px; }
+            input { width: 100%; margin-bottom: 10px; text-align: center; }
+            button { width: 100%; padding: 12px; }
+        }
     </style>
 </head>
 <body>
