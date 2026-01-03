@@ -9,9 +9,10 @@
     <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600&family=Playfair+Display:wght@400;500&display=swap" rel="stylesheet">
     <style>
         :root {
-            --ft-bg: #1a1a1a;
+            --ft-bg: #ff5733;
             --ft-text: #ffffff;
-            --ft-accent: #d946ef;
+            --ft-accent: #ffffff;
+            --ft-dot-color: rgba(255, 255, 255, 0.15);
         }
         body { margin: 0; padding: 0; font-family: 'Inter', sans-serif; overflow: hidden; }
         .footer-section {
@@ -19,28 +20,30 @@
             color: var(--ft-text);
             padding: 4rem 2rem 2rem 2rem;
             box-sizing: border-box;
+            background-image: radial-gradient(var(--ft-dot-color) 2px, transparent 2px);
+            background-size: 20px 20px;
+            min-height: 100vh;
+            display: flex;
+            flex-direction: column;
+            justify-content: space-between;
         }
         .footer-container {
             max-width: 1200px;
+            width: 100%;
             margin: 0 auto;
             display: grid;
-            grid-template-columns: 1.5fr 1fr 1fr 1fr;
-            gap: 3rem;
-        }
-        .brand-col h3 {
-            font-family: 'Playfair Display', serif;
-            font-size: 2rem;
-            margin: 0 0 1rem 0;
-        }
-        .brand-col p {
-            opacity: 0.7;
-            line-height: 1.6;
-            max-width: 300px;
+            grid-template-columns: repeat(auto-fit, minmax(150px, 1fr));
+            gap: 2rem;
+            margin-bottom: 4rem;
         }
         .link-col h4 {
             font-size: 1.1rem;
             margin: 0 0 1.5rem 0;
-            font-weight: 600;
+            font-weight: 700;
+            border-bottom: 2px solid rgba(255,255,255,0.3);
+            display: inline-block;
+            padding-bottom: 5px;
+            min-width: 50px;
         }
         .link-col ul {
             list-style: none;
@@ -54,56 +57,131 @@
         .link-col a {
             color: var(--ft-text);
             text-decoration: none;
-            opacity: 0.7;
+            opacity: 0.9;
             transition: opacity 0.2s;
         }
         .link-col a:hover {
             opacity: 1;
+            text-decoration: underline;
         }
-        .copyright {
-            margin-top: 4rem;
-            padding-top: 2rem;
-            border-top: 1px solid rgba(255,255,255,0.1);
+        
+        .footer-bottom {
+            max-width: 1200px;
+            width: 100%;
+            margin: 0 auto;
+            display: flex;
+            justify-content: space-between;
+            align-items: flex-end;
+            flex-wrap: wrap;
+            gap: 2rem;
+        }
+
+        .b-corp {
+            border: 3px solid rgba(255,255,255,0.8);
+            border-radius: 12px;
+            width: 80px;
+            height: 100px;
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            justify-content: center;
+            font-weight: 700;
             text-align: center;
-            opacity: 0.5;
-            font-size: 0.9rem;
+            color: rgba(255,255,255,0.9);
         }
+        .b-corp-circle {
+            border: 3px solid rgba(255,255,255,0.8);
+            border-radius: 50%;
+            width: 40px;
+            height: 40px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-size: 1.5rem;
+            margin-bottom: 8px;
+        }
+        .b-corp-text {
+            font-size: 0.6rem;
+            text-transform: uppercase;
+            line-height: 1.2;
+        }
+
+        .pace-graphic {
+            display: flex;
+            align-items: center;
+            position: relative;
+        }
+        .big-pill {
+            border: 4px solid #ffccbc;
+            border-radius: 100px;
+            height: 90px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-size: 3.5rem;
+            color: #ffccbc;
+            font-weight: 600;
+            padding: 0 40px;
+            background: transparent;
+            letter-spacing: 2px;
+        }
+        .big-pill:last-child {
+            margin-left: -25px;
+            background: var(--ft-bg);
+            background-image: radial-gradient(var(--ft-dot-color) 2px, transparent 2px);
+            background-size: 20px 20px;
+            z-index: 1;
+        }
+
         @media (max-width: 768px) {
             .footer-container {
-                grid-template-columns: 1fr;
-                gap: 2rem;
-                text-align: center;
+                grid-template-columns: 1fr 1fr;
+            }
+            .footer-bottom {
+                flex-direction: column;
+                align-items: center;
+            }
+            .big-pill {
+                font-size: 2.5rem;
+                height: 70px;
+                padding: 0 30px;
             }
         }
     </style>
 </head>
 <body>
     <div class="footer-section">
-        <div class="footer-container">
-            <div class="brand-col">
-                <h3 id="brand">Tide</h3>
-                <p id="tagline">Putting the Human back into Human Resources.</p>
-            </div>
-            <div class="link-col" id="col1"></div>
-            <div class="link-col" id="col2"></div>
-            <div class="link-col" id="col3"></div>
+        <div class="footer-container" id="links-container">
+            <!-- Columns populated by JS -->
         </div>
-        <div class="copyright" id="copy">© 2024 Tide Theme. All rights reserved.</div>
+        
+        <div class="footer-bottom">
+            <div class="b-corp">
+                <div class="b-corp-circle">B</div>
+                <div class="b-corp-text">Certified<br>Corporation</div>
+            </div>
+            
+            <div class="pace-graphic">
+                <div class="big-pill" id="pill-text-1">PACE</div>
+                <div class="big-pill" id="pill-text-2">HR</div>
+            </div>
+        </div>
     </div>
     <script>
         const params = new URLSearchParams(window.location.search);
         
-        if(params.get('brand')) document.getElementById('brand').textContent = params.get('brand');
-        if(params.get('tagline')) document.getElementById('tagline').textContent = params.get('tagline');
-        if(params.get('copyright')) document.getElementById('copy').textContent = params.get('copyright');
+        if(params.get('pill_1')) document.getElementById('pill-text-1').textContent = params.get('pill_1');
+        if(params.get('pill_2')) document.getElementById('pill-text-2').textContent = params.get('pill_2');
         
         if(params.get('bg_color')) document.documentElement.style.setProperty('--ft-bg', '#' + params.get('bg_color'));
         if(params.get('text_color')) document.documentElement.style.setProperty('--ft-text', '#' + params.get('text_color'));
 
         // Helper to populate columns
-        function populateCol(colId, title, links) {
-            const col = document.getElementById(colId);
-            if(!title && !links) return;
+        const container = document.getElementById('links-container');
+        
+        function createCol(title, links) {
+            const col = document.createElement('div');
+            col.className = 'link-col';
             
             let html = `<h4>${title || 'Links'}</h4><ul>`;
             if(links) {
@@ -114,11 +192,14 @@
             }
             html += '</ul>';
             col.innerHTML = html;
+            container.appendChild(col);
         }
 
-        populateCol('col1', params.get('col1_title'), params.get('col1_links'));
-        populateCol('col2', params.get('col2_title'), params.get('col2_links'));
-        populateCol('col3', params.get('col3_title'), params.get('col3_links'));
+        for(let i=1; i<=6; i++) {
+            if(params.get(`col${i}_title`) || params.get(`col${i}_links`)) {
+                createCol(params.get(`col${i}_title`), params.get(`col${i}_links`));
+            }
+        }
 
         const sendHeight = () => {
             if(params.get('frame_id')) {
