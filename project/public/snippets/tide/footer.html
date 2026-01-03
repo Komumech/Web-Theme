@@ -26,6 +26,22 @@
             display: flex;
             flex-direction: column;
             justify-content: space-between;
+            position: relative;
+            --mouse-x: 50%;
+            --mouse-y: 50%;
+        }
+
+        /* Interactive Dots Overlay */
+        .footer-section::before {
+            content: "";
+            position: absolute;
+            inset: 0;
+            background-image: radial-gradient(rgba(255,255,255,0.4) 2px, transparent 2px);
+            background-size: 20px 20px;
+            mask-image: radial-gradient(300px circle at var(--mouse-x) var(--mouse-y), black 0%, transparent 100%);
+            -webkit-mask-image: radial-gradient(300px circle at var(--mouse-x) var(--mouse-y), black 0%, transparent 100%);
+            pointer-events: none;
+            z-index: 0;
         }
         .footer-container {
             max-width: 1200px;
@@ -35,6 +51,8 @@
             grid-template-columns: repeat(auto-fit, minmax(150px, 1fr));
             gap: 2rem;
             margin-bottom: 4rem;
+            position: relative;
+            z-index: 1;
         }
         .link-col h4 {
             font-size: 1.1rem;
@@ -74,6 +92,8 @@
             align-items: flex-end;
             flex-wrap: wrap;
             gap: 2rem;
+            position: relative;
+            z-index: 1;
         }
 
         .b-corp {
@@ -200,6 +220,14 @@
                 createCol(params.get(`col${i}_title`), params.get(`col${i}_links`));
             }
         }
+
+        // Mouse Tracking for Background Effect
+        document.addEventListener('mousemove', (e) => {
+            const section = document.querySelector('.footer-section');
+            const rect = section.getBoundingClientRect();
+            section.style.setProperty('--mouse-x', (e.clientX - rect.left) + 'px');
+            section.style.setProperty('--mouse-y', (e.clientY - rect.top) + 'px');
+        });
 
         const sendHeight = () => {
             if(params.get('frame_id')) {
