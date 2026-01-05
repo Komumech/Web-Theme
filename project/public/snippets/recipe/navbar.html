@@ -1,0 +1,162 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Recipe Navbar</title>
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Lato:wght@400;700&family=Playfair+Display:ital,wght@0,400;0,700;1,400&display=swap" rel="stylesheet">
+    <style>
+        body {
+            margin: 0;
+            padding: 0;
+            font-family: 'Lato', sans-serif;
+            background-color: #ffffff;
+            color: #333;
+            overflow: hidden; /* Prevent scrollbars in iframe */
+        }
+        .header-container {
+            text-align: center;
+            padding-top: 40px;
+        }
+        .logo {
+            font-family: 'Playfair Display', serif;
+            font-size: 52px;
+            color: #333;
+            text-decoration: none;
+            position: relative;
+            display: inline-block;
+            margin-bottom: 10px;
+        }
+        .logo-sub {
+            display: block;
+            font-family: 'Lato', sans-serif;
+            font-size: 18px;
+            letter-spacing: 4px;
+            text-transform: uppercase;
+            margin-top: -10px;
+            color: #555;
+        }
+        /* Brush stroke effect behind logo */
+        .logo::before {
+            content: '';
+            position: absolute;
+            top: 40%;
+            left: 50%;
+            transform: translate(-50%, -50%);
+            width: 110%;
+            height: 40px;
+            background-color: #dbeafe; /* Light blue */
+            z-index: -1;
+            opacity: 0.6;
+            border-radius: 4px;
+            transform: translate(-50%, -50%) rotate(-2deg);
+        }
+        .nav-wrapper {
+            border-top: 1px solid #eee;
+            border-bottom: 1px solid #eee;
+            margin-top: 30px;
+            padding: 15px 0;
+            position: relative;
+        }
+        .nav-links {
+            display: flex;
+            justify-content: center;
+            gap: 40px;
+        }
+        .nav-links a {
+            text-decoration: none;
+            color: #333;
+            font-weight: 700;
+            font-size: 13px;
+            letter-spacing: 1.5px;
+            text-transform: uppercase;
+            transition: color 0.2s;
+        }
+        .nav-links a:hover {
+            color: #93c5fd;
+        }
+        .search-container {
+            position: absolute;
+            right: 20px;
+            top: 50%;
+            transform: translateY(-50%);
+            display: flex;
+            align-items: center;
+            border: 1px solid #eee;
+            padding: 5px 10px;
+            border-radius: 2px;
+        }
+        .search-container input {
+            border: none;
+            outline: none;
+            font-family: 'Lato', sans-serif;
+            font-size: 13px;
+            width: 150px;
+        }
+        .search-icon {
+            width: 14px;
+            height: 14px;
+            color: #999;
+        }
+    </style>
+</head>
+<body>
+    <div class="header-container">
+        <div class="logo" id="brand">Blue Sky<span class="logo-sub" id="brand_sub">EATING.</span></div>
+        
+        <div class="nav-wrapper">
+            <div class="nav-links">
+                <a href="#" id="link1_text">HOME</a>
+                <a href="#" id="link2_text">RECIPES</a>
+                <a href="#" id="link3_text">ABOUT</a>
+                <a href="#" id="link4_text">CONTACT</a>
+            </div>
+            <div class="search-container">
+                <input type="text" placeholder="Search">
+                <svg class="search-icon" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M21 21l-6-6m2-5a7 7 0 11-14 0 7 7 0 0114 0z"></path></svg>
+            </div>
+        </div>
+    </div>
+
+    <script>
+        window.addEventListener('DOMContentLoaded', () => {
+            const params = new URLSearchParams(window.location.search);
+            
+            // Map params to elements
+            params.forEach((value, key) => {
+                const element = document.getElementById(key);
+                if (element) {
+                    if (element.tagName === 'A') {
+                        element.textContent = value;
+                        // Check for href counterpart
+                        const hrefKey = key.replace('_text', '_href');
+                        if (params.has(hrefKey)) {
+                            element.href = params.get(hrefKey);
+                        }
+                    } else if (element.tagName === 'IMG') {
+                        element.src = value;
+                    } else {
+                        element.innerHTML = value;
+                    }
+                }
+            });
+
+            // Handle brand splitting for this specific theme logic if passed as one string
+            if (params.has('brand') && !params.has('brand_sub')) {
+                // Optional: logic to split brand text if needed, 
+                // but for now we assume the user passes brand="Blue Sky" and brand_sub="EATING."
+                // or we just let the default stand if not provided.
+            }
+
+            // Post height to parent
+            const height = document.body.scrollHeight;
+            const frameId = params.get('frame_id');
+            if (frameId) {
+                window.parent.postMessage({ frameHeight: height, frameId: frameId }, '*');
+            }
+        });
+    </script>
+</body>
+</html>

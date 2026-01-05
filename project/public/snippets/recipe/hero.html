@@ -1,0 +1,168 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Recipe Hero</title>
+    <link href="https://fonts.googleapis.com/css2?family=Lato:wght@400;700&family=Playfair+Display:wght@700&display=swap" rel="stylesheet">
+    <style>
+        body {
+            margin: 0;
+            padding: 20px;
+            font-family: 'Lato', sans-serif;
+            background-color: #ffffff;
+            color: #333;
+            box-sizing: border-box;
+        }
+        .container {
+            max-width: 1100px;
+            margin: 0 auto;
+            display: grid;
+            grid-template-columns: 2fr 1fr;
+            gap: 40px;
+        }
+        
+        /* Main Content */
+        .section-title {
+            font-family: 'Lato', sans-serif;
+            font-size: 14px;
+            letter-spacing: 2px;
+            text-transform: uppercase;
+            margin-bottom: 20px;
+            font-weight: 700;
+            color: #333;
+        }
+        .recipe-grid {
+            display: grid;
+            grid-template-columns: 1fr 1fr;
+            gap: 20px;
+        }
+        .recipe-card {
+            text-align: left;
+        }
+        .recipe-img {
+            width: 100%;
+            aspect-ratio: 1/1;
+            object-fit: cover;
+            margin-bottom: 15px;
+        }
+        .recipe-title {
+            font-family: 'Lato', sans-serif;
+            font-size: 13px;
+            letter-spacing: 1px;
+            text-transform: uppercase;
+            font-weight: 700;
+            color: #333;
+        }
+
+        /* Sidebar */
+        .sidebar {
+            text-align: center;
+            padding-top: 10px;
+        }
+        .welcome-title {
+            font-size: 14px;
+            letter-spacing: 2px;
+            text-transform: uppercase;
+            font-weight: 700;
+            margin-bottom: 20px;
+        }
+        .profile-img {
+            width: 120px;
+            height: 120px;
+            border-radius: 50%;
+            object-fit: cover;
+            margin-bottom: 15px;
+        }
+        .bio-text {
+            font-size: 14px;
+            line-height: 1.6;
+            color: #666;
+            margin-bottom: 20px;
+        }
+        .social-icons {
+            display: flex;
+            justify-content: center;
+            gap: 15px;
+            margin-bottom: 30px;
+            color: #555;
+        }
+        .newsletter-box {
+            background-color: #f3f4f6; /* Light gray/blue tint */
+            padding: 30px 20px;
+            text-align: center;
+        }
+        .newsletter-text {
+            font-family: 'Lato', sans-serif;
+            font-size: 12px;
+            letter-spacing: 2px;
+            font-weight: 700;
+            text-transform: uppercase;
+            line-height: 1.8;
+            color: #333;
+        }
+        .heart-icon {
+            color: #ef4444;
+            font-size: 10px;
+            vertical-align: middle;
+        }
+
+        @media (max-width: 768px) {
+            .container { grid-template-columns: 1fr; }
+        }
+    </style>
+</head>
+<body>
+    <div class="container">
+        <!-- Main Column -->
+        <div class="main-content">
+            <div class="section-title" id="main_heading">LATEST RECIPES...</div>
+            <div class="recipe-grid">
+                <div class="recipe-card">
+                    <img src="" id="recipe1_img" class="recipe-img" alt="Recipe 1">
+                    <div class="recipe-title" id="recipe1_title">RECIPE TITLE 1</div>
+                </div>
+                <div class="recipe-card">
+                    <img src="" id="recipe2_img" class="recipe-img" alt="Recipe 2">
+                    <div class="recipe-title" id="recipe2_title">RECIPE TITLE 2</div>
+                </div>
+            </div>
+        </div>
+
+        <!-- Sidebar -->
+        <div class="sidebar">
+            <div class="welcome-title" id="sidebar_title">WELCOME! 👋</div>
+            <img src="" id="profile_img" class="profile-img" alt="Profile">
+            <div class="bio-text" id="bio_text">
+                I'm Catherine - the recipe developer and food photographer behind Blue Sky Eating.
+            </div>
+            <div class="social-icons">
+                <!-- Simple SVG placeholders -->
+                <svg width="20" height="20" fill="currentColor" viewBox="0 0 24 24"><path d="M4 4h16v16H4z" fill="none" stroke="currentColor" stroke-width="2"/></svg>
+                <svg width="20" height="20" fill="currentColor" viewBox="0 0 24 24"><path d="M12 2a10 10 0 1 0 10 10A10 10 0 0 0 12 2zm0 16a6 6 0 1 1 6-6 6 6 0 0 1-6 6z"/></svg>
+            </div>
+            <div class="newsletter-box">
+                <div class="newsletter-text" id="newsletter_text">
+                    WANT EVERY NEW RECIPE SENT STRAIGHT TO YOUR INBOX? <span class="heart-icon">♥</span>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <script>
+        window.addEventListener('DOMContentLoaded', () => {
+            const params = new URLSearchParams(window.location.search);
+            params.forEach((value, key) => {
+                const element = document.getElementById(key);
+                if (element) {
+                    if (element.tagName === 'IMG') element.src = value;
+                    else element.innerHTML = value;
+                }
+            });
+            const height = document.body.scrollHeight;
+            const frameId = params.get('frame_id');
+            if (frameId) window.parent.postMessage({ frameHeight: height, frameId: frameId }, '*');
+        });
+    </script>
+</body>
+</html>
