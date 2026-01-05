@@ -1,0 +1,62 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Recipe Alert</title>
+    <link href="https://fonts.googleapis.com/css2?family=Lato:wght@400;700&display=swap" rel="stylesheet">
+    <style>
+        :root {
+            --bg-color: #f3f4f6;
+            --text-color: #333333;
+            --border-color: #dbeafe;
+        }
+        body {
+            margin: 0;
+            padding: 10px;
+            font-family: 'Lato', sans-serif;
+            overflow: hidden;
+        }
+        .alert {
+            background-color: var(--bg-color);
+            color: var(--text-color);
+            padding: 15px 20px;
+            border-left: 4px solid var(--border-color);
+            display: flex;
+            align-items: center;
+            gap: 15px;
+            font-size: 14px;
+        }
+        .icon {
+            font-size: 18px;
+            color: var(--border-color);
+            filter: brightness(0.8);
+        }
+    </style>
+</head>
+<body>
+    <div class="alert">
+        <div class="icon" id="icon">ⓘ</div>
+        <div id="message">This is an alert.</div>
+    </div>
+
+    <script>
+        const params = new URLSearchParams(window.location.search);
+        if(params.get('message')) document.getElementById('message').textContent = params.get('message');
+        if(params.get('bg_color')) document.documentElement.style.setProperty('--bg-color', '#' + params.get('bg_color'));
+        if(params.get('accent_color')) document.documentElement.style.setProperty('--border-color', '#' + params.get('accent_color'));
+
+        const type = params.get('type') || 'info';
+        const icons = {
+            info: 'ⓘ',
+            success: '✓',
+            warning: '⚠',
+            error: '✕'
+        };
+        document.getElementById('icon').textContent = icons[type];
+
+        const sendHeight = () => { if(params.get('frame_id')) window.parent.postMessage({frameId: params.get('frame_id'), frameHeight: document.body.scrollHeight}, '*'); }
+        window.addEventListener('load', sendHeight);
+    </script>
+</body>
+</html>

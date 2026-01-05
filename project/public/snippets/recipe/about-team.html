@@ -1,0 +1,63 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Recipe Team</title>
+    <link href="https://fonts.googleapis.com/css2?family=Lato:wght@400;700&family=Playfair+Display:wght@700&display=swap" rel="stylesheet">
+    <style>
+        :root {
+            --heading-color: #1a1a1a;
+            --text-color: #555555;
+        }
+        body { margin: 0; padding: 20px; font-family: 'Lato', sans-serif; overflow: hidden; text-align: center; }
+        
+        h2 { font-family: 'Playfair Display', serif; font-size: 32px; margin-bottom: 10px; color: var(--heading-color); }
+        p { color: var(--text-color); max-width: 600px; margin: 0 auto 40px auto; line-height: 1.6; }
+        
+        .grid { display: grid; grid-template-columns: repeat(auto-fit, minmax(150px, 1fr)); gap: 30px; max-width: 800px; margin: 0 auto; }
+        .member { display: flex; flex-direction: column; align-items: center; }
+        .avatar { width: 120px; height: 120px; border-radius: 50%; background: #eee; margin-bottom: 15px; object-fit: cover; }
+        .name { font-family: 'Playfair Display', serif; font-weight: 700; font-size: 18px; color: var(--heading-color); }
+        .role { font-size: 12px; text-transform: uppercase; letter-spacing: 1px; color: #888; margin-top: 5px; }
+
+        @media (max-width: 600px) {
+            .grid { grid-template-columns: 1fr; }
+        }
+    </style>
+</head>
+<body>
+    <h2 id="label">Meet the Chefs</h2>
+    <p id="desc">The creative minds behind the recipes.</p>
+    
+    <div class="grid" id="grid">
+        <!-- Members injected here -->
+    </div>
+
+    <script>
+        const params = new URLSearchParams(window.location.search);
+        if(params.get('label')) document.getElementById('label').textContent = params.get('label');
+        if(params.get('description')) document.getElementById('desc').textContent = params.get('description');
+        if(params.get('heading_color')) document.documentElement.style.setProperty('--heading-color', '#' + params.get('heading_color'));
+
+        // Mock data if not provided, or parse from params if you want dynamic list
+        // For simplicity, hardcoded structure or simple injection:
+        const grid = document.getElementById('grid');
+        const members = [
+            { name: 'Sarah', role: 'Head Chef', img: 'https://images.unsplash.com/photo-1438761681033-6461ffad8d80?auto=format&fit=crop&w=200&q=80' },
+            { name: 'Mike', role: 'Sous Chef', img: 'https://images.unsplash.com/photo-1500648767791-00dcc994a43e?auto=format&fit=crop&w=200&q=80' },
+            { name: 'Emily', role: 'Pastry Chef', img: 'https://images.unsplash.com/photo-1494790108377-be9c29b29330?auto=format&fit=crop&w=200&q=80' }
+        ];
+
+        members.forEach(m => {
+            const div = document.createElement('div');
+            div.className = 'member';
+            div.innerHTML = `<img src="${m.img}" class="avatar"><span class="name">${m.name}</span><span class="role">${m.role}</span>`;
+            grid.appendChild(div);
+        });
+
+        const sendHeight = () => { if(params.get('frame_id')) window.parent.postMessage({frameId: params.get('frame_id'), frameHeight: document.body.scrollHeight}, '*'); }
+        window.addEventListener('load', sendHeight);
+    </script>
+</body>
+</html>

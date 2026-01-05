@@ -1,0 +1,48 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Recipe Button</title>
+    <link href="https://fonts.googleapis.com/css2?family=Lato:wght@700&display=swap" rel="stylesheet">
+    <style>
+        :root {
+            --bg-color: #1a1a1a;
+            --text-color: #ffffff;
+        }
+        body { margin: 0; padding: 10px; font-family: 'Lato', sans-serif; overflow: hidden; display: flex; justify-content: center; }
+        .btn {
+            background: var(--bg-color);
+            color: var(--text-color);
+            padding: 12px 30px;
+            text-decoration: none;
+            font-weight: 700;
+            font-size: 12px;
+            text-transform: uppercase;
+            letter-spacing: 1px;
+            border: none;
+            cursor: pointer;
+            transition: opacity 0.2s;
+            display: inline-block;
+        }
+        .btn:hover { opacity: 0.8; }
+        .btn.outline { background: transparent; border: 2px solid var(--bg-color); color: var(--bg-color); }
+    </style>
+</head>
+<body>
+    <a href="#" class="btn" id="btn">Click Me</a>
+
+    <script>
+        const params = new URLSearchParams(window.location.search);
+        const btn = document.getElementById('btn');
+        if(params.get('text')) btn.textContent = params.get('text');
+        if(params.get('href')) { btn.href = params.get('href'); btn.target = "_top"; }
+        if(params.get('type') === 'outline') btn.classList.add('outline');
+        if(params.get('accent_color')) {
+            document.documentElement.style.setProperty('--bg-color', '#' + params.get('accent_color'));
+        }
+        const sendHeight = () => { if(params.get('frame_id')) window.parent.postMessage({frameId: params.get('frame_id'), frameHeight: document.body.scrollHeight}, '*'); }
+        window.addEventListener('load', sendHeight);
+    </script>
+</body>
+</html>

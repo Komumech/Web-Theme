@@ -1,0 +1,99 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Recipe Pricing</title>
+    <link href="https://fonts.googleapis.com/css2?family=Lato:wght@400;700&family=Playfair+Display:wght@700&display=swap" rel="stylesheet">
+    <style>
+        :root {
+            --bg-color: #ffffff;
+            --text-color: #333333;
+            --accent-color: #dbeafe;
+            --btn-bg: #1a1a1a;
+            --btn-text: #ffffff;
+        }
+        body {
+            margin: 0;
+            padding: 20px;
+            font-family: 'Lato', sans-serif;
+            background-color: transparent;
+            overflow: hidden;
+        }
+        .card {
+            background: var(--bg-color);
+            border: 1px solid #eee;
+            padding: 40px 30px;
+            text-align: center;
+            max-width: 400px;
+            margin: 0 auto;
+            position: relative;
+        }
+        .card::before {
+            content: '';
+            position: absolute;
+            top: 0; left: 0; right: 0;
+            height: 5px;
+            background-color: var(--accent-color);
+        }
+        .plan-name {
+            font-family: 'Lato', sans-serif;
+            font-size: 12px;
+            letter-spacing: 2px;
+            text-transform: uppercase;
+            font-weight: 700;
+            color: #888;
+            margin-bottom: 15px;
+        }
+        .price {
+            font-family: 'Playfair Display', serif;
+            font-size: 48px;
+            color: var(--text-color);
+            margin-bottom: 30px;
+        }
+        .features {
+            list-style: none;
+            padding: 0;
+            margin: 0 0 30px 0;
+            color: var(--text-color);
+            font-size: 15px;
+            line-height: 2;
+        }
+        .btn {
+            display: inline-block;
+            padding: 12px 30px;
+            background-color: var(--btn-bg);
+            color: var(--btn-text);
+            text-decoration: none;
+            font-size: 12px;
+            letter-spacing: 1px;
+            text-transform: uppercase;
+            font-weight: 700;
+            transition: opacity 0.2s;
+        }
+        .btn:hover { opacity: 0.8; }
+    </style>
+</head>
+<body>
+    <div class="card">
+        <div class="plan-name" id="plan">Meal Plan</div>
+        <div class="price" id="price">$15</div>
+        <ul class="features" id="features"></ul>
+        <a href="#" class="btn" id="btn">Subscribe</a>
+    </div>
+
+    <script>
+        const params = new URLSearchParams(window.location.search);
+        if(params.get('bg_color')) document.documentElement.style.setProperty('--bg-color', '#' + params.get('bg_color'));
+        if(params.get('accent_color')) document.documentElement.style.setProperty('--accent-color', '#' + params.get('accent_color'));
+        
+        if(params.get('plan')) document.getElementById('plan').textContent = params.get('plan');
+        if(params.get('price')) document.getElementById('price').textContent = params.get('price');
+        if(params.get('cta_text')) document.getElementById('btn').textContent = params.get('cta_text');
+        if(params.get('features')) params.get('features').split(',').forEach(f => document.getElementById('features').innerHTML += `<li>${f.trim()}</li>`);
+
+        const sendHeight = () => { if(params.get('frame_id')) window.parent.postMessage({frameId: params.get('frame_id'), frameHeight: document.body.scrollHeight}, '*'); }
+        window.addEventListener('load', sendHeight);
+    </script>
+</body>
+</html>
