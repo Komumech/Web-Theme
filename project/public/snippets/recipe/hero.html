@@ -39,6 +39,13 @@
             font-weight: 700;
             color: var(--heading-color);
         }
+        .cutlery-icon {
+            width: 16px;
+            height: 16px;
+            vertical-align: middle;
+            margin-left: 8px;
+            opacity: 0.7;
+        }
         .recipe-grid {
             display: grid;
             grid-template-columns: 1fr 1fr;
@@ -129,7 +136,14 @@
     <div class="container">
         <!-- Main Column -->
         <div class="main-content">
-            <div class="section-title" id="main_heading">LATEST RECIPES...</div>
+            <div class="section-title" id="main_heading">
+                LATEST RECIPES... 
+                <svg class="cutlery-icon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round">
+                    <path d="M3 2v7c0 1.1.9 2 2 2h4a2 2 0 0 0 2-2V2"/>
+                    <path d="M7 2v20"/>
+                    <path d="M21 15V2v0a5 5 0 0 0-5 5v6c0 1.1.9 2 2 2h3Zm0 0v7"/>
+                </svg>
+            </div>
             <div class="recipe-grid">
                 <div class="recipe-card">
                     <img src="" id="recipe1_img" class="recipe-img" alt="Recipe 1">

@@ -41,6 +41,9 @@
         if(params.get('accent_color')) {
             document.documentElement.style.setProperty('--bg-color', '#' + params.get('accent_color'));
         }
+        if(params.get('text_color')) {
+            document.documentElement.style.setProperty('--text-color', '#' + params.get('text_color'));
+        }
         const sendHeight = () => { if(params.get('frame_id')) window.parent.postMessage({frameId: params.get('frame_id'), frameHeight: document.body.scrollHeight}, '*'); }
         window.addEventListener('load', sendHeight);
     </script>

@@ -39,6 +39,7 @@
         if(params.get('label')) document.getElementById('label').textContent = params.get('label');
         if(params.get('description')) document.getElementById('desc').textContent = params.get('description');
         if(params.get('heading_color')) document.documentElement.style.setProperty('--heading-color', '#' + params.get('heading_color'));
+        if(params.get('text_color')) document.documentElement.style.setProperty('--text-color', '#' + params.get('text_color'));
 
         // Mock data if not provided, or parse from params if you want dynamic list
         // For simplicity, hardcoded structure or simple injection:

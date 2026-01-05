@@ -9,6 +9,7 @@
         :root {
             --btn-bg: #1a1a1a;
             --btn-text: #ffffff;
+            --text-color: #333333;
         }
         body { margin: 0; padding: 10px; font-family: 'Lato', sans-serif; overflow: hidden; }
         .wrapper {
@@ -24,6 +25,7 @@
             font-size: 14px;
             outline: none;
             background: transparent;
+            color: var(--text-color);
         }
         button {
             background: var(--btn-bg);
@@ -55,6 +57,7 @@
         if(params.get('placeholder')) document.getElementById('input').placeholder = params.get('placeholder');
         if(params.get('submit_text')) document.getElementById('btn').textContent = params.get('submit_text');
         if(params.get('accent_color')) document.documentElement.style.setProperty('--btn-bg', '#' + params.get('accent_color'));
+        if(params.get('text_color')) document.documentElement.style.setProperty('--text-color', '#' + params.get('text_color'));
 
         const sendHeight = () => { if(params.get('frame_id')) window.parent.postMessage({frameId: params.get('frame_id'), frameHeight: document.body.scrollHeight}, '*'); }
         window.addEventListener('load', sendHeight);

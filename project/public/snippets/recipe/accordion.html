@@ -93,6 +93,7 @@
 
             if(params.has('title')) document.getElementById('title').textContent = params.get('title');
             if(params.has('bg_color')) document.documentElement.style.setProperty('--bg-color', '#' + params.get('bg_color'));
+            if(params.has('text_color')) document.documentElement.style.setProperty('--text-color', '#' + params.get('text_color'));
 
             const list = document.getElementById('accordion_list');
             let i = 1;

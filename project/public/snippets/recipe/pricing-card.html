@@ -28,6 +28,7 @@
             max-width: 400px;
             margin: 0 auto;
             position: relative;
+            overflow: hidden;
         }
         .card::before {
             content: '';
@@ -72,10 +73,26 @@
             transition: opacity 0.2s;
         }
         .btn:hover { opacity: 0.8; }
+        .deco-icon {
+            position: absolute;
+            right: -20px;
+            bottom: -30px;
+            width: 140px;
+            height: 140px;
+            opacity: 0.05;
+            transform: rotate(15deg);
+            color: var(--text-color);
+            pointer-events: none;
+            z-index: 0;
+        }
+        .plan-name, .price, .features, .btn { position: relative; z-index: 1; }
     </style>
 </head>
 <body>
     <div class="card">
+        <svg class="deco-icon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1" stroke-linecap="round" stroke-linejoin="round">
+            <path d="M3 2v7c0 1.1.9 2 2 2h4a2 2 0 0 0 2-2V2"></path><path d="M7 2v20"></path>
+        </svg>
         <div class="plan-name" id="plan">Meal Plan</div>
         <div class="price" id="price">$15</div>
         <ul class="features" id="features"></ul>

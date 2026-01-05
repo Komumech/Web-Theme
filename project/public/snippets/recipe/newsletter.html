@@ -59,6 +59,13 @@
             letter-spacing: 1px;
             cursor: pointer;
         }
+        .cutlery-icon {
+            width: 32px;
+            height: 32px;
+            margin-bottom: 15px;
+            opacity: 0.5;
+            color: var(--text-color);
+        }
 
         /* Android/Mobile Responsivity */
         @media (max-width: 600px) {
@@ -73,6 +80,11 @@
 </head>
 <body>
     <div class="container">
+        <svg class="cutlery-icon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round">
+            <path d="M3 2v7c0 1.1.9 2 2 2h4a2 2 0 0 0 2-2V2"/>
+            <path d="M7 2v20"/>
+            <path d="M21 15V2v0a5 5 0 0 0-5 5v6c0 1.1.9 2 2 2h3Zm0 0v7"/>
+        </svg>
         <div class="heading" id="heading">Join the Club</div>
         <div class="subheading" id="subheading">Get the latest recipes sent straight to your inbox.</div>
         <form class="form-group" onsubmit="event.preventDefault();">

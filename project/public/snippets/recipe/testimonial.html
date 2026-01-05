@@ -18,10 +18,12 @@
             background-color: var(--bg-color);
             text-align: center;
             box-sizing: border-box;
+            overflow: hidden;
         }
         .container {
             max-width: 800px;
             margin: 0 auto;
+            position: relative;
         }
         .quote-icon {
             font-size: 40px;
@@ -64,6 +66,18 @@
             color: #777;
             margin-top: 2px;
         }
+        .deco-icon {
+            position: absolute;
+            left: -20px;
+            top: 50%;
+            transform: translateY(-50%) rotate(-15deg);
+            width: 180px;
+            height: 180px;
+            opacity: 0.04;
+            color: var(--text-color);
+            pointer-events: none;
+            z-index: -1;
+        }
 
         /* Android/Mobile Responsivity */
         @media (max-width: 600px) {
@@ -73,6 +87,9 @@
 </head>
 <body>
     <div class="container">
+        <svg class="deco-icon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="0.8" stroke-linecap="round" stroke-linejoin="round">
+            <path d="M2 17L17 2"/><path d="M19 4l3 3"/><path d="M2 17l3 3"/><path d="M5 20l15-15"/><path d="M16 5l3 3"/><path d="M5 16l3 3"/>
+        </svg>
         <span class="quote-icon">“</span>
         <div class="quote" id="quote">This is the best recipe I have ever tried!</div>
         <div class="author-block">
@@ -92,6 +109,8 @@
             ['quote', 'author', 'role'].forEach(id => { if(params.has(id)) document.getElementById(id).textContent = params.get(id); });
             if(params.has('avatar')) document.getElementById('avatar').src = params.get('avatar');
             if(params.has('bg_color')) document.documentElement.style.setProperty('--bg-color', '#' + params.get('bg_color'));
+            if(params.has('text_color')) document.documentElement.style.setProperty('--text-color', '#' + params.get('text_color'));
+            if(params.has('accent_color')) document.documentElement.style.setProperty('--accent-color', '#' + params.get('accent_color'));
 
             if (params.get('frame_id')) window.parent.postMessage({ frameHeight: document.body.scrollHeight, frameId: params.get('frame_id') }, '*');
         });
