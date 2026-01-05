@@ -25,6 +25,11 @@
             display: block;
             overflow: hidden;
         }
+        
+        .grid-section {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(300px, 1fr));
+        }
     </style>
 </head>
 <body>
@@ -68,6 +73,89 @@
             data-text_color="555555"
             data-heading_color="111111"
             data-accent_bg="f3f4f6"
+        ></iframe>
+
+        <!-- Features / Categories Grid -->
+        <div class="grid-section">
+            <iframe 
+                id="card-1" 
+                src="" 
+                data-base-url="https://komutheme2.vercel.app/project/public/snippets/recipe/card.html" 
+                data-frame-id="card-1"
+                data-icon="🥑" 
+                data-title="Keto Recipes" 
+                data-description="Low carb, high fat recipes that taste amazing." 
+                data-btn_text="View Keto"
+            ></iframe>
+            <iframe 
+                id="card-2" 
+                src="" 
+                data-base-url="https://komutheme2.vercel.app/project/public/snippets/recipe/card.html" 
+                data-frame-id="card-2"
+                data-icon="🥦" 
+                data-title="Vegan Eats" 
+                data-description="Plant-based goodness for every meal of the day." 
+                data-btn_text="View Vegan"
+            ></iframe>
+            <iframe 
+                id="card-3" 
+                src="" 
+                data-base-url="https://komutheme2.vercel.app/project/public/snippets/recipe/card.html" 
+                data-frame-id="card-3"
+                data-icon="🍰" 
+                data-title="Desserts" 
+                data-description="Sweet treats that are actually good for you." 
+                data-btn_text="View Sweets"
+            ></iframe>
+        </div>
+
+        <!-- Testimonial -->
+        <iframe 
+            id="recipe-testimonial"
+            src=""
+            data-base-url="https://komutheme2.vercel.app/project/public/snippets/recipe/testimonial.html"
+            data-frame-id="recipe-testimonial"
+            data-quote="I made the chicken avocado pasta for my family and they absolutely loved it! It's now a weekly staple."
+            data-author="Sarah Jenkins"
+            data-role="Home Cook"
+            data-avatar="https://images.unsplash.com/photo-1494790108377-be9c29b29330?auto=format&fit=crop&w=150&q=80"
+            data-bg_color="f9fafb"
+        ></iframe>
+
+        <!-- FAQ Accordion -->
+        <iframe 
+            id="recipe-faq"
+            src=""
+            data-base-url="https://komutheme2.vercel.app/project/public/snippets/recipe/accordion.html"
+            data-frame-id="recipe-faq"
+            data-title="Cooking Tips & Tricks"
+            data-q1="Can I substitute almond flour?" data-a1="Yes, in most of our baking recipes, almond flour works as a 1:1 substitute."
+            data-q2="Are these recipes gluten-free?" data-a2="All recipes marked with the GF tag are 100% gluten-free."
+            data-q3="How do I store leftovers?" data-a3="We recommend airtight glass containers for up to 3 days in the fridge."
+        ></iframe>
+
+        <!-- Newsletter Strip -->
+        <iframe 
+            id="recipe-newsletter"
+            src=""
+            data-base-url="https://komutheme2.vercel.app/project/public/snippets/recipe/newsletter.html"
+            data-frame-id="recipe-newsletter"
+            data-heading="Don't Miss a Bite"
+            data-subheading="Join 10,000+ subscribers getting fresh recipes weekly."
+            data-btn_text="Sign Me Up"
+            data-bg_color="dbeafe"
+        ></iframe>
+
+        <!-- Footer -->
+        <iframe 
+            id="recipe-footer"
+            src=""
+            data-base-url="https://komutheme2.vercel.app/project/public/snippets/recipe/footer.html"
+            data-frame-id="recipe-footer"
+            data-col1_title="Explore" data-col1_links="Home|#,Recipes|#,About|#"
+            data-col2_title="Social" data-col2_links="Instagram|#,Pinterest|#,Facebook|#"
+            data-col3_title="Legal" data-col3_links="Privacy Policy|#,Terms of Service|#"
+            data-copyright="© 2026 Blue Sky Eating. Designed with ♥."
         ></iframe>
     </div>
 

@@ -1,0 +1,115 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Recipe Accordion</title>
+    <link href="https://fonts.googleapis.com/css2?family=Lato:wght@400;700&family=Playfair+Display:wght@700&display=swap" rel="stylesheet">
+    <style>
+        :root {
+            --bg-color: #ffffff;
+            --text-color: #333333;
+            --accent-color: #dbeafe;
+        }
+        body {
+            margin: 0;
+            padding: 20px;
+            font-family: 'Lato', sans-serif;
+            background-color: var(--bg-color);
+            color: var(--text-color);
+        }
+        .container {
+            max-width: 800px;
+            margin: 0 auto;
+        }
+        .main-title {
+            font-family: 'Playfair Display', serif;
+            font-size: 28px;
+            text-align: center;
+            margin-bottom: 30px;
+        }
+        .accordion-item {
+            border-bottom: 1px solid #eee;
+        }
+        .accordion-header {
+            padding: 20px 0;
+            cursor: pointer;
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            font-weight: 700;
+            font-size: 16px;
+        }
+        .accordion-header:hover {
+            color: #666;
+        }
+        .icon {
+            font-size: 20px;
+            transition: transform 0.3s;
+        }
+        .accordion-content {
+            max-height: 0;
+            overflow: hidden;
+            transition: max-height 0.3s ease-out;
+            line-height: 1.6;
+            font-size: 14px;
+            color: #666;
+        }
+        .accordion-content p {
+            margin: 0 0 20px 0;
+        }
+        .active .icon {
+            transform: rotate(45deg);
+        }
+        .active + .accordion-content {
+            max-height: 200px; /* Approximate max height */
+        }
+    </style>
+</head>
+<body>
+    <div class="container">
+        <div class="main-title" id="title">Frequently Asked Questions</div>
+        <div id="accordion_list"></div>
+    </div>
+
+    <script>
+        function toggle(header) {
+            header.classList.toggle('active');
+            const content = header.nextElementSibling;
+            if (header.classList.contains('active')) {
+                content.style.maxHeight = content.scrollHeight + "px";
+            } else {
+                content.style.maxHeight = null;
+            }
+            // Update iframe height
+            setTimeout(() => {
+                if (window.frameId) window.parent.postMessage({ frameHeight: document.body.scrollHeight, frameId: window.frameId }, '*');
+            }, 350);
+        }
+
+        window.addEventListener('DOMContentLoaded', () => {
+            const params = new URLSearchParams(window.location.search);
+            window.frameId = params.get('frame_id');
+
+            if(params.has('title')) document.getElementById('title').textContent = params.get('title');
+            if(params.has('bg_color')) document.documentElement.style.setProperty('--bg-color', '#' + params.get('bg_color'));
+
+            const list = document.getElementById('accordion_list');
+            let i = 1;
+            while(params.has(`q${i}`)) {
+                const item = document.createElement('div');
+                item.className = 'accordion-item';
+                item.innerHTML = `
+                    <div class="accordion-header" onclick="toggle(this)">
+                        ${params.get(`q${i}`)} <span class="icon">+</span>
+                    </div>
+                    <div class="accordion-content"><p>${params.get(`a${i}`)}</p></div>
+                `;
+                list.appendChild(item);
+                i++;
+            }
+            if (window.frameId) window.parent.postMessage({ frameHeight: document.body.scrollHeight, frameId: window.frameId }, '*');
+        });
+    </script>
+</body>
+</html>

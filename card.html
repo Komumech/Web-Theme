@@ -1,0 +1,109 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Recipe Card</title>
+    <link href="https://fonts.googleapis.com/css2?family=Lato:wght@400;700&family=Playfair+Display:wght@700&display=swap" rel="stylesheet">
+    <style>
+        :root {
+            --bg-color: #ffffff;
+            --card-bg: #ffffff;
+            --text-color: #555555;
+            --heading-color: #1a1a1a;
+            --btn-bg: #1a1a1a;
+            --btn-text: #ffffff;
+        }
+        body {
+            margin: 0;
+            padding: 20px;
+            font-family: 'Lato', sans-serif;
+            background-color: var(--bg-color);
+            box-sizing: border-box;
+        }
+        .card {
+            background-color: var(--card-bg);
+            border: 1px solid #eee;
+            text-align: center;
+            padding: 30px 20px;
+            transition: transform 0.2s;
+        }
+        .card:hover {
+            transform: translateY(-5px);
+            box-shadow: 0 10px 20px rgba(0,0,0,0.05);
+        }
+        .icon {
+            font-size: 40px;
+            margin-bottom: 20px;
+            display: block;
+        }
+        .title {
+            font-family: 'Playfair Display', serif;
+            font-size: 20px;
+            margin-bottom: 15px;
+            color: var(--heading-color);
+        }
+        .description {
+            font-size: 14px;
+            line-height: 1.6;
+            color: var(--text-color);
+            margin-bottom: 25px;
+        }
+        .btn {
+            display: inline-block;
+            padding: 10px 25px;
+            background-color: var(--btn-bg);
+            color: var(--btn-text);
+            text-decoration: none;
+            font-size: 12px;
+            letter-spacing: 1px;
+            text-transform: uppercase;
+            font-weight: 700;
+            transition: opacity 0.2s;
+        }
+        .btn:hover {
+            opacity: 0.8;
+        }
+
+        /* Android/Mobile Responsivity */
+        @media (max-width: 600px) {
+            .card { padding: 20px 15px; }
+            .title { font-size: 18px; }
+        }
+    </style>
+</head>
+<body>
+    <div class="card">
+        <span class="icon" id="icon">🥗</span>
+        <div class="title" id="title">Healthy Eating</div>
+        <div class="description" id="description">Discover nutritious and delicious recipes that fit your lifestyle.</div>
+        <a href="#" class="btn" id="btn_text">Learn More</a>
+    </div>
+
+    <script>
+        window.addEventListener('DOMContentLoaded', () => {
+            const params = new URLSearchParams(window.location.search);
+            
+            // Colors
+            const root = document.documentElement;
+            if(params.has('bg_color')) root.style.setProperty('--bg-color', '#' + params.get('bg_color'));
+            if(params.has('card_bg')) root.style.setProperty('--card-bg', '#' + params.get('card_bg'));
+            if(params.has('text_color')) root.style.setProperty('--text-color', '#' + params.get('text_color'));
+            if(params.has('btn_bg')) root.style.setProperty('--btn-bg', '#' + params.get('btn_bg'));
+
+            // Content
+            if(params.has('icon')) document.getElementById('icon').innerHTML = params.get('icon');
+            if(params.has('title')) document.getElementById('title').textContent = params.get('title');
+            if(params.has('description')) document.getElementById('description').textContent = params.get('description');
+            
+            const btn = document.getElementById('btn_text');
+            if(params.has('btn_text')) btn.textContent = params.get('btn_text');
+            if(params.has('btn_href')) btn.href = params.get('btn_href');
+
+            const height = document.body.scrollHeight;
+            const frameId = params.get('frame_id');
+            if (frameId) window.parent.postMessage({ frameHeight: height, frameId: frameId }, '*');
+        });
+    </script>
+</body>
+</html>

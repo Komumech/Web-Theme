@@ -1,0 +1,106 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Recipe Newsletter</title>
+    <link href="https://fonts.googleapis.com/css2?family=Lato:wght@400;700&family=Playfair+Display:wght@700&display=swap" rel="stylesheet">
+    <style>
+        :root {
+            --bg-color: #f3f4f6;
+            --text-color: #333333;
+            --btn-bg: #1a1a1a;
+            --btn-text: #ffffff;
+        }
+        body {
+            margin: 0;
+            padding: 40px 20px;
+            font-family: 'Lato', sans-serif;
+            background-color: var(--bg-color);
+            text-align: center;
+            box-sizing: border-box;
+        }
+        .container {
+            max-width: 600px;
+            margin: 0 auto;
+        }
+        .heading {
+            font-family: 'Playfair Display', serif;
+            font-size: 24px;
+            margin-bottom: 10px;
+            color: var(--text-color);
+        }
+        .subheading {
+            font-size: 14px;
+            margin-bottom: 25px;
+            color: var(--text-color);
+            opacity: 0.8;
+        }
+        .form-group {
+            display: flex;
+            gap: 10px;
+        }
+        input[type="email"] {
+            flex: 1;
+            padding: 12px 15px;
+            border: 1px solid #ccc;
+            font-family: 'Lato', sans-serif;
+            font-size: 14px;
+        }
+        button {
+            padding: 12px 25px;
+            background-color: var(--btn-bg);
+            color: var(--btn-text);
+            border: none;
+            font-family: 'Lato', sans-serif;
+            font-weight: 700;
+            text-transform: uppercase;
+            font-size: 12px;
+            letter-spacing: 1px;
+            cursor: pointer;
+        }
+
+        /* Android/Mobile Responsivity */
+        @media (max-width: 600px) {
+            .form-group {
+                flex-direction: column;
+            }
+            button {
+                width: 100%;
+            }
+        }
+    </style>
+</head>
+<body>
+    <div class="container">
+        <div class="heading" id="heading">Join the Club</div>
+        <div class="subheading" id="subheading">Get the latest recipes sent straight to your inbox.</div>
+        <form class="form-group" onsubmit="event.preventDefault();">
+            <input type="email" id="placeholder" placeholder="Your email address" required>
+            <button type="submit" id="btn_text">Subscribe</button>
+        </form>
+    </div>
+
+    <script>
+        window.addEventListener('DOMContentLoaded', () => {
+            const params = new URLSearchParams(window.location.search);
+            
+            // Colors
+            const root = document.documentElement;
+            if(params.has('bg_color')) root.style.setProperty('--bg-color', '#' + params.get('bg_color'));
+            if(params.has('text_color')) root.style.setProperty('--text-color', '#' + params.get('text_color'));
+            if(params.has('btn_bg')) root.style.setProperty('--btn-bg', '#' + params.get('btn_bg'));
+
+            // Content
+            if(params.has('heading')) document.getElementById('heading').textContent = params.get('heading');
+            if(params.has('subheading')) document.getElementById('subheading').textContent = params.get('subheading');
+            if(params.has('placeholder')) document.getElementById('placeholder').placeholder = params.get('placeholder');
+            if(params.has('btn_text')) document.getElementById('btn_text').textContent = params.get('btn_text');
+
+            const height = document.body.scrollHeight;
+            const frameId = params.get('frame_id');
+            if (frameId) window.parent.postMessage({ frameHeight: height, frameId: frameId }, '*');
+        });
+    </script>
+</body>
+</html>

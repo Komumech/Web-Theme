@@ -1,0 +1,100 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Recipe Testimonial</title>
+    <link href="https://fonts.googleapis.com/css2?family=Lato:wght@400;700&family=Playfair+Display:ital,wght@1,400&display=swap" rel="stylesheet">
+    <style>
+        :root {
+            --bg-color: #ffffff;
+            --text-color: #333333;
+            --accent-color: #dbeafe;
+        }
+        body {
+            margin: 0;
+            padding: 40px 20px;
+            font-family: 'Lato', sans-serif;
+            background-color: var(--bg-color);
+            text-align: center;
+            box-sizing: border-box;
+        }
+        .container {
+            max-width: 800px;
+            margin: 0 auto;
+        }
+        .quote-icon {
+            font-size: 40px;
+            color: var(--accent-color);
+            line-height: 1;
+            margin-bottom: 20px;
+            display: block;
+        }
+        .quote {
+            font-family: 'Playfair Display', serif;
+            font-style: italic;
+            font-size: 22px;
+            line-height: 1.6;
+            color: var(--text-color);
+            margin-bottom: 30px;
+        }
+        .author-block {
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            gap: 15px;
+        }
+        .avatar {
+            width: 50px;
+            height: 50px;
+            border-radius: 50%;
+            object-fit: cover;
+        }
+        .author-info {
+            text-align: left;
+        }
+        .author-name {
+            font-weight: 700;
+            font-size: 14px;
+            text-transform: uppercase;
+            letter-spacing: 1px;
+        }
+        .author-role {
+            font-size: 12px;
+            color: #777;
+            margin-top: 2px;
+        }
+
+        /* Android/Mobile Responsivity */
+        @media (max-width: 600px) {
+            .quote { font-size: 18px; }
+        }
+    </style>
+</head>
+<body>
+    <div class="container">
+        <span class="quote-icon">“</span>
+        <div class="quote" id="quote">This is the best recipe I have ever tried!</div>
+        <div class="author-block">
+            <img src="" id="avatar" class="avatar" alt="Author">
+            <div class="author-info">
+                <div class="author-name" id="author">Jane Doe</div>
+                <div class="author-role" id="role">Food Blogger</div>
+            </div>
+        </div>
+    </div>
+
+    <script>
+        window.addEventListener('DOMContentLoaded', () => {
+            const params = new URLSearchParams(window.location.search);
+            
+            // Apply params
+            ['quote', 'author', 'role'].forEach(id => { if(params.has(id)) document.getElementById(id).textContent = params.get(id); });
+            if(params.has('avatar')) document.getElementById('avatar').src = params.get('avatar');
+            if(params.has('bg_color')) document.documentElement.style.setProperty('--bg-color', '#' + params.get('bg_color'));
+
+            if (params.get('frame_id')) window.parent.postMessage({ frameHeight: document.body.scrollHeight, frameId: params.get('frame_id') }, '*');
+        });
+    </script>
+</body>
+</html>
