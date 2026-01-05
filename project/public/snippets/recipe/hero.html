@@ -6,12 +6,19 @@
     <title>Recipe Hero</title>
     <link href="https://fonts.googleapis.com/css2?family=Lato:wght@400;700&family=Playfair+Display:wght@700&display=swap" rel="stylesheet">
     <style>
+        :root {
+            --bg-color: #ffffff;
+            --text-color: #333333;
+            --heading-color: #333333;
+            --accent-bg: #f3f4f6;
+            --icon-color: #555555;
+        }
         body {
             margin: 0;
             padding: 20px;
             font-family: 'Lato', sans-serif;
-            background-color: #ffffff;
-            color: #333;
+            background-color: var(--bg-color);
+            color: var(--text-color);
             box-sizing: border-box;
         }
         .container {
@@ -30,7 +37,7 @@
             text-transform: uppercase;
             margin-bottom: 20px;
             font-weight: 700;
-            color: #333;
+            color: var(--heading-color);
         }
         .recipe-grid {
             display: grid;
@@ -52,7 +59,7 @@
             letter-spacing: 1px;
             text-transform: uppercase;
             font-weight: 700;
-            color: #333;
+            color: var(--heading-color);
         }
 
         /* Sidebar */
@@ -66,6 +73,7 @@
             text-transform: uppercase;
             font-weight: 700;
             margin-bottom: 20px;
+            color: var(--heading-color);
         }
         .profile-img {
             width: 120px;
@@ -77,7 +85,7 @@
         .bio-text {
             font-size: 14px;
             line-height: 1.6;
-            color: #666;
+            color: var(--text-color);
             margin-bottom: 20px;
         }
         .social-icons {
@@ -85,10 +93,10 @@
             justify-content: center;
             gap: 15px;
             margin-bottom: 30px;
-            color: #555;
+            color: var(--icon-color);
         }
         .newsletter-box {
-            background-color: #f3f4f6; /* Light gray/blue tint */
+            background-color: var(--accent-bg); /* Light gray/blue tint */
             padding: 30px 20px;
             text-align: center;
         }
@@ -99,7 +107,7 @@
             font-weight: 700;
             text-transform: uppercase;
             line-height: 1.8;
-            color: #333;
+            color: var(--heading-color);
         }
         .heart-icon {
             color: #ef4444;
@@ -107,8 +115,13 @@
             vertical-align: middle;
         }
 
+        /* Android/Mobile Responsivity */
         @media (max-width: 768px) {
-            .container { grid-template-columns: 1fr; }
+            .container { 
+                grid-template-columns: 1fr; 
+                gap: 60px;
+            }
+            .recipe-grid { grid-template-columns: 1fr; }
         }
     </style>
 </head>
@@ -152,6 +165,14 @@
     <script>
         window.addEventListener('DOMContentLoaded', () => {
             const params = new URLSearchParams(window.location.search);
+            
+            // Apply Custom Colors
+            const root = document.documentElement;
+            if(params.has('bg_color')) root.style.setProperty('--bg-color', '#' + params.get('bg_color'));
+            if(params.has('text_color')) root.style.setProperty('--text-color', '#' + params.get('text_color'));
+            if(params.has('heading_color')) root.style.setProperty('--heading-color', '#' + params.get('heading_color'));
+            if(params.has('accent_bg')) root.style.setProperty('--accent-bg', '#' + params.get('accent_bg'));
+
             params.forEach((value, key) => {
                 const element = document.getElementById(key);
                 if (element) {
