@@ -20,6 +20,7 @@
             padding: 80px 40px 40px 40px;
             font-family: 'Manrope', sans-serif;
             background-color: var(--bg-color);
+            border-top: 1px solid rgba(255,255,255,0.05); /* Subtle change */
             color: var(--text-color);
             box-sizing: border-box;
         }
@@ -30,18 +31,14 @@
         
         /* CTA Section */
         .cta-section {
-            display: flex;
-            justify-content: space-between;
-            align-items: center;
+            text-align: center; /* Centered CTA */
             margin-bottom: 80px;
-            flex-wrap: wrap;
-            gap: 30px;
         }
         .cta-title {
             font-size: 56px;
             font-weight: 800;
             line-height: 1.1;
-            margin: 0;
+            margin: 0 0 30px 0; /* Space between title and button */
         }
         .btn {
             background-color: var(--accent-color);
@@ -65,7 +62,7 @@
         /* Bottom Section */
         .footer-grid {
             display: grid;
-            grid-template-columns: 2fr 1fr 1fr;
+            grid-template-columns: 1.5fr 1fr 1fr; /* Adjusted column balance */
             gap: 40px;
         }
         .brand-name {
@@ -102,7 +99,7 @@
 
         @media (max-width: 768px) {
             .cta-title { font-size: 40px; }
-            .footer-grid { grid-template-columns: 1fr; gap: 50px; }
+            .footer-grid { grid-template-columns: 1fr; gap: 50px; text-align: center; }
             body { padding: 60px 20px; }
         }
     </style>
@@ -110,7 +107,7 @@
 <body>
     <div class="container">
         <div class="cta-section">
-            <h2 class="cta-title" id="cta_title">Ready to Create Your<br>Email Funnel?</h2>
+            <h2 class="cta-title" id="cta_title">Have a project in mind?</h2>
             <a href="#" class="btn" id="cta_btn">Hire me!</a>
         </div>
         

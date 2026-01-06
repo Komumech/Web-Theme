@@ -1,0 +1,51 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Blond Alert</title>
+    <base target="_blank">
+    <link href="https://fonts.googleapis.com/css2?family=Manrope:wght@500;700&display=swap" rel="stylesheet">
+    <style>
+        :root {
+            --bg-color: #f9f9f9;
+            --text-color: #1a1a1a;
+            --accent-color: #1a1a1a;
+        }
+        body { margin: 0; padding: 10px; font-family: 'Manrope', sans-serif; overflow: hidden; }
+        .alert {
+            background-color: var(--bg-color);
+            color: var(--text-color);
+            padding: 16px 20px;
+            border-left: 5px solid var(--accent-color);
+            border-radius: 8px;
+            display: flex;
+            align-items: center;
+            gap: 15px;
+            font-size: 16px;
+            font-weight: 500;
+        }
+        .icon { font-size: 20px; color: var(--accent-color); }
+    </style>
+</head>
+<body>
+    <div class="alert">
+        <div class="icon" id="icon">!</div>
+        <div id="message">This is an alert.</div>
+    </div>
+    <script>
+        const params = new URLSearchParams(window.location.search);
+        if(params.get('message')) document.getElementById('message').textContent = params.get('message');
+        if(params.get('bg_color')) document.documentElement.style.setProperty('--bg-color', '#' + params.get('bg_color'));
+        if(params.get('text_color')) document.documentElement.style.setProperty('--text-color', '#' + params.get('text_color'));
+        if(params.get('accent_color')) document.documentElement.style.setProperty('--accent-color', '#' + params.get('accent_color'));
+
+        const type = params.get('type') || 'info';
+        const icons = { info: 'ℹ️', success: '✅', warning: '⚠️', error: '❌' };
+        document.getElementById('icon').textContent = icons[type];
+
+        const sendHeight = () => { if(params.get('frame_id')) window.parent.postMessage({frameId: params.get('frame_id'), frameHeight: document.body.scrollHeight}, '*'); }
+        window.addEventListener('load', sendHeight);
+    </script>
+</body>
+</html>

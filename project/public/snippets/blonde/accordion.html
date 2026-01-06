@@ -1,0 +1,100 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Blond Accordion</title>
+    <base target="_blank">
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Manrope:wght@500;700;800&display=swap" rel="stylesheet">
+    <style>
+        :root {
+            --bg-color: #ffffff;
+            --text-color: #1a1a1a;
+            --heading-color: #1a1a1a;
+            --border-color: #eeeeee;
+            --accent-color: #1a1a1a;
+        }
+        body {
+            margin: 0;
+            padding: 40px;
+            font-family: 'Manrope', sans-serif;
+            background-color: var(--bg-color);
+            color: var(--text-color);
+        }
+        .container { max-width: 800px; margin: 0 auto; }
+        .main-title { font-size: 42px; font-weight: 800; text-align: center; margin-bottom: 40px; color: var(--heading-color); }
+        .accordion-item { border-bottom: 1px solid var(--border-color); }
+        .accordion-header {
+            padding: 25px 0;
+            cursor: pointer;
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            font-weight: 700;
+            font-size: 18px;
+            color: var(--heading-color);
+        }
+        .accordion-header:hover { color: var(--accent-color); }
+        .icon { font-size: 24px; transition: transform 0.3s; font-weight: 500; }
+        .accordion-content {
+            max-height: 0;
+            overflow: hidden;
+            transition: max-height 0.4s ease-out;
+            font-size: 16px;
+            line-height: 1.6;
+            opacity: 0.8;
+        }
+        .accordion-content p { margin: 0 0 25px 0; }
+        .active .icon { transform: rotate(45deg); }
+    </style>
+</head>
+<body>
+    <div class="container">
+        <h2 class="main-title" id="title">Common Questions</h2>
+        <div id="accordion_list"></div>
+    </div>
+    <script>
+        function toggle(header) {
+            const item = header.parentElement;
+            item.classList.toggle('active');
+            const content = header.nextElementSibling;
+            if (item.classList.contains('active')) {
+                content.style.maxHeight = content.scrollHeight + "px";
+            } else {
+                content.style.maxHeight = null;
+            }
+            setTimeout(() => { if (window.frameId) window.parent.postMessage({ frameHeight: document.body.scrollHeight, frameId: window.frameId }, '*'); }, 400);
+        }
+
+        window.addEventListener('DOMContentLoaded', () => {
+            const params = new URLSearchParams(window.location.search);
+            window.frameId = params.get('frame_id');
+
+            if(params.has('bg_color')) document.documentElement.style.setProperty('--bg-color', '#' + params.get('bg_color'));
+            if(params.has('text_color')) document.documentElement.style.setProperty('--text-color', '#' + params.get('text_color'));
+            if(params.has('heading_color')) document.documentElement.style.setProperty('--heading-color', '#' + params.get('heading_color'));
+            if(params.has('accent_color')) document.documentElement.style.setProperty('--accent-color', '#' + params.get('accent_color'));
+
+            if(params.has('title')) document.getElementById('title').textContent = params.get('title');
+
+            const list = document.getElementById('accordion_list');
+            let i = 1;
+            while(params.has(`q${i}`)) {
+                const item = document.createElement('div');
+                item.className = 'accordion-item';
+                item.innerHTML = `
+                    <div class="accordion-header" onclick="toggle(this)">
+                        <span>${params.get(`q${i}`)}</span> <span class="icon">+</span>
+                    </div>
+                    <div class="accordion-content"><p>${params.get(`a${i}`)}</p></div>
+                `;
+                list.appendChild(item);
+                i++;
+            }
+            if (window.frameId) window.parent.postMessage({ frameHeight: document.body.scrollHeight, frameId: window.frameId }, '*');
+        });
+    </script>
+</body>
+</html>
