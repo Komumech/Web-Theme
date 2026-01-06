@@ -3,7 +3,7 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Blond Hero</title>
+    <title>Blond Hero - Integra Co-op Edition</title>
     <link rel="preconnect" href="https://fonts.googleapis.com">
     <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
     <link href="https://fonts.googleapis.com/css2?family=Manrope:wght@400;600;800&display=swap" rel="stylesheet">
@@ -12,8 +12,9 @@
             --bg-color: #ffffff;
             --text-color: #1a1a1a;
             --heading-color: #1a1a1a;
-            --icon-color: #1a1a1a;
+            --icon-color: #00c060; /* Financial green */
         }
+
         body {
             margin: 0;
             padding: 60px 40px;
@@ -21,8 +22,57 @@
             background-color: var(--bg-color);
             color: var(--text-color);
             box-sizing: border-box;
+            position: relative;
+            min-height: 100vh;
         }
+
+        /* --- Floating Background Elements --- */
+        .bg-elements {
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            z-index: 0;
+            overflow: hidden;
+            pointer-events: none;
+        }
+
+        .floating-shape {
+            position: absolute;
+            opacity: 0.08;
+            animation: float 15s infinite ease-in-out;
+            color: var(--icon-color);
+            user-select: none;
+        }
+
+        .shape-1 { top: 10%; left: 5%; font-size: 40px; animation-duration: 18s; }
+        .shape-2 { top: 70%; left: 8%; font-size: 60px; animation-duration: 22s; animation-delay: -2s; }
+        .shape-3 { top: 15%; right: 12%; font-size: 50px; animation-duration: 20s; animation-delay: -5s; }
+        .shape-4 { bottom: 10%; right: 5%; font-size: 80px; animation-duration: 25s; }
+        .shape-5 { top: 50%; left: 50%; font-size: 30px; animation-duration: 15s; opacity: 0.04; }
+
+        @keyframes float {
+            0%, 100% { transform: translateY(0) rotate(0deg); }
+            50% { transform: translateY(-40px) rotate(20deg); }
+        }
+
+        body::before {
+            content: "";
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            background: radial-gradient(circle at 85% 15%, rgba(0, 192, 96, 0.07) 0%, transparent 50%);
+            z-index: 0;
+            pointer-events: none;
+        }
+
+        /* --- Layout --- */
         .container {
+            position: relative;
+            z-index: 1;
             max-width: 1200px;
             margin: 0 auto;
             display: grid;
@@ -30,6 +80,7 @@
             gap: 60px;
             align-items: start;
         }
+
         .hero-title {
             font-size: 82px;
             line-height: 1.1;
@@ -37,15 +88,14 @@
             margin: 0;
             color: var(--heading-color);
             letter-spacing: -2px;
-            min-height: 180px; /* Prevent layout shift */
+            min-height: 180px;
         }
+
         .features-grid {
             display: grid;
             grid-template-columns: 1fr 1fr;
             gap: 40px;
             padding-top: 20px;
-            
-            /* Slide Up Animation */
             opacity: 0;
             transform: translateY(40px);
             animation: slideUp 1s cubic-bezier(0.25, 0.46, 0.45, 0.94) forwards;
@@ -53,10 +103,7 @@
         }
         
         @keyframes slideUp {
-            to {
-                opacity: 1;
-                transform: translateY(0);
-            }
+            to { opacity: 1; transform: translateY(0); }
         }
 
         .feature-icon {
@@ -71,12 +118,14 @@
             margin-bottom: 20px;
             color: var(--icon-color);
         }
+
         .feature h3 {
             font-size: 24px;
             font-weight: 800;
             margin: 0 0 15px 0;
             color: var(--heading-color);
         }
+
         .feature p {
             font-size: 16px;
             line-height: 1.6;
@@ -107,9 +156,18 @@
     </style>
 </head>
 <body>
+
+    <div class="bg-elements">
+        <div class="floating-shape shape-1">●</div>
+        <div class="floating-shape shape-2">📈</div>
+        <div class="floating-shape shape-3">◆</div>
+        <div class="floating-shape shape-4">💰</div>
+        <div class="floating-shape shape-5">✚</div>
+    </div>
+
     <div class="container">
         <h1 class="hero-title">
-            <span id="headline_static">Looking for help with your</span><br>
+            <span id="headline_static">Uplifting lives through</span><br>
             <span id="headline_dynamic"></span><span class="cursor" id="cursor"></span>
         </h1>
         
@@ -117,12 +175,12 @@
             <div class="feature">
                 <div class="feature-icon">?</div>
                 <h3 id="prob_title">The Problem</h3>
-                <p id="prob_desc">You know what compelling, human-like copy sounds like. But when it comes to writing it, that is a different topic altogether.</p>
+                <p id="prob_desc">Managing finances effectively is a challenge. Many struggle to cultivate wise savings habits or find access to fair credit facilities.</p>
             </div>
             <div class="feature">
                 <div class="feature-icon">♡</div>
                 <h3 id="sol_title">The Solution</h3>
-                <p id="sol_desc">This is where a content copywriter can come in handy. And this is why you are here.</p>
+                <p id="sol_desc">Integra Co-op provides the roadmap. From tailored savings plans to professional webinars, we empower you to grow.</p>
             </div>
         </div>
     </div>
@@ -131,11 +189,13 @@
         window.addEventListener('DOMContentLoaded', () => {
             const params = new URLSearchParams(window.location.search);
             
+            // Apply Dynamic Colors
             if(params.has('bg_color')) document.documentElement.style.setProperty('--bg-color', '#' + params.get('bg_color'));
             if(params.has('text_color')) document.documentElement.style.setProperty('--text-color', '#' + params.get('text_color'));
             if(params.has('heading_color')) document.documentElement.style.setProperty('--heading-color', '#' + params.get('heading_color'));
             if(params.has('icon_color')) document.documentElement.style.setProperty('--icon-color', '#' + params.get('icon_color'));
 
+            // Apply Content
             if(params.has('headline')) document.getElementById('headline_static').innerHTML = params.get('headline');
             if(params.has('prob_title')) document.getElementById('prob_title').textContent = params.get('prob_title');
             if(params.has('prob_desc')) document.getElementById('prob_desc').textContent = params.get('prob_desc');
@@ -143,49 +203,51 @@
             if(params.has('sol_desc')) document.getElementById('sol_desc').textContent = params.get('sol_desc');
 
             // Typing Effect Logic
-            const keywordsParam = params.get('keywords');
-            if (keywordsParam) {
-                const keywords = keywordsParam.split(',');
-                const dynamicText = document.getElementById('headline_dynamic');
-                const typeSpeed = parseInt(params.get('typing_speed')) || 150;
-                const deleteSpeed = parseInt(params.get('delete_speed')) || 100;
-                const pauseTime = parseInt(params.get('pause_time')) || 2000;
+            const keywordsParam = params.get('keywords') || "financial tools?,savings habits?,professional growth?,community support?";
+            const keywords = keywordsParam.split(',');
+            const dynamicText = document.getElementById('headline_dynamic');
+            const typeSpeed = parseInt(params.get('typing_speed')) || 100;
+            const deleteSpeed = parseInt(params.get('delete_speed')) || 60;
+            const pauseTime = parseInt(params.get('pause_time')) || 2500;
+            
+            let wordIndex = 0;
+            let charIndex = 0;
+            let isDeleting = false;
+
+            function type() {
+                const currentWord = keywords[wordIndex].trim();
                 
-                let wordIndex = 0;
-                let charIndex = 0;
-                let isDeleting = false;
-
-                function type() {
-                    const currentWord = keywords[wordIndex].trim();
-                    
-                    if (isDeleting) {
-                        dynamicText.textContent = currentWord.substring(0, charIndex - 1);
-                        charIndex--;
-                    } else {
-                        dynamicText.textContent = currentWord.substring(0, charIndex + 1);
-                        charIndex++;
-                    }
-
-                    let speed = isDeleting ? deleteSpeed : typeSpeed;
-
-                    if (!isDeleting && charIndex === currentWord.length) {
-                        speed = pauseTime;
-                        isDeleting = true;
-                    } else if (isDeleting && charIndex === 0) {
-                        isDeleting = false;
-                        wordIndex = (wordIndex + 1) % keywords.length;
-                        speed = 500;
-                    }
-                    setTimeout(type, speed);
+                if (isDeleting) {
+                    dynamicText.textContent = currentWord.substring(0, charIndex - 1);
+                    charIndex--;
+                } else {
+                    dynamicText.textContent = currentWord.substring(0, charIndex + 1);
+                    charIndex++;
                 }
-                type();
-            } else {
-                document.getElementById('cursor').style.display = 'none';
-            }
 
-            const height = document.body.scrollHeight;
-            const frameId = params.get('frame_id');
-            if (frameId) window.parent.postMessage({ frameHeight: height, frameId: frameId }, '*');
+                let speed = isDeleting ? deleteSpeed : typeSpeed;
+
+                if (!isDeleting && charIndex === currentWord.length) {
+                    speed = pauseTime;
+                    isDeleting = true;
+                } else if (isDeleting && charIndex === 0) {
+                    isDeleting = false;
+                    wordIndex = (wordIndex + 1) % keywords.length;
+                    speed = 500;
+                }
+                setTimeout(type, speed);
+            }
+            type();
+
+            // Notify parent of initial height
+            const postHeight = () => {
+                const height = document.body.scrollHeight;
+                const frameId = params.get('frame_id');
+                if (frameId) window.parent.postMessage({ frameHeight: height, frameId: frameId }, '*');
+            };
+            
+            postHeight();
+            window.addEventListener('resize', postHeight);
         });
     </script>
 </body>
