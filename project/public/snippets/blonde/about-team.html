@@ -43,17 +43,20 @@
         let i = 1;
         while(params.has(`member${i}_name`)) {
             const div = document.createElement('div');
-            div.className = 'member';
+            div.className = 'member-card';
             div.innerHTML = `
                 <div class="img-wrapper"><img src="${params.get(`member${i}_img`)}" alt="${params.get(`member${i}_name`)}"></div>
-                <h3>${params.get(`member${i}_name`)}</h3>
-                <p class="role">${params.get(`member${i}_role`)}</p>
+                <div class="info">
+                    <h3>${params.get(`member${i}_name`)}</h3>
+                    <p class="role">${params.get(`member${i}_role`)}</p>
+                </div>
             `;
             grid.appendChild(div);
             i++;
         }
         const sendHeight = () => { if(params.get('frame_id')) window.parent.postMessage({frameId: params.get('frame_id'), frameHeight: document.body.scrollHeight}, '*'); }
         window.addEventListener('load', sendHeight);
+        window.addEventListener('resize', sendHeight);
     </script>
 </body>
 </html>
