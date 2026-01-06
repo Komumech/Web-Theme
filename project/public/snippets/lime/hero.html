@@ -71,7 +71,8 @@
         .hand {
             position: absolute;
             bottom: -50px;
-            font-size: 150px;
+            width: 150px;
+            height: 150px;
             z-index: 1;
             filter: drop-shadow(5px 5px 0px rgba(0,0,0,0.2));
         }
@@ -101,8 +102,18 @@
         </div>
 
         <!-- Decorative Elements mimicking the hands -->
-        <div class="hand hand-left">✌️</div>
-        <div class="hand hand-right">👍</div>
+        <div class="hand hand-left">
+            <!-- Peace/Victory Hand Illustration -->
+            <svg viewBox="0 0 24 24" class="hand-svg">
+                <path d="M16 11l2-7a2 2 0 0 0-4 0l-2 7 M8 11l-2-7a2 2 0 0 0-4 0l2 7 M2 11h20v10a2 2 0 0 1-2 2H4a2 2 0 0 1-2-2V11z" stroke-linejoin="round" stroke-linecap="round"/>
+            </svg>
+        </div>
+        <div class="hand hand-right">
+            <!-- Thumbs Up Illustration -->
+            <svg viewBox="0 0 24 24" class="hand-svg">
+                <path d="M7 11V19 M7 11H4C3 11 2 12 2 13V17C2 18 3 19 4 19H7 M7 19H16.3C17.6 19 18.7 18.1 19 16.9L20.3 11.6C20.6 10.4 19.7 9.3 18.5 9.3H14L15.3 4.6C15.5 3.8 14.8 3 14 3H13C12.5 3 12 3.2 11.7 3.6L7 11Z" stroke-linejoin="round" stroke-linecap="round"/>
+            </svg>
+        </div>
     </div>
 
     <script>
@@ -117,6 +128,12 @@
         document.querySelectorAll('.highlight-box').forEach(el => {
             el.style.backgroundColor = accentColor;
             el.style.color = accentText;
+        });
+        
+        document.querySelectorAll('.hand-svg').forEach(el => {
+            el.style.fill = accentColor;
+            el.style.stroke = accentText;
+            el.style.strokeWidth = '1.5';
         });
 
         // Text Content
