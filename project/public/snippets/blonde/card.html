@@ -1,0 +1,58 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Blond Card</title>
+    <base target="_blank">
+    <link href="https://fonts.googleapis.com/css2?family=Manrope:wght@500;700;800&display=swap" rel="stylesheet">
+    <style>
+        :root {
+            --bg-color: #ffffff;
+            --card-bg: #ffffff;
+            --text-color: #1a1a1a;
+            --heading-color: #1a1a1a;
+            --btn-bg: #1a1a1a;
+            --btn-text: #ffffff;
+        }
+        body { margin: 0; padding: 20px; font-family: 'Manrope', sans-serif; background: var(--bg-color); }
+        .card { background: var(--card-bg); border-radius: 16px; overflow: hidden; box-shadow: 0 10px 30px rgba(0,0,0,0.05); max-width: 400px; margin: 0 auto; }
+        .img-wrapper { width: 100%; height: 200px; overflow: hidden; }
+        .img-wrapper img { width: 100%; height: 100%; object-fit: cover; transition: transform 0.3s; }
+        .card:hover .img-wrapper img { transform: scale(1.05); }
+        .content { padding: 30px; }
+        h3 { font-size: 22px; font-weight: 800; margin: 0 0 10px 0; color: var(--heading-color); }
+        p { font-size: 16px; line-height: 1.6; opacity: 0.8; margin: 0 0 20px 0; color: var(--text-color); }
+        .btn { display: inline-block; background: var(--btn-bg); color: var(--btn-text); padding: 12px 24px; border-radius: 50px; text-decoration: none; font-weight: 700; font-size: 14px; transition: opacity 0.2s; }
+        .btn:hover { opacity: 0.9; }
+    </style>
+</head>
+<body>
+    <div class="card">
+        <div class="img-wrapper"><img id="image" src="" alt="Card Image"></div>
+        <div class="content">
+            <h3 id="title">Card Title</h3>
+            <p id="description">Card description goes here.</p>
+            <a href="#" class="btn" id="btn">Read More</a>
+        </div>
+    </div>
+    <script>
+        const params = new URLSearchParams(window.location.search);
+        if(params.has('bg_color')) document.documentElement.style.setProperty('--bg-color', '#' + params.get('bg_color'));
+        if(params.has('card_bg')) document.documentElement.style.setProperty('--card-bg', '#' + params.get('card_bg'));
+        if(params.has('text_color')) document.documentElement.style.setProperty('--text-color', '#' + params.get('text_color'));
+        if(params.has('heading_color')) document.documentElement.style.setProperty('--heading-color', '#' + params.get('heading_color'));
+        if(params.has('btn_bg')) document.documentElement.style.setProperty('--btn-bg', '#' + params.get('btn_bg'));
+        if(params.has('btn_text')) document.documentElement.style.setProperty('--btn-text', '#' + params.get('btn_text'));
+
+        if(params.get('image')) document.getElementById('image').src = params.get('image');
+        if(params.get('title')) document.getElementById('title').textContent = params.get('title');
+        if(params.get('description')) document.getElementById('description').textContent = params.get('description');
+        if(params.get('cta_text')) document.getElementById('btn').textContent = params.get('cta_text');
+        if(params.get('cta_href')) document.getElementById('btn').href = params.get('cta_href');
+
+        const sendHeight = () => { if(params.get('frame_id')) window.parent.postMessage({frameId: params.get('frame_id'), frameHeight: document.body.scrollHeight}, '*'); }
+        window.addEventListener('load', sendHeight);
+    </script>
+</body>
+</html>

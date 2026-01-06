@@ -1,0 +1,39 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Blond Input</title>
+    <base target="_blank">
+    <link href="https://fonts.googleapis.com/css2?family=Manrope:wght@500;700;800&display=swap" rel="stylesheet">
+    <style>
+        :root {
+            --bg-color: #ffffff;
+            --text-color: #1a1a1a;
+            --accent-color: #1a1a1a;
+        }
+        body { margin: 0; padding: 20px; font-family: 'Manrope', sans-serif; background: var(--bg-color); display: flex; justify-content: center; }
+        .form-group { display: flex; gap: 10px; width: 100%; max-width: 500px; }
+        input { flex: 1; padding: 15px 20px; border: 2px solid #eee; border-radius: 50px; font-family: 'Manrope', sans-serif; font-size: 16px; outline: none; transition: border-color 0.2s; }
+        input:focus { border-color: var(--accent-color); }
+        button { padding: 15px 30px; background: var(--accent-color); color: white; border: none; border-radius: 50px; font-weight: 700; font-size: 16px; cursor: pointer; transition: opacity 0.2s; white-space: nowrap; }
+        button:hover { opacity: 0.9; }
+    </style>
+</head>
+<body>
+    <form class="form-group" onsubmit="event.preventDefault();">
+        <input type="text" id="input" placeholder="Enter text..." required>
+        <button type="submit" id="btn">Submit</button>
+    </form>
+    <script>
+        const params = new URLSearchParams(window.location.search);
+        if(params.has('bg_color')) document.documentElement.style.setProperty('--bg-color', '#' + params.get('bg_color'));
+        if(params.has('accent_color')) document.documentElement.style.setProperty('--accent-color', '#' + params.get('accent_color'));
+        if(params.get('placeholder')) document.getElementById('input').placeholder = params.get('placeholder');
+        if(params.get('submit_text')) document.getElementById('btn').textContent = params.get('submit_text');
+
+        const sendHeight = () => { if(params.get('frame_id')) window.parent.postMessage({frameId: params.get('frame_id'), frameHeight: document.body.scrollHeight}, '*'); }
+        window.addEventListener('load', sendHeight);
+    </script>
+</body>
+</html>

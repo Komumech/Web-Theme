@@ -1,0 +1,50 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Blond Features</title>
+    <base target="_blank">
+    <link href="https://fonts.googleapis.com/css2?family=Manrope:wght@500;700;800&display=swap" rel="stylesheet">
+    <style>
+        :root {
+            --bg-color: #ffffff;
+            --text-color: #1a1a1a;
+            --heading-color: #1a1a1a;
+            --accent-color: #00c060;
+        }
+        body { margin: 0; padding: 60px 20px; font-family: 'Manrope', sans-serif; background: var(--bg-color); color: var(--text-color); }
+        .grid { display: grid; grid-template-columns: repeat(auto-fit, minmax(250px, 1fr)); gap: 40px; max-width: 1200px; margin: 0 auto; }
+        .feature { text-align: left; }
+        .icon { width: 40px; height: 40px; background: var(--accent-color); border-radius: 50%; display: flex; align-items: center; justify-content: center; margin-bottom: 20px; color: white; font-size: 20px; }
+        h3 { font-size: 20px; font-weight: 800; margin: 0 0 10px 0; color: var(--heading-color); }
+        p { font-size: 16px; line-height: 1.6; opacity: 0.8; margin: 0; }
+    </style>
+</head>
+<body>
+    <div class="grid" id="grid"></div>
+    <script>
+        const params = new URLSearchParams(window.location.search);
+        if(params.has('bg_color')) document.documentElement.style.setProperty('--bg-color', '#' + params.get('bg_color'));
+        if(params.has('text_color')) document.documentElement.style.setProperty('--text-color', '#' + params.get('text_color'));
+        if(params.has('heading_color')) document.documentElement.style.setProperty('--heading-color', '#' + params.get('heading_color'));
+        if(params.has('accent_color')) document.documentElement.style.setProperty('--accent-color', '#' + params.get('accent_color'));
+
+        const grid = document.getElementById('grid');
+        let i = 1;
+        while(params.has(`title${i}`)) {
+            const div = document.createElement('div');
+            div.className = 'feature';
+            div.innerHTML = `
+                <div class="icon">${params.get(`icon${i}`) || '★'}</div>
+                <h3>${params.get(`title${i}`)}</h3>
+                <p>${params.get(`desc${i}`)}</p>
+            `;
+            grid.appendChild(div);
+            i++;
+        }
+        const sendHeight = () => { if(params.get('frame_id')) window.parent.postMessage({frameId: params.get('frame_id'), frameHeight: document.body.scrollHeight}, '*'); }
+        window.addEventListener('load', sendHeight);
+    </script>
+</body>
+</html>
