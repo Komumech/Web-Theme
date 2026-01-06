@@ -1,0 +1,147 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Testimonial Card</title>
+    <base target="_blank">
+    <style>
+        body { margin: 0; padding: 20px; font-family: sans-serif; overflow: hidden; box-sizing: border-box; }
+        .card {
+            background-color: #ffffff;
+            border-radius: 40px;
+            padding: 50px 30px;
+            text-align: center;
+            max-width: 400px;
+            margin: 0 auto;
+            box-shadow: 0 10px 30px rgba(0,0,0,0.05);
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+        }
+
+        .profile-img {
+            width: 150px;
+            height: 150px;
+            border-radius: 50%;
+            object-fit: cover;
+            margin-bottom: 25px;
+            background-color: #eee;
+        }
+
+        .name {
+            font-size: 42px;
+            font-weight: 500;
+            margin: 0 0 10px 0;
+            line-height: 1.1;
+        }
+
+        .tagline {
+            font-size: 18px;
+            margin: 0 0 30px 0;
+            opacity: 0.9;
+            font-weight: 400;
+        }
+
+        .numbers-grid {
+            display: flex;
+            flex-wrap: wrap;
+            justify-content: center;
+            gap: 10px;
+            margin-bottom: 35px;
+            max-width: 300px;
+        }
+
+        .number-bubble {
+            width: 45px;
+            height: 45px;
+            border-radius: 50%;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-weight: 700;
+            font-size: 16px;
+        }
+
+        .btn {
+            padding: 15px 40px;
+            border-radius: 50px;
+            text-decoration: none;
+            font-weight: 700;
+            font-size: 18px;
+            transition: transform 0.2s, opacity 0.2s;
+            display: inline-block;
+        }
+        .btn:hover { transform: scale(1.05); opacity: 0.9; }
+
+        @media (max-width: 480px) {
+            .name { font-size: 32px; }
+            .card { padding: 30px 20px; }
+        }
+    </style>
+</head>
+<body>
+    <div class="card" id="card">
+        <img src="" alt="Profile" class="profile-img" id="image">
+        <h2 class="name" id="name">Name</h2>
+        <p class="tagline" id="tagline">Tagline goes here</p>
+        
+        <div class="numbers-grid" id="numbers-container">
+            <!-- Numbers injected here -->
+        </div>
+
+        <a href="#" class="btn" id="btn">More info</a>
+    </div>
+
+    <script>
+        const params = new URLSearchParams(window.location.search);
+        
+        // Colors
+        const cardBg = params.get('card_bg') ? '#' + params.get('card_bg') : '#ffffff';
+        const textColor = params.get('text_color') ? '#' + params.get('text_color') : '#064e3b';
+        const accentColor = params.get('accent_color') ? '#' + params.get('accent_color') : '#064e3b'; // For numbers bg
+        const numberText = params.get('number_text_color') ? '#' + params.get('number_text_color') : '#ffffff';
+        const btnBg = params.get('btn_bg') ? '#' + params.get('btn_bg') : '#ffc0cb'; // Pink
+        const btnText = params.get('btn_text_color') ? '#' + params.get('btn_text_color') : '#3e2723';
+
+        const card = document.getElementById('card');
+        card.style.backgroundColor = cardBg;
+        card.style.color = textColor;
+
+        const btn = document.getElementById('btn');
+        btn.style.backgroundColor = btnBg;
+        btn.style.color = btnText;
+
+        // Content
+        document.getElementById('image').src = params.get('image') || 'https://images.unsplash.com/photo-1573496359142-b8d87734a5a2?auto=format&fit=crop&w=300&q=80';
+        document.getElementById('name').textContent = params.get('name') || 'Gloria';
+        document.getElementById('tagline').textContent = params.get('tagline') || 'Make your ambitions shine';
+        btn.textContent = params.get('btn_text') || 'More info';
+        btn.href = params.get('btn_href') || '#';
+
+        // Numbers Logic
+        const numbersStr = params.get('numbers') || '01,21,38,69,71,73,74';
+        const container = document.getElementById('numbers-container');
+        
+        if (numbersStr) {
+            numbersStr.split(',').forEach(num => {
+                const div = document.createElement('div');
+                div.className = 'number-bubble';
+                div.textContent = num.trim();
+                div.style.backgroundColor = accentColor;
+                div.style.color = numberText;
+                container.appendChild(div);
+            });
+        }
+
+        // Send height
+        function sendHeight() {
+            const height = document.body.scrollHeight;
+            const frameId = params.get('frame_id');
+            if(frameId) window.parent.postMessage({ frameHeight: height, frameId: frameId }, '*');
+        }
+        window.addEventListener('load', sendHeight);
+        window.addEventListener('resize', sendHeight);
+    </script>
+</body>
+</html>
