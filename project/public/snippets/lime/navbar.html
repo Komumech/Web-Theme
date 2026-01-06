@@ -25,8 +25,7 @@
             box-shadow: 0 10px 25px rgba(0,0,0,0.2);
             pointer-events: auto; /* Re-enable clicks */
             max-width: 92vw;
-            overflow-x: auto;
-            scrollbar-width: none; /* Firefox */
+            position: relative;
         }
         .home-btn {
             background: rgba(255,255,255,0.2);
@@ -60,9 +59,39 @@
         .nav-item:hover { background: rgba(255,255,255,0.1); }
         .nav-item.active { background: white; color: #ea4c3b; }
         .arrow { font-size: 10px; opacity: 0.8; }
+        .arrow.open { transform: rotate(180deg); }
 
-        /* Hide scrollbar for Chrome/Safari/Opera */
-        .nav-pill::-webkit-scrollbar { display: none; }
+        /* Dropdown Styles */
+        .nav-group { position: relative; display: flex; align-items: center; }
+        .dropdown-menu {
+            position: absolute;
+            bottom: 140%; /* Opens upwards */
+            left: 50%;
+            transform: translateX(-50%) translateY(10px);
+            background: white;
+            min-width: 160px;
+            border-radius: 12px;
+            padding: 8px;
+            box-shadow: 0 5px 20px rgba(0,0,0,0.15);
+            display: none;
+            flex-direction: column;
+            gap: 4px;
+            opacity: 0;
+            transition: opacity 0.2s, transform 0.2s;
+            pointer-events: auto;
+        }
+        .dropdown-menu.show { display: flex; opacity: 1; transform: translateX(-50%) translateY(0); }
+        .dropdown-link {
+            padding: 10px 16px;
+            color: #333;
+            text-decoration: none;
+            border-radius: 8px;
+            font-size: 14px;
+            font-weight: 600;
+            transition: background 0.2s;
+            white-space: nowrap;
+        }
+        .dropdown-link:hover { background: #f5f5f5; color: #ea4c3b; }
 
         @media (max-width: 600px) {
             .nav-item {
@@ -108,11 +137,26 @@
         links.forEach(key => {
             const text = params.get(key + '_text');
             const href = params.get(key + '_href') || '#';
+            const items = params.get(key + '_items'); // Format: Label|Url,Label|Url
+
             if (text) {
+                const group = document.createElement('div');
+                group.className = 'nav-group';
+
                 const a = document.createElement('a');
                 a.className = 'nav-item';
                 a.href = href;
                 
+                // Dropdown Logic
+                let arrowHtml = '';
+                if (items) {
+                    arrowHtml = ` <span class="arrow" id="arrow-${key}">▼</span>`;
+                    a.onclick = (e) => {
+                        e.preventDefault();
+                        toggleDropdown(key);
+                    };
+                }
+
                 // Check active state
                 if (text === activeItem) {
                     a.style.backgroundColor = textColor;
@@ -121,21 +165,70 @@
                     a.style.color = textColor;
                 }
 
-                a.innerHTML = `${text} <span class="arrow">▼</span>`;
-                navContainer.appendChild(a);
+                a.innerHTML = `${text}${arrowHtml}`;
+                group.appendChild(a);
+
+                // Build Dropdown Menu
+                if (items) {
+                    const dd = document.createElement('div');
+                    dd.className = 'dropdown-menu';
+                    dd.id = `dd-${key}`;
+                    
+                    items.split(',').forEach(item => {
+                        const [l, h] = item.split('|');
+                        const link = document.createElement('a');
+                        link.className = 'dropdown-link';
+                        link.textContent = l;
+                        link.href = h || '#';
+                        dd.appendChild(link);
+                    });
+                    group.appendChild(dd);
+                }
+
+                navContainer.appendChild(group);
+            }
+        });
+
+        function toggleDropdown(key) {
+            const dd = document.getElementById(`dd-${key}`);
+            const arrow = document.getElementById(`arrow-${key}`);
+            const isHidden = !dd.classList.contains('show');
+            
+            // Close all others
+            document.querySelectorAll('.dropdown-menu').forEach(el => el.classList.remove('show'));
+            document.querySelectorAll('.arrow').forEach(el => el.classList.remove('open'));
+
+            if (isHidden) {
+                dd.classList.add('show');
+                arrow.classList.add('open');
+                // Request more height for the iframe to show the dropdown
+                sendHeight(400); 
+            } else {
+                // Reset height
+                sendHeight();
+            }
+        }
+
+        // Close when clicking outside (simulated for iframe environment)
+        document.addEventListener('click', (e) => {
+            if (!e.target.closest('.nav-group')) {
+                document.querySelectorAll('.dropdown-menu').forEach(el => el.classList.remove('show'));
+                document.querySelectorAll('.arrow').forEach(el => el.classList.remove('open'));
+                sendHeight();
             }
         });
 
         // Send height to parent
-        function sendHeight() {
-            const height = document.body.scrollHeight;
+        function sendHeight(forceHeight) {
+            // Default to a reasonable pill height if closed, or forced height if open
+            const height = forceHeight || 100; 
             const frameId = params.get('frame_id');
             if(frameId) {
                 window.parent.postMessage({ frameHeight: height, frameId: frameId }, '*');
             }
         }
-        window.addEventListener('load', sendHeight);
-        window.addEventListener('resize', sendHeight);
+        window.addEventListener('load', () => sendHeight());
+        window.addEventListener('resize', () => sendHeight());
     </script>
 </body>
 </html>

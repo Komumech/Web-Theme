@@ -19,7 +19,6 @@
             max-width: 600px; /* Constrain width for the pill look */
             z-index: 1000;
             background: transparent;
-            pointer-events: none; /* Let clicks pass through the iframe area */
         }
     </style>
 </head>
@@ -46,14 +45,7 @@
             data-accent_text="3e2723"
         ></iframe>
 
-        <!-- Placeholder content to show scrolling -->
-        <div style="padding: 100px; text-align: center; color: #999;">
-            <h2>Content Area</h2>
-            <p>Scroll down to see the floating navbar.</p>
-        </div>
 
-        <!-- Bottom Navbar (Red Pill, from imge.png) -->
-        <!-- Note: This iframe has special CSS in the head to make it float -->
         <iframe 
             id="custom-nav"
             src=""
@@ -61,6 +53,7 @@
             data-frame-id="custom-nav"
             data-link1_text="Personal"
             data-link2_text="Business"
+            data-link2_items="Consulting|#,Finance|#,Marketing|#"
             data-link3_text="Company"
             data-bg_color="ea4c3b"
             data-text_color="ffffff"
@@ -78,8 +71,8 @@
                 if (iframe && iframe.id !== 'custom-nav') {
                     iframe.style.height = event.data.frameHeight + "px";
                 } else if (iframe && iframe.id === 'custom-nav') {
-                    // For the floating nav, we just need enough height to show the pill
-                    iframe.style.height = "100px"; 
+                    // Allow dynamic resizing for dropdowns
+                    iframe.style.height = event.data.frameHeight + "px"; 
                 }
             }
         });

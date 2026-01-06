@@ -76,9 +76,27 @@
             height: 150px;
             z-index: 1;
             filter: drop-shadow(5px 5px 0px rgba(0,0,0,0.2));
+            opacity: 0;
+            animation: handEntrance 1s cubic-bezier(0.175, 0.885, 0.32, 1.275) forwards;
+            animation-delay: 0.8s;
         }
-        .hand-left { left: 5%; transform: rotate(-10deg); }
-        .hand-right { right: 5%; transform: rotate(10deg); }
+        .hand-left { left: 5%; --rotation: -10deg; transform: rotate(var(--rotation)); }
+        .hand-right { right: 5%; --rotation: 10deg; transform: rotate(var(--rotation)); }
+
+        /* Animations */
+        @keyframes fadeInUp {
+            from { opacity: 0; transform: translateY(30px); }
+            to { opacity: 1; transform: translateY(0); }
+        }
+        @keyframes handEntrance {
+            from { opacity: 0; transform: translateY(100px) rotate(var(--rotation)); }
+            to { opacity: 1; transform: translateY(0) rotate(var(--rotation)); }
+        }
+
+        .hero-content > * { opacity: 0; animation: fadeInUp 0.8s ease-out forwards; }
+        .subheading { animation-delay: 0.2s; }
+        .headline { animation-delay: 0.4s; }
+        .description { animation-delay: 0.6s; }
 
         @media (max-width: 768px) {
             .hero-section { padding: 20px; min-height: auto; padding-bottom: 100px; }
