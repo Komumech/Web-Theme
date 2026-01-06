@@ -1,0 +1,95 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Blond Portfolio</title>
+    <base target="_blank">
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Manrope:wght@400;700;800&display=swap" rel="stylesheet">
+    <style>
+        :root {
+            --bg-color: #ffffff;
+            --text-color: #1a1a1a;
+        }
+        body {
+            margin: 0;
+            padding: 60px 40px;
+            font-family: 'Manrope', sans-serif;
+            background-color: var(--bg-color);
+            color: var(--text-color);
+            overflow: hidden;
+        }
+        .header {
+            max-width: 1200px;
+            margin: 0 auto 40px auto;
+        }
+        h2 { font-size: 42px; font-weight: 800; margin: 0; }
+        
+        .grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(350px, 1fr));
+            gap: 40px;
+            max-width: 1200px;
+            margin: 0 auto;
+        }
+        .item {
+            text-decoration: none;
+            color: inherit;
+            display: block;
+        }
+        .img-wrapper {
+            width: 100%;
+            aspect-ratio: 4/3;
+            overflow: hidden;
+            border-radius: 12px;
+            margin-bottom: 20px;
+        }
+        .img-wrapper img {
+            width: 100%;
+            height: 100%;
+            object-fit: cover;
+            transition: transform 0.4s ease;
+        }
+        .item:hover img { transform: scale(1.05); }
+        .title { font-size: 20px; font-weight: 700; margin: 0 0 5px 0; }
+        .category { font-size: 14px; opacity: 0.6; margin: 0; text-transform: uppercase; letter-spacing: 1px; }
+
+        @media (max-width: 600px) {
+            body { padding: 40px 20px; }
+            h2 { font-size: 32px; }
+        }
+    </style>
+</head>
+<body>
+    <div class="header"><h2 id="heading">Selected Work</h2></div>
+    <div class="grid" id="grid"></div>
+
+    <script>
+        const params = new URLSearchParams(window.location.search);
+        
+        if(params.has('bg_color')) document.documentElement.style.setProperty('--bg-color', '#' + params.get('bg_color'));
+        if(params.has('text_color')) document.documentElement.style.setProperty('--text-color', '#' + params.get('text_color'));
+        if(params.has('heading')) document.getElementById('heading').textContent = params.get('heading');
+
+        const grid = document.getElementById('grid');
+        let i = 1;
+        while(params.has(`item${i}_img`)) {
+            const a = document.createElement('a');
+            a.className = 'item';
+            a.href = params.get(`item${i}_href`) || '#';
+            a.innerHTML = `
+                <div class="img-wrapper"><img src="${params.get(`item${i}_img`)}" alt="Work"></div>
+                <h3 class="title">${params.get(`item${i}_title`)}</h3>
+                <p class="category">${params.get(`item${i}_cat`)}</p>
+            `;
+            grid.appendChild(a);
+            i++;
+        }
+
+        const sendHeight = () => { if(params.get('frame_id')) window.parent.postMessage({frameId: params.get('frame_id'), frameHeight: document.body.scrollHeight}, '*'); }
+        window.addEventListener('load', sendHeight);
+    </script>
+</body>
+</html>

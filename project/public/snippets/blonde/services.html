@@ -1,0 +1,93 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Blond Services</title>
+    <base target="_blank">
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Manrope:wght@400;500;700;800&display=swap" rel="stylesheet">
+    <style>
+        :root {
+            --bg-color: #ffffff;
+            --card-bg: #f9f9f9;
+            --text-color: #1a1a1a;
+            --heading-color: #1a1a1a;
+        }
+        body {
+            margin: 0;
+            padding: 60px 40px;
+            font-family: 'Manrope', sans-serif;
+            background-color: var(--bg-color);
+            color: var(--text-color);
+            overflow: hidden;
+        }
+        .grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(300px, 1fr));
+            gap: 30px;
+            max-width: 1200px;
+            margin: 0 auto;
+        }
+        .card {
+            background-color: var(--card-bg);
+            padding: 40px;
+            border-radius: 12px;
+            transition: transform 0.2s;
+        }
+        .card:hover { transform: translateY(-5px); }
+        .number {
+            font-size: 14px;
+            font-weight: 800;
+            opacity: 0.3;
+            margin-bottom: 20px;
+            display: block;
+        }
+        h3 {
+            font-size: 24px;
+            font-weight: 800;
+            margin: 0 0 15px 0;
+            color: var(--heading-color);
+        }
+        p {
+            font-size: 16px;
+            line-height: 1.6;
+            margin: 0;
+            opacity: 0.8;
+        }
+        @media (max-width: 600px) {
+            body { padding: 40px 20px; }
+        }
+    </style>
+</head>
+<body>
+    <div class="grid" id="grid"></div>
+
+    <script>
+        const params = new URLSearchParams(window.location.search);
+        
+        if(params.has('bg_color')) document.documentElement.style.setProperty('--bg-color', '#' + params.get('bg_color'));
+        if(params.has('card_bg')) document.documentElement.style.setProperty('--card-bg', '#' + params.get('card_bg'));
+        if(params.has('text_color')) document.documentElement.style.setProperty('--text-color', '#' + params.get('text_color'));
+        if(params.has('heading_color')) document.documentElement.style.setProperty('--heading-color', '#' + params.get('heading_color'));
+
+        const grid = document.getElementById('grid');
+        let i = 1;
+        while(params.has(`title${i}`)) {
+            const div = document.createElement('div');
+            div.className = 'card';
+            div.innerHTML = `
+                <span class="number">0${i}</span>
+                <h3>${params.get(`title${i}`)}</h3>
+                <p>${params.get(`desc${i}`)}</p>
+            `;
+            grid.appendChild(div);
+            i++;
+        }
+
+        const sendHeight = () => { if(params.get('frame_id')) window.parent.postMessage({frameId: params.get('frame_id'), frameHeight: document.body.scrollHeight}, '*'); }
+        window.addEventListener('load', sendHeight);
+    </script>
+</body>
+</html>
