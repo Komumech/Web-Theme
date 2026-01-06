@@ -76,22 +76,29 @@
 <body>
     <div class="card" id="card">
         <div class="illustration">
-            <svg viewBox="0 0 200 220" id="icon-svg">
-                <!-- Hole -->
-                <ellipse cx="100" cy="205" rx="60" ry="15" fill="#000000" opacity="0.5"/>
-                
-                <!-- Pointing Hand (Default) -->
-                <g id="icon-point" style="display:none;">
-                    <path d="M70 200 L 80 140 L 60 120 L 70 100 L 90 120 L 90 60 C 90 50 110 50 110 60 L 110 120 L 130 120 L 130 140 L 140 200 Z" fill="#ffffff" stroke="#000" stroke-width="3" stroke-linejoin="round"/>
-                    <path d="M70 120 Q 80 130 90 120" fill="none" stroke="#000" stroke-width="3"/> <!-- Knuckle -->
-                    <path d="M110 120 Q 120 130 130 120" fill="none" stroke="#000" stroke-width="3"/> <!-- Knuckle -->
-                </g>
+<svg viewBox="0 0 200 220" id="icon-svg">
+    <ellipse cx="100" cy="205" rx="60" ry="15" fill="#000000" opacity="0.3"/>
+    
+    <g id="icon-point" style="display:none;">
+        <path d="M70 200 L 80 140 L 60 120 L 70 100 L 90 120 L 90 60 C 90 50 110 50 110 60 L 110 120 L 130 120 L 130 140 L 140 200 Z" fill="white" stroke="black" stroke-width="3"/>
+    </g>
 
-                <!-- Waving Hand -->
-                <g id="icon-wave" style="display:none;">
-                    <path d="M60 200 L 70 150 L 50 130 C 40 120 50 110 60 120 L 80 140 L 75 90 C 75 80 90 80 90 90 L 95 130 L 100 70 C 100 60 115 60 115 70 L 115 130 L 125 80 C 125 70 140 70 140 80 L 135 150 L 150 200 Z" fill="#ffffff" stroke="#000" stroke-width="3" stroke-linejoin="round"/>
-                </g>
-            </svg>
+    <g id="icon-wave" style="display:none;">
+        <path d="M60 200 L 70 150 L 50 130 C 40 120 50 110 60 120 L 80 140 L 75 90 C 75 80 90 80 90 90 L 95 130 L 100 70 C 100 60 115 60 115 70 L 115 130 L 125 80 C 125 70 140 70 140 80 L 135 150 L 150 200 Z" fill="white" stroke="black" stroke-width="3"/>
+    </g>
+
+    <g id="icon-handshake" style="display:none;">
+        <path d="M30 140 Q 50 110 80 130 L 100 150 L 120 130 Q 150 110 170 140 L 150 180 L 50 180 Z" fill="white" stroke="black" stroke-width="3"/>
+        <path d="M80 130 C 90 120 110 120 120 130 M90 140 C 95 135 105 135 110 140" fill="none" stroke="black" stroke-width="2"/>
+        <path d="M85 155 L 115 155 M88 165 L 112 165" fill="none" stroke="black" stroke-width="2" stroke-linecap="round"/>
+    </g>
+
+    <g id="icon-coin" style="display:none;">
+        <ellipse cx="100" cy="110" rx="60" ry="70" fill="#FFD700" stroke="black" stroke-width="4" transform="rotate(15 100 110)"/>
+        <ellipse cx="100" cy="110" rx="40" ry="50" fill="none" stroke="black" stroke-width="2" stroke-dasharray="4 2" transform="rotate(15 100 110)"/>
+        <text x="90" y="130" font-family="Arial" font-size="60" font-weight="900" transform="rotate(15 100 110)" fill="black">$</text>
+    </g>
+</svg>
         </div>
         
         <h2 class="heading" id="heading">STAY UP TO DATE</h2>
@@ -122,10 +129,23 @@
         btn.textContent = params.get('cta_text') || 'Click Here';
         btn.href = params.get('cta_href') || '#';
 
-        // Icon Selection
-        const iconType = params.get('icon') || 'point';
-        document.getElementById(iconType === 'wave' ? 'icon-wave' : 'icon-point').style.display = 'block';
+// Inside your script
+const iconType = params.get('icon') || 'point';
+const activeIcon = document.getElementById('icon-' + iconType);
 
+if (activeIcon) {
+    activeIcon.style.display = 'block';
+    
+    // Optional: If you want the icon fill to match an 'accent_color' parameter
+    if (params.has('accent_color')) {
+        const paths = activeIcon.querySelectorAll('path, ellipse');
+        paths.forEach(p => {
+            if (p.getAttribute('fill') !== 'none' && p.getAttribute('fill') !== 'black') {
+                p.setAttribute('fill', '#' + params.get('accent_color'));
+            }
+        });
+    }
+}
         // Send height
         function sendHeight() {
             const height = document.body.scrollHeight;
