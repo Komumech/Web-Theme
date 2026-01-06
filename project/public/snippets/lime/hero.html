@@ -93,21 +93,29 @@
             from { opacity: 0; transform: translateY(100px) rotate(var(--rotation)); }
             to { opacity: 1; transform: translateY(0) rotate(var(--rotation)); }
         }
-        @keyframes collideSlanted {
+        @keyframes pressRelease {
             0% {
                 opacity: 0;
-                transform: translateY(80px) rotate(calc(var(--rotation) - 15deg));
+                margin-top: -50px;
+                margin-bottom: -50px;
+                transform: scale(1.2, 0.3) rotate(0deg);
             }
-            60% {
+            40% {
                 opacity: 1;
-                transform: translateY(-15px) scale(1.1, 0.85) rotate(var(--rotation));
+                margin-top: -20px;
+                margin-bottom: -20px;
+                transform: scale(1.1, 0.7) rotate(calc(var(--rotation) * 0.5));
             }
-            80% {
-                transform: translateY(5px) scale(0.95, 1.05) rotate(var(--rotation));
+            70% {
+                margin-top: 15px;
+                margin-bottom: 15px;
+                transform: scale(0.95, 1.1) rotate(var(--rotation));
             }
             100% {
                 opacity: 1;
-                transform: translateY(0) scale(1, 1) rotate(var(--rotation));
+                margin-top: 5px;
+                margin-bottom: 5px;
+                transform: scale(1, 1) rotate(var(--rotation));
             }
         }
 
@@ -115,7 +123,7 @@
         .subheading { animation-delay: 0.2s; }
         .headline { opacity: 1; }
         #hl-top { opacity: 0; animation: fadeInUp 0.8s ease-out forwards 0.4s; }
-        .highlight-box { opacity: 0; animation: collideSlanted 0.9s cubic-bezier(0.2, 0.8, 0.2, 1) forwards; }
+        .highlight-box { opacity: 0; animation: pressRelease 1.5s cubic-bezier(0.19, 1, 0.22, 1) forwards; }
         #hl-mid { animation-delay: 0.6s; }
         #hl-bot { animation-delay: 0.8s; }
         .description { animation-delay: 0.6s; }
