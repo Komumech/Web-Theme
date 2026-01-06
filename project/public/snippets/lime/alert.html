@@ -1,0 +1,42 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Lime Alert</title>
+    <base target="_blank">
+    <style>
+        body { margin: 0; padding: 10px; font-family: sans-serif; overflow: hidden; }
+        .alert {
+            background-color: #ffc0cb;
+            color: #064e3b;
+            padding: 15px 25px;
+            border-radius: 15px;
+            font-weight: 600;
+            display: flex;
+            align-items: center;
+            gap: 15px;
+            border: 2px solid #064e3b;
+        }
+        .icon { font-size: 20px; }
+    </style>
+</head>
+<body>
+    <div class="alert" id="alert">
+        <span class="icon">ⓘ</span>
+        <span id="msg">Message</span>
+    </div>
+    <script>
+        const params = new URLSearchParams(window.location.search);
+        if(params.get('message')) document.getElementById('msg').textContent = params.get('message');
+        
+        const alert = document.getElementById('alert');
+        if(params.get('bg_color')) alert.style.backgroundColor = '#' + params.get('bg_color');
+        if(params.get('text_color')) alert.style.color = '#' + params.get('text_color');
+        if(params.get('border_color')) alert.style.borderColor = '#' + params.get('border_color');
+
+        const sendHeight = () => { if(params.get('frame_id')) window.parent.postMessage({frameId: params.get('frame_id'), frameHeight: document.body.scrollHeight}, '*'); }
+        window.addEventListener('load', sendHeight);
+    </script>
+</body>
+</html>

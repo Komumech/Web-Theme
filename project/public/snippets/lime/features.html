@@ -1,0 +1,90 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Lime Features</title>
+    <base target="_blank">
+    <style>
+        body { margin: 0; padding: 40px 20px; font-family: sans-serif; overflow: hidden; box-sizing: border-box; }
+        .grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(280px, 1fr));
+            gap: 30px;
+            max-width: 1200px;
+            margin: 0 auto;
+        }
+        .feature-card {
+            background-color: #ffffff;
+            border-radius: 30px;
+            padding: 40px;
+            transition: transform 0.2s;
+            border: 2px solid transparent;
+        }
+        .feature-card:hover { transform: translateY(-5px); border-color: #ffc0cb; }
+        
+        .icon-box {
+            width: 60px;
+            height: 60px;
+            background-color: #064e3b;
+            border-radius: 50%;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            margin-bottom: 25px;
+            font-size: 24px;
+            color: #ffc0cb;
+        }
+        
+        h3 {
+            font-size: 24px;
+            font-weight: 700;
+            margin: 0 0 15px 0;
+            color: #064e3b;
+        }
+        
+        p {
+            font-size: 16px;
+            line-height: 1.6;
+            color: #064e3b;
+            opacity: 0.8;
+            margin: 0;
+        }
+    </style>
+</head>
+<body>
+    <div class="grid" id="grid"></div>
+
+    <script>
+        const params = new URLSearchParams(window.location.search);
+        
+        // Colors
+        const bgColor = params.get('bg_color') ? '#' + params.get('bg_color') : 'transparent';
+        const cardBg = params.get('card_bg') ? '#' + params.get('card_bg') : '#ffffff';
+        const textColor = params.get('text_color') ? '#' + params.get('text_color') : '#064e3b';
+        const accentColor = params.get('accent_color') ? '#' + params.get('accent_color') : '#064e3b';
+        const iconColor = params.get('icon_color') ? '#' + params.get('icon_color') : '#ffc0cb';
+
+        document.body.style.backgroundColor = bgColor;
+
+        const grid = document.getElementById('grid');
+        let i = 1;
+        while(params.has(`title${i}`)) {
+            const div = document.createElement('div');
+            div.className = 'feature-card';
+            div.style.backgroundColor = cardBg;
+            div.innerHTML = `
+                <div class="icon-box" style="background-color: ${accentColor}; color: ${iconColor}">${params.get(`icon${i}`) || '★'}</div>
+                <h3 style="color: ${textColor}">${params.get(`title${i}`)}</h3>
+                <p style="color: ${textColor}">${params.get(`desc${i}`)}</p>
+            `;
+            grid.appendChild(div);
+            i++;
+        }
+
+        const sendHeight = () => { if(params.get('frame_id')) window.parent.postMessage({frameId: params.get('frame_id'), frameHeight: document.body.scrollHeight}, '*'); }
+        window.addEventListener('load', sendHeight);
+        window.addEventListener('resize', sendHeight);
+    </script>
+</body>
+</html>

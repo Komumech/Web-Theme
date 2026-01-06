@@ -1,0 +1,38 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Lime Button</title>
+    <base target="_blank">
+    <style>
+        body { margin: 0; padding: 10px; font-family: sans-serif; display: flex; justify-content: center; }
+        .btn {
+            display: inline-block; padding: 15px 35px; border-radius: 50px;
+            text-decoration: none; font-weight: 700; font-size: 16px;
+            background: #064e3b; color: white; transition: transform 0.2s;
+            border: 2px solid #064e3b;
+        }
+        .btn:hover { transform: scale(1.05); }
+        .btn.outline { background: transparent; color: #064e3b; }
+    </style>
+</head>
+<body>
+    <a href="#" class="btn" id="btn">Click Me</a>
+    <script>
+        const params = new URLSearchParams(window.location.search);
+        const btn = document.getElementById('btn');
+        if(params.get('text')) btn.textContent = params.get('text');
+        if(params.get('href')) btn.href = params.get('href');
+        if(params.get('type') === 'outline') btn.classList.add('outline');
+        
+        if(params.get('accent_color')) {
+            btn.style.borderColor = '#' + params.get('accent_color');
+            if(params.get('type') !== 'outline') btn.style.backgroundColor = '#' + params.get('accent_color');
+            else btn.style.color = '#' + params.get('accent_color');
+        }
+        const sendHeight = () => { if(params.get('frame_id')) window.parent.postMessage({frameId: params.get('frame_id'), frameHeight: document.body.scrollHeight}, '*'); }
+        window.addEventListener('load', sendHeight);
+    </script>
+</body>
+</html>

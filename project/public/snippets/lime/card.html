@@ -1,0 +1,46 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Lime Card</title>
+    <base target="_blank">
+    <style>
+        body { margin: 0; padding: 20px; font-family: sans-serif; overflow: hidden; box-sizing: border-box; }
+        .card {
+            background: #ffffff; border-radius: 30px; overflow: hidden;
+            box-shadow: 0 10px 30px rgba(0,0,0,0.05); max-width: 400px; margin: 0 auto;
+        }
+        .img-box { width: 100%; height: 220px; background: #eee; }
+        .img-box img { width: 100%; height: 100%; object-fit: cover; }
+        .content { padding: 30px; text-align: center; }
+        h3 { margin: 0 0 10px 0; color: #064e3b; font-size: 24px; font-weight: 700; }
+        p { margin: 0 0 25px 0; color: #064e3b; opacity: 0.8; line-height: 1.5; }
+        .btn {
+            display: inline-block; padding: 12px 30px; border-radius: 50px;
+            background: #ffc0cb; color: #064e3b; text-decoration: none; font-weight: 700;
+        }
+    </style>
+</head>
+<body>
+    <div class="card">
+        <div class="img-box"><img id="img" src="" alt="Card Image"></div>
+        <div class="content">
+            <h3 id="title">Title</h3>
+            <p id="desc">Description goes here.</p>
+            <a href="#" class="btn" id="btn">Read More</a>
+        </div>
+    </div>
+    <script>
+        const params = new URLSearchParams(window.location.search);
+        if(params.get('image')) document.getElementById('img').src = params.get('image');
+        if(params.get('title')) document.getElementById('title').textContent = params.get('title');
+        if(params.get('description')) document.getElementById('desc').textContent = params.get('description');
+        if(params.get('cta_text')) document.getElementById('btn').textContent = params.get('cta_text');
+        if(params.get('cta_href')) document.getElementById('btn').href = params.get('cta_href');
+        
+        const sendHeight = () => { if(params.get('frame_id')) window.parent.postMessage({frameId: params.get('frame_id'), frameHeight: document.body.scrollHeight}, '*'); }
+        window.addEventListener('load', sendHeight);
+    </script>
+</body>
+</html>

@@ -16,6 +16,7 @@
             left: 50%;
             transform: translateX(-50%);
             width: 100%;
+            max-width: 90vw; /* Allow more width for dropdowns */
             z-index: 1000;
             background: transparent;
         }
@@ -48,7 +49,7 @@
         <iframe 
             id="custom-feature"
             src=""
-            data-base-url="./project/public/snippets/lime/feature-card.html"
+            data-base-url="https://komutheme2.vercel.app/project/public/snippets/lime/feature-card.html"
             data-frame-id="custom-feature"
             data-heading="A worry-free purchase"
             data-description="Total transparency, the right information to understand everything and training to feel ready to officiate."
@@ -56,7 +57,56 @@
             data-text_color="064e3b"
         ></iframe>
 
-        <!-- Testimonial/Profile Card (From ime.png) -->
+        <!-- CTA Cards Section (Side by Side simulation) -->
+        <div style="display: flex; flex-wrap: wrap; gap: 20px; max-width: 1000px; margin: 40px auto;">
+            <!-- Card 1: Pointing Hand -->
+            <iframe 
+                id="cta-1"
+                src=""
+                style="flex: 1; min-width: 300px;"
+                data-base-url="https://komutheme2.vercel.app/project/public/snippets/lime/cta-card.html"
+                data-frame-id="cta-1"
+                data-heading="STAY UP TO DATE"
+                data-description="Every month, our best tips and the dates of upcoming events."
+                data-cta_text="Subscribe to the newsletter"
+                data-icon="point"
+                data-bg_color="064e3b"
+                data-text_color="ffffff"
+                data-btn_bg="ffc0cb"
+                data-btn_text_color="000000"
+            ></iframe>
+
+            <!-- Card 2: Waving Hand -->
+            <iframe 
+                id="cta-2"
+                src=""
+                style="flex: 1; min-width: 300px;"
+                data-base-url="https://komutheme2.vercel.app/project/public/snippets/lime/cta-card.html"
+                data-frame-id="cta-2"
+                data-heading="AND YOUR PROJECT?"
+                data-description="We are available to discuss your wishes and ambitions."
+                data-cta_text="Speak with an advisor"
+                data-icon="wave"
+                data-bg_color="064e3b"
+                data-text_color="ffffff"
+                data-btn_bg="ffc0cb"
+                data-btn_text_color="000000"
+            ></iframe>
+        </div>
+
+        <iframe 
+            id="custom-nav"
+            src=""
+            data-base-url="https://komutheme2.vercel.app/project/public/snippets/lime/navbar.html"
+            data-frame-id="custom-nav"
+            data-link1_text="Personal"
+            data-link2_text="Business"
+            data-link2_items="Consulting|#,Finance|#,Marketing|#"
+            data-link3_text="Company"
+            data-bg_color="ea4c3b"
+            data-text_color="ffffff"
+            data-active_item="Personal"
+        ></iframe>
         <iframe 
             id="custom-testimonial"
             src=""
@@ -72,20 +122,89 @@
             data-accent_color="064e3b"
             data-btn_bg="ffc0cb"
         ></iframe>
+        <!-- Footer (From iml.png) -->
+        <iframe 
+            id="custom-footer"
+            src=""
+            data-base-url="https://komutheme2.vercel.app/project/public/snippets/lime/footer.html"
+            data-frame-id="custom-footer"
+            data-brand="PHAMILY"
+            data-nav_links="About|#,Concept|#,Buy|#,Sell|#,Resources|#,Contact|#"
+            data-bg_color="fffbf0"
+            data-text_color="064e3b"
+        ></iframe>
+
+        <!-- NEW SNIPPETS SECTION -->
+        <div style="padding: 50px 20px; text-align: center; color: #064e3b;">
+            <h2>--- New Lime Snippets ---</h2>
         </div>
 
-        <iframe 
-            id="custom-nav"
-            src=""
-            data-base-url="https://komutheme2.vercel.app/project/public/snippets/lime/navbar.html"
-            data-frame-id="custom-nav"
-            data-link1_text="Personal"
-            data-link2_text="Business"
-            data-link2_items="Consulting|#,Finance|#,Marketing|#"
-            data-link3_text="Company"
-            data-bg_color="ea4c3b"
-            data-text_color="ffffff"
-            data-active_item="Personal"
+        <!-- Features Grid -->
+        <iframe id="lime-features" src="" data-base-url="https://komutheme2.vercel.app/project/public/snippets/lime/features.html" data-frame-id="lime-features"
+            data-title1="Fast" data-desc1="Optimized for speed." data-icon1="⚡"
+            data-title2="Secure" data-desc2="Bank-grade security." data-icon2="🔒"
+            data-title3="Scalable" data-desc3="Grows with you." data-icon3="📈"
+            data-accent_color="064e3b" data-icon_color="ffc0cb"
+        ></iframe>
+
+        <!-- Pricing Cards -->
+        <div style="display: flex; gap: 20px; justify-content: center; flex-wrap: wrap;">
+            <iframe id="lime-price-1" src="" style="flex: 1; min-width: 300px;" data-base-url="https://komutheme2.vercel.app/project/public/snippets/lime/pricing-card.html" data-frame-id="lime-price-1"
+                data-plan="Basic" data-price="Free" data-features="Feature A, Feature B" data-cta_text="Start Free"
+            ></iframe>
+            <iframe id="lime-price-2" src="" style="flex: 1; min-width: 300px;" data-base-url="https://komutheme2.vercel.app/project/public/snippets/lime/pricing-card.html" data-frame-id="lime-price-2"
+                data-plan="Pro" data-price="$29" data-features="Everything in Basic, Feature C, Feature D" data-cta_text="Get Pro" data-highlight="true"
+            ></iframe>
+        </div>
+
+        <!-- Team -->
+        <iframe id="lime-team" src="" data-base-url="https://komutheme2.vercel.app/project/public/snippets/lime/about-team.html" data-frame-id="lime-team"
+            data-member1_name="Alex" data-member1_role="CEO" data-member1_img="https://images.unsplash.com/photo-1507003211169-0a1dd7228f2d?auto=format&fit=crop&w=300&q=80"
+            data-member2_name="Sarah" data-member2_role="CTO" data-member2_img="https://images.unsplash.com/photo-1494790108377-be9c29b29330?auto=format&fit=crop&w=300&q=80"
+            data-member3_name="Mike" data-member3_role="Design" data-member3_img="https://images.unsplash.com/photo-1500648767791-00dcc994a43e?auto=format&fit=crop&w=300&q=80"
+        ></iframe>
+
+        <!-- Image Section -->
+        <iframe id="lime-image" src="" data-base-url="https://komutheme2.vercel.app/project/public/snippets/lime/image-section.html" data-frame-id="lime-image"
+            data-bg_image="https://images.unsplash.com/photo-1518531933037-91b2f5f229cc?auto=format&fit=crop&w=1200&q=80"
+            data-heading="Nature's Best" data-subheading="Fresh from the source."
+        ></iframe>
+
+        <!-- Accordion -->
+        <iframe id="lime-accordion" src="" data-base-url="https://komutheme2.vercel.app/project/public/snippets/lime/accordion.html" data-frame-id="lime-accordion"
+            data-q1="How do I sign up?" data-a1="Click the button in the top right corner."
+            data-q2="Is it free?" data-a2="Yes, we have a free tier available."
+        ></iframe>
+
+        <!-- Alerts -->
+        <iframe id="lime-alert-1" src="" data-base-url="https://komutheme2.vercel.app/project/public/snippets/lime/alert.html" data-frame-id="lime-alert-1"
+            data-message="Welcome to the Lime theme!" data-bg_color="ffc0cb" data-border_color="064e3b"
+        ></iframe>
+        <iframe id="lime-alert-2" src="" data-base-url="https://komutheme2.vercel.app/project/public/snippets/lime/alert.html" data-frame-id="lime-alert-2"
+            data-message="Action successful." data-bg_color="d1fae5" data-border_color="064e3b"
+        ></iframe>
+
+        <!-- Input & Buttons -->
+        <div style="display: flex; gap: 20px; flex-wrap: wrap; justify-content: center; margin-top: 20px;">
+            <iframe id="lime-input" src="" style="flex: 1; min-width: 300px;" data-base-url="https://komutheme2.vercel.app/project/public/snippets/lime/input.html" data-frame-id="lime-input"
+                data-placeholder="Enter email..." data-submit_text="Join"
+            ></iframe>
+            
+            <div style="display: flex; gap: 10px; align-items: center;">
+                <iframe id="lime-btn-1" src="" style="width: 150px;" data-base-url="https://komutheme2.vercel.app/project/public/snippets/lime/button.html" data-frame-id="lime-btn-1"
+                    data-text="Primary"
+                ></iframe>
+                <iframe id="lime-btn-2" src="" style="width: 150px;" data-base-url="https://komutheme2.vercel.app/project/public/snippets/lime/button.html" data-frame-id="lime-btn-2"
+                    data-text="Outline" data-type="outline"
+                ></iframe>
+            </div>
+        </div>
+
+        <!-- Generic Card -->
+        <iframe id="lime-card" src="" data-base-url="https://komutheme2.vercel.app/project/public/snippets/lime/card.html" data-frame-id="lime-card"
+            data-title="Generic Card" data-description="This is a standard card component for general content."
+            data-image="https://images.unsplash.com/photo-1557804506-669a67965ba0?auto=format&fit=crop&w=400&q=80"
+            data-cta_text="Learn More"
         ></iframe>
 
     </div>

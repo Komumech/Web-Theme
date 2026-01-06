@@ -1,0 +1,41 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Lime Input</title>
+    <base target="_blank">
+    <style>
+        body { margin: 0; padding: 10px; font-family: sans-serif; display: flex; justify-content: center; }
+        .wrapper { display: flex; gap: 10px; width: 100%; max-width: 500px; }
+        input {
+            flex: 1; padding: 15px 25px; border-radius: 50px; border: 2px solid #064e3b;
+            font-size: 16px; outline: none; color: #064e3b;
+        }
+        button {
+            padding: 15px 30px; border-radius: 50px; border: none;
+            background: #064e3b; color: white; font-weight: 700; cursor: pointer;
+            font-size: 16px; transition: transform 0.2s;
+        }
+        button:hover { transform: scale(1.05); }
+    </style>
+</head>
+<body>
+    <div class="wrapper">
+        <input type="text" id="input" placeholder="Email...">
+        <button id="btn">Submit</button>
+    </div>
+    <script>
+        const params = new URLSearchParams(window.location.search);
+        if(params.get('placeholder')) document.getElementById('input').placeholder = params.get('placeholder');
+        if(params.get('submit_text')) document.getElementById('btn').textContent = params.get('submit_text');
+        
+        if(params.get('accent_color')) {
+            document.getElementById('btn').style.backgroundColor = '#' + params.get('accent_color');
+            document.querySelector('input').style.borderColor = '#' + params.get('accent_color');
+        }
+        const sendHeight = () => { if(params.get('frame_id')) window.parent.postMessage({frameId: params.get('frame_id'), frameHeight: document.body.scrollHeight}, '*'); }
+        window.addEventListener('load', sendHeight);
+    </script>
+</body>
+</html>

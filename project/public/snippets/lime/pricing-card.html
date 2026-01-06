@@ -1,0 +1,92 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Lime Pricing</title>
+    <base target="_blank">
+    <style>
+        body { margin: 0; padding: 20px; font-family: sans-serif; overflow: hidden; box-sizing: border-box; }
+        .card {
+            background-color: #ffffff;
+            border-radius: 30px;
+            padding: 50px 40px;
+            text-align: center;
+            max-width: 400px;
+            margin: 0 auto;
+            box-shadow: 0 10px 30px rgba(0,0,0,0.05);
+            border: 2px solid #064e3b;
+            color: #064e3b;
+        }
+        .card.highlight {
+            background-color: #064e3b;
+            color: #ffffff;
+            border: none;
+        }
+        
+        .plan { font-size: 18px; font-weight: 700; text-transform: uppercase; letter-spacing: 1px; margin-bottom: 20px; }
+        .price { font-size: 60px; font-weight: 900; line-height: 1; margin-bottom: 10px; }
+        .interval { font-size: 16px; font-weight: 500; opacity: 0.8; }
+        
+        .features { list-style: none; padding: 0; margin: 40px 0; text-align: left; }
+        .features li { padding: 10px 0; border-bottom: 1px solid rgba(0,0,0,0.1); font-size: 16px; }
+        .highlight .features li { border-bottom: 1px solid rgba(255,255,255,0.2); }
+        
+        .btn {
+            display: block;
+            padding: 18px;
+            border-radius: 50px;
+            text-decoration: none;
+            font-weight: 700;
+            font-size: 16px;
+            transition: transform 0.2s;
+            background-color: #064e3b;
+            color: #ffffff;
+        }
+        .highlight .btn {
+            background-color: #ffc0cb;
+            color: #064e3b;
+        }
+        .btn:hover { transform: scale(1.02); }
+    </style>
+</head>
+<body>
+    <div class="card" id="card">
+        <div class="plan" id="plan">Basic</div>
+        <div class="price" id="price">$0</div>
+        <div class="interval" id="interval">/month</div>
+        <ul class="features" id="features"></ul>
+        <a href="#" class="btn" id="btn">Get Started</a>
+    </div>
+
+    <script>
+        const params = new URLSearchParams(window.location.search);
+        
+        // Colors
+        const bgColor = params.get('bg_color') ? '#' + params.get('bg_color') : '#ffffff';
+        const textColor = params.get('text_color') ? '#' + params.get('text_color') : '#064e3b';
+        const accentColor = params.get('accent_color') ? '#' + params.get('accent_color') : '#064e3b';
+        const btnBg = params.get('btn_bg') ? '#' + params.get('btn_bg') : '#064e3b';
+        const btnText = params.get('btn_text') ? '#' + params.get('btn_text') : '#ffffff';
+
+        const card = document.getElementById('card');
+        
+        if(params.get('highlight') === 'true') {
+            card.classList.add('highlight');
+        } else {
+            card.style.backgroundColor = bgColor;
+            card.style.color = textColor;
+            card.style.borderColor = accentColor;
+        }
+
+        document.getElementById('plan').textContent = params.get('plan') || 'Plan';
+        document.getElementById('price').textContent = params.get('price') || '$0';
+        document.getElementById('interval').textContent = params.get('interval') || '/mo';
+        document.getElementById('btn').textContent = params.get('cta_text') || 'Select';
+        if(params.get('features')) params.get('features').split(',').forEach(f => document.getElementById('features').innerHTML += `<li>${f.trim()}</li>`);
+
+        const sendHeight = () => { if(params.get('frame_id')) window.parent.postMessage({frameId: params.get('frame_id'), frameHeight: document.body.scrollHeight}, '*'); }
+        window.addEventListener('load', sendHeight);
+    </script>
+</body>
+</html>
