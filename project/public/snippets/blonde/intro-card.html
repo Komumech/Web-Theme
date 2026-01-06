@@ -1,0 +1,109 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Blond Intro Card</title>
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Manrope:wght@500;700;800&display=swap" rel="stylesheet">
+    <style>
+        :root {
+            --bg-color: #ffffff;
+            --card-bg: #ffffff;
+            --text-color: #1a1a1a;
+            --heading-color: #1a1a1a;
+            --btn-bg: #1a1a1a;
+            --btn-text: #ffffff;
+        }
+        body {
+            margin: 0;
+            padding: 0;
+            font-family: 'Manrope', sans-serif;
+            background-color: var(--bg-color);
+            overflow: hidden;
+        }
+        .section-container {
+            position: relative;
+            min-height: 600px;
+            display: flex;
+            align-items: center;
+            justify-content: flex-end; /* Card positioned to the right */
+            padding: 40px 10%;
+            background-size: cover;
+            background-position: center;
+            box-sizing: border-box;
+        }
+        .card {
+            background-color: var(--card-bg);
+            padding: 60px 50px;
+            max-width: 480px;
+            width: 100%;
+            border-radius: 16px;
+            text-align: center;
+            box-shadow: 0 20px 40px rgba(0,0,0,0.08);
+            position: relative;
+            z-index: 1;
+        }
+        .eyebrow {
+            font-weight: 800;
+            font-size: 16px;
+            margin-bottom: 15px;
+            color: var(--heading-color);
+        }
+        h2 {
+            font-size: 42px;
+            font-weight: 800;
+            line-height: 1.1;
+            margin: 0 0 25px 0;
+            color: var(--heading-color);
+            letter-spacing: -1px;
+        }
+        p {
+            font-size: 18px;
+            line-height: 1.6;
+            color: var(--text-color);
+            margin: 0 0 35px 0;
+            font-weight: 500;
+        }
+        .btn {
+            display: inline-block;
+            background-color: var(--btn-bg);
+            color: var(--btn-text);
+            padding: 16px 32px;
+            border-radius: 50px;
+            text-decoration: none;
+            font-weight: 700;
+            font-size: 16px;
+            transition: opacity 0.2s;
+        }
+        .btn:hover { opacity: 0.9; }
+
+        @media (max-width: 768px) {
+            .section-container { justify-content: center; padding: 40px 20px; }
+            .card { padding: 40px 30px; }
+            h2 { font-size: 32px; }
+        }
+    </style>
+</head>
+<body>
+    <div class="section-container" id="bg_container">
+        <div class="card">
+            <div class="eyebrow" id="eyebrow">Hi there!</div>
+            <h2 id="heading">Allow me to introduce myself.</h2>
+            <p id="description">Transferring words from your brain, to a page, and making your target audience relate is what I do.</p>
+            <a href="#" class="btn" id="btn">Let's work!</a>
+        </div>
+    </div>
+
+    <script>
+        const params = new URLSearchParams(window.location.search);
+        if(params.get('bg_image')) document.getElementById('bg_container').style.backgroundImage = `url('${params.get('bg_image')}')`;
+        ['eyebrow', 'heading', 'description'].forEach(id => { if(params.get(id)) document.getElementById(id).textContent = params.get(id); });
+        if(params.get('btn_text')) document.getElementById('btn').textContent = params.get('btn_text');
+        
+        const sendHeight = () => { if(params.get('frame_id')) window.parent.postMessage({frameId: params.get('frame_id'), frameHeight: document.body.scrollHeight}, '*'); }
+        window.addEventListener('load', sendHeight);
+    </script>
+</body>
+</html>
