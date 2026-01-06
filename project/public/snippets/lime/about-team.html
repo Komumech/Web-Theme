@@ -6,30 +6,123 @@
     <title>Lime Team</title>
     <base target="_blank">
     <style>
-        body { margin: 0; padding: 40px 20px; font-family: sans-serif; overflow: hidden; }
+        body { margin: 0; padding: 40px 20px; font-family: sans-serif; overflow-x: hidden; }
         .header { text-align: center; margin-bottom: 50px; }
         h2 { font-size: 42px; color: #064e3b; margin: 0 0 15px 0; font-weight: 800; }
         p { font-size: 18px; color: #064e3b; opacity: 0.8; margin: 0; }
         
-        .grid {
-            display: grid;
-            grid-template-columns: repeat(auto-fit, minmax(200px, 1fr));
-            gap: 40px;
-            max-width: 1000px;
+        /* Vine Container */
+        .vine-container {
+            position: relative;
+            max-width: 800px;
             margin: 0 auto;
+            padding: 20px 0;
+            display: flex;
+            flex-direction: column;
+            align-items: center;
         }
-        .member { text-align: center; }
-        .img-wrapper {
-            width: 180px;
-            height: 180px;
-            border-radius: 50%;
-            overflow: hidden;
-            margin: 0 auto 20px auto;
+
+        /* The Central Vine Line */
+        .vine-line {
+            position: absolute;
+            top: 0;
+            bottom: 0;
+            left: 50%;
+            width: 6px;
+            background-color: #064e3b;
+            border-radius: 3px;
+            transform: translateX(-50%);
+            z-index: 0;
+        }
+
+        /* Member Wrapper (Branch + Leaf) */
+        .member-wrapper {
+            width: 50%;
+            position: relative;
+            display: flex;
+            align-items: center;
+            margin-bottom: 60px;
+            box-sizing: border-box;
+        }
+
+        /* Alternating Sides */
+        .member-wrapper:nth-child(odd) {
+            align-self: flex-start;
+            justify-content: flex-end;
+            padding-right: 60px; /* Space for branch */
+            text-align: right;
+        }
+        .member-wrapper:nth-child(even) {
+            align-self: flex-end;
+            justify-content: flex-start;
+            padding-left: 60px;
+            text-align: left;
+        }
+
+        /* The Branch Connector */
+        .member-wrapper::after {
+            content: '';
+            position: absolute;
+            height: 6px;
+            background: #064e3b;
+            width: 60px;
+            top: 50%;
+            margin-top: -3px;
+            border-radius: 3px;
+        }
+        .member-wrapper:nth-child(odd)::after { right: 0; border-top-right-radius: 0; border-bottom-right-radius: 0; }
+        .member-wrapper:nth-child(even)::after { left: 0; border-top-left-radius: 0; border-bottom-left-radius: 0; }
+
+        /* The Leaf (Expandable Card) */
+        .leaf-card {
+            background: #ffffff;
             border: 4px solid #ffc0cb;
+            border-radius: 50%;
+            padding: 5px;
+            display: flex;
+            align-items: center;
+            width: 90px; /* Initial collapsed width */
+            height: 90px;
+            transition: width 0.5s cubic-bezier(0.34, 1.56, 0.64, 1), border-radius 0.3s;
+            overflow: hidden;
+            cursor: pointer;
+            position: relative;
+            z-index: 2;
+            box-shadow: 0 5px 15px rgba(0,0,0,0.1);
         }
-        .img-wrapper img { width: 100%; height: 100%; object-fit: cover; }
-        h3 { font-size: 20px; color: #064e3b; margin: 0 0 5px 0; }
-        .role { font-size: 14px; color: #064e3b; opacity: 0.7; text-transform: uppercase; letter-spacing: 1px; font-weight: 700; }
+        .leaf-card:hover {
+            width: 320px; /* Expanded width */
+            border-radius: 50px;
+        }
+
+        .member-img {
+            width: 80px;
+            height: 80px;
+            border-radius: 50%;
+            object-fit: cover;
+            flex-shrink: 0;
+            border: 2px solid #fff;
+        }
+
+        .info {
+            opacity: 0;
+            white-space: nowrap;
+            margin-left: 20px;
+            transition: opacity 0.3s ease-in;
+            display: flex;
+            flex-direction: column;
+            justify-content: center;
+        }
+        .leaf-card:hover .info { opacity: 1; transition-delay: 0.2s; }
+
+        .name { font-size: 20px; font-weight: 800; color: #064e3b; margin: 0; line-height: 1; }
+        .role { font-size: 14px; color: #064e3b; opacity: 0.7; text-transform: uppercase; letter-spacing: 1px; font-weight: 700; margin-top: 5px; }
+
+        @media (max-width: 600px) {
+            .vine-line { left: 20px; }
+            .member-wrapper { width: 100%; padding-left: 60px !important; padding-right: 0 !important; justify-content: flex-start !important; text-align: left !important; }
+            .member-wrapper::after { left: 20px !important; width: 40px; }
+        }
     </style>
 </head>
 <body>
@@ -37,7 +130,9 @@
         <h2 id="label">Our Team</h2>
         <p id="description">Meet the people behind the magic.</p>
     </div>
-    <div class="grid" id="grid"></div>
+    <div class="vine-container" id="container">
+        <div class="vine-line" id="vine"></div>
+    </div>
 
     <script>
         const params = new URLSearchParams(window.location.search);
@@ -50,23 +145,32 @@
         document.body.style.backgroundColor = bgColor;
         document.getElementById('label').style.color = textColor;
         document.getElementById('description').style.color = textColor;
+        document.getElementById('vine').style.backgroundColor = textColor;
 
         if(params.get('label')) document.getElementById('label').textContent = params.get('label');
         if(params.get('description')) document.getElementById('description').textContent = params.get('description');
 
-        const grid = document.getElementById('grid');
+        const container = document.getElementById('container');
         let i = 1;
         while(params.has(`member${i}_name`)) {
             const div = document.createElement('div');
-            div.className = 'member';
+            div.className = 'member-wrapper';
             div.innerHTML = `
-                <div class="img-wrapper" style="border-color: ${accentColor}">
-                    <img src="${params.get(`member${i}_img`)}" alt="Member">
+                <div class="leaf-card" style="border-color: ${accentColor}">
+                    <img src="${params.get(`member${i}_img`)}" alt="Member" class="member-img">
+                    <div class="info">
+                        <h3 class="name" style="color: ${textColor}">${params.get(`member${i}_name`)}</h3>
+                        <div class="role" style="color: ${textColor}">${params.get(`member${i}_role`)}</div>
+                    </div>
                 </div>
-                <h3 style="color: ${textColor}">${params.get(`member${i}_name`)}</h3>
-                <div class="role" style="color: ${textColor}">${params.get(`member${i}_role`)}</div>
             `;
-            grid.appendChild(div);
+            
+            // Add branch color logic
+            const style = document.createElement('style');
+            style.innerHTML = `.member-wrapper:nth-child(${i})::after { background-color: ${textColor}; }`;
+            div.appendChild(style);
+
+            container.appendChild(div);
             i++;
         }
 
