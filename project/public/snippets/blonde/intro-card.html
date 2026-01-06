@@ -98,9 +98,18 @@
 
     <script>
         const params = new URLSearchParams(window.location.search);
+        
+        if(params.has('bg_color')) document.documentElement.style.setProperty('--bg-color', '#' + params.get('bg_color'));
+        if(params.has('card_bg')) document.documentElement.style.setProperty('--card-bg', '#' + params.get('card_bg'));
+        if(params.has('text_color')) document.documentElement.style.setProperty('--text-color', '#' + params.get('text_color'));
+        if(params.has('heading_color')) document.documentElement.style.setProperty('--heading-color', '#' + params.get('heading_color'));
+        if(params.has('btn_bg')) document.documentElement.style.setProperty('--btn-bg', '#' + params.get('btn_bg'));
+        if(params.has('btn_text')) document.documentElement.style.setProperty('--btn-text', '#' + params.get('btn_text'));
+
         if(params.get('bg_image')) document.getElementById('bg_container').style.backgroundImage = `url('${params.get('bg_image')}')`;
         ['eyebrow', 'heading', 'description'].forEach(id => { if(params.get(id)) document.getElementById(id).textContent = params.get(id); });
         if(params.get('btn_text')) document.getElementById('btn').textContent = params.get('btn_text');
+        if(params.get('btn_href')) document.getElementById('btn').href = params.get('btn_href');
         
         const sendHeight = () => { if(params.get('frame_id')) window.parent.postMessage({frameId: params.get('frame_id'), frameHeight: document.body.scrollHeight}, '*'); }
         window.addEventListener('load', sendHeight);

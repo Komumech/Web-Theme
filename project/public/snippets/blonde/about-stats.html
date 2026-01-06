@@ -152,6 +152,14 @@
 
     <script>
         const params = new URLSearchParams(window.location.search);
+        
+        if(params.has('bg_color')) document.documentElement.style.setProperty('--bg-color', '#' + params.get('bg_color'));
+        if(params.has('text_color')) document.documentElement.style.setProperty('--text-color', '#' + params.get('text_color'));
+        if(params.has('heading_color')) document.documentElement.style.setProperty('--heading-color', '#' + params.get('heading_color'));
+        if(params.has('accent_color')) document.documentElement.style.setProperty('--accent-color', '#' + params.get('accent_color'));
+        if(params.has('badge_bg')) document.documentElement.style.setProperty('--badge-bg', '#' + params.get('badge_bg'));
+        if(params.has('badge_text')) document.documentElement.style.setProperty('--badge-text', '#' + params.get('badge_text'));
+
         ['head1', 'text1', 'head2', 'text2', 'link'].forEach(id => { if(params.get(id)) document.getElementById(id).textContent = params.get(id); });
         if(params.get('image')) document.getElementById('main_img').src = params.get('image');
         

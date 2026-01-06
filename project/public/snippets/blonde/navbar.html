@@ -125,10 +125,15 @@
             if(params.has('text_color')) document.documentElement.style.setProperty('--text-color', '#' + params.get('text_color'));
             if(params.has('btn_bg')) document.documentElement.style.setProperty('--btn-bg', '#' + params.get('btn_bg'));
             if(params.has('btn_text')) document.documentElement.style.setProperty('--btn-text', '#' + params.get('btn_text'));
+            if(params.has('link_hover')) document.documentElement.style.setProperty('--link-hover', '#' + params.get('link_hover'));
 
             if(params.has('brand')) document.getElementById('brand').textContent = params.get('brand');
             if(params.has('cta_text')) document.getElementById('cta').textContent = params.get('cta_text');
-            for(let i=1; i<=4; i++) if(params.has(`link${i}_text`)) document.getElementById(`link${i}`).textContent = params.get(`link${i}_text`);
+            if(params.has('cta_href')) document.getElementById('cta').href = params.get('cta_href');
+            for(let i=1; i<=4; i++) {
+                if(params.has(`link${i}_text`)) document.getElementById(`link${i}`).textContent = params.get(`link${i}_text`);
+                if(params.has(`link${i}_href`)) document.getElementById(`link${i}`).href = params.get(`link${i}_href`);
+            }
 
             postHeight();
         });
