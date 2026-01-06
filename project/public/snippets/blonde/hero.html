@@ -197,7 +197,7 @@
             if(params.has('text_color')) document.documentElement.style.setProperty('--text-color', '#' + params.get('text_color'));
             if(params.has('heading_color')) document.documentElement.style.setProperty('--heading-color', '#' + params.get('heading_color'));
             if(params.has('icon_color')) document.documentElement.style.setProperty('--icon-color', '#' + params.get('icon_color'));
-
+            if(params.has('accent_color')) document.documentElement.style.setProperty('--accent-color', '#' + params.get('accent_color'));
             // Ripple Accent Color
             let rippleColor = params.has('accent_color') ? '#' + params.get('accent_color') : (params.has('icon_color') ? '#' + params.get('icon_color') : '#00c060');
 
