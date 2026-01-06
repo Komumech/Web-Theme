@@ -36,6 +36,16 @@
         box-sizing: border-box;
         position: relative;
     }
+    .logo-container {
+        display: flex;
+        align-items: center;
+        gap: 12px; /* Space between logo and text */
+        text-decoration: none;
+        font-weight: 800;
+        font-size: 28px;
+        letter-spacing: -0.5px;
+        color: var(--text-color);
+    }
     .logo {
         font-weight: 800;
         font-size: 28px;
@@ -95,57 +105,61 @@
 </style>
 </head>
 <body>
-    <nav>
-        <a href="#" class="logo" id="brand">Kalogirou Rania</a>
-        
-        <div class="nav-links" id="nav_links">
-            <a href="#" id="link1">Home</a>
-            <a href="#" id="link2">Pages</a>
-            <a href="#" id="link3">Blog</a>
-            <a href="#" id="link4">Portfolio</a>
-        </div>
+<nav>
+    <a href="#" class="logo-container" id="brand_link">
+        <img src="" id="logo_img" style="display: none; height: 32px; width: auto; object-fit: contain;">
+        <span id="brand_text">Kalogirou Rania</span>
+    </a>
+    
+    <div class="nav-links" id="nav_links">
+        <a href="#" id="link1">Home</a>
+        <a href="#" id="link2">Pages</a>
+        <a href="#" id="link3">Blog</a>
+        <a href="#" id="link4">Portfolio</a>
+    </div>
 
-        <a href="#" class="cta-btn" id="cta">Let's work!</a>
-        <div class="menu-toggle" onclick="toggleMenu()">☰</div>
-    </nav>
+    <a href="#" class="cta-btn" id="cta">Let's work!</a>
+    <div class="menu-toggle" onclick="toggleMenu()">☰</div>
+</nav>
 
 <script>
     function postHeight() {
-        // We use requestAnimationFrame to ensure the DOM has rendered the "active" class
-        // before calculating the new scrollHeight
         requestAnimationFrame(() => {
             const height = document.documentElement.offsetHeight;
             const params = new URLSearchParams(window.location.search);
             const frameId = params.get('frame_id');
-            if (frameId) {
-                window.parent.postMessage({ 
-                    frameHeight: height, 
-                    frameId: frameId 
-                }, '*');
-            }
+            if (frameId) window.parent.postMessage({ frameHeight: height, frameId: frameId }, '*');
         });
     }
 
     function toggleMenu() {
         document.getElementById('nav_links').classList.toggle('active');
-        // Tell the parent to resize immediately after toggling
         postHeight();
     }
 
     window.addEventListener('DOMContentLoaded', () => {
         const params = new URLSearchParams(window.location.search);
         
+        // --- NEW LOGO LOGIC ---
+        if(params.has('logo_url') && params.get('logo_url') !== "") {
+            const img = document.getElementById('logo_img');
+            img.src = params.get('logo_url');
+            img.style.display = 'block';
+        }
+
+        if(params.has('brand')) document.getElementById('brand_text').textContent = params.get('brand');
+        // --- END LOGO LOGIC ---
+
+        // Apply Colors
         if(params.has('bg_color')) document.documentElement.style.setProperty('--bg-color', '#' + params.get('bg_color'));
         if(params.has('text_color')) document.documentElement.style.setProperty('--text-color', '#' + params.get('text_color'));
         if(params.has('btn_bg')) document.documentElement.style.setProperty('--btn-bg', '#' + params.get('btn_bg'));
         if(params.has('btn_text')) document.documentElement.style.setProperty('--btn-text', '#' + params.get('btn_text'));
         if(params.has('link_hover')) document.documentElement.style.setProperty('--link-hover', '#' + params.get('link_hover'));
-        if(params.has('border_color')) document.documentElement.style.setProperty('--border-color', '#' + params.get('border_color'));
 
-        if(params.has('brand')) document.getElementById('brand').textContent = params.get('brand');
+        // Links & CTA
         if(params.has('cta_text')) document.getElementById('cta').textContent = params.get('cta_text');
         if(params.has('cta_href')) document.getElementById('cta').href = params.get('cta_href');
-        
         for(let i=1; i<=4; i++) {
             if(params.has(`link${i}_text`)) document.getElementById(`link${i}`).textContent = params.get(`link${i}_text`);
             if(params.has(`link${i}_href`)) document.getElementById(`link${i}`).href = params.get(`link${i}_href`);
@@ -153,9 +167,6 @@
 
         postHeight();
     });
-
-    // Also repost height on window resize to handle orientation changes
-    window.addEventListener('resize', postHeight);
 </script>
 </body>
 </html>
