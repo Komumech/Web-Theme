@@ -1,0 +1,138 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Blond Testimonial Card</title>
+    <base target="_blank">
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Manrope:wght@400;500;700;800&display=swap" rel="stylesheet">
+    <style>
+        :root {
+            --bg-color: #f9f9f9;
+            --card-bg: #ffffff;
+            --text-color: #1a1a1a;
+            --heading-color: #1a1a1a;
+            --accent-color: #ff6b6b;
+        }
+        body {
+            margin: 0;
+            padding: 40px;
+            font-family: 'Manrope', sans-serif;
+            background-color: var(--bg-color);
+            color: var(--text-color);
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            min-height: 100vh;
+            box-sizing: border-box;
+        }
+        .card {
+            background-color: var(--card-bg);
+            padding: 40px;
+            border-radius: 16px;
+            max-width: 500px;
+            width: 100%;
+            box-shadow: 0 4px 20px rgba(0,0,0,0.05);
+            display: flex;
+            flex-direction: column;
+            gap: 20px;
+        }
+        .header {
+            display: flex;
+            align-items: center;
+            gap: 20px;
+        }
+        .avatar-wrapper {
+            position: relative;
+            flex-shrink: 0;
+        }
+        .avatar {
+            width: 80px;
+            height: 80px;
+            border-radius: 50%;
+            object-fit: cover;
+        }
+        .icon-badge {
+            position: absolute;
+            bottom: 0;
+            right: 0;
+            width: 24px;
+            height: 24px;
+            background: var(--accent-color);
+            border-radius: 50%;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            color: white;
+            font-size: 12px;
+            border: 2px solid var(--card-bg);
+        }
+        .info {
+            text-align: left;
+        }
+        .name {
+            font-size: 24px;
+            font-weight: 800;
+            color: var(--heading-color);
+            margin: 0 0 5px 0;
+        }
+        .role {
+            font-size: 16px;
+            font-weight: 500;
+            color: var(--text-color);
+            opacity: 0.7;
+            margin: 0;
+        }
+        .quote {
+            font-size: 18px;
+            line-height: 1.6;
+            color: var(--text-color);
+            text-align: left;
+            font-weight: 500;
+        }
+
+        @media (max-width: 480px) {
+            .header { flex-direction: column; text-align: center; }
+            .info { text-align: center; }
+            .quote { text-align: center; }
+        }
+    </style>
+</head>
+<body>
+    <div class="card">
+        <div class="header">
+            <div class="avatar-wrapper">
+                <img src="" id="avatar" class="avatar" alt="User">
+                <div class="icon-badge">❤</div>
+            </div>
+            <div class="info">
+                <h3 class="name" id="name">Kristen Au</h3>
+                <p class="role" id="role">IG & Social Media Marketer</p>
+            </div>
+        </div>
+        <div class="quote" id="quote">
+            Working with Rania has always been great, she really understands how to use different tones / choice of words for different kind of brands!
+        </div>
+    </div>
+
+    <script>
+        const params = new URLSearchParams(window.location.search);
+        
+        if(params.has('bg_color')) document.documentElement.style.setProperty('--bg-color', '#' + params.get('bg_color'));
+        if(params.has('card_bg')) document.documentElement.style.setProperty('--card-bg', '#' + params.get('card_bg'));
+        if(params.has('text_color')) document.documentElement.style.setProperty('--text-color', '#' + params.get('text_color'));
+        if(params.has('heading_color')) document.documentElement.style.setProperty('--heading-color', '#' + params.get('heading_color'));
+        if(params.has('accent_color')) document.documentElement.style.setProperty('--accent-color', '#' + params.get('accent_color'));
+
+        if(params.has('avatar')) document.getElementById('avatar').src = params.get('avatar');
+        if(params.has('name')) document.getElementById('name').textContent = params.get('name');
+        if(params.has('role')) document.getElementById('role').textContent = params.get('role');
+        if(params.has('quote')) document.getElementById('quote').textContent = params.get('quote');
+
+        const sendHeight = () => { if(params.get('frame_id')) window.parent.postMessage({frameId: params.get('frame_id'), frameHeight: document.body.scrollHeight}, '*'); }
+        window.addEventListener('load', sendHeight);
+    </script>
+</body>
+</html>

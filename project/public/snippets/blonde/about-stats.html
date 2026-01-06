@@ -142,7 +142,7 @@
             <div class="badge">
                 <svg viewBox="0 0 100 100" width="100" height="100">
                     <path id="circle" d="M 50, 50 m -37, 0 a 37,37 0 1,1 74,0 a 37,37 0 1,1 -74,0" fill="none"/>
-                    <text font-size="11.5" font-weight="bold"><textPath href="#circle" startOffset="0%">Scroll Down • Scroll Down •</textPath></text>
+                    <text font-size="11.5" font-weight="bold"><textPath id="badge_label" href="#circle" startOffset="0%">Scroll Down • Scroll Down •</textPath></text>
                 </svg>
             </div>
             <img src="" id="main_img" class="arch-img" alt="Profile">
@@ -162,6 +162,7 @@
         if(params.has('badge_text')) document.documentElement.style.setProperty('--badge-text', '#' + params.get('badge_text'));
 
         ['head1', 'text1', 'head2', 'text2', 'link'].forEach(id => { if(params.get(id)) document.getElementById(id).textContent = params.get(id); });
+        if(params.get('badge_label')) document.getElementById('badge_label').textContent = params.get('badge_label');
         if(params.get('image')) document.getElementById('main_img').src = params.get('image');
         
         const stats = document.getElementById('stats_container');
