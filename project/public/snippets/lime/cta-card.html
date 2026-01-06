@@ -25,27 +25,33 @@
             display: flex;
             align-items: center;
             justify-content: center;
-            margin-bottom: 30px;
+            margin-bottom: 25px;
         }
         
         .illustration svg {
             width: 160px;
             height: auto;
-            filter: drop-shadow(0 8px 12px rgba(0,0,0,0.15));
+            filter: drop-shadow(0 6px 8px rgba(0,0,0,0.2));
         }
 
-        .heading { font-size: 32px; font-weight: 800; margin: 0 0 15px 0; text-transform: uppercase; }
-        .description { font-size: 16px; line-height: 1.5; margin: 0 0 30px 0; opacity: 0.9; }
+        .heading { font-size: 38px; line-height: 1.1; font-weight: 800; margin: 0 0 15px 0; text-transform: uppercase; letter-spacing: 0.5px; }
+        .description { font-size: 17px; line-height: 1.5; margin: 0 0 30px 0; opacity: 0.95; max-width: 400px; }
 
         .btn {
             text-decoration: none;
-            padding: 16px 32px;
+            padding: 16px 36px;
             border-radius: 50px;
             font-weight: 700;
             font-size: 16px;
-            transition: transform 0.2s;
+            transition: all 0.2s ease;
+            box-shadow: 0 4px 10px rgba(0,0,0,0.1);
         }
-        .btn:hover { transform: scale(1.05); }
+        .btn:hover { transform: translateY(-2px); box-shadow: 0 6px 15px rgba(0,0,0,0.2); }
+
+        @media (max-width: 480px) {
+            .heading { font-size: 28px; }
+            .card { padding: 40px 20px; }
+        }
     </style>
 </head>
 <body>
@@ -53,56 +59,61 @@
         <div class="illustration">
             <svg viewBox="0 0 200 200" id="icon-svg">
                 <g id="icon-handshake" style="display:none;">
-                    <path d="M40 110 L60 90 C 70 80, 85 80, 95 90 L115 110 L140 85 C 150 75, 165 75, 175 85 L190 100" fill="none" stroke="white" stroke-width="6" stroke-linecap="round"/>
-                    <path d="M10 140 L40 110 L70 140 L50 160 L20 160 Z" fill="white" opacity="0.2"/>
-                    <path d="M85 115 C 75 125, 75 140, 85 150 L115 180 M115 115 C 125 125, 125 140, 115 150 L85 180" fill="none" stroke="white" stroke-width="6" stroke-linecap="round"/>
-                    <path d="M70 125 Q 100 95 130 125 M75 140 Q 100 110 125 140 M80 155 Q 100 130 120 155" fill="none" stroke="white" stroke-width="4" stroke-linecap="round" opacity="0.8"/>
+                    <path d="M25,125 L55,100 C65,90 75,90 85,100 L100,115 L115,100 C125,90 135,90 145,100 L175,125" fill="none" stroke="white" stroke-width="6" stroke-linecap="round"/>
+                    <path d="M70,115 C60,125 60,140 70,150 L100,180 L130,150 C140,140 140,125 130,115" fill="none" stroke="white" stroke-width="6" stroke-linecap="round"/>
+                    <path d="M85,125 L115,125 M88,138 L112,138 M92,151 L108,151" fill="none" stroke="white" stroke-width="4" stroke-linecap="round" opacity="0.6"/>
                 </g>
 
                 <g id="icon-coin" style="display:none;">
-                    <ellipse cx="100" cy="150" rx="60" ry="25" fill="white" opacity="0.3" stroke="white" stroke-width="3"/>
-                    <ellipse cx="100" cy="125" rx="60" ry="25" fill="white" opacity="0.6" stroke="white" stroke-width="3"/>
-                    <g transform="translate(0, -10)">
-                        <ellipse cx="100" cy="100" rx="60" ry="25" fill="white" stroke="white" stroke-width="4"/>
-                        <ellipse cx="100" cy="100" rx="45" ry="18" fill="none" stroke="black" stroke-width="2" stroke-dasharray="4 4" opacity="0.3"/>
-                        <text x="100" y="112" font-family="Arial" font-size="35" font-weight="900" text-anchor="middle" fill="black">$</text>
-                    </g>
+                    <path d="M60,135 Q100,155 140,135 L140,150 Q100,170 60,150 Z" fill="white" opacity="0.2"/>
+                    <path d="M60,115 Q100,135 140,115 L140,130 Q100,150 60,130 Z" fill="white" opacity="0.4"/>
+                    <ellipse cx="100" cy="95" rx="50" ry="22" fill="white"/>
+                    <ellipse cx="100" cy="95" rx="40" ry="16" fill="none" stroke="black" stroke-width="1.5" stroke-dasharray="3 3" opacity="0.3"/>
+                    <text x="100" y="105" font-family="Arial" font-size="30" font-weight="900" text-anchor="middle" fill="black">$</text>
+                </g>
+
+                <g id="icon-point" style="display:none;">
+                    <path d="M75,180 L85,110 L65,90 L75,70 L95,90 L95,30 C95,20 115,20 115,30 L115,90 L135,90 L135,110 L145,180 Z" fill="white" stroke="black" stroke-width="3"/>
+                </g>
+
+                <g id="icon-wave" style="display:none;">
+                    <path d="M65,180 L75,130 L55,110 C45,100 55,90 65,100 L85,120 L80,70 C80,60 95,60 95,70 L100,110 L105,50 C105,40 120,40 120,50 L120,110 L130,60 C130,50 145,50 145,60 L140,130 L155,180 Z" fill="white" stroke="black" stroke-width="3"/>
                 </g>
             </svg>
         </div>
         
-        <h2 class="heading" id="heading">TITLE</h2>
-        <p class="description" id="desc">Description text.</p>
-        <a href="#" class="btn" id="btn">CTA</a>
+        <h2 class="heading" id="heading">STAY UP TO DATE</h2>
+        <p class="description" id="desc">Description goes here.</p>
+        <a href="#" class="btn" id="btn">Action</a>
     </div>
 
     <script>
         const params = new URLSearchParams(window.location.search);
         
-        // Colors
+        // Colors & Branding
         const bgColor = params.get('bg_color') ? '#' + params.get('bg_color') : '#0768b3';
         const textColor = params.get('text_color') ? '#' + params.get('text_color') : '#ffffff';
         const btnBg = params.get('btn_bg') ? '#' + params.get('btn_bg') : '#00c060';
-        const btnTextColor = params.get('btn_text_color') ? '#' + params.get('btn_text_color') : '#ffffff';
+        const btnText = params.get('btn_text_color') ? '#' + params.get('btn_text_color') : '#ffffff';
 
         document.getElementById('card').style.backgroundColor = bgColor;
         document.getElementById('card').style.color = textColor;
         const btn = document.getElementById('btn');
         btn.style.backgroundColor = btnBg;
-        btn.style.color = btnTextColor;
+        btn.style.color = btnText;
 
         // Content
         document.getElementById('heading').textContent = params.get('heading') || 'STAY UP TO DATE';
-        document.getElementById('desc').textContent = params.get('description') || 'Join Integra Co-op today.';
+        document.getElementById('desc').textContent = params.get('description') || 'Every month, our best tips and events.';
         btn.textContent = params.get('cta_text') || 'Subscribe';
         btn.href = params.get('cta_href') || '#';
 
         // Icon Logic
-        const iconType = params.get('icon') || 'handshake';
-        const targetIcon = document.getElementById('icon-' + iconType);
-        if(targetIcon) targetIcon.style.display = 'block';
+        const iconType = params.get('icon') || 'point';
+        const activeIcon = document.getElementById('icon-' + iconType);
+        if (activeIcon) activeIcon.style.display = 'block';
 
-        // Auto-Height for Parent
+        // Height Resizer
         function sendHeight() {
             const height = document.body.scrollHeight;
             const frameId = params.get('frame_id');
