@@ -4,6 +4,7 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Custom Hero</title>
+    <base target="_blank">
     <style>
         body { margin: 0; padding: 0; font-family: sans-serif; overflow: hidden; }
         .hero-section {
@@ -79,6 +80,21 @@
         .hand-left { left: 5%; transform: rotate(-10deg); }
         .hand-right { right: 5%; transform: rotate(10deg); }
 
+        @media (max-width: 768px) {
+            .hero-section { padding: 20px; min-height: auto; padding-bottom: 100px; }
+            .headline { font-size: 42px; margin-bottom: 20px; }
+            .subheading { font-size: 16px; }
+            .description { font-size: 16px; }
+            .hero-nav { flex-direction: column; gap: 15px; margin-bottom: 30px; }
+            .nav-group { display: none; } /* Hide secondary nav on mobile to save space */
+            .brand { font-size: 28px; }
+            .hand { width: 80px; height: 80px; bottom: -20px; }
+        }
+        
+        @media (max-width: 480px) {
+            .headline { font-size: 36px; }
+            .hand { display: none; } /* Hide hands on very small screens */
+        }
     </style>
 </head>
 <body>
@@ -123,6 +139,7 @@
         const bgColor = params.get('bg_color') ? '#' + params.get('bg_color') : '#064e3b';
         const accentColor = params.get('accent_color') ? '#' + params.get('accent_color') : '#ffc0cb';
         const accentText = params.get('accent_text') ? '#' + params.get('accent_text') : '#3e2723';
+        const navColor = params.get('nav_color') ? '#' + params.get('nav_color') : '#ffffff';
         
         document.getElementById('hero').style.backgroundColor = bgColor;
         document.querySelectorAll('.highlight-box').forEach(el => {
@@ -135,6 +152,10 @@
             el.style.stroke = accentText;
             el.style.strokeWidth = '1.5';
         });
+
+        // Apply nav color
+        document.getElementById('brand').style.color = navColor;
+        // Nav links color is handled in buildNav
 
         // Text Content
         document.getElementById('brand').textContent = params.get('brand') || 'Brand';
@@ -154,6 +175,7 @@
                 a.className = 'nav-link';
                 a.textContent = text;
                 a.href = href || '#';
+                a.style.color = navColor;
                 container.appendChild(a);
             });
         }

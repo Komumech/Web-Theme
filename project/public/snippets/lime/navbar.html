@@ -4,6 +4,7 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Custom Navbar</title>
+    <base target="_blank">
     <style>
         body { 
             margin: 0; 
@@ -23,6 +24,9 @@
             gap: 8px;
             box-shadow: 0 10px 25px rgba(0,0,0,0.2);
             pointer-events: auto; /* Re-enable clicks */
+            max-width: 92vw;
+            overflow-x: auto;
+            scrollbar-width: none; /* Firefox */
         }
         .home-btn {
             background: rgba(255,255,255,0.2);
@@ -34,6 +38,7 @@
             justify-content: center;
             cursor: pointer;
             transition: background 0.2s;
+            flex-shrink: 0;
         }
         .home-btn:hover { background: rgba(255,255,255,0.3); }
         .home-btn svg { width: 20px; height: 20px; fill: white; }
@@ -50,15 +55,26 @@
             border-radius: 30px;
             cursor: pointer;
             transition: background 0.2s;
+            white-space: nowrap;
         }
         .nav-item:hover { background: rgba(255,255,255,0.1); }
         .nav-item.active { background: white; color: #ea4c3b; }
         .arrow { font-size: 10px; opacity: 0.8; }
+
+        /* Hide scrollbar for Chrome/Safari/Opera */
+        .nav-pill::-webkit-scrollbar { display: none; }
+
+        @media (max-width: 600px) {
+            .nav-item {
+                padding: 8px 14px;
+                font-size: 14px;
+            }
+        }
     </style>
 </head>
 <body>
     <div class="nav-pill" id="nav-container">
-        <div class="home-btn">
+        <div class="home-btn" id="home-btn">
             <svg viewBox="0 0 24 24"><path d="M10 20v-6h4v6h5v-8h3L12 3 2 12h3v8z"/></svg>
         </div>
         <!-- Links will be injected here -->
@@ -71,9 +87,19 @@
         // Apply colors
         const bgColor = params.get('bg_color') ? '#' + params.get('bg_color') : '#ea4c3b';
         const textColor = params.get('text_color') ? '#' + params.get('text_color') : '#ffffff';
+        const btnBg = params.get('btn_bg') ? '#' + params.get('btn_bg') : 'rgba(255,255,255,0.2)';
+        const btnIconColor = params.get('btn_icon_color') ? '#' + params.get('btn_icon_color') : '#ffffff';
         
         const navContainer = document.getElementById('nav-container');
         navContainer.style.backgroundColor = bgColor;
+
+        const homeBtn = document.getElementById('home-btn');
+        homeBtn.style.backgroundColor = btnBg;
+        homeBtn.querySelector('svg').style.fill = btnIconColor;
+        
+        // Home button link
+        const homeHref = params.get('home_href');
+        if(homeHref) homeBtn.onclick = () => window.open(homeHref, '_blank');
 
         // Build Links
         const links = ['link1', 'link2', 'link3'];
@@ -81,10 +107,11 @@
 
         links.forEach(key => {
             const text = params.get(key + '_text');
+            const href = params.get(key + '_href') || '#';
             if (text) {
                 const a = document.createElement('a');
                 a.className = 'nav-item';
-                a.href = '#';
+                a.href = href;
                 
                 // Check active state
                 if (text === activeItem) {
