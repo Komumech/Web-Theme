@@ -1,0 +1,102 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Custom Theme Test (Test 10)</title>
+    <style>
+        body { margin: 0; padding: 0; background: #e0e0e0; font-family: sans-serif; }
+        .preview { max-width: 1400px; margin: 0 auto; background: white; min-height: 100vh; padding-bottom: 100px; }
+        iframe { width: 100%; border: none; display: block; overflow: hidden; }
+        
+        /* Optional: Style to make the navbar sticky at the bottom like the image */
+        #custom-nav {
+            position: fixed;
+            bottom: 20px;
+            left: 50%;
+            transform: translateX(-50%);
+            width: 100%;
+            max-width: 600px; /* Constrain width for the pill look */
+            z-index: 1000;
+            background: transparent;
+            pointer-events: none; /* Let clicks pass through the iframe area */
+        }
+    </style>
+</head>
+<body>
+    <div class="preview">
+        
+        <!-- Hero Section (Green, from imhd.png) -->
+        <iframe 
+            id="custom-hero"
+            src=""
+            data-base-url="https://komutheme2.vercel.app/project/public/snippets/lime/hero.html"
+            data-frame-id="custom-hero"
+            data-brand="PHAMILY"
+            data-nav_left="Acheter|#,Vendre|#,Ressources|#"
+            data-nav_right="À propos|#,Concept|#,Contact|#"
+            data-subheading="La pharmacie sans les maux de tête"
+            data-headline="SE LANCER"
+            data-highlight1="EN TOUTE"
+            data-highlight2="CONFIANCE"
+            data-description="Phamily fait plus que vous aider à trouver LA bonne pharmacie. On vous accompagne aussi à vous lancer en toute autonomie."
+            data-bg_color="064e3b"
+            data-text_color="ffffff"
+            data-accent_color="ffc0cb"
+            data-accent_text="3e2723"
+        ></iframe>
+
+        <!-- Placeholder content to show scrolling -->
+        <div style="padding: 100px; text-align: center; color: #999;">
+            <h2>Content Area</h2>
+            <p>Scroll down to see the floating navbar.</p>
+        </div>
+
+        <!-- Bottom Navbar (Red Pill, from imge.png) -->
+        <!-- Note: This iframe has special CSS in the head to make it float -->
+        <iframe 
+            id="custom-nav"
+            src=""
+            data-base-url="https://komutheme2.vercel.app/project/public/snippets/lime/navbar.html"
+            data-frame-id="custom-nav"
+            data-link1_text="Personal"
+            data-link2_text="Business"
+            data-link3_text="Company"
+            data-bg_color="ea4c3b"
+            data-text_color="ffffff"
+            data-active_item="Personal"
+        ></iframe>
+
+    </div>
+
+    <script>
+        // Listen for height messages from iframes
+        window.addEventListener("message", function(event) {
+            if (event.data.frameHeight && event.data.frameId) {
+                const iframe = document.getElementById(event.data.frameId);
+                // Only resize if it's not the fixed navbar (which has its own sizing logic)
+                if (iframe && iframe.id !== 'custom-nav') {
+                    iframe.style.height = event.data.frameHeight + "px";
+                } else if (iframe && iframe.id === 'custom-nav') {
+                    // For the floating nav, we just need enough height to show the pill
+                    iframe.style.height = "100px"; 
+                }
+            }
+        });
+
+        // Inject parameters into src
+        document.addEventListener('DOMContentLoaded', function() {
+            document.querySelectorAll('iframe[data-base-url]').forEach(iframe => {
+                const baseUrl = iframe.getAttribute('data-base-url');
+                let params = [];
+                for (const attr of iframe.attributes) {
+                    if (attr.name.startsWith('data-') && attr.name !== 'data-base-url' && attr.name !== 'data-frame-id') {
+                        params.push(`${attr.name.substring(5)}=${encodeURIComponent(attr.value)}`);
+                    }
+                }
+                iframe.src = baseUrl + '?' + params.join('&') + '&frame_id=' + iframe.id;
+            });
+        });
+    </script>
+</body>
+</html>

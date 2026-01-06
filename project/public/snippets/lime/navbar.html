@@ -1,0 +1,114 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Custom Navbar</title>
+    <style>
+        body { 
+            margin: 0; 
+            padding: 10px; 
+            font-family: sans-serif; 
+            background: transparent; /* Transparent so it floats nicely */
+            display: flex;
+            justify-content: center;
+            align-items: flex-end;
+        }
+        .nav-pill {
+            background: #ea4c3b; /* Default Red/Orange */
+            border-radius: 50px;
+            padding: 8px 12px;
+            display: flex;
+            align-items: center;
+            gap: 8px;
+            box-shadow: 0 10px 25px rgba(0,0,0,0.2);
+            pointer-events: auto; /* Re-enable clicks */
+        }
+        .home-btn {
+            background: rgba(255,255,255,0.2);
+            border-radius: 50%;
+            width: 40px;
+            height: 40px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            cursor: pointer;
+            transition: background 0.2s;
+        }
+        .home-btn:hover { background: rgba(255,255,255,0.3); }
+        .home-btn svg { width: 20px; height: 20px; fill: white; }
+        
+        .nav-item {
+            padding: 10px 20px;
+            color: white;
+            text-decoration: none;
+            font-weight: 500;
+            font-size: 16px;
+            display: flex;
+            align-items: center;
+            gap: 6px;
+            border-radius: 30px;
+            cursor: pointer;
+            transition: background 0.2s;
+        }
+        .nav-item:hover { background: rgba(255,255,255,0.1); }
+        .nav-item.active { background: white; color: #ea4c3b; }
+        .arrow { font-size: 10px; opacity: 0.8; }
+    </style>
+</head>
+<body>
+    <div class="nav-pill" id="nav-container">
+        <div class="home-btn">
+            <svg viewBox="0 0 24 24"><path d="M10 20v-6h4v6h5v-8h3L12 3 2 12h3v8z"/></svg>
+        </div>
+        <!-- Links will be injected here -->
+    </div>
+
+    <script>
+        // Parse URL parameters
+        const params = new URLSearchParams(window.location.search);
+        
+        // Apply colors
+        const bgColor = params.get('bg_color') ? '#' + params.get('bg_color') : '#ea4c3b';
+        const textColor = params.get('text_color') ? '#' + params.get('text_color') : '#ffffff';
+        
+        const navContainer = document.getElementById('nav-container');
+        navContainer.style.backgroundColor = bgColor;
+
+        // Build Links
+        const links = ['link1', 'link2', 'link3'];
+        const activeItem = params.get('active_item');
+
+        links.forEach(key => {
+            const text = params.get(key + '_text');
+            if (text) {
+                const a = document.createElement('a');
+                a.className = 'nav-item';
+                a.href = '#';
+                
+                // Check active state
+                if (text === activeItem) {
+                    a.style.backgroundColor = textColor;
+                    a.style.color = bgColor;
+                } else {
+                    a.style.color = textColor;
+                }
+
+                a.innerHTML = `${text} <span class="arrow">▼</span>`;
+                navContainer.appendChild(a);
+            }
+        });
+
+        // Send height to parent
+        function sendHeight() {
+            const height = document.body.scrollHeight;
+            const frameId = params.get('frame_id');
+            if(frameId) {
+                window.parent.postMessage({ frameHeight: height, frameId: frameId }, '*');
+            }
+        }
+        window.addEventListener('load', sendHeight);
+        window.addEventListener('resize', sendHeight);
+    </script>
+</body>
+</html>
