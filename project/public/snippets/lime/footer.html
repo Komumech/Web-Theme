@@ -1,0 +1,133 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Custom Footer</title>
+    <base target="_blank">
+    <style>
+        body { margin: 0; padding: 0; font-family: sans-serif; overflow: hidden; }
+        .footer {
+            background-color: #fffbf0; /* Creamy white */
+            color: #064e3b;
+            padding: 60px 20px 0 20px;
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+        }
+
+        /* Top Links */
+        .nav-row {
+            display: flex;
+            gap: 40px;
+            margin-bottom: 60px;
+            flex-wrap: wrap;
+            justify-content: center;
+        }
+        .nav-link {
+            color: inherit;
+            text-decoration: none;
+            font-weight: 700;
+            font-size: 16px;
+        }
+        .nav-link:hover { opacity: 0.7; }
+
+        /* Middle Info */
+        .info-row {
+            display: flex;
+            gap: 40px;
+            margin-bottom: 40px;
+            font-size: 14px;
+            opacity: 0.8;
+            flex-wrap: wrap;
+            justify-content: center;
+            text-align: center;
+        }
+        .info-item { color: inherit; text-decoration: none; }
+
+        /* Big Brand Text */
+        .brand-text {
+            font-size: 18vw; /* Responsive huge text */
+            line-height: 0.8;
+            font-weight: 900;
+            text-transform: uppercase;
+            letter-spacing: -0.02em;
+            margin-bottom: -1vw; /* Slight overlap with bottom edge */
+            width: 100%;
+            text-align: center;
+            display: block;
+        }
+
+        @media (max-width: 768px) {
+            .nav-row { gap: 20px; flex-direction: column; align-items: center; margin-bottom: 40px; }
+            .info-row { gap: 15px; flex-direction: column; align-items: center; }
+            .brand-text { font-size: 22vw; }
+        }
+    </style>
+</head>
+<body>
+    <div class="footer" id="footer">
+        <!-- Navigation -->
+        <div class="nav-row" id="nav-container">
+            <!-- Links injected here -->
+        </div>
+
+        <!-- Legal / Info -->
+        <div class="info-row">
+            <span id="copyright">© 2026 Phamily, all rights reserved.</span>
+            <a href="#" class="info-item" id="legal1">Legal notice</a>
+            <a href="#" class="info-item" id="legal2">Confidentiality</a>
+            <a href="#" class="info-item" id="legal3">Credits</a>
+        </div>
+
+        <!-- Big Brand -->
+        <div class="brand-text" id="brand">PHAMILY</div>
+    </div>
+
+    <script>
+        const params = new URLSearchParams(window.location.search);
+        
+        // Colors
+        const bgColor = params.get('bg_color') ? '#' + params.get('bg_color') : '#fffbf0';
+        const textColor = params.get('text_color') ? '#' + params.get('text_color') : '#064e3b';
+        
+        const footer = document.getElementById('footer');
+        footer.style.backgroundColor = bgColor;
+        footer.style.color = textColor;
+
+        // Brand
+        document.getElementById('brand').textContent = params.get('brand') || 'PHAMILY';
+
+        // Copyright & Legal
+        document.getElementById('copyright').textContent = params.get('copyright') || '© 2026 Phamily, all rights reserved.';
+        
+        // Helper for links
+        function buildLinks(containerId, dataStr, className) {
+            const container = document.getElementById(containerId);
+            if (!dataStr) return;
+            dataStr.split(',').forEach(item => {
+                const [text, href] = item.split('|');
+                const a = document.createElement('a');
+                a.className = className;
+                a.textContent = text;
+                a.href = href || '#';
+                container.appendChild(a);
+            });
+        }
+
+        // Build Main Nav
+        // Expected format: About|#,Concept|#
+        const navLinks = params.get('nav_links') || 'About|#,Concept|#,Buy|#,Sell|#,Resources|#,Contact|#';
+        buildLinks('nav-container', navLinks, 'nav-link');
+
+        // Send height
+        function sendHeight() {
+            const height = document.body.scrollHeight;
+            const frameId = params.get('frame_id');
+            if(frameId) window.parent.postMessage({ frameHeight: height, frameId: frameId }, '*');
+        }
+        window.addEventListener('load', sendHeight);
+        window.addEventListener('resize', sendHeight);
+    </script>
+</body>
+</html>
