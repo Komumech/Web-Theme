@@ -3,10 +3,9 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>CTA Card</title>
-    <base target="_blank">
+    <title>Integra CTA Card</title>
     <style>
-        body { margin: 0; padding: 20px; font-family: sans-serif; overflow: hidden; box-sizing: border-box; }
+        body { margin: 0; padding: 20px; font-family: 'Manrope', sans-serif; overflow: hidden; box-sizing: border-box; }
         .card {
             background-color: #064e3b;
             border-radius: 30px;
@@ -24,136 +23,93 @@
         .illustration {
             height: 160px;
             display: flex;
-            align-items: flex-end;
+            align-items: center;
             justify-content: center;
             margin-bottom: 30px;
-            position: relative;
         }
         
         .illustration svg {
-            width: 140px;
+            width: 160px;
             height: auto;
-            filter: drop-shadow(0 4px 6px rgba(0,0,0,0.2));
+            filter: drop-shadow(0 8px 12px rgba(0,0,0,0.15));
         }
 
-        .heading {
-            font-size: 42px;
-            line-height: 1;
-            font-weight: 900;
-            text-transform: uppercase;
-            margin: 0 0 20px 0;
-            letter-spacing: 1px;
-        }
-
-        .description {
-            font-size: 18px;
-            line-height: 1.5;
-            margin: 0 0 30px 0;
-            max-width: 350px;
-            opacity: 0.9;
-        }
+        .heading { font-size: 32px; font-weight: 800; margin: 0 0 15px 0; text-transform: uppercase; }
+        .description { font-size: 16px; line-height: 1.5; margin: 0 0 30px 0; opacity: 0.9; }
 
         .btn {
-            background-color: #ffc0cb;
-            color: #000;
             text-decoration: none;
-            padding: 15px 30px;
+            padding: 16px 32px;
             border-radius: 50px;
-            font-weight: 600;
+            font-weight: 700;
             font-size: 16px;
-            display: inline-block;
-            transition: transform 0.2s, opacity 0.2s;
+            transition: transform 0.2s;
         }
         .btn:hover { transform: scale(1.05); }
-
-        @media (max-width: 480px) {
-            .heading { font-size: 32px; }
-            .description { font-size: 16px; }
-            .card { padding: 40px 20px; }
-        }
     </style>
 </head>
 <body>
     <div class="card" id="card">
         <div class="illustration">
-<svg viewBox="0 0 200 220" id="icon-svg">
-    <ellipse cx="100" cy="205" rx="60" ry="15" fill="#000000" opacity="0.3"/>
-    
-    <g id="icon-point" style="display:none;">
-        <path d="M70 200 L 80 140 L 60 120 L 70 100 L 90 120 L 90 60 C 90 50 110 50 110 60 L 110 120 L 130 120 L 130 140 L 140 200 Z" fill="white" stroke="black" stroke-width="3"/>
-    </g>
+            <svg viewBox="0 0 200 200" id="icon-svg">
+                <g id="icon-handshake" style="display:none;">
+                    <path d="M40 110 L60 90 C 70 80, 85 80, 95 90 L115 110 L140 85 C 150 75, 165 75, 175 85 L190 100" fill="none" stroke="white" stroke-width="6" stroke-linecap="round"/>
+                    <path d="M10 140 L40 110 L70 140 L50 160 L20 160 Z" fill="white" opacity="0.2"/>
+                    <path d="M85 115 C 75 125, 75 140, 85 150 L115 180 M115 115 C 125 125, 125 140, 115 150 L85 180" fill="none" stroke="white" stroke-width="6" stroke-linecap="round"/>
+                    <path d="M70 125 Q 100 95 130 125 M75 140 Q 100 110 125 140 M80 155 Q 100 130 120 155" fill="none" stroke="white" stroke-width="4" stroke-linecap="round" opacity="0.8"/>
+                </g>
 
-    <g id="icon-wave" style="display:none;">
-        <path d="M60 200 L 70 150 L 50 130 C 40 120 50 110 60 120 L 80 140 L 75 90 C 75 80 90 80 90 90 L 95 130 L 100 70 C 100 60 115 60 115 70 L 115 130 L 125 80 C 125 70 140 70 140 80 L 135 150 L 150 200 Z" fill="white" stroke="black" stroke-width="3"/>
-    </g>
-
-    <g id="icon-handshake" style="display:none;">
-        <path d="M30 140 Q 50 110 80 130 L 100 150 L 120 130 Q 150 110 170 140 L 150 180 L 50 180 Z" fill="white" stroke="black" stroke-width="3"/>
-        <path d="M80 130 C 90 120 110 120 120 130 M90 140 C 95 135 105 135 110 140" fill="none" stroke="black" stroke-width="2"/>
-        <path d="M85 155 L 115 155 M88 165 L 112 165" fill="none" stroke="black" stroke-width="2" stroke-linecap="round"/>
-    </g>
-
-    <g id="icon-coin" style="display:none;">
-        <ellipse cx="100" cy="110" rx="60" ry="70" fill="#FFD700" stroke="black" stroke-width="4" transform="rotate(15 100 110)"/>
-        <ellipse cx="100" cy="110" rx="40" ry="50" fill="none" stroke="black" stroke-width="2" stroke-dasharray="4 2" transform="rotate(15 100 110)"/>
-        <text x="90" y="130" font-family="Arial" font-size="60" font-weight="900" transform="rotate(15 100 110)" fill="black">$</text>
-    </g>
-</svg>
+                <g id="icon-coin" style="display:none;">
+                    <ellipse cx="100" cy="150" rx="60" ry="25" fill="white" opacity="0.3" stroke="white" stroke-width="3"/>
+                    <ellipse cx="100" cy="125" rx="60" ry="25" fill="white" opacity="0.6" stroke="white" stroke-width="3"/>
+                    <g transform="translate(0, -10)">
+                        <ellipse cx="100" cy="100" rx="60" ry="25" fill="white" stroke="white" stroke-width="4"/>
+                        <ellipse cx="100" cy="100" rx="45" ry="18" fill="none" stroke="black" stroke-width="2" stroke-dasharray="4 4" opacity="0.3"/>
+                        <text x="100" y="112" font-family="Arial" font-size="35" font-weight="900" text-anchor="middle" fill="black">$</text>
+                    </g>
+                </g>
+            </svg>
         </div>
         
-        <h2 class="heading" id="heading">STAY UP TO DATE</h2>
-        <p class="description" id="desc">Every month, our best tips and the dates of upcoming events.</p>
-        <a href="#" class="btn" id="btn">Subscribe</a>
+        <h2 class="heading" id="heading">TITLE</h2>
+        <p class="description" id="desc">Description text.</p>
+        <a href="#" class="btn" id="btn">CTA</a>
     </div>
 
     <script>
         const params = new URLSearchParams(window.location.search);
         
         // Colors
-        const bgColor = params.get('bg_color') ? '#' + params.get('bg_color') : '#064e3b';
+        const bgColor = params.get('bg_color') ? '#' + params.get('bg_color') : '#0768b3';
         const textColor = params.get('text_color') ? '#' + params.get('text_color') : '#ffffff';
-        const btnBg = params.get('btn_bg') ? '#' + params.get('btn_bg') : '#ffc0cb';
-        const btnText = params.get('btn_text_color') ? '#' + params.get('btn_text_color') : '#000000';
+        const btnBg = params.get('btn_bg') ? '#' + params.get('btn_bg') : '#00c060';
+        const btnTextColor = params.get('btn_text_color') ? '#' + params.get('btn_text_color') : '#ffffff';
 
-        const card = document.getElementById('card');
-        card.style.backgroundColor = bgColor;
-        card.style.color = textColor;
-
+        document.getElementById('card').style.backgroundColor = bgColor;
+        document.getElementById('card').style.color = textColor;
         const btn = document.getElementById('btn');
         btn.style.backgroundColor = btnBg;
-        btn.style.color = btnText;
+        btn.style.color = btnTextColor;
 
         // Content
         document.getElementById('heading').textContent = params.get('heading') || 'STAY UP TO DATE';
-        document.getElementById('desc').textContent = params.get('description') || 'Description text here.';
-        btn.textContent = params.get('cta_text') || 'Click Here';
+        document.getElementById('desc').textContent = params.get('description') || 'Join Integra Co-op today.';
+        btn.textContent = params.get('cta_text') || 'Subscribe';
         btn.href = params.get('cta_href') || '#';
 
-// Inside your script
-const iconType = params.get('icon') || 'point';
-const activeIcon = document.getElementById('icon-' + iconType);
+        // Icon Logic
+        const iconType = params.get('icon') || 'handshake';
+        const targetIcon = document.getElementById('icon-' + iconType);
+        if(targetIcon) targetIcon.style.display = 'block';
 
-if (activeIcon) {
-    activeIcon.style.display = 'block';
-    
-    // Optional: If you want the icon fill to match an 'accent_color' parameter
-    if (params.has('accent_color')) {
-        const paths = activeIcon.querySelectorAll('path, ellipse');
-        paths.forEach(p => {
-            if (p.getAttribute('fill') !== 'none' && p.getAttribute('fill') !== 'black') {
-                p.setAttribute('fill', '#' + params.get('accent_color'));
-            }
-        });
-    }
-}
-        // Send height
+        // Auto-Height for Parent
         function sendHeight() {
             const height = document.body.scrollHeight;
             const frameId = params.get('frame_id');
             if(frameId) window.parent.postMessage({ frameHeight: height, frameId: frameId }, '*');
         }
-        window.addEventListener('load', sendHeight);
-        window.addEventListener('resize', sendHeight);
+        window.onload = sendHeight;
+        window.onresize = sendHeight;
     </script>
 </body>
 </html>
