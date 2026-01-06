@@ -1,0 +1,137 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Blond Navbar</title>
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Manrope:wght@500;700;800&display=swap" rel="stylesheet">
+    <style>
+        :root {
+            --bg-color: #ffffff;
+            --text-color: #1a1a1a;
+            --btn-bg: #1a1a1a;
+            --btn-text: #ffffff;
+            --link-hover: #555555;
+        }
+        body {
+            margin: 0;
+            padding: 0;
+            font-family: 'Manrope', sans-serif;
+            background-color: var(--bg-color);
+            color: var(--text-color);
+            overflow: hidden;
+        }
+        nav {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            padding: 20px 40px;
+            height: 80px;
+            box-sizing: border-box;
+        }
+        .logo {
+            font-weight: 800;
+            font-size: 28px;
+            letter-spacing: -0.5px;
+            color: var(--text-color);
+            text-decoration: none;
+        }
+        .nav-links {
+            display: flex;
+            gap: 40px;
+            align-items: center;
+        }
+        .nav-links a {
+            text-decoration: none;
+            color: var(--text-color);
+            font-weight: 600;
+            font-size: 16px;
+            transition: color 0.2s;
+        }
+        .nav-links a:hover {
+            color: var(--link-hover);
+        }
+        .cta-btn {
+            background-color: var(--btn-bg);
+            color: var(--btn-text);
+            padding: 12px 28px;
+            border-radius: 50px;
+            text-decoration: none;
+            font-weight: 700;
+            font-size: 15px;
+            transition: opacity 0.2s;
+        }
+        .cta-btn:hover {
+            opacity: 0.9;
+        }
+        .menu-toggle {
+            display: none;
+            font-size: 24px;
+            cursor: pointer;
+        }
+
+        @media (max-width: 768px) {
+            nav { padding: 20px; }
+            .nav-links {
+                display: none;
+                position: absolute;
+                top: 80px;
+                left: 0;
+                width: 100%;
+                background-color: var(--bg-color);
+                flex-direction: column;
+                padding: 20px 0;
+                border-bottom: 1px solid #eee;
+                gap: 20px;
+            }
+            .nav-links.active { display: flex; }
+            .cta-btn { display: none; } /* Hide CTA on mobile or move inside menu */
+            .menu-toggle { display: block; }
+        }
+    </style>
+</head>
+<body>
+    <nav>
+        <a href="#" class="logo" id="brand">Kalogirou Rania</a>
+        
+        <div class="nav-links" id="nav_links">
+            <a href="#" id="link1">Home</a>
+            <a href="#" id="link2">Pages</a>
+            <a href="#" id="link3">Blog</a>
+            <a href="#" id="link4">Portfolio</a>
+        </div>
+
+        <a href="#" class="cta-btn" id="cta">Let's work!</a>
+        <div class="menu-toggle" onclick="toggleMenu()">☰</div>
+    </nav>
+
+    <script>
+        function toggleMenu() {
+            document.getElementById('nav_links').classList.toggle('active');
+            postHeight();
+        }
+        function postHeight() {
+            const height = document.body.scrollHeight;
+            const frameId = new URLSearchParams(window.location.search).get('frame_id');
+            if (frameId) window.parent.postMessage({ frameHeight: height, frameId: frameId }, '*');
+        }
+
+        window.addEventListener('DOMContentLoaded', () => {
+            const params = new URLSearchParams(window.location.search);
+            
+            if(params.has('bg_color')) document.documentElement.style.setProperty('--bg-color', '#' + params.get('bg_color'));
+            if(params.has('text_color')) document.documentElement.style.setProperty('--text-color', '#' + params.get('text_color'));
+            if(params.has('btn_bg')) document.documentElement.style.setProperty('--btn-bg', '#' + params.get('btn_bg'));
+            if(params.has('btn_text')) document.documentElement.style.setProperty('--btn-text', '#' + params.get('btn_text'));
+
+            if(params.has('brand')) document.getElementById('brand').textContent = params.get('brand');
+            if(params.has('cta_text')) document.getElementById('cta').textContent = params.get('cta_text');
+            for(let i=1; i<=4; i++) if(params.has(`link${i}_text`)) document.getElementById(`link${i}`).textContent = params.get(`link${i}_text`);
+
+            postHeight();
+        });
+    </script>
+</body>
+</html>

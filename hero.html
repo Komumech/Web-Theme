@@ -1,0 +1,192 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Blond Hero</title>
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Manrope:wght@400;600;800&display=swap" rel="stylesheet">
+    <style>
+        :root {
+            --bg-color: #ffffff;
+            --text-color: #1a1a1a;
+            --heading-color: #1a1a1a;
+            --icon-color: #1a1a1a;
+        }
+        body {
+            margin: 0;
+            padding: 60px 40px;
+            font-family: 'Manrope', sans-serif;
+            background-color: var(--bg-color);
+            color: var(--text-color);
+            box-sizing: border-box;
+        }
+        .container {
+            max-width: 1200px;
+            margin: 0 auto;
+            display: grid;
+            grid-template-columns: 1.2fr 1fr;
+            gap: 60px;
+            align-items: start;
+        }
+        .hero-title {
+            font-size: 82px;
+            line-height: 1.1;
+            font-weight: 800;
+            margin: 0;
+            color: var(--heading-color);
+            letter-spacing: -2px;
+            min-height: 180px; /* Prevent layout shift */
+        }
+        .features-grid {
+            display: grid;
+            grid-template-columns: 1fr 1fr;
+            gap: 40px;
+            padding-top: 20px;
+            
+            /* Slide Up Animation */
+            opacity: 0;
+            transform: translateY(40px);
+            animation: slideUp 1s cubic-bezier(0.25, 0.46, 0.45, 0.94) forwards;
+            animation-delay: 0.3s;
+        }
+        
+        @keyframes slideUp {
+            to {
+                opacity: 1;
+                transform: translateY(0);
+            }
+        }
+
+        .feature-icon {
+            width: 48px;
+            height: 48px;
+            border: 2px solid var(--icon-color);
+            border-radius: 50%;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-size: 24px;
+            margin-bottom: 20px;
+            color: var(--icon-color);
+        }
+        .feature h3 {
+            font-size: 24px;
+            font-weight: 800;
+            margin: 0 0 15px 0;
+            color: var(--heading-color);
+        }
+        .feature p {
+            font-size: 16px;
+            line-height: 1.6;
+            color: var(--text-color);
+            opacity: 0.8;
+            margin: 0;
+        }
+
+        /* Typing Effect Cursor */
+        .cursor {
+            display: inline-block;
+            width: 4px;
+            height: 0.9em;
+            background-color: var(--heading-color);
+            margin-left: 5px;
+            vertical-align: baseline;
+            animation: blink 1s step-end infinite;
+        }
+        @keyframes blink { 50% { opacity: 0; } }
+
+        @media (max-width: 900px) {
+            .container { grid-template-columns: 1fr; gap: 40px; }
+            .hero-title { font-size: 56px; min-height: auto; }
+        }
+        @media (max-width: 600px) {
+            .features-grid { grid-template-columns: 1fr; }
+            body { padding: 40px 20px; }
+        }
+    </style>
+</head>
+<body>
+    <div class="container">
+        <h1 class="hero-title">
+            <span id="headline_static">Looking for help with your</span><br>
+            <span id="headline_dynamic"></span><span class="cursor" id="cursor"></span>
+        </h1>
+        
+        <div class="features-grid">
+            <div class="feature">
+                <div class="feature-icon">?</div>
+                <h3 id="prob_title">The Problem</h3>
+                <p id="prob_desc">You know what compelling, human-like copy sounds like. But when it comes to writing it, that is a different topic altogether.</p>
+            </div>
+            <div class="feature">
+                <div class="feature-icon">♡</div>
+                <h3 id="sol_title">The Solution</h3>
+                <p id="sol_desc">This is where a content copywriter can come in handy. And this is why you are here.</p>
+            </div>
+        </div>
+    </div>
+
+    <script>
+        window.addEventListener('DOMContentLoaded', () => {
+            const params = new URLSearchParams(window.location.search);
+            
+            if(params.has('bg_color')) document.documentElement.style.setProperty('--bg-color', '#' + params.get('bg_color'));
+            if(params.has('text_color')) document.documentElement.style.setProperty('--text-color', '#' + params.get('text_color'));
+            if(params.has('heading_color')) document.documentElement.style.setProperty('--heading-color', '#' + params.get('heading_color'));
+
+            if(params.has('headline')) document.getElementById('headline_static').innerHTML = params.get('headline');
+            if(params.has('prob_title')) document.getElementById('prob_title').textContent = params.get('prob_title');
+            if(params.has('prob_desc')) document.getElementById('prob_desc').textContent = params.get('prob_desc');
+            if(params.has('sol_title')) document.getElementById('sol_title').textContent = params.get('sol_title');
+            if(params.has('sol_desc')) document.getElementById('sol_desc').textContent = params.get('sol_desc');
+
+            // Typing Effect Logic
+            const keywordsParam = params.get('keywords');
+            if (keywordsParam) {
+                const keywords = keywordsParam.split(',');
+                const dynamicText = document.getElementById('headline_dynamic');
+                const typeSpeed = parseInt(params.get('typing_speed')) || 150;
+                const deleteSpeed = parseInt(params.get('delete_speed')) || 100;
+                const pauseTime = parseInt(params.get('pause_time')) || 2000;
+                
+                let wordIndex = 0;
+                let charIndex = 0;
+                let isDeleting = false;
+
+                function type() {
+                    const currentWord = keywords[wordIndex].trim();
+                    
+                    if (isDeleting) {
+                        dynamicText.textContent = currentWord.substring(0, charIndex - 1);
+                        charIndex--;
+                    } else {
+                        dynamicText.textContent = currentWord.substring(0, charIndex + 1);
+                        charIndex++;
+                    }
+
+                    let speed = isDeleting ? deleteSpeed : typeSpeed;
+
+                    if (!isDeleting && charIndex === currentWord.length) {
+                        speed = pauseTime;
+                        isDeleting = true;
+                    } else if (isDeleting && charIndex === 0) {
+                        isDeleting = false;
+                        wordIndex = (wordIndex + 1) % keywords.length;
+                        speed = 500;
+                    }
+                    setTimeout(type, speed);
+                }
+                type();
+            } else {
+                document.getElementById('cursor').style.display = 'none';
+            }
+
+            const height = document.body.scrollHeight;
+            const frameId = params.get('frame_id');
+            if (frameId) window.parent.postMessage({ frameHeight: height, frameId: frameId }, '*');
+        });
+    </script>
+</body>
+</html>
