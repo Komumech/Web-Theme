@@ -6,7 +6,7 @@
     <title>Custom Navbar</title>
     <base target="_blank">
     <style>
-        html, body { height: 100%; overflow: hidden; }
+        html, body { height: 100%; }
         body { 
             margin: 0; 
             padding: 10px; 
@@ -204,7 +204,11 @@
                 dd.classList.add('show');
                 arrow.classList.add('open');
                 // Request more height for the iframe to show the dropdown
-                sendHeight(400); 
+                // Calculate required height: Dropdown height + Pill height + Buffer
+                const ddHeight = dd.scrollHeight;
+                const pillHeight = navContainer.offsetHeight;
+                const totalHeight = ddHeight + pillHeight + 50;
+                sendHeight(totalHeight); 
             } else {
                 // Reset height
                 sendHeight();
