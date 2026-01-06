@@ -233,8 +233,22 @@
                 window.parent.postMessage({ frameHeight: height, frameId: frameId }, '*');
             }
         }
-        window.addEventListener('load', () => sendHeight());
-        window.addEventListener('resize', () => sendHeight());
+
+        function checkHeight() {
+            const openDD = document.querySelector('.dropdown-menu.show');
+            if (openDD) {
+                const ddHeight = openDD.scrollHeight;
+                const pillHeight = navContainer.offsetHeight;
+                const totalHeight = ddHeight + pillHeight + 50;
+                sendHeight(totalHeight);
+            } else {
+                sendHeight();
+            }
+        }
+
+        window.addEventListener('load', checkHeight);
+        window.addEventListener('resize', checkHeight);
+        setInterval(checkHeight, 100);
     </script>
 </body>
 </html>
