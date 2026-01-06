@@ -15,6 +15,7 @@
             --btn-bg: #1a1a1a;
             --btn-text: #ffffff;
             --link-hover: #555555;
+            --border-color: #eee;
         }
         body {
             margin: 0;
@@ -127,6 +128,7 @@
             if(params.has('btn_bg')) document.documentElement.style.setProperty('--btn-bg', '#' + params.get('btn_bg'));
             if(params.has('btn_text')) document.documentElement.style.setProperty('--btn-text', '#' + params.get('btn_text'));
             if(params.has('link_hover')) document.documentElement.style.setProperty('--link-hover', '#' + params.get('link_hover'));
+            if(params.has('border_color')) document.documentElement.style.setProperty('--border-color', '#' + params.get('border_color'));
 
             if(params.has('brand')) document.getElementById('brand').textContent = params.get('brand');
             if(params.has('cta_text')) document.getElementById('cta').textContent = params.get('cta_text');

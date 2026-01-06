@@ -45,7 +45,6 @@
             font-size: 16px;
             line-height: 1.7;
             margin: 0 0 30px 0;
-            opacity: 0.8;
         }
         .link {
             display: inline-block;
@@ -161,7 +160,9 @@
         if(params.has('badge_bg')) document.documentElement.style.setProperty('--badge-bg', '#' + params.get('badge_bg'));
         if(params.has('badge_text')) document.documentElement.style.setProperty('--badge-text', '#' + params.get('badge_text'));
 
-        ['head1', 'text1', 'head2', 'text2', 'link'].forEach(id => { if(params.get(id)) document.getElementById(id).textContent = params.get(id); });
+        ['head1', 'text1', 'head2', 'text2'].forEach(id => { if(params.get(id)) document.getElementById(id).textContent = params.get(id); });
+        if(params.get('link')) { document.getElementById('link').textContent = params.get('link'); }
+        if(params.get('link_href')) { document.getElementById('link').href = params.get('link_href'); }
         if(params.get('badge_label')) document.getElementById('badge_label').textContent = params.get('badge_label');
         if(params.get('image')) document.getElementById('main_img').src = params.get('image');
         

@@ -15,6 +15,7 @@
             --text-color: #1a1a1a;
             --heading-color: #1a1a1a;
             --accent-color: #ff6b6b;
+            --badge-text-color: #ffffff;
         }
         body {
             margin: 0;
@@ -65,7 +66,7 @@
             display: flex;
             align-items: center;
             justify-content: center;
-            color: white;
+            color: var(--badge-text-color);
             font-size: 12px;
             border: 2px solid var(--card-bg);
         }
@@ -82,7 +83,6 @@
             font-size: 16px;
             font-weight: 500;
             color: var(--text-color);
-            opacity: 0.7;
             margin: 0;
         }
         .quote {
@@ -125,6 +125,7 @@
         if(params.has('text_color')) document.documentElement.style.setProperty('--text-color', '#' + params.get('text_color'));
         if(params.has('heading_color')) document.documentElement.style.setProperty('--heading-color', '#' + params.get('heading_color'));
         if(params.has('accent_color')) document.documentElement.style.setProperty('--accent-color', '#' + params.get('accent_color'));
+        if(params.has('badge_text_color')) document.documentElement.style.setProperty('--badge-text-color', '#' + params.get('badge_text_color'));
 
         if(params.has('avatar')) document.getElementById('avatar').src = params.get('avatar');
         if(params.has('name')) document.getElementById('name').textContent = params.get('name');

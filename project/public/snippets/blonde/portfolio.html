@@ -12,6 +12,8 @@
         :root {
             --bg-color: #ffffff;
             --text-color: #1a1a1a;
+            --heading-color: #1a1a1a;
+            --secondary-text-color: #6c757d;
         }
         body {
             margin: 0;
@@ -25,7 +27,7 @@
             max-width: 1200px;
             margin: 0 auto 40px auto;
         }
-        h2 { font-size: 42px; font-weight: 800; margin: 0; }
+        h2 { font-size: 42px; font-weight: 800; margin: 0; color: var(--heading-color); }
         
         .grid {
             display: grid;
@@ -53,8 +55,8 @@
             transition: transform 0.4s ease;
         }
         .item:hover img { transform: scale(1.05); }
-        .title { font-size: 20px; font-weight: 700; margin: 0 0 5px 0; }
-        .category { font-size: 14px; opacity: 0.6; margin: 0; text-transform: uppercase; letter-spacing: 1px; }
+        .title { font-size: 20px; font-weight: 700; margin: 0 0 5px 0; color: var(--heading-color); }
+        .category { font-size: 14px; color: var(--secondary-text-color); margin: 0; text-transform: uppercase; letter-spacing: 1px; }
 
         @media (max-width: 600px) {
             body { padding: 40px 20px; }
@@ -71,6 +73,8 @@
         
         if(params.has('bg_color')) document.documentElement.style.setProperty('--bg-color', '#' + params.get('bg_color'));
         if(params.has('text_color')) document.documentElement.style.setProperty('--text-color', '#' + params.get('text_color'));
+        if(params.has('heading_color')) document.documentElement.style.setProperty('--heading-color', '#' + params.get('heading_color'));
+        if(params.has('secondary_text_color')) document.documentElement.style.setProperty('--secondary-text-color', '#' + params.get('secondary_text_color'));
         if(params.has('heading')) document.getElementById('heading').textContent = params.get('heading');
 
         const grid = document.getElementById('grid');

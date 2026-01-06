@@ -14,6 +14,7 @@
             --card-bg: #f9f9f9;
             --text-color: #1a1a1a;
             --heading-color: #1a1a1a;
+            --accent-color: #1a1a1a;
         }
         body {
             margin: 0;
@@ -40,7 +41,8 @@
         .number {
             font-size: 14px;
             font-weight: 800;
-            opacity: 0.3;
+            color: var(--accent-color);
+            opacity: 0.5;
             margin-bottom: 20px;
             display: block;
         }
@@ -54,7 +56,6 @@
             font-size: 16px;
             line-height: 1.6;
             margin: 0;
-            opacity: 0.8;
         }
         @media (max-width: 600px) {
             body { padding: 40px 20px; }
@@ -71,6 +72,7 @@
         if(params.has('card_bg')) document.documentElement.style.setProperty('--card-bg', '#' + params.get('card_bg'));
         if(params.has('text_color')) document.documentElement.style.setProperty('--text-color', '#' + params.get('text_color'));
         if(params.has('heading_color')) document.documentElement.style.setProperty('--heading-color', '#' + params.get('heading_color'));
+        if(params.has('accent_color')) document.documentElement.style.setProperty('--accent-color', '#' + params.get('accent_color'));
 
         const grid = document.getElementById('grid');
         let i = 1;

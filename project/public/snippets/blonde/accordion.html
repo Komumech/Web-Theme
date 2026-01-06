@@ -44,7 +44,6 @@
             transition: max-height 0.4s ease-out;
             font-size: 16px;
             line-height: 1.6;
-            opacity: 0.8;
         }
         .accordion-content p { margin: 0 0 25px 0; }
         .active .icon { transform: rotate(45deg); }
@@ -76,6 +75,7 @@
             if(params.has('text_color')) document.documentElement.style.setProperty('--text-color', '#' + params.get('text_color'));
             if(params.has('heading_color')) document.documentElement.style.setProperty('--heading-color', '#' + params.get('heading_color'));
             if(params.has('accent_color')) document.documentElement.style.setProperty('--accent-color', '#' + params.get('accent_color'));
+            if(params.has('border_color')) document.documentElement.style.setProperty('--border-color', '#' + params.get('border_color'));
 
             if(params.has('title')) document.getElementById('title').textContent = params.get('title');
 
