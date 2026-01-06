@@ -9,7 +9,7 @@
     <link href="https://fonts.googleapis.com/css2?family=Manrope:wght@400;600;800&display=swap" rel="stylesheet">
     <style>
         :root {
-            --accent-color: #dc58e3b7;
+            --accent-color: #dc58e3;
             --bg-color: #ffffff;
             --text-color: #1a1a1a;
             --heading-color: #1a1a1a;
@@ -198,8 +198,6 @@
             if(params.has('heading_color')) document.documentElement.style.setProperty('--heading-color', '#' + params.get('heading_color'));
             if(params.has('icon_color')) document.documentElement.style.setProperty('--icon-color', '#' + params.get('icon_color'));
             if(params.has('accent_color')) document.documentElement.style.setProperty('--accent-color', '#' + params.get('accent_color'));
-            // Ripple Accent Color
-            let rippleColor = params.has('accent_color') ? '#' + params.get('accent_color') : (params.has('icon_color') ? '#' + params.get('icon_color') : '#00c060');
 
             // Apply Content
             if(params.has('headline')) document.getElementById('headline_static').innerHTML = params.get('headline');
@@ -254,52 +252,6 @@
             
             postHeight();
             window.addEventListener('resize', postHeight);
-
-            // --- Ripple Effect ---
-            const canvas = document.getElementById('ripple-canvas');
-            const ctx = canvas.getContext('2d');
-            let ripples = [];
-
-            function resizeCanvas() {
-                canvas.width = window.innerWidth;
-                canvas.height = window.innerHeight;
-            }
-            window.addEventListener('resize', resizeCanvas);
-            resizeCanvas();
-
-            document.addEventListener('mousemove', (e) => {
-                ripples.push({
-                    x: e.clientX,
-                    y: e.clientY,
-                    radius: 1,
-                    alpha: 0.5,
-                    speed: 1 + Math.random()
-                });
-            });
-
-            function animateRipples() {
-                ctx.clearRect(0, 0, canvas.width, canvas.height);
-                
-                for (let i = 0; i < ripples.length; i++) {
-                    let r = ripples[i];
-                    r.radius += r.speed;
-                    r.alpha -= 0.005;
-                    if (r.alpha <= 0) {
-                        ripples.splice(i, 1);
-                        i--;
-                        continue;
-                    }
-                    ctx.beginPath();
-                    ctx.arc(r.x, r.y, r.radius, 0, Math.PI * 2);
-                    ctx.strokeStyle = rippleColor;
-                    ctx.globalAlpha = r.alpha;
-                    ctx.lineWidth = 1.5;
-                    ctx.stroke();
-                    ctx.globalAlpha = 1;
-                }
-                requestAnimationFrame(animateRipples);
-            }
-            animateRipples();
         });
     </script>
 </body>
