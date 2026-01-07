@@ -31,7 +31,7 @@
             max-width: 1200px;
             margin: 0 auto;
             display: grid;
-            grid-template-columns: 1fr 1.2fr 0.8fr;
+            grid-template-columns: 1fr 1fr;
             gap: 60px;
             align-items: center;
         }
@@ -98,12 +98,11 @@
         @keyframes spin { 100% { transform: rotate(360deg); } }
 
         .stats-list {
-            padding-right: 30px;
             display: flex;
             flex-direction: row;
             gap: 50px;
-            text-align: center;
-            justify-self: flex-end;
+            margin-top: 40px;
+            justify-content: center;
         }
         .stat-number {
             font-size: 56px;
@@ -116,6 +115,11 @@
             font-size: 18px;
             font-weight: 500;
             line-height: 1.4;
+        }
+        
+        .right-col {
+            display: flex;
+            flex-direction: column;
         }
 
         @media (max-width: 900px) {
@@ -138,19 +142,21 @@
             <p id="text2">I use my research skills and SEO knowledge to craft content that converts.</p>
         </div>
 
-        <div class="image-wrapper">
-            <div class="badge">
-                <svg viewBox="0 0 100 100">
-                    <path id="circle" d="M 50, 50 m -37, 0 a 37,37 0 1,1 74,0 a 37,37 0 1,1 -74,0" fill="none"/>
-                    <text font-size="11" font-weight="bold">
-                        <textPath id="badge_label" href="#circle" startOffset="0%">Scroll Down • Scroll Down •</textPath>
-                    </text>
-                </svg>
+        <div class="right-col">
+            <div class="image-wrapper">
+                <div class="badge">
+                    <svg viewBox="0 0 100 100">
+                        <path id="circle" d="M 50, 50 m -37, 0 a 37,37 0 1,1 74,0 a 37,37 0 1,1 -74,0" fill="none"/>
+                        <text font-size="11" font-weight="bold">
+                            <textPath id="badge_label" href="#circle" startOffset="0%">Scroll Down • Scroll Down •</textPath>
+                        </text>
+                    </svg>
+                </div>
+                <img src="" id="main_img" class="arch-img" alt="Profile">
             </div>
-            <img src="" id="main_img" class="arch-img" alt="Profile">
-        </div>
 
-        <div class="stats-list" id="stats_container"></div>
+            <div class="stats-list" id="stats_container"></div>
+        </div>
     </div>
 
     <script>
