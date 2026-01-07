@@ -3,16 +3,16 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Custom Navbar</title>
+    <title>Custom Navbar with Mobile Dropdowns</title>
     <base target="_blank">
     <style>
         :root {
             --primary-bg: #ea4c3b;
             --text-color: #ffffff;
         }
-        html, body { height: 100%; margin: 0; padding: 0; overflow: hidden; }
+        html, body { height: 100%; margin: 0; padding: 0; }
         body { 
-            font-family: sans-serif; 
+            font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif; 
             background: transparent; 
             display: flex;
             justify-content: flex-start; /* Aligned Left */
@@ -29,7 +29,9 @@
             align-items: center;
             box-shadow: 0 10px 25px rgba(0,0,0,0.2);
             max-width: fit-content;
-            transition: all 0.3s ease;
+            transition: all 0.4s cubic-bezier(0.175, 0.885, 0.32, 1.275);
+            position: relative;
+            z-index: 100;
         }
 
         .home-btn {
@@ -42,16 +44,16 @@
             justify-content: center;
             cursor: pointer;
             flex-shrink: 0;
-            margin-right: 5px;
         }
         .home-btn svg { width: 20px; height: 20px; fill: white; }
 
-        /* Desktop Nav Items */
-        .nav-items-container {
+        /* --- DESKTOP VIEW --- */
+        .desktop-items {
             display: flex;
             align-items: center;
+            margin-left: 5px;
         }
-
+        .nav-group { position: relative; }
         .nav-item {
             padding: 10px 16px;
             color: var(--text-color);
@@ -63,108 +65,135 @@
             display: flex;
             align-items: center;
             gap: 6px;
+            cursor: pointer;
         }
         .nav-item:hover { background: rgba(255,255,255,0.1); }
 
-        /* Hamburger Menu */
-        .hamburger {
-            display: none;
-            flex-direction: column;
-            gap: 4px;
-            padding: 10px;
-            cursor: pointer;
-            border-radius: 50%;
-        }
-        .hamburger span {
-            width: 20px;
-            height: 2px;
-            background: white;
-            transition: 0.3s;
-        }
-
-        /* Mobile View Styles */
-        @media (max-width: 768px) {
-            .nav-items-container { display: none; } /* Hide regular links */
-            .hamburger { display: flex; } /* Show hamburger */
-            
-            .nav-pill.mobile-open {
-                border-radius: 20px;
-                flex-direction: column;
-                align-items: flex-start;
-                padding: 15px;
-            }
-
-            .mobile-menu {
-                display: none;
-                flex-direction: column;
-                width: 100%;
-                margin-top: 10px;
-                gap: 5px;
-            }
-            .nav-pill.mobile-open .mobile-menu { display: flex; }
-            .mobile-link {
-                color: white;
-                text-decoration: none;
-                padding: 12px;
-                border-radius: 10px;
-                background: rgba(255,255,255,0.1);
-                font-weight: 600;
-            }
-        }
-
-        /* Dropdown Styles (Desktop) */
-        .nav-group { position: relative; }
         .dropdown-menu {
             position: absolute;
             bottom: 140%;
             left: 50%;
             transform: translateX(-50%) translateY(10px);
             background: white;
-            min-width: 160px;
+            min-width: 180px;
             border-radius: 12px;
             padding: 8px;
-            box-shadow: 0 5px 20px rgba(0,0,0,0.15);
+            box-shadow: 0 10px 30px rgba(0,0,0,0.2);
             display: none;
             flex-direction: column;
-            gap: 4px;
+            gap: 2px;
             opacity: 0;
-            transition: 0.2s;
+            transition: 0.3s;
         }
         .dropdown-menu.show { display: flex; opacity: 1; transform: translateX(-50%) translateY(0); }
         .dropdown-link {
-            padding: 10px;
+            padding: 10px 14px;
             color: #333;
             text-decoration: none;
             font-size: 14px;
+            font-weight: 500;
             border-radius: 8px;
         }
         .dropdown-link:hover { background: #f5f5f5; color: var(--primary-bg); }
-        
+
+        /* --- MOBILE HAMBURGER --- */
+        .hamburger {
+            display: none;
+            flex-direction: column;
+            gap: 4px;
+            padding: 10px;
+            cursor: pointer;
+            margin-left: 5px;
+        }
+        .hamburger span { width: 22px; height: 2px; background: white; transition: 0.3s; }
+
+        /* --- MOBILE DRAWER --- */
+        .mobile-drawer {
+            display: none;
+            width: 100%;
+            flex-direction: column;
+            gap: 5px;
+            margin-top: 10px;
+            max-height: 0;
+            overflow: hidden;
+            transition: max-height 0.4s ease;
+        }
+
+        .mobile-item-group { width: 100%; }
+        .mobile-parent {
+            width: 100%;
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            color: white;
+            text-decoration: none;
+            padding: 12px;
+            font-weight: 600;
+            background: rgba(255,255,255,0.05);
+            border-radius: 12px;
+            box-sizing: border-box;
+        }
+        .mobile-sub-menu {
+            display: none;
+            flex-direction: column;
+            padding-left: 15px;
+            margin-top: 5px;
+            gap: 2px;
+        }
+        .mobile-sub-menu.show { display: flex; }
+        .mobile-child {
+            color: rgba(255,255,255,0.8);
+            text-decoration: none;
+            padding: 10px;
+            font-size: 14px;
+            border-left: 2px solid rgba(255,255,255,0.2);
+        }
+
         .arrow { font-size: 10px; transition: 0.3s; }
         .arrow.open { transform: rotate(180deg); }
+
+        /* --- RESPONSIVE LOGIC --- */
+        @media (max-width: 768px) {
+            .desktop-items { display: none; }
+            .hamburger { display: flex; }
+            
+            .nav-pill.mobile-open {
+                border-radius: 24px;
+                flex-direction: column;
+                align-items: flex-start;
+                padding: 12px;
+                width: 260px; /* Fixed width for drawer */
+                max-width: 85vw;
+            }
+            .nav-pill.mobile-open .mobile-drawer { 
+                display: flex; 
+                max-height: 500px;
+            }
+            .nav-pill.mobile-open .hamburger span:nth-child(1) { transform: translateY(6px) rotate(45deg); }
+            .nav-pill.mobile-open .hamburger span:nth-child(2) { opacity: 0; }
+            .nav-pill.mobile-open .hamburger span:nth-child(3) { transform: translateY(-6px) rotate(-45deg); }
+        }
     </style>
 </head>
 <body>
     <div class="nav-pill" id="nav-pill">
-        <div class="home-btn" id="home-btn">
-            <svg viewBox="0 0 24 24"><path d="M10 20v-6h4v6h5v-8h3L12 3 2 12h3v8z"/></svg>
+        <div style="display: flex; align-items: center; width: 100%;">
+            <div class="home-btn" id="home-btn">
+                <svg viewBox="0 0 24 24"><path d="M10 20v-6h4v6h5v-8h3L12 3 2 12h3v8z"/></svg>
+            </div>
+
+            <div class="desktop-items" id="desktop-links"></div>
+
+            <div class="hamburger" id="hamburger">
+                <span></span><span></span><span></span>
+            </div>
         </div>
 
-        <div class="nav-items-container" id="desktop-links"></div>
-
-        <div class="hamburger" id="hamburger">
-            <span></span>
-            <span></span>
-            <span></span>
-        </div>
-
-        <div class="mobile-menu" id="mobile-links"></div>
+        <div class="mobile-drawer" id="mobile-links"></div>
     </div>
 
     <script>
         const params = new URLSearchParams(window.location.search);
-        
-        // Colors
         const bgColor = params.get('bg_color') ? '#' + params.get('bg_color') : '#ea4c3b';
         const textColor = params.get('text_color') ? '#' + params.get('text_color') : '#ffffff';
         document.documentElement.style.setProperty('--primary-bg', bgColor);
@@ -180,50 +209,77 @@
             document.getElementById('home-btn').onclick = () => window.open(params.get('home_href'), '_blank');
         }
 
-        // Generate Links
         ['link1', 'link2', 'link3'].forEach(key => {
             const text = params.get(key + '_text');
+            if (!text) return;
+
             const href = params.get(key + '_href') || '#';
-            const items = params.get(key + '_items');
+            const items = params.get(key + '_items'); // Format: Label|Url,Label|Url
 
-            if (text) {
-                // Create Desktop Element
-                const group = document.createElement('div');
-                group.className = 'nav-group';
-                let arrow = items ? ' <span class="arrow">▼</span>' : '';
-                group.innerHTML = `<a href="${href}" class="nav-item">${text}${arrow}</a>`;
-                
-                if (items) {
-                    const dd = document.createElement('div');
-                    dd.className = 'dropdown-menu';
-                    items.split(',').forEach(item => {
-                        const [l, h] = item.split('|');
-                        dd.innerHTML += `<a href="${h || '#'}" class="dropdown-link">${l}</a>`;
-                    });
-                    group.appendChild(dd);
-                    group.onclick = (e) => {
-                        e.preventDefault();
-                        dd.classList.toggle('show');
-                        group.querySelector('.arrow').classList.toggle('open');
-                        sendHeight(dd.classList.contains('show') ? 300 : 100);
-                    };
-                }
-                desktopContainer.appendChild(group);
-
-                // Create Mobile Element
-                const mLink = document.createElement('a');
-                mLink.className = 'mobile-link';
-                mLink.href = href;
-                mLink.textContent = text;
-                mobileContainer.appendChild(mLink);
+            // 1. CREATE DESKTOP VERSION
+            const group = document.createElement('div');
+            group.className = 'nav-group';
+            let arrow = items ? ' <span class="arrow">▼</span>' : '';
+            group.innerHTML = `<a href="${href}" class="nav-item">${text}${arrow}</a>`;
+            
+            if (items) {
+                const dd = document.createElement('div');
+                dd.className = 'dropdown-menu';
+                items.split(',').forEach(item => {
+                    const [l, h] = item.split('|');
+                    dd.innerHTML += `<a href="${h || '#'}" class="dropdown-link">${l}</a>`;
+                });
+                group.appendChild(dd);
+                group.onclick = (e) => {
+                    e.preventDefault();
+                    document.querySelectorAll('.dropdown-menu').forEach(d => d !== dd && d.classList.remove('show'));
+                    const isShowing = dd.classList.toggle('show');
+                    group.querySelector('.arrow').classList.toggle('open', isShowing);
+                    sendHeight(isShowing ? 350 : 100);
+                };
             }
+            desktopContainer.appendChild(group);
+
+            // 2. CREATE MOBILE VERSION
+            const mGroup = document.createElement('div');
+            mGroup.className = 'mobile-item-group';
+            
+            let mArrow = items ? '<span class="arrow">▼</span>' : '';
+            mGroup.innerHTML = `<a href="${href}" class="mobile-parent"><span>${text}</span>${mArrow}</a>`;
+            
+            if (items) {
+                const sub = document.createElement('div');
+                sub.className = 'mobile-sub-menu';
+                items.split(',').forEach(item => {
+                    const [l, h] = item.split('|');
+                    sub.innerHTML += `<a href="${h || '#'}" class="mobile-child">${l}</a>`;
+                });
+                mGroup.appendChild(sub);
+                
+                mGroup.querySelector('.mobile-parent').onclick = (e) => {
+                    e.preventDefault();
+                    sub.classList.toggle('show');
+                    mGroup.querySelector('.arrow').classList.toggle('open');
+                    // Dynamic height based on expanded items
+                    const newHeight = navPill.scrollHeight + 100;
+                    sendHeight(newHeight);
+                };
+            }
+            mobileContainer.appendChild(mGroup);
         });
 
-        // Mobile Toggle logic
-        hamburger.onclick = () => {
-            navPill.classList.toggle('mobile-open');
-            const isOpen = navPill.classList.contains('mobile-open');
-            sendHeight(isOpen ? 400 : 100);
+        // Toggle Mobile Pill
+        hamburger.onclick = (e) => {
+            e.stopPropagation();
+            const isOpen = navPill.classList.toggle('mobile-open');
+            if (isOpen) {
+                sendHeight(450);
+            } else {
+                sendHeight(100);
+                // Close any open sub-menus when closing drawer
+                document.querySelectorAll('.mobile-sub-menu').forEach(s => s.classList.remove('show'));
+                document.querySelectorAll('.arrow').forEach(a => a.classList.remove('open'));
+            }
         };
 
         function sendHeight(h) {
@@ -233,8 +289,12 @@
             }
         }
 
-        // Initial height
-        window.onload = () => sendHeight(100);
+        // Close on outside click
+        window.onclick = () => {
+            document.querySelectorAll('.dropdown-menu').forEach(d => d.classList.remove('show'));
+            document.querySelectorAll('.arrow').forEach(a => a.classList.remove('open'));
+            if (!navPill.classList.contains('mobile-open')) sendHeight(100);
+        };
     </script>
 </body>
 </html>
