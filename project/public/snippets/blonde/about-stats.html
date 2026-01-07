@@ -145,6 +145,39 @@
             .badge { left: 25%;  top: -60px; animation: spin 10s linear infinite; }
             .arch-img { max-width: 400px; margin: 0 auto; }
         }
+
+        /* Cursor Bubble */
+        .cursor-bubble {
+            position: fixed;
+            width: 120px;
+            height: 120px;
+            background-color: white;
+            border-radius: 50%;
+            pointer-events: none;
+            mix-blend-mode: difference;
+            z-index: 9999;
+            transform: translate(-50%, -50%) scale(0);
+            transition: transform 0.2s ease-out;
+        }
+        body:hover .cursor-bubble {
+            transform: translate(-50%, -50%) scale(1);
+        }
+
+        /* Entrance Animations */
+        @keyframes fadeInUp {
+            from { opacity: 0; transform: translateY(40px); }
+            to { opacity: 1; transform: translateY(0); }
+        }
+
+        .content-col {
+            opacity: 0;
+            animation: fadeInUp 0.8s cubic-bezier(0.2, 0.8, 0.2, 1) forwards;
+        }
+
+        .right-col {
+            opacity: 0;
+            animation: fadeInUp 0.8s cubic-bezier(0.2, 0.8, 0.2, 1) forwards 0.2s;
+        }
     </style>
 </head>
 <body>
@@ -176,6 +209,7 @@
     </div>
 
     <div class="stats-list" id="stats_container"></div>
+    <div class="cursor-bubble" id="cursor-bubble"></div>
    
 
     <script>
@@ -201,9 +235,18 @@
         const stats = document.getElementById('stats_container');
         for(let i=1; i<=3; i++) {
             if(params.get(`stat${i}_num`)) {
-                stats.innerHTML += `<div><div class="stat-number">${params.get(`stat${i}_num`)}</div><div class="stat-label">${params.get(`stat${i}_label`)}</div></div>`;
+                const delay = 0.4 + (i * 0.15);
+                const style = `opacity: 0; animation: fadeInUp 0.8s cubic-bezier(0.2, 0.8, 0.2, 1) forwards ${delay}s`;
+                stats.innerHTML += `<div style="${style}"><div class="stat-number">${params.get(`stat${i}_num`)}</div><div class="stat-label">${params.get(`stat${i}_label`)}</div></div>`;
             }
         }
+
+        // Cursor Bubble Logic
+        const bubble = document.getElementById('cursor-bubble');
+        document.addEventListener('mousemove', (e) => {
+            bubble.style.left = e.clientX + 'px';
+            bubble.style.top = e.clientY + 'px';
+        });
 
         window.addEventListener('load', () => { 
             if(params.get('frame_id')) {
