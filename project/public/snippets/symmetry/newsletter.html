@@ -7,23 +7,112 @@
     <base target="_blank">
     <link href="https://fonts.googleapis.com/css2?family=Playfair+Display:ital,wght@0,400;1,400&family=Manrope:wght@300;400&display=swap" rel="stylesheet">
     <style>
-        body { margin: 0; padding: 60px 20px; font-family: 'Manrope', sans-serif; overflow: hidden; text-align: center; }
-        .container { max-width: 600px; margin: 0 auto; }
-        h2 { font-family: 'Playfair Display', serif; font-size: 36px; font-style: italic; margin: 0 0 10px 0; color: #1a1a1a; }
-        p { margin: 0 0 30px 0; opacity: 0.7; }
+        body { margin: 0; padding: 40px 20px; font-family: 'Manrope', sans-serif; overflow: hidden; }
         
-        .form-group { display: flex; gap: 10px; border-bottom: 1px solid #1a1a1a; padding-bottom: 5px; }
-        input { flex: 1; border: none; background: transparent; padding: 10px; font-family: 'Manrope', sans-serif; font-size: 16px; outline: none; }
-        button { background: transparent; border: none; font-family: 'Manrope', sans-serif; font-weight: 700; text-transform: uppercase; letter-spacing: 1px; cursor: pointer; color: #1a1a1a; }
-        button:hover { opacity: 0.7; }
+        .wrapper {
+            max-width: 1100px;
+            margin: 0 auto;
+            border-top: 1px solid;
+            border-bottom: 1px solid;
+            padding: 40px 0;
+            display: flex;
+            align-items: baseline;
+            justify-content: space-between;
+            gap: 40px;
+            color: inherit;
+        }
+
+        .content {
+            flex: 1;
+            max-width: 400px;
+        }
+
+        h2 {
+            font-family: 'Playfair Display', serif;
+            font-size: 48px;
+            font-style: italic;
+            margin: 0 0 10px 0;
+            line-height: 1;
+            font-weight: 400;
+        }
+
+        p {
+            margin: 0;
+            font-size: 14px;
+            opacity: 0.7;
+            letter-spacing: 0.5px;
+            text-transform: uppercase;
+        }
+
+        .form-wrapper {
+            flex: 1;
+            position: relative;
+            display: flex;
+            align-items: flex-end;
+        }
+
+        input {
+            width: 100%;
+            background: transparent;
+            border: none;
+            border-bottom: 1px solid;
+            padding: 10px 0;
+            font-family: 'Playfair Display', serif;
+            font-size: 24px;
+            color: inherit;
+            outline: none;
+            border-radius: 0;
+        }
+        
+        input::placeholder {
+            opacity: 0.3;
+            font-style: italic;
+        }
+
+        button {
+            background: transparent;
+            border: 1px solid currentColor;
+            color: inherit;
+            padding: 12px 30px;
+            border-radius: 50px;
+            font-family: 'Manrope', sans-serif;
+            font-size: 12px;
+            text-transform: uppercase;
+            letter-spacing: 1px;
+            font-weight: 700;
+            cursor: pointer;
+            margin-left: 20px;
+            transition: all 0.3s ease;
+            white-space: nowrap;
+        }
+
+        button:hover {
+            opacity: 0.6;
+            transform: translateX(5px);
+        }
+
+        @media (max-width: 768px) {
+            .wrapper {
+                flex-direction: column;
+                align-items: stretch;
+                text-align: center;
+                padding: 30px 0;
+            }
+            .content { max-width: 100%; margin-bottom: 20px; }
+            .form-wrapper { flex-direction: column; gap: 20px; }
+            input { text-align: center; }
+            button { margin-left: 0; width: 100%; }
+        }
     </style>
 </head>
 <body>
-    <div class="container">
-        <h2 id="heading">Newsletter</h2>
-        <p id="desc">Subscribe for updates.</p>
-        <div class="form-group" id="form">
-            <input type="email" id="input" placeholder="Your email address">
+    <div class="wrapper" id="container">
+        <div class="content">
+            <h2 id="heading">Newsletter</h2>
+            <p id="desc">Stay updated with our latest news.</p>
+        </div>
+        <div class="form-wrapper">
+            <input type="email" id="input" placeholder="Your email...">
             <button id="btn">Subscribe</button>
         </div>
     </div>
@@ -34,10 +123,7 @@
         const textColor = params.get('text_color') ? '#' + params.get('text_color') : '#1a1a1a';
         
         document.body.style.color = textColor;
-        document.getElementById('heading').style.color = textColor;
-        document.getElementById('form').style.borderColor = textColor;
-        document.getElementById('input').style.color = textColor;
-        document.getElementById('btn').style.color = textColor;
+        document.body.style.backgroundColor = bgColor;
 
         if(params.get('heading')) document.getElementById('heading').textContent = params.get('heading');
         if(params.get('description')) document.getElementById('desc').textContent = params.get('description');
