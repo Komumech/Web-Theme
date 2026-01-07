@@ -7,25 +7,31 @@
     <base target="_blank">
     <link href="https://fonts.googleapis.com/css2?family=Playfair+Display:ital,wght@0,400;0,600;1,400&family=Manrope:wght@300;400&display=swap" rel="stylesheet">
     <style>
-        body { margin: 0; padding: 20px 40px; font-family: 'Manrope', sans-serif; overflow: hidden; }
+        body { margin: 0; padding: 20px 40px; font-family: 'Manrope', sans-serif; overflow: hidden; box-sizing: border-box; }
         nav { 
             display: flex; 
-            justify-content: center; 
+            justify-content: space-between; 
             align-items: center; 
             border-bottom: 1px solid rgba(0,0,0,0.1); 
             padding-bottom: 20px; 
             position: relative;
         }
-        .brand { font-family: 'Playfair Display', serif; font-size: 28px; font-style: italic; color: #1a1a1a; text-decoration: none; position: absolute; left: 0; }
-        .menu-icon { display: none; } /* Hidden on desktop for this style */
-        .btn { position: absolute; right: 0; padding: 10px 0; border-bottom: 1px solid transparent; text-decoration: none; color: #1a1a1a; font-size: 12px; text-transform: uppercase; letter-spacing: 1px; transition: 0.3s; }
+        .brand { font-family: 'Playfair Display', serif; font-size: 28px; font-style: italic; color: #1a1a1a; text-decoration: none; }
+        
+        .nav-center { display: flex; gap: 30px; }
+        .nav-link { text-decoration: none; color: inherit; font-size: 13px; text-transform: uppercase; letter-spacing: 1px; font-weight: 500; opacity: 0.6; transition: 0.3s; }
+        .nav-link:hover { opacity: 1; }
+
+        .menu-icon { display: none; font-size: 24px; cursor: pointer; }
+        
+        .btn { padding: 10px 0; border-bottom: 1px solid transparent; text-decoration: none; color: #1a1a1a; font-size: 12px; text-transform: uppercase; letter-spacing: 1px; transition: 0.3s; }
         .btn:hover { border-bottom-color: currentColor; }
         
-        @media (max-width: 600px) {
+        @media (max-width: 768px) {
             body { padding: 15px 20px; }
-            .brand { position: static; }
-            nav { justify-content: space-between; }
-            .btn { position: static; }
+            .nav-center { display: none; }
+            .menu-icon { display: block; }
+            .btn { display: none; }
         }
 
         /* Mobile Menu Overlay */
@@ -62,7 +68,8 @@
 <body>
     <nav id="nav">
         <a href="#" class="brand" id="brand">Coral Cove</a>
-        <!-- Links could go here in center if needed, but keeping it minimal -->
+        <div class="nav-center" id="desktop-links"></div>
+        <div class="menu-icon" id="menu" onclick="toggleMenu()">☰</div>
         <a href="#" class="btn" id="cta">Reservation</a>
     </nav>
     
@@ -108,18 +115,31 @@
             }
         }
 
-        const navContainer = document.getElementById('nav-links');
+        const mobileContainer = document.getElementById('nav-links');
+        const desktopContainer = document.getElementById('desktop-links');
         const linksParam = params.get('nav_links') || 'Home|#,Menu|#,About|#,Contact|#';
+        
         linksParam.split(',').forEach(item => {
             const [text, href] = item.split('|');
+            
+            // Desktop Link
             const a = document.createElement('a');
+            a.className = 'nav-link';
             a.textContent = text;
             a.href = href || '#';
             a.style.color = textColor;
-            navContainer.appendChild(a);
+            desktopContainer.appendChild(a);
+
+            // Mobile Link
+            const ma = a.cloneNode(true);
+            ma.className = ''; // Reset class for mobile styling
+            mobileContainer.appendChild(ma);
         });
 
-        const sendHeight = () => { if(params.get('frame_id')) window.parent.postMessage({frameId: params.get('frame_id'), frameHeight: document.body.scrollHeight}, '*'); }
+        const sendHeight = (h) => { 
+            const height = h || document.body.scrollHeight;
+            if(params.get('frame_id')) window.parent.postMessage({frameId: params.get('frame_id'), frameHeight: height}, '*'); 
+        }
         window.addEventListener('load', sendHeight);
     </script>
 </body>
