@@ -235,6 +235,7 @@
         const stats = document.getElementById('stats_container');
         for(let i=1; i<=3; i++) {
             if(params.get(`stat${i}_num`)) {
+                stats.innerHTML += `<div><div class="stat-number">${params.get(`stat${i}_num`)}</div><div class="stat-label">${params.get(`stat${i}_label`)}</div></div>`;
                 const delay = 0.4 + (i * 0.15);
                 const style = `opacity: 0; animation: fadeInUp 0.8s cubic-bezier(0.2, 0.8, 0.2, 1) forwards ${delay}s`;
                 stats.innerHTML += `<div style="${style}"><div class="stat-number">${params.get(`stat${i}_num`)}</div><div class="stat-label">${params.get(`stat${i}_label`)}</div></div>`;

@@ -11,7 +11,7 @@
     <style>
         :root {
             --bg-color: #ffffff;
-            --card-bg: #ffffff;
+            --card-bg: #eb8a8a;
             --text-color: #1a1a1a;
             --heading-color: #1a1a1a;
             --btn-bg: #1a1a1a;
@@ -23,71 +23,96 @@
             font-family: 'Manrope', sans-serif;
             background-color: var(--bg-color);
             overflow: hidden;
+            width: 100vw;
+            height: 100vh;
         }
+
+        /* --- BUBBLE CSS --- */
+        .cursor-bubble {
+            position: fixed;
+            width: 80px;
+            height: 80px;
+            background-color: white;
+            border-radius: 50%;
+            pointer-events: none;
+            mix-blend-mode: difference;
+            z-index: 9999;
+            left: 0;
+            top: 0;
+            margin-left: -40px;
+            margin-top: -40px;
+            opacity: 0;
+            transition: opacity 0.4s ease;
+            will-change: transform;
+        }
+
         .section-container {
             position: relative;
-            min-height: 600px;
+            min-height: 100vh;
             display: flex;
             align-items: center;
-            justify-content: flex-end; /* Card positioned to the right */
+            justify-content: flex-end; 
             padding: 40px 10%;
             background-size: cover;
             background-position: center;
             box-sizing: border-box;
+            isolation: isolate;
         }
+        
+        /* --- ENTRANCE ANIMATIONS --- */
+        @keyframes cardReveal {
+            from { opacity: 0; transform: translateY(30px) scale(0.98); }
+            to { opacity: 1; transform: translateY(0) scale(1); }
+        }
+
+        @keyframes textReveal {
+            from { opacity: 0; transform: translateY(15px); }
+            to { opacity: 1; transform: translateY(0); }
+        }
+
         .card {
             background-color: var(--card-bg);
             padding: 60px 50px;
             max-width: 480px;
             width: 100%;
-            border-radius: 16px;
+            border-radius: 24px; /* Slightly smoother corners */
             text-align: center;
-            box-shadow: 0 20px 40px rgba(0,0,0,0.08);
+            box-shadow: 0 30px 60px rgba(0,0,0,0.12);
             position: relative;
-            z-index: 1;
+            z-index: 10;
+            
+            /* Apply Reveal */
+            opacity: 0;
+            animation: cardReveal 1s cubic-bezier(0.2, 0.8, 0.2, 1) forwards;
         }
-        .eyebrow {
-            font-weight: 800;
-            font-size: 16px;
-            margin-bottom: 15px;
-            color: var(--heading-color);
+
+        .eyebrow, h2, p, .btn {
+            opacity: 0;
+            animation: textReveal 0.8s cubic-bezier(0.2, 0.8, 0.2, 1) forwards;
         }
-        h2 {
-            font-size: 42px;
-            font-weight: 800;
-            line-height: 1.1;
-            margin: 0 0 25px 0;
-            color: var(--heading-color);
-            letter-spacing: -1px;
+
+        .eyebrow { animation-delay: 0.3s; font-weight: 800; font-size: 16px; margin-bottom: 15px; color: var(--heading-color); }
+        h2 { animation-delay: 0.4s; font-size: 42px; font-weight: 800; line-height: 1.1; margin: 0 0 25px 0; color: var(--heading-color); letter-spacing: -1px; }
+        p { animation-delay: 0.5s; font-size: 18px; line-height: 1.6; color: var(--text-color); margin: 0 0 35px 0; font-weight: 500; }
+        .btn { animation-delay: 0.6s; display: inline-block; background-color: var(--btn-bg); color: var(--btn-text); padding: 16px 32px; border-radius: 50px; text-decoration: none; font-weight: 700; font-size: 16px; transition: all 0.3s ease; }
+        
+        .btn:hover { 
+            opacity: 0.9; 
+            transform: translateY(-2px);
+            box-shadow: 0 10px 20px rgba(0,0,0,0.1);
         }
-        p {
-            font-size: 18px;
-            line-height: 1.6;
-            color: var(--text-color);
-            margin: 0 0 35px 0;
-            font-weight: 500;
-        }
-        .btn {
-            display: inline-block;
-            background-color: var(--btn-bg);
-            color: var(--btn-text);
-            padding: 16px 32px;
-            border-radius: 50px;
-            text-decoration: none;
-            font-weight: 700;
-            font-size: 16px;
-            transition: opacity 0.2s;
-        }
-        .btn:hover { opacity: 0.9; }
 
         @media (max-width: 768px) {
             .section-container { justify-content: center; padding: 40px 20px; }
             .card { padding: 40px 30px; }
             h2 { font-size: 32px; }
+            .cursor-bubble { display: none; }
         }
     </style>
 </head>
 <body>
+    <div class="cursor-bubble" id="cursor-bubble"></div>
+
     <div class="section-container" id="bg_container">
         <div class="card">
             <div class="eyebrow" id="eyebrow">Hi there!</div>
@@ -100,6 +125,7 @@
     <script>
         const params = new URLSearchParams(window.location.search);
         
+        // Settings & Colors
         if(params.has('bg_color')) document.documentElement.style.setProperty('--bg-color', '#' + params.get('bg_color'));
         if(params.has('card_bg')) document.documentElement.style.setProperty('--card-bg', '#' + params.get('card_bg'));
         if(params.has('text_color')) document.documentElement.style.setProperty('--text-color', '#' + params.get('text_color'));
@@ -107,13 +133,45 @@
         if(params.has('btn_bg')) document.documentElement.style.setProperty('--btn-bg', '#' + params.get('btn_bg'));
         if(params.has('btn_text')) document.documentElement.style.setProperty('--btn-text', '#' + params.get('btn_text'));
 
+        // Content
         if(params.get('bg_image')) document.getElementById('bg_container').style.backgroundImage = `url('${params.get('bg_image')}')`;
         ['eyebrow', 'heading', 'description'].forEach(id => { if(params.get(id)) document.getElementById(id).textContent = params.get(id); });
-        if(params.get('btn_text')) document.getElementById('btn').textContent = params.get('btn_text');
+        if(params.get('btn_label')) document.getElementById('btn').textContent = params.get('btn_label');
         if(params.get('btn_href')) document.getElementById('btn').href = params.get('btn_href');
         
-        const sendHeight = () => { if(params.get('frame_id')) window.parent.postMessage({frameId: params.get('frame_id'), frameHeight: document.body.scrollHeight}, '*'); }
-        window.addEventListener('load', sendHeight);
+        /* --- BUBBLE LOGIC --- */
+        const bubble = document.getElementById('cursor-bubble');
+        let mouseX = 0, mouseY = 0;
+        let ballX = 0, ballY = 0;
+        let speed = 0.12;
+
+        document.addEventListener('mousemove', (e) => {
+            mouseX = e.clientX;
+            mouseY = e.clientY;
+            // Only show bubble after first movement
+            bubble.style.opacity = '1';
+        });
+
+        function animate() {
+            ballX += (mouseX - ballX) * speed;
+            ballY += (mouseY - ballY) * speed;
+            bubble.style.transform = `translate3d(${ballX}px, ${ballY}px, 0)`;
+            requestAnimationFrame(animate);
+        }
+        animate();
+
+        document.addEventListener('mouseleave', () => bubble.style.opacity = '0');
+        document.addEventListener('mouseenter', () => bubble.style.opacity = '1');
+
+        // Dynamic Height handling for your clients' scripts
+        window.addEventListener('load', () => { 
+            if(params.get('frame_id')) {
+                window.parent.postMessage({
+                    frameId: params.get('frame_id'), 
+                    frameHeight: document.body.scrollHeight
+                }, '*'); 
+            }
+        });
     </script>
 </body>
 </html>
