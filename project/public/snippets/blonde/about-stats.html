@@ -14,10 +14,10 @@
             --text-color: #1a1a1a;
             --heading-color: #1a1a1a;
             --accent-color: #1a1a1a;
-            /* Default Gradient Colors */
             --gradient-1: #1a1a1a;
             --gradient-2: #333333;
             --badge-text: #ffffff;
+            --cursor-color: #ffffff;
         }
         body {
             margin: 0;
@@ -25,7 +25,8 @@
             font-family: 'Manrope', sans-serif;
             background-color: var(--bg-color);
             color: var(--text-color);
-            overflow: hidden;
+            overflow-x: hidden;
+            min-height: 100vh;
         }
         .container {
             max-width: 1200px;
@@ -60,28 +61,28 @@
             display: block;
         }
         .content-col{
-            width: 80%;
             padding-left: 90px;
         }
         .image-wrapper {
             position: relative;
             width: 100%;
+            display: flex;
+            justify-content: center;
         }
         .arch-img {
             width: 60%;
             height: auto;
-            justify-self: center;
             aspect-ratio: 3/4;
             object-fit: cover;
-            border-radius: 500px; /* Simplified for perfect oval/pill shape */
+            border-radius: 500px; 
             display: block;
+            z-index: 1;
         }
         
-        /* --- UPDATED BADGE WITH GRADIENT --- */
         .badge {
             position: absolute;
-            top: 40px;
-            left: 255px;
+            top: 20px;
+            left: 20%;
             width: 120px;
             height: 120px;
             background: linear-gradient(135deg, var(--gradient-1), var(--gradient-2));
@@ -105,9 +106,9 @@
             display: flex;
             flex-direction: row;
             gap: 50px;
-            margin-top: 40px;
+            margin-top: 60px;
             justify-content: center;
-            justify-self: center;
+            width: 100%;
         }
         .stat-number {
             font-size: 56px;
@@ -125,25 +126,6 @@
         .right-col {
             display: flex;
             flex-direction: column;
-            margin-top: -4rem;
-        }
-
-        @media (max-width: 900px) {
-            .content-col{padding-left: 0px;}
-            .arch-img{
-                width: 90vw;
-            }
-            .right-col{
-                margin: 0 auto;
-                justify-self: center;
-                justify-content: center;
-                position: relative;
-                margin-left: -1rem;
-            }
-            .container { grid-template-columns: 1fr; text-align: center; gap: 40px; }
-            .stats-list { text-align: center; flex-direction: row; justify-content: center; flex-wrap: wrap; }
-            .badge { left: 25%;  top: -60px; animation: spin 10s linear infinite; }
-            .arch-img { max-width: 400px; margin: 0 auto; }
         }
 
         /* Cursor Bubble */
@@ -151,16 +133,16 @@
             position: fixed;
             width: 120px;
             height: 120px;
-            background-color: white;
+            background-color: var(--cursor-color);
             border-radius: 50%;
             pointer-events: none;
             mix-blend-mode: difference;
             z-index: 9999;
-            transform: translate(-50%, -50%) scale(0);
-            transition: transform 0.2s ease-out;
-        }
-        body:hover .cursor-bubble {
-            transform: translate(-50%, -50%) scale(1);
+            left: 0;
+            top: 0;
+            opacity: 0;
+            transition: opacity 0.3s ease;
+            will-change: transform;
         }
 
         /* Entrance Animations */
@@ -169,14 +151,19 @@
             to { opacity: 1; transform: translateY(0); }
         }
 
-        .content-col {
+        .content-col, .right-col {
             opacity: 0;
             animation: fadeInUp 0.8s cubic-bezier(0.2, 0.8, 0.2, 1) forwards;
         }
+        .right-col { animation-delay: 0.2s; }
 
-        .right-col {
-            opacity: 0;
-            animation: fadeInUp 0.8s cubic-bezier(0.2, 0.8, 0.2, 1) forwards 0.2s;
+        @media (max-width: 900px) {
+            .content-col{padding-left: 0px;}
+            .container { grid-template-columns: 1fr; text-align: center; gap: 40px; }
+            .stats-list { flex-wrap: wrap; }
+            .badge { left: 10%; top: -30px; }
+            .arch-img { width: 80%; max-width: 350px; }
+            .cursor-bubble { display: none; }
         }
     </style>
 </head>
@@ -187,7 +174,7 @@
             <p id="text1">I focus on the words so you can focus on the business.</p>
             <a href="#" class="link" id="link">Learn more</a>
             
-            <div class="icon">⚡</div>
+            <div class="icon" id="icon_val">⚡</div>
             <h3 id="head2">How I do it?</h3>
             <p id="text2">I use my research skills and SEO knowledge to craft content that converts.</p>
         </div>
@@ -204,26 +191,24 @@
                 </div>
                 <img src="" id="main_img" class="arch-img" alt="Profile">
             </div>
-
-     </div>
+        </div>
     </div>
 
     <div class="stats-list" id="stats_container"></div>
     <div class="cursor-bubble" id="cursor-bubble"></div>
-   
 
     <script>
         const params = new URLSearchParams(window.location.search);
         
-        // Colors & Gradient
-        if(params.has('bg_color')) document.documentElement.style.setProperty('--bg-color', '#' + params.get('bg_color'));
-        if(params.has('text_color')) document.documentElement.style.setProperty('--text-color', '#' + params.get('text_color'));
-        if(params.has('heading_color')) document.documentElement.style.setProperty('--heading-color', '#' + params.get('heading_color'));
-        
-        // --- GRADIENT PARAMETERS ---
-        if(params.has('badge_grad1')) document.documentElement.style.setProperty('--gradient-1', '#' + params.get('badge_grad1'));
-        if(params.has('badge_grad2')) document.documentElement.style.setProperty('--gradient-2', '#' + params.get('badge_grad2'));
-        if(params.has('badge_text')) document.documentElement.style.setProperty('--badge-text', '#' + params.get('badge_text'));
+        // Colors & Customization
+        const docStyle = document.documentElement.style;
+        if(params.has('bg_color')) docStyle.setProperty('--bg-color', '#' + params.get('bg_color'));
+        if(params.has('text_color')) docStyle.setProperty('--text-color', '#' + params.get('text_color'));
+        if(params.has('heading_color')) docStyle.setProperty('--heading-color', '#' + params.get('heading_color'));
+        if(params.has('badge_grad1')) docStyle.setProperty('--gradient-1', '#' + params.get('badge_grad1'));
+        if(params.has('badge_grad2')) docStyle.setProperty('--gradient-2', '#' + params.get('badge_grad2'));
+        if(params.has('badge_text')) docStyle.setProperty('--badge-text', '#' + params.get('badge_text'));
+        if(params.has('cursor_color')) docStyle.setProperty('--cursor-color', '#' + params.get('cursor_color'));
 
         // Content
         ['head1', 'text1', 'head2', 'text2'].forEach(id => { if(params.get(id)) document.getElementById(id).textContent = params.get(id); });
@@ -231,27 +216,54 @@
         if(params.get('link_href')) document.getElementById('link').href = params.get('link_href');
         if(params.get('badge_label')) document.getElementById('badge_label').textContent = params.get('badge_label');
         if(params.get('image')) document.getElementById('main_img').src = params.get('image');
+        if(params.get('icon')) document.getElementById('icon_val').textContent = params.get('icon');
         
-        const stats = document.getElementById('stats_container');
-        for(let i=1; i<=3; i++) {
-            if(params.get(`stat${i}_num`)) {
-                stats.innerHTML += `<div><div class="stat-number">${params.get(`stat${i}_num`)}</div><div class="stat-label">${params.get(`stat${i}_label`)}</div></div>`;
+        // Stats Logic (Fixes duplication & adds limit)
+        const statsContainer = document.getElementById('stats_container');
+        const maxStats = parseInt(params.get('stat_count')) || 3;
+
+        for(let i=1; i <= maxStats; i++) {
+            const num = params.get(`stat${i}_num`);
+            const label = params.get(`stat${i}_label`);
+            
+            if(num) {
                 const delay = 0.4 + (i * 0.15);
-                const style = `opacity: 0; animation: fadeInUp 0.8s cubic-bezier(0.2, 0.8, 0.2, 1) forwards ${delay}s`;
-                stats.innerHTML += `<div style="${style}"><div class="stat-number">${params.get(`stat${i}_num`)}</div><div class="stat-label">${params.get(`stat${i}_label`)}</div></div>`;
+                const statHTML = `
+                    <div style="opacity: 0; animation: fadeInUp 0.8s cubic-bezier(0.2, 0.8, 0.2, 1) forwards ${delay}s">
+                        <div class="stat-number">${num}</div>
+                        <div class="stat-label">${label || ''}</div>
+                    </div>`;
+                statsContainer.insertAdjacentHTML('beforeend', statHTML);
             }
         }
 
-        // Cursor Bubble Logic
+        /* --- SMOOTH BUBBLE LOGIC --- */
         const bubble = document.getElementById('cursor-bubble');
+        let mouseX = 0, mouseY = 0;
+        let ballX = 0, ballY = 0;
+        const speed = 0.15;
+
         document.addEventListener('mousemove', (e) => {
-            bubble.style.left = e.clientX + 'px';
-            bubble.style.top = e.clientY + 'px';
+            mouseX = e.clientX;
+            mouseY = e.clientY;
+            bubble.style.opacity = '1';
         });
 
+        function animate() {
+            ballX += (mouseX - ballX) * speed;
+            ballY += (mouseY - ballY) * speed;
+            bubble.style.transform = `translate3d(${ballX - 60}px, ${ballY - 60}px, 0)`;
+            requestAnimationFrame(animate);
+        }
+        animate();
+
+        // Dynamic Height for Iframe
         window.addEventListener('load', () => { 
             if(params.get('frame_id')) {
-                window.parent.postMessage({frameId: params.get('frame_id'), frameHeight: document.body.scrollHeight}, '*'); 
+                window.parent.postMessage({
+                    frameId: params.get('frame_id'), 
+                    frameHeight: document.body.scrollHeight
+                }, '*'); 
             }
         });
     </script>
