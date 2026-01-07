@@ -6,6 +6,7 @@
     <title>Symmetry Features</title>
     <base target="_blank">
     <link href="https://fonts.googleapis.com/css2?family=Playfair+Display:ital,wght@0,400;1,400&family=Manrope:wght@300;400&display=swap" rel="stylesheet">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.1/css/all.min.css">
     <style>
         body { margin: 0; padding: 60px 40px; font-family: 'Manrope', sans-serif; overflow: hidden; }
         .grid {
@@ -36,15 +37,25 @@
         
         if(params.get('bg_color')) document.body.style.backgroundColor = '#' + params.get('bg_color');
         const textColor = params.get('text_color') ? '#' + params.get('text_color') : '#1a1a1a';
+        const headingColor = params.get('heading_color') ? '#' + params.get('heading_color') : '#1a1a1a';
+        const accentColor = params.get('accent_color') ? '#' + params.get('accent_color') : '#1a1a1a';
 
         const grid = document.getElementById('grid');
         let i = 1;
         while(params.has(`title${i}`)) {
             const div = document.createElement('div');
             div.className = 'feature-item';
+            
+            let iconHtml = '✦';
+            const iconParam = params.get(`icon${i}`);
+            if(iconParam) {
+                // Check if it looks like a FA class or just text/emoji
+                iconHtml = (iconParam.includes('fa-')) ? `<i class="${iconParam}"></i>` : iconParam;
+            }
+
             div.innerHTML = `
-                <span class="icon" style="color: ${textColor}">${params.get(`icon${i}`) || '✦'}</span>
-                <h3 style="color: ${textColor}">${params.get(`title${i}`)}</h3>
+                <span class="icon" style="color: ${accentColor}">${iconHtml}</span>
+                <h3 style="color: ${headingColor}">${params.get(`title${i}`)}</h3>
                 <p style="color: ${textColor}">${params.get(`desc${i}`)}</p>
             `;
             grid.appendChild(div);
