@@ -1,0 +1,57 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Symmetry Accordion</title>
+    <base target="_blank">
+    <link href="https://fonts.googleapis.com/css2?family=Playfair+Display:ital,wght@0,400;1,400&family=Manrope:wght@300;400&display=swap" rel="stylesheet">
+    <style>
+        body { margin: 0; padding: 40px 20px; font-family: 'Manrope', sans-serif; overflow: hidden; }
+        .container { max-width: 800px; margin: 0 auto; }
+        .item { border-bottom: 1px solid rgba(0,0,0,0.1); }
+        .header { padding: 20px 0; cursor: pointer; display: flex; justify-content: space-between; align-items: center; font-family: 'Playfair Display', serif; font-size: 20px; font-style: italic; }
+        .content { max-height: 0; overflow: hidden; transition: max-height 0.3s ease; opacity: 0.7; line-height: 1.6; }
+        .active .content { padding-bottom: 20px; }
+        .icon { transition: transform 0.3s; }
+        .active .icon { transform: rotate(45deg); }
+    </style>
+</head>
+<body>
+    <div class="container" id="list"></div>
+    <script>
+        const params = new URLSearchParams(window.location.search);
+        if(params.get('bg_color')) document.body.style.backgroundColor = '#' + params.get('bg_color');
+        const textColor = params.get('text_color') ? '#' + params.get('text_color') : '#1a1a1a';
+        document.body.style.color = textColor;
+
+        const list = document.getElementById('list');
+        let i = 1;
+        while(params.has(`q${i}`)) {
+            const div = document.createElement('div');
+            div.className = 'item';
+            div.style.borderColor = textColor + '20'; // 20 hex for low opacity
+            div.innerHTML = `
+                <div class="header" onclick="toggle(this)">
+                    <span>${params.get(`q${i}`)}</span>
+                    <span class="icon">+</span>
+                </div>
+                <div class="content">${params.get(`a${i}`)}</div>
+            `;
+            list.appendChild(div);
+            i++;
+        }
+
+        function toggle(header) {
+            const item = header.parentElement;
+            item.classList.toggle('active');
+            const content = header.nextElementSibling;
+            content.style.maxHeight = item.classList.contains('active') ? content.scrollHeight + "px" : null;
+            setTimeout(() => { if(params.get('frame_id')) window.parent.postMessage({frameId: params.get('frame_id'), frameHeight: document.body.scrollHeight}, '*'); }, 350);
+        }
+
+        const sendHeight = () => { if(params.get('frame_id')) window.parent.postMessage({frameId: params.get('frame_id'), frameHeight: document.body.scrollHeight}, '*'); }
+        window.addEventListener('load', sendHeight);
+    </script>
+</body>
+</html>

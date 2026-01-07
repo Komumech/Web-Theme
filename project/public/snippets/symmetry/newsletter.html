@@ -1,0 +1,51 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Symmetry Newsletter</title>
+    <base target="_blank">
+    <link href="https://fonts.googleapis.com/css2?family=Playfair+Display:ital,wght@0,400;1,400&family=Manrope:wght@300;400&display=swap" rel="stylesheet">
+    <style>
+        body { margin: 0; padding: 60px 20px; font-family: 'Manrope', sans-serif; overflow: hidden; text-align: center; }
+        .container { max-width: 600px; margin: 0 auto; }
+        h2 { font-family: 'Playfair Display', serif; font-size: 36px; font-style: italic; margin: 0 0 10px 0; color: #1a1a1a; }
+        p { margin: 0 0 30px 0; opacity: 0.7; }
+        
+        .form-group { display: flex; gap: 10px; border-bottom: 1px solid #1a1a1a; padding-bottom: 5px; }
+        input { flex: 1; border: none; background: transparent; padding: 10px; font-family: 'Manrope', sans-serif; font-size: 16px; outline: none; }
+        button { background: transparent; border: none; font-family: 'Manrope', sans-serif; font-weight: 700; text-transform: uppercase; letter-spacing: 1px; cursor: pointer; color: #1a1a1a; }
+        button:hover { opacity: 0.7; }
+    </style>
+</head>
+<body>
+    <div class="container">
+        <h2 id="heading">Newsletter</h2>
+        <p id="desc">Subscribe for updates.</p>
+        <div class="form-group" id="form">
+            <input type="email" id="input" placeholder="Your email address">
+            <button id="btn">Subscribe</button>
+        </div>
+    </div>
+    <script>
+        const params = new URLSearchParams(window.location.search);
+        
+        if(params.get('bg_color')) document.body.style.backgroundColor = '#' + params.get('bg_color');
+        const textColor = params.get('text_color') ? '#' + params.get('text_color') : '#1a1a1a';
+        
+        document.body.style.color = textColor;
+        document.getElementById('heading').style.color = textColor;
+        document.getElementById('form').style.borderColor = textColor;
+        document.getElementById('input').style.color = textColor;
+        document.getElementById('btn').style.color = textColor;
+
+        if(params.get('heading')) document.getElementById('heading').textContent = params.get('heading');
+        if(params.get('description')) document.getElementById('desc').textContent = params.get('description');
+        if(params.get('placeholder')) document.getElementById('input').placeholder = params.get('placeholder');
+        if(params.get('btn_text')) document.getElementById('btn').textContent = params.get('btn_text');
+
+        const sendHeight = () => { if(params.get('frame_id')) window.parent.postMessage({frameId: params.get('frame_id'), frameHeight: document.body.scrollHeight}, '*'); }
+        window.addEventListener('load', sendHeight);
+    </script>
+</body>
+</html>
