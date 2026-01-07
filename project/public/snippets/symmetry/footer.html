@@ -87,8 +87,13 @@
         buildCol('col2', params.get('col2_content'));
         buildCol('col3', params.get('col3_content'));
 
-        const sendHeight = () => { if(params.get('frame_id')) window.parent.postMessage({frameId: params.get('frame_id'), frameHeight: document.body.scrollHeight}, '*'); }
+        const sendHeight = () => { 
+            if(params.get('frame_id')) {
+                window.parent.postMessage({frameId: params.get('frame_id'), frameHeight: document.body.scrollHeight + 20}, '*'); 
+            }
+        }
         window.addEventListener('load', sendHeight);
+        window.addEventListener('resize', sendHeight);
     </script>
 </body>
 </html>
