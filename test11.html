@@ -1,0 +1,82 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Coral Theme Test (Test 11)</title>
+    <style>
+        body { margin: 0; padding: 0; background: #f4f1ea; font-family: sans-serif; }
+        .preview { max-width: 1400px; margin: 0 auto; min-height: 100vh; padding-bottom: 100px; }
+        iframe { width: 100%; border: none; display: block; overflow: hidden; }
+    </style>
+</head>
+<body>
+    <div class="preview">
+        
+        <!-- Navbar -->
+        <iframe 
+            id="symmetry-nav"
+            src=""
+            data-base-url="https://komutheme2.vercel.app/project/public/snippets/symmetry/navbar.html"
+            data-frame-id="symmetry-nav"
+            data-brand="Coral Cove"
+            data-cta_text="Reservation"
+        ></iframe>
+
+        <!-- Hero -->
+        <iframe 
+            id="symmetry-hero"
+            src=""
+            data-base-url="https://komutheme2.vercel.app/project/public/snippets/symmetry/hero.html"
+            data-frame-id="symmetry-hero"
+            data-image="https://images.unsplash.com/photo-1559339352-11d035aa65de?auto=format&fit=crop&w=1200&q=80"
+            data-title="Coral Cove"
+            data-subtitle="Restaurant of bold culinary solutions. Netting fresh flavours, one dish at a time!"
+        ></iframe>
+
+        <!-- About Text -->
+        <iframe 
+            id="symmetry-about"
+            src=""
+            data-base-url="https://komutheme2.vercel.app/project/public/snippets/symmetry/text-block.html"
+            data-frame-id="symmetry-about"
+            data-heading="About our restaurant"
+            data-content="The menu at a modern seafood restaurant meets innovation. Chefs incorporate cutting-edge techniques to redefine classics like ceviches with exotic fruit infusions, deconstructed sushi rolls with unexpected twists, and seafood pastas with artisanal flair."
+        ></iframe>
+
+        <!-- Menu Grid -->
+        <iframe 
+            id="symmetry-menu"
+            src=""
+            data-base-url="https://komutheme2.vercel.app/project/public/snippets/symmetry/menu-grid.html"
+            data-frame-id="symmetry-menu"
+            data-heading="Our menu"
+            data-item1_title="Fresh Oysters" data-item1_desc="Served with lemon and tabasco." data-item1_img="https://images.unsplash.com/photo-1553163147-621957516919?auto=format&fit=crop&w=600&q=80"
+            data-item2_title="Grilled Sea Bass" data-item2_desc="With seasonal vegetables." data-item2_img="https://images.unsplash.com/photo-1519708227418-c8fd9a3a2750?auto=format&fit=crop&w=600&q=80"
+        ></iframe>
+
+    </div>
+
+    <script>
+        window.addEventListener("message", function(event) {
+            if (event.data.frameHeight && event.data.frameId) {
+                const iframe = document.getElementById(event.data.frameId);
+                if (iframe) iframe.style.height = event.data.frameHeight + "px";
+            }
+        });
+
+        document.addEventListener('DOMContentLoaded', function() {
+            document.querySelectorAll('iframe[data-base-url]').forEach(iframe => {
+                const baseUrl = iframe.getAttribute('data-base-url');
+                let params = [];
+                for (const attr of iframe.attributes) {
+                    if (attr.name.startsWith('data-') && attr.name !== 'data-base-url' && attr.name !== 'data-frame-id') {
+                        params.push(`${attr.name.substring(5)}=${encodeURIComponent(attr.value)}`);
+                    }
+                }
+                iframe.src = baseUrl + '?' + params.join('&') + '&frame_id=' + iframe.id;
+            });
+        });
+    </script>
+</body>
+</html>

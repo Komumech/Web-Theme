@@ -1,0 +1,41 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Coral Navbar</title>
+    <link href="https://fonts.googleapis.com/css2?family=Playfair+Display:ital,wght@0,400;0,600;1,400&family=Lato:wght@300;400&display=swap" rel="stylesheet">
+    <style>
+        body { margin: 0; padding: 20px 40px; font-family: 'Lato', sans-serif; overflow: hidden; }
+        nav { display: flex; justify-content: space-between; align-items: center; }
+        .brand { font-family: 'Playfair Display', serif; font-size: 28px; font-style: italic; color: #1a1a1a; text-decoration: none; }
+        .right { display: flex; gap: 20px; align-items: center; }
+        .menu-icon { width: 40px; height: 40px; border: 1px solid #1a1a1a; border-radius: 50%; display: flex; align-items: center; justify-content: center; cursor: pointer; transition: 0.3s; }
+        .menu-icon:hover { background: #1a1a1a; color: white; }
+        .btn { padding: 10px 24px; border: 1px solid #1a1a1a; border-radius: 50px; text-decoration: none; color: #1a1a1a; font-size: 14px; text-transform: uppercase; letter-spacing: 1px; transition: 0.3s; }
+        .btn:hover { background: #1a1a1a; color: white; }
+        
+        @media (max-width: 600px) {
+            body { padding: 15px 20px; }
+            .btn { display: none; }
+        }
+    </style>
+</head>
+<body>
+    <nav>
+        <a href="#" class="brand" id="brand">Coral Cove</a>
+        <div class="right">
+            <div class="menu-icon">☰</div>
+            <a href="#" class="btn" id="cta">Reservation</a>
+        </div>
+    </nav>
+    <script>
+        const params = new URLSearchParams(window.location.search);
+        if(params.get('brand')) document.getElementById('brand').textContent = params.get('brand');
+        if(params.get('cta_text')) document.getElementById('cta').textContent = params.get('cta_text');
+        
+        const sendHeight = () => { if(params.get('frame_id')) window.parent.postMessage({frameId: params.get('frame_id'), frameHeight: document.body.scrollHeight}, '*'); }
+        window.addEventListener('load', sendHeight);
+    </script>
+</body>
+</html>

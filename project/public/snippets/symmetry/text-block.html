@@ -1,0 +1,39 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Coral Text</title>
+    <link href="https://fonts.googleapis.com/css2?family=Playfair+Display:ital,wght@0,400;1,400&family=Lato:wght@300;400&display=swap" rel="stylesheet">
+    <style>
+        body { margin: 0; padding: 60px 20px; font-family: 'Lato', sans-serif; overflow: hidden; text-align: center; }
+        .container { max-width: 700px; margin: 0 auto; }
+        h2 {
+            font-family: 'Playfair Display', serif;
+            font-size: 48px;
+            font-style: italic;
+            color: #1a1a1a;
+            margin-bottom: 30px;
+        }
+        p {
+            font-size: 18px;
+            line-height: 1.8;
+            color: #4a4a4a;
+        }
+    </style>
+</head>
+<body>
+    <div class="container">
+        <h2 id="heading">About our restaurant</h2>
+        <p id="content">The menu at a modern seafood restaurant meets innovation. Chefs incorporate cutting-edge techniques to redefine classics.</p>
+    </div>
+    <script>
+        const params = new URLSearchParams(window.location.search);
+        if(params.get('heading')) document.getElementById('heading').textContent = params.get('heading');
+        if(params.get('content')) document.getElementById('content').textContent = params.get('content');
+        
+        const sendHeight = () => { if(params.get('frame_id')) window.parent.postMessage({frameId: params.get('frame_id'), frameHeight: document.body.scrollHeight}, '*'); }
+        window.addEventListener('load', sendHeight);
+    </script>
+</body>
+</html>
