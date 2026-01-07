@@ -6,10 +6,14 @@
     <title>Custom Footer</title>
     <base target="_blank">
     <style>
-        body { margin: 0; padding: 0; font-family: sans-serif; overflow: hidden; }
+        body { margin: 0; padding: 0; font-family: sans-serif; overflow: hidden;
+            display: flex; flex-direction: column; justify-content: flex-end; min-height: 100vh;
+        }
         .footer {
             background-color: #fffbf0; /* Creamy white */
             color: #064e3b;
+            position: relative;
+            bottom: 0;
             padding: 60px 20px 0 20px;
             display: flex;
             flex-direction: column;
