@@ -4,6 +4,7 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Symmetry Navbar</title>
+    <base target="_blank">
     <link href="https://fonts.googleapis.com/css2?family=Playfair+Display:ital,wght@0,400;0,600;1,400&family=Manrope:wght@300;400&display=swap" rel="stylesheet">
     <style>
         body { margin: 0; padding: 20px 40px; font-family: 'Manrope', sans-serif; overflow: hidden; }
@@ -93,7 +94,13 @@
         
         // Menu Logic
         function toggleMenu() {
-            document.getElementById('nav-overlay').classList.toggle('active');
+            const overlay = document.getElementById('nav-overlay');
+            const isActive = overlay.classList.toggle('active');
+            if (isActive) {
+                sendHeight(600); // Expand to show menu
+            } else {
+                sendHeight(100); // Collapse back to navbar height
+            }
         }
 
         const navContainer = document.getElementById('nav-links');
