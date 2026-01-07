@@ -119,19 +119,26 @@
     <script>
         const params = new URLSearchParams(window.location.search);
         
-        if(params.get('bg_color')) document.body.style.backgroundColor = '#' + params.get('bg_color');
+        const bgColor = params.get('bg_color') ? '#' + params.get('bg_color') : 'transparent';
+        document.body.style.backgroundColor = bgColor;
+
         const textColor = params.get('text_color') ? '#' + params.get('text_color') : '#1a1a1a';
         
         document.body.style.color = textColor;
-        document.body.style.backgroundColor = bgColor;
 
         if(params.get('heading')) document.getElementById('heading').textContent = params.get('heading');
         if(params.get('description')) document.getElementById('desc').textContent = params.get('description');
         if(params.get('placeholder')) document.getElementById('input').placeholder = params.get('placeholder');
         if(params.get('btn_text')) document.getElementById('btn').textContent = params.get('btn_text');
 
-        const sendHeight = () => { if(params.get('frame_id')) window.parent.postMessage({frameId: params.get('frame_id'), frameHeight: document.body.scrollHeight}, '*'); }
+        const sendHeight = () => { 
+            if(params.get('frame_id')) {
+                window.parent.postMessage({frameId: params.get('frame_id'), frameHeight: document.body.scrollHeight + 20}, '*'); 
+            }
+        }
         window.addEventListener('load', sendHeight);
+        window.addEventListener('resize', sendHeight);
+        if (document.fonts) { document.fonts.ready.then(sendHeight); }
     </script>
 </body>
 </html>
