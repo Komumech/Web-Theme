@@ -3,11 +3,11 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Coral Navbar</title>
-    <link href="https://fonts.googleapis.com/css2?family=Playfair+Display:ital,wght@0,400;0,600;1,400&family=Lato:wght@300;400&display=swap" rel="stylesheet">
+    <title>Symmetry Navbar</title>
+    <link href="https://fonts.googleapis.com/css2?family=Playfair+Display:ital,wght@0,400;0,600;1,400&family=Manrope:wght@300;400&display=swap" rel="stylesheet">
     <style>
-        body { margin: 0; padding: 20px 40px; font-family: 'Lato', sans-serif; overflow: hidden; }
-        nav { display: flex; justify-content: space-between; align-items: center; }
+        body { margin: 0; padding: 20px 40px; font-family: 'Manrope', sans-serif; overflow: hidden; }
+        nav { display: flex; justify-content: space-between; align-items: center; border-bottom: 1px solid transparent; padding-bottom: 20px; }
         .brand { font-family: 'Playfair Display', serif; font-size: 28px; font-style: italic; color: #1a1a1a; text-decoration: none; }
         .right { display: flex; gap: 20px; align-items: center; }
         .menu-icon { width: 40px; height: 40px; border: 1px solid #1a1a1a; border-radius: 50%; display: flex; align-items: center; justify-content: center; cursor: pointer; transition: 0.3s; }
@@ -22,17 +22,30 @@
     </style>
 </head>
 <body>
-    <nav>
+    <nav id="nav">
         <a href="#" class="brand" id="brand">Coral Cove</a>
         <div class="right">
-            <div class="menu-icon">☰</div>
+            <div class="menu-icon" id="menu">☰</div>
             <a href="#" class="btn" id="cta">Reservation</a>
         </div>
     </nav>
     <script>
         const params = new URLSearchParams(window.location.search);
+        
+        // Colors
+        const textColor = params.get('text_color') ? '#' + params.get('text_color') : '#1a1a1a';
+        const bgColor = params.get('bg_color') ? '#' + params.get('bg_color') : 'transparent';
+        
+        document.body.style.backgroundColor = bgColor;
+        document.getElementById('brand').style.color = textColor;
+        document.getElementById('menu').style.borderColor = textColor;
+        document.getElementById('menu').style.color = textColor;
+        document.getElementById('cta').style.borderColor = textColor;
+        document.getElementById('cta').style.color = textColor;
+
         if(params.get('brand')) document.getElementById('brand').textContent = params.get('brand');
         if(params.get('cta_text')) document.getElementById('cta').textContent = params.get('cta_text');
+        if(params.get('cta_href')) document.getElementById('cta').href = params.get('cta_href');
         
         const sendHeight = () => { if(params.get('frame_id')) window.parent.postMessage({frameId: params.get('frame_id'), frameHeight: document.body.scrollHeight}, '*'); }
         window.addEventListener('load', sendHeight);
