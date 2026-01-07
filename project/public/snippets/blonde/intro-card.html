@@ -16,7 +16,7 @@
             --heading-color: #1a1a1a;
             --btn-bg: #1a1a1a;
             --btn-text: #ffffff;
-            --cursor-color: #ffffff; /* Default cursor color */
+            --cursor-color: #ffffff;
         }
         body {
             margin: 0;
@@ -43,8 +43,17 @@
             margin-left: -40px;
             margin-top: -40px;
             opacity: 0;
-            transition: opacity 0.4s ease;
+            /* Transition for scale (the grow effect) */
+            transition: opacity 0.3s ease, width 0.3s ease, height 0.3s ease, margin 0.3s ease;
             will-change: transform;
+        }
+
+        /* Class added via JS when hovering button */
+        .cursor-bubble.grow {
+            width: 120px;
+            height: 120px;
+            margin-left: -60px;
+            margin-top: -60px;
         }
 
         .section-container {
@@ -60,7 +69,6 @@
             isolation: isolate;
         }
         
-        /* --- ENTRANCE ANIMATIONS --- */
         @keyframes cardReveal {
             from { opacity: 0; transform: translateY(30px) scale(0.98); }
             to { opacity: 1; transform: translateY(0) scale(1); }
@@ -83,17 +91,30 @@
             z-index: 10;
             opacity: 0;
             animation: cardReveal 1s cubic-bezier(0.2, 0.8, 0.2, 1) forwards;
-        }
-
-        .eyebrow, h2, p, .btn {
-            opacity: 0;
-            animation: textReveal 0.8s cubic-bezier(0.2, 0.8, 0.2, 1) forwards;
+            cursor: none; 
         }
 
         .eyebrow { animation-delay: 0.3s; font-weight: 800; font-size: 16px; margin-bottom: 15px; color: var(--heading-color); }
         h2 { animation-delay: 0.4s; font-size: 42px; font-weight: 800; line-height: 1.1; margin: 0 0 25px 0; color: var(--heading-color); letter-spacing: -1px; }
         p { animation-delay: 0.5s; font-size: 18px; line-height: 1.6; color: var(--text-color); margin: 0 0 35px 0; font-weight: 500; }
-        .btn { animation-delay: 0.6s; display: inline-block; background-color: var(--btn-bg); color: var(--btn-text); padding: 16px 32px; border-radius: 50px; text-decoration: none; font-weight: 700; font-size: 16px; transition: all 0.3s ease; }
+        
+        .eyebrow, h2, p, .btn {
+            opacity: 0;
+            animation: textReveal 0.8s cubic-bezier(0.2, 0.8, 0.2, 1) forwards;
+        }
+
+        .btn { 
+            animation-delay: 0.6s; 
+            display: inline-block; 
+            background-color: var(--btn-bg); 
+            color: var(--btn-text); 
+            padding: 16px 32px; 
+            border-radius: 50px; 
+            text-decoration: none; 
+            font-weight: 700; 
+            font-size: 16px; 
+            transition: all 0.3s ease; 
+        }
         
         .btn:hover { 
             opacity: 0.9; 
@@ -103,8 +124,7 @@
 
         @media (max-width: 768px) {
             .section-container { justify-content: center; padding: 40px 20px; }
-            .card { padding: 40px 30px; }
-            h2 { font-size: 32px; }
+            .card { padding: 40px 30px; cursor: auto; }
             .cursor-bubble { display: none; }
         }
     </style>
@@ -113,7 +133,7 @@
     <div class="cursor-bubble" id="cursor-bubble"></div>
 
     <div class="section-container" id="bg_container">
-        <div class="card">
+        <div class="card" id="hover-card">
             <div class="eyebrow" id="eyebrow">Hi there!</div>
             <h2 id="heading">Allow me to introduce myself.</h2>
             <p id="description">Transferring words from your brain, to a page, and making your target audience relate is what I do.</p>
@@ -124,34 +144,41 @@
     <script>
         const params = new URLSearchParams(window.location.search);
         
-        // Settings & Colors
+        // CSS Variable Injection
         if(params.has('bg_color')) document.documentElement.style.setProperty('--bg-color', '#' + params.get('bg_color'));
         if(params.has('card_bg')) document.documentElement.style.setProperty('--card-bg', '#' + params.get('card_bg'));
         if(params.has('text_color')) document.documentElement.style.setProperty('--text-color', '#' + params.get('text_color'));
         if(params.has('heading_color')) document.documentElement.style.setProperty('--heading-color', '#' + params.get('heading_color'));
         if(params.has('btn_bg')) document.documentElement.style.setProperty('--btn-bg', '#' + params.get('btn_bg'));
         if(params.has('btn_text')) document.documentElement.style.setProperty('--btn-text', '#' + params.get('btn_text'));
-        
-        // NEW: Cursor Color Parameter
         if(params.has('cursor_color')) document.documentElement.style.setProperty('--cursor-color', '#' + params.get('cursor_color'));
 
-        // Content
+        // Content Injection
         if(params.get('bg_image')) document.getElementById('bg_container').style.backgroundImage = `url('${params.get('bg_image')}')`;
         ['eyebrow', 'heading', 'description'].forEach(id => { if(params.get(id)) document.getElementById(id).textContent = params.get(id); });
         if(params.get('btn_label')) document.getElementById('btn').textContent = params.get('btn_label');
         if(params.get('btn_href')) document.getElementById('btn').href = params.get('btn_href');
         
-        /* --- BUBBLE LOGIC --- */
+        /* --- BUBBLE & HOVER LOGIC --- */
         const bubble = document.getElementById('cursor-bubble');
+        const card = document.getElementById('hover-card');
+        const btn = document.getElementById('btn');
         let mouseX = 0, mouseY = 0;
         let ballX = 0, ballY = 0;
         let speed = 0.12;
 
-        document.addEventListener('mousemove', (e) => {
+        // Card Movement
+        card.addEventListener('mousemove', (e) => {
             mouseX = e.clientX;
             mouseY = e.clientY;
-            bubble.style.opacity = '1';
         });
+
+        card.addEventListener('mouseenter', () => bubble.style.opacity = '1');
+        card.addEventListener('mouseleave', () => bubble.style.opacity = '0');
+
+        // Button Hover (Grow Bubble)
+        btn.addEventListener('mouseenter', () => bubble.classList.add('grow'));
+        btn.addEventListener('mouseleave', () => bubble.classList.remove('grow'));
 
         function animate() {
             ballX += (mouseX - ballX) * speed;
@@ -161,10 +188,7 @@
         }
         animate();
 
-        document.addEventListener('mouseleave', () => bubble.style.opacity = '0');
-        document.addEventListener('mouseenter', () => bubble.style.opacity = '1');
-
-        // Dynamic Height for Iframe
+        // Responsive Iframe Resizer for clients
         window.addEventListener('load', () => { 
             if(params.get('frame_id')) {
                 window.parent.postMessage({
