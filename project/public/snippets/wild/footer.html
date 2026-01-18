@@ -18,43 +18,74 @@
         .newsletter input { width: 100%; padding: 12px 16px; border-radius: 12px; border: 1px solid #333; background: #222; color: white; font-family: inherit; margin-bottom: 10px; box-sizing: border-box; }
         .newsletter button { width: 100%; padding: 12px; border-radius: 12px; background: var(--accent); color: #1a1a1a; border: none; font-weight: 700; cursor: pointer; }
         .copyright { margin-top: 4rem; padding-top: 2rem; border-top: 1px solid #333; text-align: center; color: #666; font-size: 0.9rem; }
+        
+        /* Premium Locked UI */
+        .locked-container { height: 300px; display: flex; flex-direction: column; align-items: center; justify-content: center; text-align: center; border: 2px dashed #444; border-radius: 20px; }
+        .locked-container h2 { margin-bottom: 10px; color: var(--accent); }
+
         @media (max-width: 768px) { .footer-container { grid-template-columns: 1fr; gap: 2rem; } }
     </style>
 </head>
 <body>
-    <div class="footer-container">
-        <div>
-            <h3 id="brand"><span class="logo-dot"></span> Wild.</h3>
-            <p id="desc">Creating digital experiences that are bold, playful, and human-centered.</p>
+    <div id="snippet-content">
+        <div class="footer-container">
+            <div>
+                <h3 id="brand"><span class="logo-dot"></span> Wild.</h3>
+                <p id="desc">Creating digital experiences that are bold, playful, and human-centered.</p>
+            </div>
+            <div>
+                <h4>Company</h4>
+                <a href="#">About</a>
+                <a href="#">Careers</a>
+                <a href="#">Blog</a>
+            </div>
+            <div>
+                <h4>Resources</h4>
+                <a href="#">Documentation</a>
+                <a href="#">Help Center</a>
+                <a href="#">Partners</a>
+            </div>
+            <div class="newsletter">
+                <h4>Stay in the loop</h4>
+                <input type="email" placeholder="Email address">
+                <button>Subscribe</button>
+            </div>
         </div>
-        <div>
-            <h4>Company</h4>
-            <a href="#">About</a>
-            <a href="#">Careers</a>
-            <a href="#">Blog</a>
-        </div>
-        <div>
-            <h4>Resources</h4>
-            <a href="#">Documentation</a>
-            <a href="#">Help Center</a>
-            <a href="#">Partners</a>
-        </div>
-        <div class="newsletter">
-            <h4>Stay in the loop</h4>
-            <input type="email" placeholder="Email address">
-            <button>Subscribe</button>
-        </div>
+        <div class="copyright" id="copy">© 2025 Wild Theme. All rights reserved.</div>
     </div>
-    <div class="copyright" id="copy">© 2025 Wild Theme. All rights reserved.</div>
+
     <script>
         const params = new URLSearchParams(window.location.search);
-        if(params.get('brand')) document.getElementById('brand').innerHTML = `<span class="logo-dot"></span> ${params.get('brand')}`;
-        if(params.get('description')) document.getElementById('desc').textContent = params.get('description');
-        if(params.get('copyright')) document.getElementById('copy').textContent = params.get('copyright');
-        if(params.get('bg_color')) document.body.style.backgroundColor = '#' + params.get('bg_color');
-        if(params.get('accent_color')) document.documentElement.style.setProperty('--accent', '#'+params.get('accent_color'));
+        const token = params.get('token');
+
+        // 1. Premium Token Validation
+        // This checks if token starts with your unique dashboard prefix 'KT-'
+        if (!token || !token.startsWith('KT-')) {
+            document.getElementById('snippet-content').innerHTML = `
+                <div class="locked-container">
+                    <h2>🔒 Premium Component</h2>
+                    <p>This snippet requires a valid subscription token.</p>
+                    <a href="https://komutheme2.vercel.app/" target="_top" style="color:var(--accent); font-weight:bold;">Unlock in Dashboard</a>
+                </div>
+            `;
+        } else {
+            // 2. Load regular settings if token is valid
+            if(params.get('brand')) document.getElementById('brand').innerHTML = `<span class="logo-dot"></span> ${params.get('brand')}`;
+            if(params.get('description')) document.getElementById('desc').textContent = params.get('description');
+            if(params.get('copyright')) document.getElementById('copy').textContent = params.get('copyright');
+            if(params.get('bg_color')) document.body.style.backgroundColor = '#' + params.get('bg_color');
+            if(params.get('accent_color')) document.documentElement.style.setProperty('--accent', '#'+params.get('accent_color'));
+        }
         
-        const sendHeight = () => { if(params.get('frame_id')) window.parent.postMessage({frameId: params.get('frame_id'), frameHeight: document.body.scrollHeight}, '*'); }
+        // 3. Resizing logic (always works even if locked)
+        const sendHeight = () => { 
+            if(params.get('frame_id')) {
+                window.parent.postMessage({
+                    frameId: params.get('frame_id'), 
+                    frameHeight: document.body.scrollHeight
+                }, '*'); 
+            }
+        }
         window.addEventListener('load', sendHeight);
         window.addEventListener('resize', sendHeight);
     </script>

@@ -211,51 +211,64 @@
             scrolling="no"
         ></iframe>
 
-        <iframe 
-            id="footer-1" 
-            src="" 
-            data-base-url="https://komutheme2.vercel.app/project/public/snippets/wild/footer.html" 
-            data-frame-id="footer-1" 
-            data-brand="Wild."
-            data-description="Boldly going where no theme has gone before."
-            data-copyright="© 2025 Wild Theme."
-            scrolling="no"
-        ></iframe>
+<iframe 
+        id="hero-frame"
+        src=""
+        data-base-url="https://komutheme2.vercel.app/project/public/snippets/wild/hero.html"
+        data-frame-id="hero-frame"
+        data-token="KT-WILD-2025" 
+        data-title="Real human<br>insights"
+        data-subtitle="We help you understand your customers better through data-driven empathy."
+        data-bg_color="33bd98"
+        scrolling="no"
+    ></iframe>
     </div>
 
-    <script>
-        // 1. URL Construction Logic
-        document.addEventListener('DOMContentLoaded', function() {
-            document.querySelectorAll('iframe[data-base-url]').forEach(iframe => {
-                const baseUrl = iframe.getAttribute('data-base-url');
-                let params = [];
-                for (const attr of iframe.attributes) {
-                    if (attr.name.startsWith('data-')) {
-                        let key = attr.name.substring(5).replace(/-/g, '_');
-                        if (key === 'base_url') continue;
-                        params.push(`${key}=${encodeURIComponent(attr.value)}`);
-                    }
+<script>
+    // 1. Unified URL Construction & Token Passing
+    document.addEventListener('DOMContentLoaded', function() {
+        document.querySelectorAll('iframe[data-base-url]').forEach(iframe => {
+            const baseUrl = iframe.getAttribute('data-base-url');
+            const token = iframe.getAttribute('data-token') || ''; // Get the unique token
+            
+            let params = [];
+            for (const attr of iframe.attributes) {
+                if (attr.name.startsWith('data-')) {
+                    let key = attr.name.substring(5).replace(/-/g, '_');
+                    // Skip internal attributes
+                    if (key === 'base_url' || key === 'token') continue; 
+                    params.push(`${key}=${encodeURIComponent(attr.value)}`);
                 }
-                iframe.src = baseUrl + '?' + params.join('&');
-            });
-        });
-
-        // 2. Dynamic Resizing
-        window.addEventListener("message", function(event) {
-            if (event.data.frameHeight && event.data.frameId) {
-                const iframe = document.getElementById(event.data.frameId);
-                if (iframe) iframe.style.height = event.data.frameHeight + "px";
             }
-
-            if (event.data.action === 'input_submitted') {
-                const log = document.getElementById('input-log');
-                const entry = document.createElement('div');
-                entry.className = 'log-entry';
-                entry.innerHTML = `<strong>${event.data.frameId}:</strong><br>${event.data.value}`;
-                log.appendChild(entry);
-                setTimeout(() => entry.remove(), 5000);
-            }
+            
+            // Automatically append the token to the URL if it exists
+            if (token) params.push(`token=${encodeURIComponent(token)}`);
+            
+            iframe.src = baseUrl + '?' + params.join('&');
         });
-    </script>
+    });
+
+    // 2. Dynamic Resizing & Input Logging
+    window.addEventListener("message", function(event) {
+        // Handle Resizing
+        if (event.data.frameHeight && event.data.frameId) {
+            const iframe = document.getElementById(event.data.frameId);
+            if (iframe) {
+                // Add a small buffer to prevent scrollbars
+                iframe.style.height = (event.data.frameHeight) + "px"; 
+            }
+        }
+
+        // Handle Input Submissions (from snippets like input.html)
+        if (event.data.action === 'input_submitted') {
+            const log = document.getElementById('input-log');
+            const entry = document.createElement('div');
+            entry.className = 'log-entry';
+            entry.innerHTML = `<strong>${event.data.frameId}:</strong><br>${event.data.value}`;
+            log.appendChild(entry);
+            setTimeout(() => entry.remove(), 5000);
+        }
+    });
+</script>
 </body>
 </html>
