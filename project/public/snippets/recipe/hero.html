@@ -181,6 +181,7 @@
 
     <script type="module">
         import { initializeApp } from "https://www.gstatic.com/firebasejs/10.7.1/firebase-app.js";
+        import { getAuth, signInAnonymously } from "https://www.gstatic.com/firebasejs/10.7.1/firebase-auth.js";
         import { getFirestore, collection, query, where, getDocs } from "https://www.gstatic.com/firebasejs/10.7.1/firebase-firestore.js";
 
         const firebaseConfig = {
@@ -193,6 +194,7 @@
         };
 
         const app = initializeApp(firebaseConfig);
+        const auth = getAuth(app);
         const db = getFirestore(app);
 
         const params = new URLSearchParams(window.location.search);
@@ -214,6 +216,9 @@
             }
 
             try {
+                // Sign in anonymously to ensure we have an auth context for Firestore rules
+                await signInAnonymously(auth);
+
                 // Check if token exists in 'users' collection
                 const q = query(collection(db, "users"), where("premiumToken", "==", token));
                 const querySnapshot = await getDocs(q);
@@ -230,8 +235,12 @@
                     showError("Token not found in database.");
                 }
             } catch (error) {
-                console.error(error);
-                showError("Verification failed.");
+                console.error("Token verification error:", error);
+                if (error.code === 'permission-denied') {
+                    showError("Permission denied. Check Firestore rules.");
+                } else {
+                    showError("Verification failed.");
+                }
             }
         }
 
