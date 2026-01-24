@@ -1,203 +1,272 @@
+<!-- c:\Users\USER\OneDrive\Desktop\web theme\Web-Theme\project\public\snippets\recipe\hero.html -->
 <!DOCTYPE html>
 <html lang="en">
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Recipe Hero</title>
-    <link href="https://fonts.googleapis.com/css2?family=Lato:wght@400;700&family=Playfair+Display:wght@700&display=swap" rel="stylesheet">
     <style>
-        :root {
-            --bg-color: #ffffff;
-            --text-color: #333333;
-            --heading-color: #333333;
-            --accent-bg: #f3f4f6;
-            --icon-color: #555555;
-        }
+        @import url('https://fonts.googleapis.com/css2?family=Playfair+Display:wght@700&family=Lato:wght@400;700&display=swap');
+
         body {
             margin: 0;
-            padding: 20px;
+            padding: 0;
             font-family: 'Lato', sans-serif;
-            background-color: var(--bg-color);
-            color: var(--text-color);
-            box-sizing: border-box;
+            background-color: #ffffff;
+            color: #333;
+            overflow: hidden;
         }
-        .container {
-            max-width: 1100px;
-            margin: 0 auto;
-            display: grid;
-            grid-template-columns: 2fr 1fr;
-            gap: 40px;
+
+        /* Loading & Error States */
+        #loading, #error-screen {
+            height: 300px;
+            display: flex;
+            flex-direction: column;
+            justify-content: center;
+            align-items: center;
+            text-align: center;
+            background: #f9f9f9;
         }
-        
-        /* Main Content */
-        .section-title {
-            font-family: 'Lato', sans-serif;
-            font-size: 14px;
-            letter-spacing: 2px;
-            text-transform: uppercase;
+        #error-screen {
+            background: #fee2e2;
+            color: #b91c1c;
+            display: none;
+        }
+        #content {
+            display: none; /* Hidden until verified */
+        }
+
+        /* Layout */
+        .hero-container {
+            display: flex;
+            min-height: 500px;
+        }
+
+        .main-content {
+            flex: 2;
+            padding: 60px;
+            display: flex;
+            flex-direction: column;
+            justify-content: center;
+        }
+
+        .sidebar {
+            flex: 1;
+            background-color: #f3f4f6;
+            padding: 40px;
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            text-align: center;
+            justify-content: center;
+        }
+
+        /* Typography */
+        h1 {
+            font-family: 'Playfair Display', serif;
+            font-size: 3rem;
+            margin: 0 0 40px 0;
+            letter-spacing: 1px;
+            color: #111;
+        }
+
+        h3 {
+            font-family: 'Playfair Display', serif;
+            font-size: 1.5rem;
             margin-bottom: 20px;
-            font-weight: 700;
-            color: var(--heading-color);
         }
-        .cutlery-icon {
-            width: 16px;
-            height: 16px;
-            vertical-align: middle;
-            margin-left: 8px;
-            opacity: 0.7;
-        }
+
+        /* Recipe Grid */
         .recipe-grid {
             display: grid;
             grid-template-columns: 1fr 1fr;
-            gap: 20px;
-        }
-        .recipe-card {
-            text-align: left;
-        }
-        .recipe-img {
-            width: 100%;
-            aspect-ratio: 1/1;
-            object-fit: cover;
-            margin-bottom: 15px;
-        }
-        .recipe-title {
-            font-family: 'Lato', sans-serif;
-            font-size: 13px;
-            letter-spacing: 1px;
-            text-transform: uppercase;
-            font-weight: 700;
-            color: var(--heading-color);
+            gap: 30px;
         }
 
-        /* Sidebar */
-        .sidebar {
-            text-align: center;
-            padding-top: 10px;
+        .recipe-item img {
+            width: 100%;
+            height: 250px;
+            object-fit: cover;
+            border-radius: 8px;
+            margin-bottom: 15px;
+            transition: transform 0.3s ease;
         }
-        .welcome-title {
-            font-size: 14px;
-            letter-spacing: 2px;
-            text-transform: uppercase;
+        
+        .recipe-item:hover img {
+            transform: scale(1.02);
+        }
+
+        .recipe-title {
             font-weight: 700;
-            margin-bottom: 20px;
-            color: var(--heading-color);
+            font-size: 0.9rem;
+            letter-spacing: 1px;
+            text-transform: uppercase;
         }
+
+        /* Sidebar Elements */
         .profile-img {
             width: 120px;
             height: 120px;
             border-radius: 50%;
             object-fit: cover;
-            margin-bottom: 15px;
-        }
-        .bio-text {
-            font-size: 14px;
-            line-height: 1.6;
-            color: var(--text-color);
             margin-bottom: 20px;
-        }
-        .social-icons {
-            display: flex;
-            justify-content: center;
-            gap: 15px;
-            margin-bottom: 30px;
-            color: var(--icon-color);
-        }
-        .newsletter-box {
-            background-color: var(--accent-bg); /* Light gray/blue tint */
-            padding: 30px 20px;
-            text-align: center;
-        }
-        .newsletter-text {
-            font-family: 'Lato', sans-serif;
-            font-size: 12px;
-            letter-spacing: 2px;
-            font-weight: 700;
-            text-transform: uppercase;
-            line-height: 1.8;
-            color: var(--heading-color);
-        }
-        .heart-icon {
-            color: #ef4444;
-            font-size: 10px;
-            vertical-align: middle;
+            border: 4px solid #fff;
+            box-shadow: 0 4px 12px rgba(0,0,0,0.05);
         }
 
-        /* Android/Mobile Responsivity */
-        @media (max-width: 768px) {
-            .container { 
-                grid-template-columns: 1fr; 
-                gap: 60px;
-            }
+        .bio-text {
+            font-size: 0.95rem;
+            line-height: 1.6;
+            color: #555;
+            margin-bottom: 30px;
+        }
+
+        .newsletter-box {
+            border-top: 1px solid #ddd;
+            border-bottom: 1px solid #ddd;
+            padding: 20px 0;
+            width: 100%;
+            font-weight: 700;
+            font-size: 0.8rem;
+            letter-spacing: 1px;
+        }
+
+        @media (max-width: 900px) {
+            .hero-container { flex-direction: column; }
+            .sidebar { padding: 60px 40px; }
             .recipe-grid { grid-template-columns: 1fr; }
         }
     </style>
 </head>
 <body>
-    <div class="container">
-        <!-- Main Column -->
-        <div class="main-content">
-            <div class="section-title" id="main_heading">
-                LATEST RECIPES... 
-                <svg class="cutlery-icon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round">
-                    <path d="M3 2v7c0 1.1.9 2 2 2h4a2 2 0 0 0 2-2V2"/>
-                    <path d="M7 2v20"/>
-                    <path d="M21 15V2v0a5 5 0 0 0-5 5v6c0 1.1.9 2 2 2h3Zm0 0v7"/>
-                </svg>
-            </div>
-            <div class="recipe-grid">
-                <div class="recipe-card">
-                    <img src="" id="recipe1_img" class="recipe-img" alt="Recipe 1">
-                    <div class="recipe-title" id="recipe1_title">RECIPE TITLE 1</div>
-                </div>
-                <div class="recipe-card">
-                    <img src="" id="recipe2_img" class="recipe-img" alt="Recipe 2">
-                    <div class="recipe-title" id="recipe2_title">RECIPE TITLE 2</div>
-                </div>
-            </div>
-        </div>
 
-        <!-- Sidebar -->
-        <div class="sidebar">
-            <div class="welcome-title" id="sidebar_title">WELCOME! 👋</div>
-            <img src="" id="profile_img" class="profile-img" alt="Profile">
-            <div class="bio-text" id="bio_text">
-                Hi, I'm Sarah! Welcome to my digital kitchen where I share simple, wholesome recipes for everyday living.
-            </div>
-            <div class="social-icons">
-                <!-- Simple SVG placeholders -->
-                <svg width="20" height="20" fill="currentColor" viewBox="0 0 24 24"><path d="M4 4h16v16H4z" fill="none" stroke="currentColor" stroke-width="2"/></svg>
-                <svg width="20" height="20" fill="currentColor" viewBox="0 0 24 24"><path d="M12 2a10 10 0 1 0 10 10A10 10 0 0 0 12 2zm0 16a6 6 0 1 1 6-6 6 6 0 0 1-6 6z"/></svg>
-            </div>
-            <div class="newsletter-box">
-                <div class="newsletter-text" id="newsletter_text">
-                    WANT EVERY NEW RECIPE SENT STRAIGHT TO YOUR INBOX? <span class="heart-icon">♥</span>
+    <!-- Loading State -->
+    <div id="loading">
+        <div style="font-size: 24px; margin-bottom: 10px;">🔒</div>
+        <div>Verifying Premium Token...</div>
+    </div>
+
+    <!-- Error State -->
+    <div id="error-screen">
+        <div style="font-size: 40px; margin-bottom: 15px;">🚫</div>
+        <h2 style="margin: 0 0 10px 0;">Access Denied</h2>
+        <p id="error-msg">Invalid or missing token.</p>
+        <p style="font-size: 0.8rem; margin-top: 10px; opacity: 0.8;">Please check your configuration.</p>
+    </div>
+
+    <!-- Main Content (Protected) -->
+    <div id="content">
+        <div class="hero-container">
+            <div class="main-content">
+                <h1 id="main_heading">LATEST RECIPES...</h1>
+                <div class="recipe-grid">
+                    <div class="recipe-item">
+                        <img id="recipe1_img" src="" alt="Recipe 1">
+                        <div id="recipe1_title" class="recipe-title"></div>
+                    </div>
+                    <div class="recipe-item">
+                        <img id="recipe2_img" src="" alt="Recipe 2">
+                        <div id="recipe2_title" class="recipe-title"></div>
+                    </div>
                 </div>
+            </div>
+            <div class="sidebar" id="sidebar">
+                <h3 id="sidebar_title">WELCOME!</h3>
+                <img id="profile_img" class="profile-img" src="" alt="Profile">
+                <p id="bio_text" class="bio-text"></p>
+                <div id="newsletter_text" class="newsletter-box"></div>
             </div>
         </div>
     </div>
 
-    <script>
-        window.addEventListener('DOMContentLoaded', () => {
-            const params = new URLSearchParams(window.location.search);
-            
-            // Apply Custom Colors
-            const root = document.documentElement;
-            if(params.has('bg_color')) root.style.setProperty('--bg-color', '#' + params.get('bg_color'));
-            if(params.has('text_color')) root.style.setProperty('--text-color', '#' + params.get('text_color'));
-            if(params.has('heading_color')) root.style.setProperty('--heading-color', '#' + params.get('heading_color'));
-            if(params.has('accent_bg')) root.style.setProperty('--accent-bg', '#' + params.get('accent_bg'));
+    <script type="module">
+        import { initializeApp } from "https://www.gstatic.com/firebasejs/10.7.1/firebase-app.js";
+        import { getFirestore, collection, query, where, getDocs } from "https://www.gstatic.com/firebasejs/10.7.1/firebase-firestore.js";
 
-            params.forEach((value, key) => {
-                const element = document.getElementById(key);
-                if (element) {
-                    if (element.tagName === 'IMG') element.src = value;
-                    else element.innerHTML = value;
+        const firebaseConfig = {
+            apiKey: "AIzaSyC4qRfl2vU7rWZlQsgN5ikrtLTgzS9ehN4",
+            authDomain: "komutheme.firebaseapp.com",
+            projectId: "komutheme",
+            storageBucket: "komutheme.firebasestorage.app",
+            messagingSenderId: "27957638694",
+            appId: "1:27957638694:web:daf2e849b28b46740e58e7"
+        };
+
+        const app = initializeApp(firebaseConfig);
+        const db = getFirestore(app);
+
+        const params = new URLSearchParams(window.location.search);
+        const token = params.get('token');
+        const frameId = params.get('frame_id');
+
+        // Send height to parent
+        const sendHeight = () => {
+            if(frameId) {
+                const height = document.body.scrollHeight;
+                window.parent.postMessage({frameId: frameId, frameHeight: height}, '*');
+            }
+        };
+
+        async function verifyToken() {
+            if (!token) {
+                showError("No token provided.");
+                return;
+            }
+
+            try {
+                // Check if token exists in 'users' collection
+                const q = query(collection(db, "users"), where("premiumToken", "==", token));
+                const querySnapshot = await getDocs(q);
+
+                if (!querySnapshot.empty) {
+                    // Token Valid
+                    document.getElementById('loading').style.display = 'none';
+                    document.getElementById('content').style.display = 'block';
+                    renderContent();
+                    // Wait for images to load before sending final height
+                    setTimeout(sendHeight, 100);
+                    setTimeout(sendHeight, 1000);
+                } else {
+                    showError("Token not found in database.");
                 }
+            } catch (error) {
+                console.error(error);
+                showError("Verification failed.");
+            }
+        }
+
+        function showError(msg) {
+            document.getElementById('loading').style.display = 'none';
+            document.getElementById('error-screen').style.display = 'flex';
+            document.getElementById('error-msg').innerText = msg;
+            sendHeight();
+        }
+
+        function renderContent() {
+            // Map params to IDs
+            const fields = [
+                'main_heading', 'recipe1_title', 'recipe2_title', 
+                'sidebar_title', 'bio_text', 'newsletter_text'
+            ];
+            const images = ['recipe1_img', 'recipe2_img', 'profile_img'];
+
+            fields.forEach(field => {
+                if(params.get(field)) document.getElementById(field).innerHTML = params.get(field);
             });
-            const height = document.body.scrollHeight;
-            const frameId = params.get('frame_id');
-            if (frameId) window.parent.postMessage({ frameHeight: height, frameId: frameId }, '*');
-        });
+
+            images.forEach(field => {
+                if(params.get(field)) document.getElementById(field).src = params.get(field);
+            });
+
+            // Colors
+            if(params.get('bg_color')) document.body.style.backgroundColor = '#' + params.get('bg_color');
+            if(params.get('text_color')) document.body.style.color = '#' + params.get('text_color');
+            if(params.get('heading_color')) document.querySelector('h1').style.color = '#' + params.get('heading_color');
+            if(params.get('accent_bg')) document.getElementById('sidebar').style.backgroundColor = '#' + params.get('accent_bg');
+        }
+
+        window.addEventListener('load', verifyToken);
+        window.addEventListener('resize', sendHeight);
     </script>
 </body>
 </html>
