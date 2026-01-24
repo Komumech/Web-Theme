@@ -24,41 +24,107 @@
         @media (max-width: 600px) {
             .grid { grid-template-columns: 1fr; }
         }
+
+        /* Loading & Error States */
+        #loading, #error-screen {
+            height: 300px;
+            display: flex;
+            flex-direction: column;
+            justify-content: center;
+            align-items: center;
+            text-align: center;
+            background: #f9f9f9;
+        }
+        #error-screen { background: #fee2e2; color: #b91c1c; display: none; }
+        #content { display: none; }
     </style>
 </head>
 <body>
-    <h2 id="label">Meet the Chefs</h2>
-    <p id="desc">The creative minds behind the recipes.</p>
-    
-    <div class="grid" id="grid">
-        <!-- Members injected here -->
+    <div id="loading">
+        <div>🔒 Verifying...</div>
+    </div>
+    <div id="error-screen">
+        <h3>Access Denied</h3>
+        <p id="error-msg">Invalid Token</p>
     </div>
 
-    <script>
+    <div id="content">
+        <h2 id="label">Meet the Chefs</h2>
+        <p id="desc">The creative minds behind the recipes.</p>
+        
+        <div class="grid" id="grid">
+            <!-- Members injected here -->
+        </div>
+    </div>
+
+    <script type="module">
+        import { initializeApp } from "https://www.gstatic.com/firebasejs/10.7.1/firebase-app.js";
+        import { getAuth, signInAnonymously } from "https://www.gstatic.com/firebasejs/10.7.1/firebase-auth.js";
+        import { getFirestore, collection, query, where, getDocs } from "https://www.gstatic.com/firebasejs/10.7.1/firebase-firestore.js";
+
+        const firebaseConfig = {
+            apiKey: "AIzaSyC4qRfl2vU7rWZlQsgN5ikrtLTgzS9ehN4",
+            authDomain: "komutheme.firebaseapp.com",
+            projectId: "komutheme",
+            storageBucket: "komutheme.firebasestorage.app",
+            messagingSenderId: "27957638694",
+            appId: "1:27957638694:web:daf2e849b28b46740e58e7"
+        };
+
+        const app = initializeApp(firebaseConfig);
+        const auth = getAuth(app);
+        const db = getFirestore(app);
+
         const params = new URLSearchParams(window.location.search);
-        if(params.get('label')) document.getElementById('label').textContent = params.get('label');
-        if(params.get('description')) document.getElementById('desc').textContent = params.get('description');
-        if(params.get('heading_color')) document.documentElement.style.setProperty('--heading-color', '#' + params.get('heading_color'));
-        if(params.get('text_color')) document.documentElement.style.setProperty('--text-color', '#' + params.get('text_color'));
+        const token = params.get('token');
+        const frameId = params.get('frame_id');
 
-        // Mock data if not provided, or parse from params if you want dynamic list
-        // For simplicity, hardcoded structure or simple injection:
-        const grid = document.getElementById('grid');
-        const members = [
-            { name: 'Sarah', role: 'Head Chef', img: 'https://images.unsplash.com/photo-1438761681033-6461ffad8d80?auto=format&fit=crop&w=200&q=80' },
-            { name: 'Mike', role: 'Sous Chef', img: 'https://images.unsplash.com/photo-1500648767791-00dcc994a43e?auto=format&fit=crop&w=200&q=80' },
-            { name: 'Emily', role: 'Pastry Chef', img: 'https://images.unsplash.com/photo-1494790108377-be9c29b29330?auto=format&fit=crop&w=200&q=80' }
-        ];
+        const sendHeight = () => { if(frameId) window.parent.postMessage({frameId: frameId, frameHeight: document.body.scrollHeight}, '*'); }
 
-        members.forEach(m => {
-            const div = document.createElement('div');
-            div.className = 'member';
-            div.innerHTML = `<img src="${m.img}" class="avatar"><span class="name">${m.name}</span><span class="role">${m.role}</span>`;
-            grid.appendChild(div);
-        });
+        async function verifyToken() {
+            if (!token) return showError("No token provided.");
+            try {
+                await signInAnonymously(auth);
+                const q = query(collection(db, "users"), where("premiumToken", "==", token));
+                const querySnapshot = await getDocs(q);
+                if (!querySnapshot.empty) {
+                    document.getElementById('loading').style.display = 'none';
+                    document.getElementById('content').style.display = 'block';
+                    renderContent();
+                    setTimeout(sendHeight, 100);
+                } else showError("Token not found.");
+            } catch (e) { console.error(e); showError("Verification failed."); }
+        }
 
-        const sendHeight = () => { if(params.get('frame_id')) window.parent.postMessage({frameId: params.get('frame_id'), frameHeight: document.body.scrollHeight}, '*'); }
-        window.addEventListener('load', sendHeight);
+        function showError(msg) {
+            document.getElementById('loading').style.display = 'none';
+            document.getElementById('error-screen').style.display = 'flex';
+            document.getElementById('error-msg').innerText = msg;
+            sendHeight();
+        }
+
+        function renderContent() {
+            if(params.get('label')) document.getElementById('label').textContent = params.get('label');
+            if(params.get('description')) document.getElementById('desc').textContent = params.get('description');
+            if(params.get('heading_color')) document.documentElement.style.setProperty('--heading-color', '#' + params.get('heading_color'));
+            if(params.get('text_color')) document.documentElement.style.setProperty('--text-color', '#' + params.get('text_color'));
+
+            const grid = document.getElementById('grid');
+            const members = [
+                { name: 'Sarah', role: 'Head Chef', img: 'https://images.unsplash.com/photo-1438761681033-6461ffad8d80?auto=format&fit=crop&w=200&q=80' },
+                { name: 'Mike', role: 'Sous Chef', img: 'https://images.unsplash.com/photo-1500648767791-00dcc994a43e?auto=format&fit=crop&w=200&q=80' },
+                { name: 'Emily', role: 'Pastry Chef', img: 'https://images.unsplash.com/photo-1494790108377-be9c29b29330?auto=format&fit=crop&w=200&q=80' }
+            ];
+
+            members.forEach(m => {
+                const div = document.createElement('div');
+                div.className = 'member';
+                div.innerHTML = `<img src="${m.img}" class="avatar"><span class="name">${m.name}</span><span class="role">${m.role}</span>`;
+                grid.appendChild(div);
+            });
+        }
+
+        verifyToken();
     </script>
 </body>
 </html>

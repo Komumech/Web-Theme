@@ -19,14 +19,27 @@
         .newsletter button { width: 100%; padding: 12px; border-radius: 12px; background: var(--accent); color: #1a1a1a; border: none; font-weight: 700; cursor: pointer; }
         .copyright { margin-top: 4rem; padding-top: 2rem; border-top: 1px solid #333; text-align: center; color: #666; font-size: 0.9rem; }
         
-        /* Premium Locked UI */
-        .locked-container { height: 300px; display: flex; flex-direction: column; align-items: center; justify-content: center; text-align: center; border: 2px dashed #444; border-radius: 20px; }
-        .locked-container h2 { margin-bottom: 10px; color: var(--accent); }
+        /* Loading & Error States */
+        #loading, #error-screen {
+            position: fixed; top: 0; left: 0; width: 100%; height: 100%;
+            display: flex; flex-direction: column; justify-content: center; align-items: center;
+            background: var(--bg); color: var(--text); z-index: 9999;
+        }
+        #error-screen { background: #fee2e2; color: #b91c1c; display: none; }
+        #snippet-content { display: none; }
 
         @media (max-width: 768px) { .footer-container { grid-template-columns: 1fr; gap: 2rem; } }
     </style>
 </head>
 <body>
+    <div id="loading">
+        <div>🔒 Verifying...</div>
+    </div>
+    <div id="error-screen">
+        <h3>Access Denied</h3>
+        <p id="error-msg">Invalid Token</p>
+    </div>
+
     <div id="snippet-content">
         <div class="footer-container">
             <div>
@@ -54,40 +67,69 @@
         <div class="copyright" id="copy">© 2025 Wild Theme. All rights reserved.</div>
     </div>
 
-    <script>
+    <script type="module">
+        import { initializeApp } from "https://www.gstatic.com/firebasejs/10.7.1/firebase-app.js";
+        import { getAuth, signInAnonymously } from "https://www.gstatic.com/firebasejs/10.7.1/firebase-auth.js";
+        import { getFirestore, collection, query, where, getDocs } from "https://www.gstatic.com/firebasejs/10.7.1/firebase-firestore.js";
+
+        const firebaseConfig = {
+            apiKey: "AIzaSyC4qRfl2vU7rWZlQsgN5ikrtLTgzS9ehN4",
+            authDomain: "komutheme.firebaseapp.com",
+            projectId: "komutheme",
+            storageBucket: "komutheme.firebasestorage.app",
+            messagingSenderId: "27957638694",
+            appId: "1:27957638694:web:daf2e849b28b46740e58e7"
+        };
+
+        const app = initializeApp(firebaseConfig);
+        const auth = getAuth(app);
+        const db = getFirestore(app);
+
         const params = new URLSearchParams(window.location.search);
         const token = params.get('token');
+        const frameId = params.get('frame_id');
 
-        // 1. Premium Token Validation
-        // This checks if token starts with your unique dashboard prefix 'KT-'
-        if (!token || !token.startsWith('KT-')) {
-            document.getElementById('snippet-content').innerHTML = `
-                <div class="locked-container">
-                    <h2>🔒 Premium Component</h2>
-                    <p>This snippet requires a valid subscription token.</p>
-                    <a href="https://komutheme2.vercel.app/" target="_top" style="color:var(--accent); font-weight:bold;">Unlock in Dashboard</a>
-                </div>
-            `;
-        } else {
-            // 2. Load regular settings if token is valid
+        async function verifyToken() {
+            if (!token) return showError("No token provided.");
+            try {
+                await signInAnonymously(auth);
+                const q = query(collection(db, "users"), where("premiumToken", "==", token));
+                const querySnapshot = await getDocs(q);
+                if (!querySnapshot.empty) {
+                    document.getElementById('loading').style.display = 'none';
+                    document.getElementById('snippet-content').style.display = 'block';
+                    renderContent();
+                } else showError("Token not found.");
+            } catch (e) { console.error(e); showError("Verification failed."); }
+        }
+
+        function showError(msg) {
+            document.getElementById('loading').style.display = 'none';
+            document.getElementById('error-screen').style.display = 'flex';
+            document.getElementById('error-msg').innerText = msg;
+            sendHeight();
+        }
+
+        function renderContent() {
             if(params.get('brand')) document.getElementById('brand').innerHTML = `<span class="logo-dot"></span> ${params.get('brand')}`;
             if(params.get('description')) document.getElementById('desc').textContent = params.get('description');
             if(params.get('copyright')) document.getElementById('copy').textContent = params.get('copyright');
             if(params.get('bg_color')) document.body.style.backgroundColor = '#' + params.get('bg_color');
             if(params.get('accent_color')) document.documentElement.style.setProperty('--accent', '#'+params.get('accent_color'));
+            sendHeight();
         }
         
         // 3. Resizing logic (always works even if locked)
         const sendHeight = () => { 
-            if(params.get('frame_id')) {
+            if(frameId) {
                 window.parent.postMessage({
-                    frameId: params.get('frame_id'), 
+                    frameId: frameId, 
                     frameHeight: document.body.scrollHeight
                 }, '*'); 
             }
         }
-        window.addEventListener('load', sendHeight);
         window.addEventListener('resize', sendHeight);
+        verifyToken();
     </script>
 </body>
 </html>

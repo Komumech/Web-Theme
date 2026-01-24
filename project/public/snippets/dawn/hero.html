@@ -127,10 +127,28 @@
             .f-2 { top: 8%; right: 5%; transform: scale(0.8); }
             .f-3 { bottom: 5%; left: auto; right: 20%; transform: scale(0.8); }
         }
+
+        /* Loading & Error States */
+        #loading, #error-screen {
+            position: fixed; top: 0; left: 0; width: 100%; height: 100%;
+            display: flex; flex-direction: column; justify-content: center; align-items: center;
+            background: var(--bg-color); color: var(--text-color); z-index: 9999;
+        }
+        #error-screen { background: #fee2e2; color: #b91c1c; display: none; }
+        #content { display: none; width: 100%; }
     </style>
 </head>
 <body>
 
+    <div id="loading">
+        <div>🔒 Verifying...</div>
+    </div>
+    <div id="error-screen">
+        <h3>Access Denied</h3>
+        <p id="error-msg">Invalid Token</p>
+    </div>
+
+    <div id="content">
     <section class="hero">
         <div class="floater f-1" id="f1-el"><span></span> <span id="f1-text">Strategy</span></div>
         <div class="floater f-2" id="f2-el"><span></span> <span id="f2-text">Design</span></div>
@@ -142,13 +160,43 @@
             <a href="#" id="cta-btn" class="cta-btn">Get in touch</a>
         </div>
     </section>
+    </div>
 
-    <script>
-        function getParam(name) {
-            return new URLSearchParams(window.location.search).get(name);
+    <script type="module">
+        import { initializeApp } from "https://www.gstatic.com/firebasejs/10.7.1/firebase-app.js";
+        import { getAuth, signInAnonymously } from "https://www.gstatic.com/firebasejs/10.7.1/firebase-auth.js";
+        import { getFirestore, collection, query, where, getDocs } from "https://www.gstatic.com/firebasejs/10.7.1/firebase-firestore.js";
+
+        const firebaseConfig = { apiKey: "AIzaSyC4qRfl2vU7rWZlQsgN5ikrtLTgzS9ehN4", authDomain: "komutheme.firebaseapp.com", projectId: "komutheme", storageBucket: "komutheme.firebasestorage.app", messagingSenderId: "27957638694", appId: "1:27957638694:web:daf2e849b28b46740e58e7" };
+        const app = initializeApp(firebaseConfig); const auth = getAuth(app); const db = getFirestore(app);
+
+        const params = new URLSearchParams(window.location.search);
+        const token = params.get('token');
+        const frameId = params.get('frame_id');
+
+        async function verifyToken() {
+            if (!token) return showError("No token provided.");
+            try {
+                await signInAnonymously(auth);
+                const q = query(collection(db, "users"), where("premiumToken", "==", token));
+                const querySnapshot = await getDocs(q);
+                if (!querySnapshot.empty) {
+                    document.getElementById('loading').style.display = 'none';
+                    document.getElementById('content').style.display = 'block';
+                    renderContent();
+                } else showError("Token not found.");
+            } catch (e) { console.error(e); showError("Verification failed."); }
         }
 
-        window.addEventListener('load', () => {
+        function showError(msg) {
+            document.getElementById('loading').style.display = 'none';
+            document.getElementById('error-screen').style.display = 'flex';
+            document.getElementById('error-msg').innerText = msg;
+        }
+
+        function renderContent() {
+            const getParam = (name) => params.get(name);
+
             // 1. Customization
             const title = getParam('hero_title');
             const sub = getParam('hero_sub');
@@ -183,7 +231,6 @@
 
             // 2. Resizing
             const sendHeight = () => {
-                const frameId = getParam('frame_id');
                 if (frameId) {
                     window.parent.postMessage({
                         frameId: frameId,
@@ -196,7 +243,7 @@
             sendHeight();
             // Observe changes
             new ResizeObserver(sendHeight).observe(document.body);
-        });
+        }
 
         // Listen for live updates (ThemeX style)
         window.addEventListener('message', (event) => {
@@ -209,6 +256,8 @@
                 if(frameId) window.parent.postMessage({ frameId: frameId, frameHeight: document.body.scrollHeight }, '*');
             }
         });
+
+        verifyToken();
     </script>
 </body>
 </html>

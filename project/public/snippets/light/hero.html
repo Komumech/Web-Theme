@@ -65,15 +65,67 @@
         }
         .btn:hover { transform: scale(1.05); }
     </style>
+    <style>
+        /* Loading & Error States */
+        #loading, #error-screen {
+            position: fixed; top: 0; left: 0; width: 100%; height: 100%;
+            display: flex; flex-direction: column; justify-content: center; align-items: center;
+            background: #ffffff; color: #1a1a1a; z-index: 9999;
+        }
+        #error-screen { background: #fee2e2; color: #b91c1c; display: none; }
+        #content { display: none; width: 100%; display: flex; flex-direction: column; align-items: center; }
+    </style>
 </head>
 <body>
+    <div id="loading">
+        <div>🔒 Verifying...</div>
+    </div>
+    <div id="error-screen">
+        <h3>Access Denied</h3>
+        <p id="error-msg">Invalid Token</p>
+    </div>
+
+    <div id="content">
     <div class="badge" id="badge">New Feature</div>
     <h1 id="title">The Future of Finance</h1>
     <p id="subtitle">Simple, transparent, and secure. Join millions who are already managing their money better.</p>
     <a href="#" class="btn" id="cta">Get Started</a>
+    </div>
 
-    <script>
+    <script type="module">
+        import { initializeApp } from "https://www.gstatic.com/firebasejs/10.7.1/firebase-app.js";
+        import { getAuth, signInAnonymously } from "https://www.gstatic.com/firebasejs/10.7.1/firebase-auth.js";
+        import { getFirestore, collection, query, where, getDocs } from "https://www.gstatic.com/firebasejs/10.7.1/firebase-firestore.js";
+
+        const firebaseConfig = { apiKey: "AIzaSyC4qRfl2vU7rWZlQsgN5ikrtLTgzS9ehN4", authDomain: "komutheme.firebaseapp.com", projectId: "komutheme", storageBucket: "komutheme.firebasestorage.app", messagingSenderId: "27957638694", appId: "1:27957638694:web:daf2e849b28b46740e58e7" };
+        const app = initializeApp(firebaseConfig); const auth = getAuth(app); const db = getFirestore(app);
+
         const params = new URLSearchParams(window.location.search);
+        const token = params.get('token');
+        const frameId = params.get('frame_id');
+
+        async function verifyToken() {
+            if (!token) return showError("No token provided.");
+            try {
+                await signInAnonymously(auth);
+                const q = query(collection(db, "users"), where("premiumToken", "==", token));
+                const querySnapshot = await getDocs(q);
+                if (!querySnapshot.empty) {
+                    document.getElementById('loading').style.display = 'none';
+                    document.getElementById('content').style.display = 'flex';
+                    renderContent();
+                } else showError("Token not found.");
+            } catch (e) { console.error(e); showError("Verification failed."); }
+        }
+
+        function showError(msg) {
+            document.getElementById('loading').style.display = 'none';
+            document.getElementById('error-screen').style.display = 'flex';
+            document.getElementById('error-msg').innerText = msg;
+            sendHeight();
+        }
+
+        function renderContent() {
         if(params.get('badge')) document.getElementById('badge').textContent = params.get('badge');
         if(params.get('title')) document.getElementById('title').innerHTML = params.get('title');
         if(params.get('subtitle')) document.getElementById('subtitle').textContent = params.get('subtitle');
@@ -83,10 +135,12 @@
             document.getElementById('cta').target = "_top";
         }
         if(params.get('accent_color')) document.documentElement.style.setProperty('--accent-color', '#' + params.get('accent_color'));
+        sendHeight();
+        }
 
-        const sendHeight = () => { if(params.get('frame_id')) window.parent.postMessage({frameId: params.get('frame_id'), frameHeight: document.body.scrollHeight}, '*'); }
-        window.addEventListener('load', sendHeight);
+        const sendHeight = () => { if(frameId) window.parent.postMessage({frameId: frameId, frameHeight: document.body.scrollHeight}, '*'); }
         window.addEventListener('resize', sendHeight);
+        verifyToken();
     </script>
 </body>
 </html>

@@ -1,0 +1,4 @@
+heros
+footers
+about sections 
+and limes navbar 

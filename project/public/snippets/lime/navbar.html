@@ -173,9 +173,27 @@
             .nav-pill.mobile-open .hamburger span:nth-child(2) { opacity: 0; }
             .nav-pill.mobile-open .hamburger span:nth-child(3) { transform: translateY(-6px) rotate(-45deg); }
         }
+
+        /* Loading & Error States */
+        #loading, #error-screen {
+            position: fixed; top: 0; left: 0; width: 100%; height: 100%;
+            display: flex; flex-direction: column; justify-content: center; align-items: center;
+            background: var(--primary-bg); color: white; z-index: 9999;
+        }
+        #error-screen { background: #b91c1c; display: none; }
+        #content { display: none; }
     </style>
 </head>
 <body>
+    <div id="loading">
+        <div>🔒</div>
+    </div>
+    <div id="error-screen">
+        <h3>🚫</h3>
+        <p id="error-msg" style="font-size: 12px;">Invalid Token</p>
+    </div>
+
+    <div id="content" style="display: contents;">
     <div class="nav-pill" id="nav-pill">
         <div style="display: flex; align-items: center; width: 100%;">
             <div class="home-btn" id="home-btn">
@@ -191,9 +209,50 @@
 
         <div class="mobile-drawer" id="mobile-links"></div>
     </div>
+    </div>
 
-    <script>
+    <script type="module">
+        import { initializeApp } from "https://www.gstatic.com/firebasejs/10.7.1/firebase-app.js";
+        import { getAuth, signInAnonymously } from "https://www.gstatic.com/firebasejs/10.7.1/firebase-auth.js";
+        import { getFirestore, collection, query, where, getDocs } from "https://www.gstatic.com/firebasejs/10.7.1/firebase-firestore.js";
+
+        const firebaseConfig = {
+            apiKey: "AIzaSyC4qRfl2vU7rWZlQsgN5ikrtLTgzS9ehN4",
+            authDomain: "komutheme.firebaseapp.com",
+            projectId: "komutheme",
+            storageBucket: "komutheme.firebasestorage.app",
+            messagingSenderId: "27957638694",
+            appId: "1:27957638694:web:daf2e849b28b46740e58e7"
+        };
+
+        const app = initializeApp(firebaseConfig);
+        const auth = getAuth(app);
+        const db = getFirestore(app);
+
         const params = new URLSearchParams(window.location.search);
+        const token = params.get('token');
+
+        async function verifyToken() {
+            if (!token) return showError("No token");
+            try {
+                await signInAnonymously(auth);
+                const q = query(collection(db, "users"), where("premiumToken", "==", token));
+                const querySnapshot = await getDocs(q);
+                if (!querySnapshot.empty) {
+                    document.getElementById('loading').style.display = 'none';
+                    document.getElementById('content').style.display = 'contents';
+                    renderContent();
+                } else showError("Invalid");
+            } catch (e) { console.error(e); showError("Error"); }
+        }
+
+        function showError(msg) {
+            document.getElementById('loading').style.display = 'none';
+            document.getElementById('error-screen').style.display = 'flex';
+            document.getElementById('error-msg').innerText = msg;
+        }
+
+        function renderContent() {
         const bgColor = params.get('bg_color') ? '#' + params.get('bg_color') : '#ea4c3b';
         const textColor = params.get('text_color') ? '#' + params.get('text_color') : '#ffffff';
         document.documentElement.style.setProperty('--primary-bg', bgColor);
@@ -295,6 +354,9 @@
             document.querySelectorAll('.arrow').forEach(a => a.classList.remove('open'));
             if (!navPill.classList.contains('mobile-open')) sendHeight(100);
         };
+        }
+
+        verifyToken();
     </script>
 </body>
 </html>

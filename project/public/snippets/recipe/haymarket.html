@@ -26,11 +26,21 @@
             background-color: var(--bg-color);
             color: var(--text-color);
             overflow-x: hidden;
-            opacity: 0;
-            transition: opacity 0.4s ease-in;
         }
         
-        body.loaded { opacity: 1; }
+        /* Loading & Error States */
+        #loading, #error-screen {
+            height: 100vh;
+            display: flex;
+            flex-direction: column;
+            justify-content: center;
+            align-items: center;
+            text-align: center;
+            background: #f9f9f9;
+        }
+        #error-screen { background: #fee2e2; color: #b91c1c; display: none; }
+        #content { display: none; opacity: 0; transition: opacity 0.4s ease-in; }
+        #content.loaded { opacity: 1; }
 
         /* Nav */
         nav {
@@ -238,6 +248,15 @@
 </head>
 <body>
 
+    <div id="loading">
+        <div>🔒 Verifying Premium Access...</div>
+    </div>
+    <div id="error-screen">
+        <h3>Access Denied</h3>
+        <p id="error-msg">Invalid Token</p>
+    </div>
+
+    <div id="content">
     <nav>
         <div class="logo">Dawn.</div>
         <div class="nav-links">
@@ -304,13 +323,47 @@
             </div>
         </div>
     </section>
+    </div>
 
-    <script>
-        function getParam(name) {
-            return new URLSearchParams(window.location.search).get(name);
+    <script type="module">
+        import { initializeApp } from "https://www.gstatic.com/firebasejs/10.7.1/firebase-app.js";
+        import { getAuth, signInAnonymously } from "https://www.gstatic.com/firebasejs/10.7.1/firebase-auth.js";
+        import { getFirestore, collection, query, where, getDocs } from "https://www.gstatic.com/firebasejs/10.7.1/firebase-firestore.js";
+
+        const firebaseConfig = {
+            apiKey: "AIzaSyC4qRfl2vU7rWZlQsgN5ikrtLTgzS9ehN4",
+            authDomain: "komutheme.firebaseapp.com",
+            projectId: "komutheme",
+            storageBucket: "komutheme.firebasestorage.app",
+            messagingSenderId: "27957638694",
+            appId: "1:27957638694:web:daf2e849b28b46740e58e7"
+        };
+
+        const app = initializeApp(firebaseConfig);
+        const auth = getAuth(app);
+        const db = getFirestore(app);
+
+        const params = new URLSearchParams(window.location.search);
+        const token = params.get('token');
+        const frameId = params.get('frame_id');
+
+        async function verifyToken() {
+            if (!token) return showError("No token provided.");
+            try {
+                await signInAnonymously(auth);
+                const q = query(collection(db, "users"), where("premiumToken", "==", token));
+                const querySnapshot = await getDocs(q);
+                if (!querySnapshot.empty) {
+                    document.getElementById('loading').style.display = 'none';
+                    document.getElementById('content').style.display = 'block';
+                    renderContent();
+                } else showError("Token not found.");
+            } catch (e) { console.error(e); showError("Verification failed."); }
         }
 
-        window.addEventListener('load', () => {
+        function renderContent() {
+            const getParam = (name) => params.get(name);
+
             // 1. Apply Theme Customizations
             const accent = getParam('accent_color');
             const bg = getParam('bg_color');
@@ -322,11 +375,11 @@
             if (title) document.getElementById('hero-title').textContent = title;
             if (sub) document.getElementById('hero-sub').textContent = sub;
 
-            document.body.classList.add('loaded');
+            // Trigger fade in
+            setTimeout(() => document.getElementById('content').classList.add('loaded'), 50);
 
             // 2. Dynamic Resizing for Parent Iframe
             const sendHeight = () => {
-                const frameId = getParam('frame_id');
                 if (frameId) {
                     window.parent.postMessage({
                         frameId: frameId,
@@ -337,7 +390,15 @@
 
             sendHeight();
             new ResizeObserver(sendHeight).observe(document.body);
-        });
+        }
+
+        function showError(msg) {
+            document.getElementById('loading').style.display = 'none';
+            document.getElementById('error-screen').style.display = 'flex';
+            document.getElementById('error-msg').innerText = msg;
+        }
+
+        verifyToken();
     </script>
 </body>
 </html>
